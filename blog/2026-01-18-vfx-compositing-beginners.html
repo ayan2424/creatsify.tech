@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>VFX Compositing for Beginners: Complete Tutorial | Creatsify</title>
+    <meta name="description" content="Learn VFX compositing from scratch. This beginner-friendly tutorial covers green screen keying, rotoscoping, color grading, and professional compositing workflows in Nuke and After Effects.">
+    <meta name="keywords" content="VFX compositing tutorial, visual effects compositing, green screen keying, rotoscoping, Nuke tutorial, After Effects compositing, color grading VFX, compositing workflow">
+    <meta name="author" content="Marcus Williams">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://creatsify.com/blog/2026-01-18-vfx-compositing-beginners.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://creatsify.com/blog/2026-01-18-vfx-compositing-beginners.html">
+    <meta property="og:title" content="VFX Compositing for Beginners: Complete Tutorial">
+    <meta property="og:description" content="Learn VFX compositing from scratch with this comprehensive tutorial covering keying, rotoscoping, color grading, and professional workflows.">
+    <meta property="og:image" content="https://creatsify.com/assets/blog/vfx-compositing-guide.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Creatsify">
+    <meta property="article:published_time" content="2026-01-18T10:00:00+00:00">
+    <meta property="article:modified_time" content="2026-01-18T10:00:00+00:00">
+    <meta property="article:author" content="Marcus Williams">
+    <meta property="article:section" content="Tutorial">
+    <meta property="article:tag" content="VFX">
+    <meta property="article:tag" content="Compositing">
+    <meta property="article:tag" content="Visual Effects">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://creatsify.com/blog/2026-01-18-vfx-compositing-beginners.html">
+    <meta name="twitter:title" content="VFX Compositing for Beginners: Complete Tutorial">
+    <meta name="twitter:description" content="Learn VFX compositing from scratch with this comprehensive tutorial covering keying, rotoscoping, color grading, and professional workflows.">
+    <meta name="twitter:image" content="https://creatsify.com/assets/blog/vfx-compositing-guide.jpg">
+    <meta name="twitter:creator" content="@creatsify">
+    
+    <!-- Structured Data - Article -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://creatsify.com/blog/2026-01-18-vfx-compositing-beginners.html"
+        },
+        "headline": "VFX Compositing for Beginners: Complete Tutorial",
+        "description": "Learn VFX compositing from scratch with this comprehensive tutorial covering green screen keying, rotoscoping, color grading, and professional compositing workflows.",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://creatsify.com/assets/blog/vfx-compositing-guide.jpg",
+            "width": 1200,
+            "height": 630
+        },
+        "author": {
+            "@type": "Person",
+            "name": "Marcus Williams",
+            "url": "https://creatsify.com/about.html",
+            "jobTitle": "VFX Supervisor",
+            "image": "https://creatsify.com/assets/team/marcus-williams.jpg"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Creatsify",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://creatsify.com/assets/logo/logo.png",
+                "width": 200,
+                "height": 60
+            }
+        },
+        "datePublished": "2026-01-18T10:00:00+00:00",
+        "dateModified": "2026-01-18T10:00:00+00:00",
+        "articleSection": "Tutorial",
+        "proficiencyLevel": "Beginner",
+        "dependencies": "Nuke, After Effects, or DaVinci Resolve",
+        "keywords": ["VFX compositing", "green screen", "rotoscoping", "color grading", "Nuke", "After Effects"],
+        "wordCount": 2200,
+        "timeRequired": "PT15M"
+    }
+    </script>
+    
+    <!-- Structured Data - Breadcrumb -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://creatsify.com/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://creatsify.com/blog.html"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "VFX Compositing for Beginners",
+                "item": "https://creatsify.com/blog/2026-01-18-vfx-compositing-beginners.html"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- FAQ Schema for AI Overviews -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is VFX compositing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "VFX compositing is the process of combining visual elements from separate sources into a single, seamless image or video sequence. It involves layering CGI, live-action footage, matte paintings, and other elements together, then color-correcting and adjusting them to appear as if they were captured in the same scene."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What software is best for VFX compositing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For film and high-end TV work, Nuke by Foundry is the industry standard due to its node-based workflow and powerful toolset. Adobe After Effects is excellent for motion graphics-heavy compositing and is more accessible for beginners. DaVinci Resolve Fusion offers professional compositing tools for free, making it ideal for those starting out."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How long does it take to learn VFX compositing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Basic compositing skills (keying, simple tracking, color matching) can be learned in 2-3 months of consistent practice. Intermediate proficiency typically takes 6-12 months, while achieving professional-level expertise usually requires 2-3 years of dedicated study and real-world project experience."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between keying and rotoscoping?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Keying is an automated process that removes a specific color (usually green or blue screen) from footage, creating a transparent background. Rotoscoping is a manual process where artists draw masks frame-by-frame to isolate subjects that weren't filmed against a colored screen. Keying is faster but requires controlled shooting conditions; rotoscoping works on any footage but is more time-consuming."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <!-- HowTo Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Create a Basic VFX Composite",
+        "description": "Step-by-step guide to creating your first visual effects composite with green screen footage.",
+        "totalTime": "PT2H",
+        "tool": [
+            {"@type": "HowToTool", "name": "Compositing Software (Nuke, After Effects, or Fusion)"},
+            {"@type": "HowToTool", "name": "Green Screen Footage"},
+            {"@type": "HowToTool", "name": "Background Plate or Image"}
+        ],
+        "step": [
+            {
+                "@type": "HowToStep",
+                "name": "Import Your Footage",
+                "text": "Load your green screen footage and background plate into your compositing software.",
+                "position": 1
+            },
+            {
+                "@type": "HowToStep",
+                "name": "Pull a Key",
+                "text": "Use a keying node (Keylight, Primatte, or Cryptomatte) to remove the green screen background.",
+                "position": 2
+            },
+            {
+                "@type": "HowToStep",
+                "name": "Refine the Edges",
+                "text": "Use edge tools to remove green spill, soften edges, and clean up any remaining artifacts.",
+                "position": 3
+            },
+            {
+                "@type": "HowToStep",
+                "name": "Color Match",
+                "text": "Adjust the color, contrast, and lighting of your foreground to match the background plate.",
+                "position": 4
+            },
+            {
+                "@type": "HowToStep",
+                "name": "Add Integration Elements",
+                "text": "Include shadows, reflections, and atmospheric effects to sell the composite.",
+                "position": 5
+            },
+            {
+                "@type": "HowToStep",
+                "name": "Final Grade",
+                "text": "Apply a unified color grade to the entire composite for a cohesive final look.",
+                "position": 6
+            }
+        ]
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" href="../assets/logo/favicon.png">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .blog-post-header {
+            padding: 160px 0 80px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blog-post-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('../assets/noise.png');
+            opacity: 0.03;
+            pointer-events: none;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--secondary);
+        }
+        
+        .breadcrumb span {
+            color: var(--text-muted);
+        }
+        
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .post-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .post-meta-item i {
+            color: var(--secondary);
+        }
+        
+        .post-category {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .blog-content {
+            padding: 80px 0;
+        }
+        
+        .blog-content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .article-content {
+            max-width: 100%;
+        }
+        
+        .article-content h2 {
+            font-size: 1.8rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            position: relative;
+            padding-left: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .article-content h3 {
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .article-content p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+        
+        .article-content li {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+        }
+        
+        .article-content blockquote p {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+        
+        .featured-image {
+            width: 100%;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tool-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .tool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .tool-card.recommended::before {
+            content: 'Recommended';
+            position: absolute;
+            top: 1rem;
+            right: -2rem;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 0.25rem 2.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transform: rotate(45deg);
+        }
+        
+        .tool-card h4 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tool-card h4 i {
+            color: var(--secondary);
+        }
+        
+        .tool-card .tool-type {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        
+        .tool-card p {
+            margin-bottom: 1rem;
+        }
+        
+        .tool-pros {
+            margin-top: 1rem;
+        }
+        
+        .tool-pros li {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .tool-pros li i {
+            color: #10b981;
+            margin-top: 0.25rem;
+        }
+        
+        .workflow-diagram {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .workflow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .workflow-node {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .workflow-arrow {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .tip-box h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+        }
+        
+        .tip-box p {
+            margin: 0;
+        }
+        
+        .warning-box {
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .warning-box h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+        
+        .warning-box p {
+            margin: 0;
+        }
+        
+        .technique-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .technique-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .technique-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 16px 16px 0 0;
+        }
+        
+        .technique-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .technique-icon i {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .technique-card h4 {
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+        
+        .technique-card p {
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        
+        /* Sidebar */
+        .blog-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+        
+        .sidebar-widget {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar-widget h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .toc-list li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+        
+        .toc-list a:hover {
+            color: var(--secondary);
+            background: rgba(6, 182, 212, 0.1);
+        }
+        
+        .author-card {
+            text-align: center;
+        }
+        
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 3px solid var(--secondary);
+        }
+        
+        .author-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .author-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        
+        .author-bio {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .related-post {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .related-post:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .related-thumb {
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .related-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+        
+        .related-info h4 a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .related-info h4 a:hover {
+            color: var(--secondary);
+        }
+        
+        .related-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .share-btn.twitter { background: #1DA1F2; }
+        .share-btn.facebook { background: #4267B2; }
+        .share-btn.linkedin { background: #0077B5; }
+        .share-btn.copy { background: var(--secondary); cursor: pointer; }
+        
+        /* Post Navigation */
+        .post-navigation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .post-nav-item {
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .post-nav-item:hover {
+            border-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .post-nav-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .post-nav-title {
+            color: var(--text-primary);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .post-nav-item.next {
+            text-align: right;
+        }
+        
+        .post-nav-item.next .post-nav-label {
+            justify-content: flex-end;
+        }
+        
+        @media (max-width: 1024px) {
+            .blog-content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            .blog-sidebar {
+                position: static;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .sidebar-widget {
+                margin-bottom: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .blog-post-header {
+                padding: 120px 0 60px;
+            }
+            
+            .blog-post-header h1 {
+                font-size: 2rem;
+            }
+            
+            .post-meta {
+                gap: 1rem;
+            }
+            
+            .workflow-steps {
+                flex-direction: column;
+            }
+            
+            .workflow-arrow {
+                transform: rotate(90deg);
+            }
+            
+            .post-navigation {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Creatsify" class="logo-image">
+            </a>
+            
+            <ul class="nav-links" id="nav-links">
+                <li><a href="../index.html" class="nav-link"><span>Home</span></a></li>
+                <li><a href="../portfolio.html" class="nav-link"><span>Portfolio</span></a></li>
+                <li><a href="../services.html" class="nav-link"><span>Services</span></a></li>
+                <li><a href="../about.html" class="nav-link"><span>About</span></a></li>
+                <li><a href="../blog.html" class="nav-link active"><span>Blog</span></a></li>
+                <li><a href="../contact.html" class="nav-link"><span>Contact</span></a></li>
+                <li class="nav-cta">
+                    <a href="../contact.html" class="btn btn-primary btn-sm">
+                        <span>Start Project</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Header -->
+    <header class="blog-post-header">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="../index.html">Home</a>
+                <span>/</span>
+                <a href="../blog.html">Blog</a>
+                <span>/</span>
+                <span>VFX Compositing for Beginners</span>
+            </nav>
+            
+            <span class="post-category">Tutorial</span>
+            
+            <h1>VFX Compositing for Beginners: Complete Tutorial</h1>
+            
+            <p class="lead">Master the fundamentals of visual effects compositing with this comprehensive guide covering keying, rotoscoping, color matching, and professional workflows used in film and television.</p>
+            
+            <div class="post-meta">
+                <div class="post-meta-item">
+                    <i class="fas fa-user"></i>
+                    <span>Marcus Williams</span>
+                </div>
+                <div class="post-meta-item">
+                    <i class="fas fa-calendar"></i>
+                    <time datetime="2026-01-18">January 18, 2026</time>
+                </div>
+                <div class="post-meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>15 min read</span>
+                </div>
+                <div class="post-meta-item">
+                    <i class="fas fa-eye"></i>
+                    <span>5,234 views</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Blog Content -->
+    <main class="blog-content">
+        <div class="container">
+            <div class="blog-content-wrapper">
+                <!-- Main Article -->
+                <article class="article-content" itemscope itemtype="https://schema.org/TechArticle">
+                    <img src="../assets/blog/vfx-compositing-hero.jpg" alt="Professional VFX compositing workspace showing node-based workflow" class="featured-image" loading="eager">
+                    
+                    <p>Visual effects compositing is where movie magic happens. It's the art and science of seamlessly combining multiple visual elements—CGI, live-action footage, matte paintings, and more—into a single, believable image. When done well, compositing is invisible; audiences accept impossible scenes as real. When done poorly, even the best CGI looks fake.</p>
+                    
+                    <p>In this comprehensive tutorial, we'll cover everything you need to know to start your journey in VFX compositing. Whether your goal is film work, commercial production, or indie projects, the fundamentals remain the same. Let's dive in.</p>
+
+                    <h2 id="what-is-compositing">What is VFX Compositing?</h2>
+                    
+                    <p>At its core, compositing is about <strong>combining visual elements from different sources</strong> to create the illusion that they exist together in the same scene. This could mean:</p>
+                    
+                    <ul>
+                        <li>Placing an actor filmed on green screen into a CGI environment</li>
+                        <li>Adding explosions, fire, or weather effects to live-action footage</li>
+                        <li>Removing unwanted objects like boom mics, safety wires, or crew reflections</li>
+                        <li>Extending sets with digital matte paintings</li>
+                        <li>Combining multiple takes to get the best performance from each actor</li>
+                        <li>Integrating fully CG characters into real environments</li>
+                    </ul>
+                    
+                    <p>The compositor's job is to make all these elements look like they were captured together in-camera. This requires understanding not just software tools, but also photography, lighting, color science, and human perception.</p>
+                    
+                    <div class="workflow-diagram">
+                        <h4 style="text-align: center; margin-bottom: 0;">The Compositing Pipeline</h4>
+                        <div class="workflow-steps">
+                            <div class="workflow-step">
+                                <div class="workflow-node">Plate Prep</div>
+                                <i class="fas fa-chevron-right workflow-arrow"></i>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="workflow-node">Keying/Roto</div>
+                                <i class="fas fa-chevron-right workflow-arrow"></i>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="workflow-node">Tracking</div>
+                                <i class="fas fa-chevron-right workflow-arrow"></i>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="workflow-node">Integration</div>
+                                <i class="fas fa-chevron-right workflow-arrow"></i>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="workflow-node">Color Grade</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 id="software">Choosing Your Compositing Software</h2>
+                    
+                    <p>The software you choose will shape your learning path and career opportunities. Here's a comparison of the major options:</p>
+                    
+                    <div class="tool-comparison">
+                        <div class="tool-card recommended">
+                            <h4><i class="fas fa-crown"></i> Foundry Nuke</h4>
+                            <div class="tool-type">Node-Based | Industry Standard</div>
+                            <p>The undisputed king of film and high-end TV compositing. Used on virtually every major blockbuster.</p>
+                            <ul class="tool-pros">
+                                <li><i class="fas fa-check"></i> Industry standard—essential for film careers</li>
+                                <li><i class="fas fa-check"></i> Incredibly powerful and flexible</li>
+                                <li><i class="fas fa-check"></i> Non-destructive node workflow</li>
+                                <li><i class="fas fa-check"></i> Free Non-Commercial version available</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <h4><i class="fas fa-film"></i> Adobe After Effects</h4>
+                            <div class="tool-type">Layer-Based | Motion Graphics Focus</div>
+                            <p>Excellent for motion graphics-heavy compositing and more accessible for beginners.</p>
+                            <ul class="tool-pros">
+                                <li><i class="fas fa-check"></i> Easier learning curve</li>
+                                <li><i class="fas fa-check"></i> Great motion graphics integration</li>
+                                <li><i class="fas fa-check"></i> Massive plugin ecosystem</li>
+                                <li><i class="fas fa-check"></i> Widely used in commercial/advertising</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <h4><i class="fas fa-magic"></i> DaVinci Resolve Fusion</h4>
+                            <div class="tool-type">Node-Based | Free Tier Available</div>
+                            <p>Professional compositing tools integrated with industry-leading color grading—completely free.</p>
+                            <ul class="tool-pros">
+                                <li><i class="fas fa-check"></i> Completely free</li>
+                                <li><i class="fas fa-check"></i> Built-in color grading</li>
+                                <li><i class="fas fa-check"></i> Node-based like Nuke</li>
+                                <li><i class="fas fa-check"></i> Excellent for learning fundamentals</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <h4><i class="fas fa-lightbulb"></i> Pro Tip: Start with Fusion</h4>
+                        <p>If you're just starting out, DaVinci Resolve's Fusion is the perfect learning tool. It's free, node-based (like Nuke), and the skills transfer directly to professional work. Once you're comfortable, transition to Nuke Non-Commercial to prepare for industry work.</p>
+                    </div>
+
+                    <h2 id="keying">Green Screen Keying: The Foundation</h2>
+                    
+                    <p>Keying is often the first compositing technique people learn, and for good reason—it's fundamental to countless VFX shots. The goal is to remove a specific color (usually green or blue) from footage, replacing it with transparency.</p>
+                    
+                    <h3>Why Green (or Blue)?</h3>
+                    
+                    <p>Green and blue are chosen because they're the colors furthest from human skin tones in color space. Green is more common today because:</p>
+                    
+                    <ul>
+                        <li>Digital cameras are most sensitive to green, resulting in less noise</li>
+                        <li>Green requires less lighting to achieve proper exposure</li>
+                        <li>Blue is sometimes needed when subjects wear green or have green elements</li>
+                    </ul>
+                    
+                    <h3>The Keying Process</h3>
+                    
+                    <ol>
+                        <li><strong>Despill:</strong> Remove color contamination where green light bounced onto the subject</li>
+                        <li><strong>Pull the key:</strong> Create a black-and-white matte where white = subject and black = background</li>
+                        <li><strong>Refine edges:</strong> Soften and adjust the edge to avoid harsh cutouts</li>
+                        <li><strong>Core matte:</strong> Ensure the subject's interior is solid white with no transparency</li>
+                        <li><strong>Edge treatment:</strong> Add subtle edge blur or light wrap to integrate with the new background</li>
+                    </ol>
+                    
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Common Keying Mistakes</h4>
+                        <p>Over-pulling the key (making edges too hard) is the #1 beginner mistake. It creates an obvious "cutout" look. Always preserve some edge softness and use light wrap to help integration. If edges look crunchy, pull back and let some imperfection remain.</p>
+                    </div>
+
+                    <h2 id="rotoscoping">Rotoscoping: Manual Masking</h2>
+                    
+                    <p>Rotoscoping is the process of manually creating masks to isolate subjects frame-by-frame. It's used when keying isn't possible—either because there was no green screen, or because parts of the subject (like hair details) need more precise control.</p>
+                    
+                    <h3>When to Rotoscope</h3>
+                    
+                    <ul>
+                        <li>No green/blue screen was used during filming</li>
+                        <li>Subject is wearing green/blue and keys poorly</li>
+                        <li>Fine details like hair or transparency need manual control</li>
+                        <li>Specific areas of a keyed shot need repair</li>
+                        <li>Object removal where clean plates aren't available</li>
+                    </ul>
+                    
+                    <h3>Efficient Rotoscoping Techniques</h3>
+                    
+                    <p>Rotoscoping can be time-consuming, but these techniques speed up the process:</p>
+                    
+                    <ul>
+                        <li><strong>Work in hierarchies:</strong> Create separate shapes for body, arm, hand, fingers—they can animate independently</li>
+                        <li><strong>Key on motion changes:</strong> Don't keyframe every frame. Key when motion changes direction or speed</li>
+                        <li><strong>Use tracking:</strong> Track stable points and link roto shapes to trackers</li>
+                        <li><strong>Edge softness varies:</strong> Sharp edges where they'd be sharp in reality, soft edges at motion blur</li>
+                        <li><strong>Check at multiple zoom levels:</strong> What looks perfect at 200% might be imperceptible at 100%</li>
+                    </ul>
+                    
+                    <blockquote>
+                        <p>"Speed comes from planning, not rushing. A well-organized roto approach with proper hierarchies can be twice as fast as diving in randomly."</p>
+                        <cite>— Industry Veteran Advice</cite>
+                    </blockquote>
+
+                    <h2 id="color-matching">Color Matching: The Integration Secret</h2>
+                    
+                    <p>The difference between amateur and professional compositing often comes down to color. Even a perfect key will look fake if the foreground and background don't share the same color characteristics.</p>
+                    
+                    <h3>Key Color Matching Concepts</h3>
+                    
+                    <div class="technique-grid">
+                        <div class="technique-card">
+                            <div class="technique-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <h4>Match the Black Point</h4>
+                            <p>The darkest areas of your foreground should match the darkest areas of your background. Use Lift or Offset controls to align shadows.</p>
+                        </div>
+                        
+                        <div class="technique-card">
+                            <div class="technique-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h4>Match the White Point</h4>
+                            <p>Similarly, the brightest areas should align. Use Gain or Highlights to match the brightest tones and prevent the subject from "floating."</p>
+                        </div>
+                        
+                        <div class="technique-card">
+                            <div class="technique-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h4>Match Color Temperature</h4>
+                            <p>Indoor lighting is warm (orange), outdoor shade is cool (blue). Use color balance to match the ambient light temperature.</p>
+                        </div>
+                        
+                        <div class="technique-card">
+                            <div class="technique-icon">
+                                <i class="fas fa-adjust"></i>
+                            </div>
+                            <h4>Match Contrast</h4>
+                            <p>Foggy scenes have low contrast; sunny days have high contrast. Adjust the gamma/midtones to match the overall contrast feel.</p>
+                        </div>
+                        
+                        <div class="technique-card">
+                            <div class="technique-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <h4>Add Environment Reflection</h4>
+                            <p>Objects pick up color from their surroundings. Subtly tint your subject with the environment's dominant colors.</p>
+                        </div>
+                        
+                        <div class="technique-card">
+                            <div class="technique-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4>Match the Grain</h4>
+                            <p>Digital and film footage has grain/noise. Add matching grain to CG elements and remove/re-add to ensure consistency.</p>
+                        </div>
+                    </div>
+
+                    <h2 id="integration">Integration Techniques</h2>
+                    
+                    <p>Beyond color matching, several techniques help "sell" the composite by adding environmental interaction:</p>
+                    
+                    <h3>Light Wrap</h3>
+                    
+                    <p>When bright backgrounds exist behind semi-transparent edges (like hair), light bleeds around the subject. Light wrap simulates this by extending background luminance into the foreground edges. It's subtle but essential for bright backgrounds.</p>
+                    
+                    <h3>Contact Shadows</h3>
+                    
+                    <p>Objects touching surfaces cast soft shadows at the contact point. Adding these "contact shadows" grounds subjects in the environment. They should be darkest and sharpest at the contact point, fading as they extend outward.</p>
+                    
+                    <h3>Atmospheric Depth</h3>
+                    
+                    <p>Distant objects appear hazier and less saturated due to atmospheric perspective. If your subject is meant to be far from camera, add subtle haze and desaturation to match background elements at the same depth.</p>
+                    
+                    <h3>Lens Effects</h3>
+                    
+                    <p>Real cameras introduce artifacts: chromatic aberration, lens distortion, vignetting, and bokeh. Matching these artifacts—or adding them to CG elements—helps everything feel like it was captured through the same lens.</p>
+
+                    <h2 id="workflow-tips">Professional Workflow Tips</h2>
+                    
+                    <p>Having worked on productions from indie films to blockbusters, here are workflow practices that separate professionals from hobbyists:</p>
+                    
+                    <ol>
+                        <li><strong>Work non-destructively:</strong> Never modify original footage. Keep your raw plates intact and apply changes through nodes/layers.</li>
+                        <li><strong>Organize obsessively:</strong> Name every node/layer clearly. Group related operations. Future you (or other artists) will thank you.</li>
+                        <li><strong>Check on multiple displays:</strong> View your work on different monitors and at different sizes. What looks good at 100% on a calibrated monitor might reveal issues elsewhere.</li>
+                        <li><strong>Get reference, then match it:</strong> Before starting, gather reference images of similar lighting conditions. Match to reality, not imagination.</li>
+                        <li><strong>Work at correct color space:</strong> Understand linear vs. log vs. sRGB. Work in linear or ACES for compositing, convert for delivery.</li>
+                        <li><strong>Version your work:</strong> Save incrementally (v001, v002, etc.). You'll often need to return to earlier versions.</li>
+                        <li><strong>Collaborate early:</strong> Show work-in-progress to supervisors and colleagues. Catching direction problems early saves massive rework.</li>
+                    </ol>
+
+                    <h2 id="learning-path">Your Learning Path Forward</h2>
+                    
+                    <p>Ready to start your compositing journey? Here's a structured progression:</p>
+                    
+                    <h3>Month 1-2: Fundamentals</h3>
+                    <ul>
+                        <li>Learn your software's interface and basic operations</li>
+                        <li>Practice basic keying with high-quality green screen footage</li>
+                        <li>Study color theory and practice color matching</li>
+                        <li>Complete simple composite exercises (person on new background)</li>
+                    </ul>
+                    
+                    <h3>Month 3-4: Intermediate Skills</h3>
+                    <ul>
+                        <li>Learn rotoscoping for challenging shots</li>
+                        <li>Study tracking (2D and basic 3D)</li>
+                        <li>Practice integration techniques (light wrap, shadows)</li>
+                        <li>Work on shots with multiple elements</li>
+                    </ul>
+                    
+                    <h3>Month 5-6: Advanced Techniques</h3>
+                    <ul>
+                        <li>3D camera tracking and projection</li>
+                        <li>CG integration fundamentals</li>
+                        <li>Advanced color workflows (ACES, HDR)</li>
+                        <li>Build a demo reel with 3-5 strong shots</li>
+                    </ul>
+                    
+                    <div class="tip-box">
+                        <h4><i class="fas fa-graduation-cap"></i> Continue Learning</h4>
+                        <p>Check out our <a href="2026-01-22-character-animation-guide.html">character animation guide</a> to understand how animated elements are created before they reach the compositing stage, or explore <a href="2026-01-15-motion-graphics-techniques.html">motion graphics techniques</a> for related visual skills.</p>
+                    </div>
+
+                    <h2 id="conclusion">Conclusion</h2>
+                    
+                    <p>VFX compositing is a deeply rewarding field that combines technical precision with artistic vision. The fundamentals covered in this tutorial—keying, rotoscoping, color matching, and integration—form the foundation for all compositing work, whether you're creating indie film effects or blockbuster visuals.</p>
+                    
+                    <p>Remember: great compositing is invisible. Your goal is to make audiences believe in impossible images. Start with the basics, practice consistently, and always ask yourself: "Does this look real?" If it doesn't, figure out why—that's where the real learning happens.</p>
+                    
+                    <p>Ready to see professional VFX compositing in action? Explore our <a href="../portfolio.html">portfolio</a> for examples, or <a href="../contact.html">get in touch</a> to discuss your project needs.</p>
+
+                    <!-- Post Navigation -->
+                    <nav class="post-navigation" aria-label="Post navigation">
+                        <a href="2026-01-20-future-of-ai-in-animation.html" class="post-nav-item prev">
+                            <div class="post-nav-label">
+                                <i class="fas fa-arrow-left"></i>
+                                Previous Post
+                            </div>
+                            <div class="post-nav-title">The Future of AI in Animation: 2026 and Beyond</div>
+                        </a>
+                        <a href="2026-01-15-motion-graphics-techniques.html" class="post-nav-item next">
+                            <div class="post-nav-label">
+                                Next Post
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="post-nav-title">10 Essential Motion Graphics Techniques</div>
+                        </a>
+                    </nav>
+                </article>
+                
+                <!-- Sidebar -->
+                <aside class="blog-sidebar">
+                    <!-- Table of Contents -->
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-list"></i> Table of Contents</h3>
+                        <ul class="toc-list">
+                            <li><a href="#what-is-compositing">What is VFX Compositing?</a></li>
+                            <li><a href="#software">Choosing Software</a></li>
+                            <li><a href="#keying">Green Screen Keying</a></li>
+                            <li><a href="#rotoscoping">Rotoscoping</a></li>
+                            <li><a href="#color-matching">Color Matching</a></li>
+                            <li><a href="#integration">Integration Techniques</a></li>
+                            <li><a href="#workflow-tips">Workflow Tips</a></li>
+                            <li><a href="#learning-path">Learning Path</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Author -->
+                    <div class="sidebar-widget author-card">
+                        <img src="../assets/team/marcus-williams.jpg" alt="Marcus Williams" class="author-avatar">
+                        <div class="author-name">Marcus Williams</div>
+                        <div class="author-title">VFX Supervisor</div>
+                        <p class="author-bio">Marcus has supervised visual effects on numerous feature films and brings 12+ years of compositing experience to every project and tutorial.</p>
+                    </div>
+                    
+                    <!-- Share -->
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-share-alt"></i> Share This Post</h3>
+                        <div class="share-buttons">
+                            <a href="https://twitter.com/intent/tweet?url=https://creatsify.com/blog/2026-01-18-vfx-compositing-beginners.html&text=VFX Compositing for Beginners" class="share-btn twitter" target="_blank" rel="noopener" aria-label="Share on Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://creatsify.com/blog/2026-01-18-vfx-compositing-beginners.html" class="share-btn facebook" target="_blank" rel="noopener" aria-label="Share on Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://creatsify.com/blog/2026-01-18-vfx-compositing-beginners.html" class="share-btn linkedin" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <button class="share-btn copy" onclick="navigator.clipboard.writeText(window.location.href)" aria-label="Copy link">
+                                <i class="fas fa-link"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Related Posts -->
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-bookmark"></i> Related Posts</h3>
+                        <div class="related-post">
+                            <img src="../assets/blog/character-animation-thumb.jpg" alt="Character Animation" class="related-thumb">
+                            <div class="related-info">
+                                <h4><a href="2026-01-22-character-animation-guide.html">Complete Character Animation Guide</a></h4>
+                                <span class="related-date">Jan 22, 2026</span>
+                            </div>
+                        </div>
+                        <div class="related-post">
+                            <img src="../assets/blog/motion-graphics-thumb.jpg" alt="Motion Graphics" class="related-thumb">
+                            <div class="related-info">
+                                <h4><a href="2026-01-15-motion-graphics-techniques.html">10 Essential Motion Graphics Techniques</a></h4>
+                                <span class="related-date">Jan 15, 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <img src="../assets/logo/logo.png" alt="Creatsify">
+                    </a>
+                    <p>Creating stunning animations and visual experiences that captivate audiences worldwide.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../portfolio.html">Portfolio</a></li>
+                        <li><a href="../services.html">Services</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../blog.html">Blog</a></li>
+                        <li><a href="../contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="../services.html#3d-animation">3D Animation</a></li>
+                        <li><a href="../services.html#motion-graphics">Motion Graphics</a></li>
+                        <li><a href="../services.html#vfx">Visual Effects</a></li>
+                        <li><a href="../services.html#character">Character Design</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> hello@creatsify.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> San Francisco, CA</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Creatsify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
