@@ -1,22 +1,21 @@
 # Creatsify Robots.txt
-# https://creatsify.com
+# https://creatsify.tech
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://creatsify.com/sitemap.xml
+Sitemap: https://creatsify.tech/sitemap.xml
 
-# Disallow admin/private areas if any
-Disallow: /admin/
-Disallow: /private/
+# Disallow private backend logs if hosted on same server
+Disallow: /backend/logs/
 
-# Allow all major crawlers
+# Major Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
-User-agent: Slurp
+User-agent: Applebot
 Allow: /

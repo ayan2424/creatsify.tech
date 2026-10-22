@@ -1,0 +1,22 @@
+{
+    "name": "creatsify/agency-portfolio-cms",
+    "description": "Creatsify — Full-Stack Agency & Developer Portfolio Platform with CMS, Live Chat, WhatsApp & Analytics",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/"
+        },
+        "files": [
+            "app/Helpers/functions.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

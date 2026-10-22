@@ -1,0 +1,12 @@
+_backup/
+*.zip
+backend/logs/
+storage/logs/*.log
+storage/cache/*
+storage/*.sqlite
+storage/installed.lock
+.env
+node_modules/
+.DS_Store
+Thumbs.db
+
