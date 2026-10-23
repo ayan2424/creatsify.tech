@@ -21,6 +21,8 @@ $router->group(['middleware' => ['analytics']], function (Router $r) {
     $r->get('/portfolio', [\App\Controllers\PortfolioController::class, 'index']);
     $r->get('/portfolio/{slug}', [\App\Controllers\PortfolioController::class, 'show']);
     $r->get('/services', [\App\Controllers\ServicesController::class, 'index']);
+    $r->get('/team', [\App\Controllers\TeamController::class, 'index']);
+    $r->get('/team/{slug}', [\App\Controllers\TeamController::class, 'show']);
     $r->get('/about', [\App\Controllers\AboutController::class, 'index']);
     $r->get('/blog', [\App\Controllers\BlogController::class, 'index']);
     $r->get('/blog/{slug}', [\App\Controllers\BlogController::class, 'show']);
@@ -75,7 +77,7 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth']], function (Route
     $r->post('/sections/{key}', [\App\Controllers\Admin\SectionsController::class, 'update']);
     $r->post('/sections/{key}/toggle', [\App\Controllers\Admin\SectionsController::class, 'toggle']);
 
-    // Portfolio Projects
+    // Agency Products & Systems (Cheetah, RestroMaster, etc.)
     $r->get('/projects', [\App\Controllers\Admin\ProjectsController::class, 'index']);
     $r->get('/projects/create', [\App\Controllers\Admin\ProjectsController::class, 'create']);
     $r->post('/projects', [\App\Controllers\Admin\ProjectsController::class, 'store']);
@@ -83,6 +85,24 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth']], function (Route
     $r->post('/projects/{id}', [\App\Controllers\Admin\ProjectsController::class, 'update']);
     $r->post('/projects/{id}/toggle-featured', [\App\Controllers\Admin\ProjectsController::class, 'toggleFeatured']);
     $r->post('/projects/{id}/delete', [\App\Controllers\Admin\ProjectsController::class, 'delete']);
+
+    // Agency Team & Member Portfolios
+    $r->get('/team', [\App\Controllers\Admin\TeamController::class, 'index']);
+    $r->get('/team/create', [\App\Controllers\Admin\TeamController::class, 'create']);
+    $r->post('/team', [\App\Controllers\Admin\TeamController::class, 'store']);
+    $r->get('/team/{id}/edit', [\App\Controllers\Admin\TeamController::class, 'edit']);
+    $r->post('/team/{id}', [\App\Controllers\Admin\TeamController::class, 'update']);
+    $r->post('/team/{id}/toggle', [\App\Controllers\Admin\TeamController::class, 'toggle']);
+    $r->post('/team/{id}/delete', [\App\Controllers\Admin\TeamController::class, 'delete']);
+
+    // Individual Member Portfolios
+    $r->get('/team/{id}/portfolio', [\App\Controllers\Admin\TeamController::class, 'portfolio']);
+    $r->get('/team/{id}/portfolio/create', [\App\Controllers\Admin\TeamController::class, 'createPortfolio']);
+    $r->post('/team/{id}/portfolio', [\App\Controllers\Admin\TeamController::class, 'storePortfolio']);
+    $r->get('/team/{memberId}/portfolio/{itemId}/edit', [\App\Controllers\Admin\TeamController::class, 'editPortfolio']);
+    $r->post('/team/{memberId}/portfolio/{itemId}', [\App\Controllers\Admin\TeamController::class, 'updatePortfolio']);
+    $r->post('/team/{memberId}/portfolio/{itemId}/toggle-featured', [\App\Controllers\Admin\TeamController::class, 'togglePortfolioFeatured']);
+    $r->post('/team/{memberId}/portfolio/{itemId}/delete', [\App\Controllers\Admin\TeamController::class, 'deletePortfolio']);
 
     // Services
     $r->get('/services', [\App\Controllers\Admin\ServicesController::class, 'index']);

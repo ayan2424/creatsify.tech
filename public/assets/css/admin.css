@@ -235,18 +235,30 @@ body {
 .sidebar-menu {
   flex-grow: 1;
   overflow-y: auto;
+  margin-top: 6px;
   padding: 6px 14px;
   display: flex;
   flex-direction: column;
   gap: 3px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--adm-line) transparent;
 }
 
 .sidebar-menu::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
+}
+.sidebar-menu::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 14px;
+  margin-bottom: 12px;
 }
 .sidebar-menu::-webkit-scrollbar-thumb {
   background: var(--adm-line);
-  border-radius: 4px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.sidebar-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--adm-muted);
 }
 
 .menu-divider {

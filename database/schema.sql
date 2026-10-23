@@ -99,6 +99,49 @@ CREATE TABLE IF NOT EXISTS `services` (
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `team_members` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(150) NOT NULL,
+    `slug` VARCHAR(150) NOT NULL UNIQUE,
+    `role_title` VARCHAR(150) NOT NULL,
+    `bio` TEXT NULL,
+    `avatar` VARCHAR(255) NULL,
+    `skills` VARCHAR(255) NULL,
+    `github_url` VARCHAR(255) NULL,
+    `linkedin_url` VARCHAR(255) NULL,
+    `portfolio_url` VARCHAR(255) NULL,
+    `email` VARCHAR(150) NULL,
+    `phone` VARCHAR(50) NULL,
+    `sort_order` INT DEFAULT 0,
+    `is_active` TINYINT(1) DEFAULT 1,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_team_slug` (`slug`),
+    INDEX `idx_team_active` (`is_active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `member_portfolios` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `member_id` INT NOT NULL,
+    `title` VARCHAR(200) NOT NULL,
+    `slug` VARCHAR(200) NOT NULL,
+    `category` VARCHAR(100) DEFAULT 'Full-Stack Development',
+    `client` VARCHAR(150) NULL,
+    `role_in_project` VARCHAR(150) NULL,
+    `summary` VARCHAR(400) NULL,
+    `description` LONGTEXT NULL,
+    `image_url` VARCHAR(255) NULL,
+    `project_url` VARCHAR(255) NULL,
+    `tech_stack` VARCHAR(255) NULL,
+    `completion_date` VARCHAR(50) NULL,
+    `is_featured` TINYINT(1) DEFAULT 0,
+    `sort_order` INT DEFAULT 0,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_mp_member` (`member_id`),
+    INDEX `idx_mp_featured` (`is_featured`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `posts` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `title` VARCHAR(255) NOT NULL,

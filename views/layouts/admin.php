@@ -21,7 +21,7 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=DM+Sans:ital,opsz,wght@0,9..40,400..600;1,9..40,400..600&display=swap" rel="stylesheet">
 
     <!-- Lumix AI Command Center Stylesheet -->
-    <link rel="stylesheet" href="<?= asset('css/admin.css') ?>?v=2.5">
+    <link rel="stylesheet" href="<?= asset('css/admin.css') ?>?v=2.6">
 
     <!-- Theme State Initializer -->
     <script>
@@ -99,7 +99,14 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
             <a href="<?= url('/admin/projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                    <span>Portfolio Systems</span>
+                    <span>Agency Products</span>
+                </span>
+                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+            <a href="<?= url('/admin/team') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/team') ? 'active' : '' ?>">
+                <span class="nav-link-content">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span>Team & Portfolios</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>

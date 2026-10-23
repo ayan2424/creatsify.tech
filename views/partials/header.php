@@ -14,6 +14,7 @@ $currentPath = request()->getPath();
             <a href="<?= url('/') ?>" class="<?= $currentPath === '/' ? 'act' : '' ?>">Home</a>
             <a href="<?= url('/portfolio') ?>" class="<?= str_starts_with($currentPath, '/portfolio') ? 'act' : '' ?>">Work</a>
             <a href="<?= url('/services') ?>" class="<?= str_starts_with($currentPath, '/services') ? 'act' : '' ?>">Services</a>
+            <a href="<?= url('/team') ?>" class="<?= str_starts_with($currentPath, '/team') ? 'act' : '' ?>">Team</a>
             <a href="<?= url('/about') ?>" class="<?= str_starts_with($currentPath, '/about') ? 'act' : '' ?>">About</a>
             <a href="<?= url('/blog') ?>" class="<?= str_starts_with($currentPath, '/blog') ? 'act' : '' ?>">Blog</a>
             <a href="<?= url('/contact') ?>" class="<?= str_starts_with($currentPath, '/contact') ? 'act' : '' ?>">Contact</a>

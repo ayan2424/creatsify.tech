@@ -210,6 +210,57 @@ $projectsJson = array_map(function($p) {
 </div>
 </section>
 
+<!-- Agency Creators & Engineering Team Section -->
+<section id="team" class="alt"><div class="wrap">
+    <div class="top" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:20px;">
+        <div>
+            <div class="idx rv">04 · Engineering Team</div>
+            <h2 data-split class="sp">Agency Creators & Specialists</h2>
+            <p class="sub rv" style="--d:.2s">Dedicated craftsmen behind our architecture. Browse individual worker portfolios, contributions, and specialized skillsets.</p>
+        </div>
+        <a class="btn rv" href="<?= url('/team') ?>" style="--d:.25s;">View all specialists →</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+        <?php foreach (($teamMembers ?? []) as $tm): ?>
+            <div class="calc-platform-card rv" style="padding: 28px; display: flex; flex-direction: column; justify-content: space-between; border-radius: 16px; border: 1px solid var(--line); background: var(--surface);">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+                        <img src="<?= asset($tm['avatar'] ?: 'brand/creatsify-icon.png') ?>" alt="<?= e($tm['name']) ?>" style="width: 54px; height: 54px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); box-shadow: 0 0 12px var(--accent-glow);">
+                        <div>
+                            <b style="display:block; font-size: 16px; color: var(--text);"><?= e($tm['name']) ?></b>
+                            <span style="font-size: 12px; color: var(--accent);"><?= e($tm['role_title']) ?></span>
+                        </div>
+                    </div>
+                    <p style="font-size: 13.5px; color: var(--muted); line-height: 1.55; margin-bottom: 18px;">
+                        <?= e(mb_strimwidth($tm['bio'] ?? '', 0, 130, '...')) ?>
+                    </p>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px;">
+                        <?php 
+                        $tmSkills = array_filter(array_map('trim', explode(',', $tm['skills'] ?? '')));
+                        $tmSkills = array_slice($tmSkills, 0, 4);
+                        foreach ($tmSkills as $sk): ?>
+                            <span style="font-size: 11px; background: var(--bg); color: var(--text); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--line);">
+                                <?= e($sk) ?>
+                            </span>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <div style="border-top: 1px solid var(--line); padding-top: 16px; display: flex; align-items: center; justify-content: space-between;">
+                    <a href="<?= url('/team/' . $tm['slug']) ?>" class="btn p" style="padding: 7px 14px; font-size: 12.5px;">
+                        View Portfolio (<?= (int)($tm['portfolio_count'] ?? 0) ?>) &rarr;
+                    </a>
+                    <?php if (!empty($tm['github_url'])): ?>
+                        <a href="<?= e($tm['github_url']) ?>" target="_blank" rel="noopener" style="color: var(--muted);" title="GitHub">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div></section>
+
 <!-- Interactive Scope & Velocity Calculator -->
 <section id="calculator" class="calc-section">
     <div class="wrap">
@@ -306,7 +357,7 @@ $projectsJson = array_map(function($p) {
 <!-- Contact Section with Direct Form -->
 <section id="contact" class="alt"><div class="wrap split">
     <div>
-        <div class="idx rv">04 · Contact</div>
+        <div class="idx rv">05 · Contact</div>
         <h2 data-split class="sp"><?= e($sections['contact']['title'] ?? 'Tell us what you want to build') ?></h2>
         <p class="sub rv" style="--d:.2s">Send a short message and we will reply by email. You can also write directly to <a href="mailto:<?= e(setting('site_email', 'ayan@creatsify.tech')) ?>"><b><?= e(setting('site_email', 'ayan@creatsify.tech')) ?></b></a>.</p>
     </div>
