@@ -10,9 +10,12 @@ use Core\View;
 if (!function_exists('env')) {
     function env(string $key, mixed $default = null): mixed
     {
-        $val = getenv($key);
-        if ($val === false) {
-            $val = $_ENV[$key] ?? $_SERVER[$key] ?? null;
+        $val = $_ENV[$key] ?? $_SERVER[$key] ?? null;
+        if ($val === null && function_exists('getenv')) {
+            $g = @getenv($key);
+            if ($g !== false) {
+                $val = $g;
+            }
         }
         if ($val === null) {
             return $default;
