@@ -24,7 +24,7 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
                     </linearGradient>
                 </defs>
                 <path d="M0,30 Q20,15 40,22 T70,8 T100,5 L100,35 L0,35 Z" fill="url(#sg1)"/>
-                <path d="M0,30 Q20,15 40,22 T70,8 T100,5" stroke="var(--adm-accent)" stroke-width="2.5" fill="none"/>
+                <path d="M0,30 Q20,15 40,22 T70,8 T100,5" stroke="var(--adm-accent)" stroke-width="2.5" fill="none" class="sparkline-line"/>
             </svg>
         </div>
         <div class="metric-footer">
@@ -52,7 +52,7 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
                     </linearGradient>
                 </defs>
                 <path d="M0,28 Q25,20 50,14 T80,18 T100,3 L100,35 L0,35 Z" fill="url(#sg2)"/>
-                <path d="M0,28 Q25,20 50,14 T80,18 T100,3" stroke="var(--adm-green)" stroke-width="2.5" fill="none"/>
+                <path d="M0,28 Q25,20 50,14 T80,18 T100,3" stroke="var(--adm-green)" stroke-width="2.5" fill="none" class="sparkline-line"/>
             </svg>
         </div>
         <div class="metric-footer">
@@ -82,7 +82,7 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
                     </linearGradient>
                 </defs>
                 <path d="M0,25 Q30,28 60,10 T100,8 L100,35 L0,35 Z" fill="url(#sg3)"/>
-                <path d="M0,25 Q30,28 60,10 T100,8" stroke="var(--adm-coral)" stroke-width="2.5" fill="none"/>
+                <path d="M0,25 Q30,28 60,10 T100,8" stroke="var(--adm-coral)" stroke-width="2.5" fill="none" class="sparkline-line"/>
             </svg>
         </div>
         <div class="metric-footer">
@@ -109,7 +109,7 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
                     </linearGradient>
                 </defs>
                 <path d="M0,32 Q25,12 50,26 T80,10 T100,6 L100,35 L0,35 Z" fill="url(#sg4)"/>
-                <path d="M0,32 Q25,12 50,26 T80,10 T100,6" stroke="var(--adm-pink)" stroke-width="2.5" fill="none"/>
+                <path d="M0,32 Q25,12 50,26 T80,10 T100,6" stroke="var(--adm-pink)" stroke-width="2.5" fill="none" class="sparkline-line"/>
             </svg>
         </div>
         <div class="metric-footer">
@@ -150,14 +150,21 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
             </div>
         </div>
 
-        <!-- High-Precision Responsive Vector Chart -->
+        <!-- High-Precision Responsive Vector Chart with Multi-Stop Glowing Gradients -->
         <div class="telemetry-graph-wrap">
             <svg viewBox="0 0 700 180" preserveAspectRatio="none">
                 <defs>
                     <linearGradient id="mainAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="var(--adm-coral)" stop-opacity="0.45"/>
-                        <stop offset="50%" stop-color="var(--adm-accent)" stop-opacity="0.15"/>
+                        <stop offset="0%" stop-color="#ff5f38" stop-opacity="0.45"/>
+                        <stop offset="35%" stop-color="#ff4fa3" stop-opacity="0.25"/>
+                        <stop offset="70%" stop-color="#8b7bff" stop-opacity="0.10"/>
                         <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+                    </linearGradient>
+                    <linearGradient id="trendGrad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#ff5f38"/>
+                        <stop offset="35%" stop-color="#ff4fa3"/>
+                        <stop offset="70%" stop-color="#a855f7"/>
+                        <stop offset="100%" stop-color="#8b7bff"/>
                     </linearGradient>
                 </defs>
                 <!-- Horizontal Grid Lines -->
@@ -168,16 +175,16 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
                 <!-- Shaded Area -->
                 <path d="M0,150 Q100,140 180,90 T360,65 T520,30 T700,45 L700,180 L0,180 Z" fill="url(#mainAreaGrad)"/>
                 
-                <!-- Main Trend Line -->
-                <path d="M0,150 Q100,140 180,90 T360,65 T520,30 T700,45" fill="none" stroke="var(--adm-coral)" stroke-width="3"/>
+                <!-- Main Trend Line with Glowing Ribbon Gradient -->
+                <path d="M0,150 Q100,140 180,90 T360,65 T520,30 T700,45" fill="none" stroke="url(#trendGrad)" stroke-width="3.5" class="telemetry-trend-line"/>
                 
                 <!-- Comparison Wave Line -->
-                <path d="M0,165 Q120,130 220,110 T400,95 T580,70 T700,85" fill="none" stroke="var(--adm-accent)" stroke-width="2" stroke-dasharray="5 5" opacity="0.65"/>
+                <path d="M0,165 Q120,130 220,110 T400,95 T580,70 T700,85" fill="none" stroke="var(--adm-accent)" stroke-width="2" stroke-dasharray="5 5" opacity="0.65" class="telemetry-comp-line"/>
                 
-                <!-- Data Nodes -->
-                <circle cx="180" cy="90" r="4.5" fill="var(--adm-coral)" stroke="#fff" stroke-width="1.5"/>
-                <circle cx="360" cy="65" r="4.5" fill="var(--adm-coral)" stroke="#fff" stroke-width="1.5"/>
-                <circle cx="520" cy="30" r="5" fill="var(--adm-coral)" stroke="#fff" stroke-width="2"/>
+                <!-- Data Nodes with Pulsing Glow -->
+                <circle cx="180" cy="90" r="5" fill="#ff4fa3" stroke="#fff" stroke-width="2" class="telemetry-node"/>
+                <circle cx="360" cy="65" r="5" fill="#a855f7" stroke="#fff" stroke-width="2" class="telemetry-node"/>
+                <circle cx="520" cy="30" r="6" fill="#8b7bff" stroke="#fff" stroke-width="2.5" class="telemetry-node active-node"/>
             </svg>
         </div>
         <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--adm-muted); margin-top:8px;">

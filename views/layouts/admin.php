@@ -21,14 +21,17 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=DM+Sans:ital,opsz,wght@0,9..40,400..600;1,9..40,400..600&display=swap" rel="stylesheet">
 
     <!-- Lumix AI Command Center Stylesheet -->
-    <link rel="stylesheet" href="<?= asset('css/admin.css') ?>?v=2.6">
+    <link rel="stylesheet" href="<?= asset('css/admin.css') ?>?v=3.0">
 
-    <!-- Theme State Initializer -->
+    <!-- Theme & Sidebar State Initializer -->
     <script>
         (function() {
             try {
                 var t = localStorage.getItem('creatsify-admin-theme') || 'dark';
                 document.documentElement.dataset.theme = t;
+                if (localStorage.getItem('creatsify-admin-sidebar-collapsed') === 'true' && window.innerWidth > 1024) {
+                    document.documentElement.classList.add('sidebar-collapsed');
+                }
             } catch(e) {}
         })();
     </script>
@@ -40,6 +43,7 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
             <a href="<?= url('/admin') ?>" class="brand-anchor" title="Creatsify Admin Dashboard">
                 <img src="<?= asset('brand/creatsify-wordmark.png') ?>" alt="Creatsify" class="brand-wordmark-dark">
                 <img src="<?= asset('brand/creatsify-wordmark-light.png') ?>" alt="Creatsify" class="brand-wordmark-light">
+                <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify" class="brand-icon-collapsed">
             </a>
             <div class="sidebar-brand-right">
                 <span class="brand-dot" title="Live Node Online"></span>
@@ -50,14 +54,14 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
         </div>
 
         <nav class="sidebar-menu">
-            <a href="<?= url('/admin') ?>" class="nav-link <?= $currentPath === '/admin' ? 'active' : '' ?>">
+            <a href="<?= url('/admin') ?>" class="nav-link <?= $currentPath === '/admin' ? 'active' : '' ?>" data-title="Overview" title="Overview">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     <span>Overview</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/chat') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/chat') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/chat') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/chat') ? 'active' : '' ?>" data-title="Live Chat Desk" title="Live Chat Desk">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                     <span>Live Chat Desk</span>
@@ -65,21 +69,21 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                 <span class="nav-badge danger" id="sideLiveChatBadge" style="display:none;">Live</span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/inquiries') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/inquiries') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/inquiries') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/inquiries') ? 'active' : '' ?>" data-title="Client Inquiries" title="Client Inquiries">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                     <span>Client Inquiries</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/whatsapp') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/whatsapp') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/whatsapp') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/whatsapp') ? 'active' : '' ?>" data-title="WhatsApp API" title="WhatsApp API">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                     <span>WhatsApp API</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/sms') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/sms') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/sms') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/sms') ? 'active' : '' ?>" data-title="SMS Gateway" title="SMS Gateway">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                     <span>SMS Gateway</span>
@@ -89,42 +93,42 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
 
             <div class="menu-divider"></div>
 
-            <a href="<?= url('/admin/sections') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/sections') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/sections') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/sections') ? 'active' : '' ?>" data-title="Section Builder" title="Section Builder">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
                     <span>Section Builder</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>" data-title="Agency Products" title="Agency Products">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                     <span>Agency Products</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/team') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/team') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/team') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/team') ? 'active' : '' ?>" data-title="Team & Portfolios" title="Team & Portfolios">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     <span>Team & Portfolios</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/services') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/services') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/services') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/services') ? 'active' : '' ?>" data-title="Studio Services" title="Studio Services">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
                     <span>Studio Services</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/posts') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/posts') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/posts') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/posts') ? 'active' : '' ?>" data-title="Blog Articles" title="Blog Articles">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                     <span>Blog Articles</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/media') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/media') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/media') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/media') ? 'active' : '' ?>" data-title="Media Library" title="Media Library">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                     <span>Media Library</span>
@@ -134,21 +138,21 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
 
             <div class="menu-divider"></div>
 
-            <a href="<?= url('/admin/users') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/users') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/users') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/users') ? 'active' : '' ?>" data-title="Users & RBAC" title="Users & RBAC">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     <span>Users & RBAC</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/audit-logs') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/audit-logs') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/audit-logs') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/audit-logs') ? 'active' : '' ?>" data-title="Audit Logs" title="Audit Logs">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                     <span>Audit Logs</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/settings') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/settings') ? 'active' : '' ?>">
+            <a href="<?= url('/admin/settings') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/settings') ? 'active' : '' ?>" data-title="White-Label Settings" title="White-Label Settings">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     <span>White-Label Settings</span>
@@ -159,7 +163,7 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
 
         <!-- Sidebar User Footer Card (Analytics Style) -->
         <div class="sidebar-user-footer">
-            <div class="sidebar-user-info">
+            <div class="sidebar-user-info" title="<?= e($user['name']) ?> (<?= e($user['role']) ?>)">
                 <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="<?= e($user['name']) ?>" class="sidebar-user-avatar">
                 <div class="sidebar-user-details">
                     <span class="sidebar-user-name"><?= e($user['name']) ?></span>
@@ -291,35 +295,79 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                 });
             }
 
-            // Mobile Sidebar Drawer Controls
+            // Sidebar Controls (Collapsible Desktop Rail + Mobile Off-Canvas Drawer)
             const sidebar = document.getElementById('adminSidebar');
             const toggleBtn = document.getElementById('sidebarToggleBtn');
             const closeBtn = document.getElementById('sidebarCloseBtn');
             const backdrop = document.getElementById('adminSidebarBackdrop');
 
-            function openSidebar() {
+            function isDesktop() {
+                return window.innerWidth > 1024;
+            }
+
+            function toggleDesktopSidebar() {
+                const isCollapsed = document.documentElement.classList.toggle('sidebar-collapsed');
+                localStorage.setItem('creatsify-admin-sidebar-collapsed', isCollapsed ? 'true' : 'false');
+                if (tooltipEl) tooltipEl.classList.remove('visible');
+            }
+
+            function openMobileSidebar() {
                 if (sidebar) sidebar.classList.add('open');
                 if (backdrop) backdrop.classList.add('active');
                 document.body.classList.add('sidebar-locked');
             }
 
-            function closeSidebar() {
+            function closeMobileSidebar() {
                 if (sidebar) sidebar.classList.remove('open');
                 if (backdrop) backdrop.classList.remove('active');
                 document.body.classList.remove('sidebar-locked');
             }
 
-            if (toggleBtn) toggleBtn.addEventListener('click', openSidebar);
-            if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
-            if (backdrop) backdrop.addEventListener('click', closeSidebar);
+            // Single Toggle button in Topbar
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (isDesktop()) {
+                        toggleDesktopSidebar();
+                    } else {
+                        openMobileSidebar();
+                    }
+                });
+            }
+
+            if (closeBtn) closeBtn.addEventListener('click', closeMobileSidebar);
+            if (backdrop) backdrop.addEventListener('click', closeMobileSidebar);
 
             // Auto-close drawer on mobile when clicking a navigation link
             if (sidebar) {
                 sidebar.querySelectorAll('.nav-link, .btn-quick-action').forEach(link => {
                     link.addEventListener('click', function() {
-                        if (window.innerWidth <= 1024) {
-                            closeSidebar();
+                        if (!isDesktop()) {
+                            closeMobileSidebar();
                         }
+                    });
+                });
+            }
+
+            // Floating Tooltip for Collapsed Sidebar
+            const tooltipEl = document.createElement('div');
+            tooltipEl.className = 'sidebar-floating-tooltip';
+            document.body.appendChild(tooltipEl);
+
+            if (sidebar) {
+                sidebar.querySelectorAll('.sidebar-menu .nav-link').forEach(link => {
+                    link.addEventListener('mouseenter', function() {
+                        if (!document.documentElement.classList.contains('sidebar-collapsed') || !isDesktop()) return;
+                        const title = this.getAttribute('data-title') || this.getAttribute('title');
+                        if (!title) return;
+                        tooltipEl.textContent = title;
+                        const rect = this.getBoundingClientRect();
+                        tooltipEl.style.top = (rect.top + rect.height / 2) + 'px';
+                        tooltipEl.style.left = (rect.right + 12) + 'px';
+                        tooltipEl.classList.add('visible');
+                    });
+                    link.addEventListener('mouseleave', function() {
+                        tooltipEl.classList.remove('visible');
                     });
                 });
             }
@@ -360,9 +408,22 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                         if (s) s.focus();
                     }
                 }
+                // Ctrl+B / Cmd+B for sidebar toggle
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+                    e.preventDefault();
+                    if (isDesktop()) {
+                        toggleDesktopSidebar();
+                    } else {
+                        if (sidebar && sidebar.classList.contains('open')) {
+                            closeMobileSidebar();
+                        } else {
+                            openMobileSidebar();
+                        }
+                    }
+                }
                 // ESC to close drawer & search
                 if (e.key === 'Escape') {
-                    closeSidebar();
+                    closeMobileSidebar();
                     if (mobileSearchBar) mobileSearchBar.classList.remove('active');
                 }
             });
