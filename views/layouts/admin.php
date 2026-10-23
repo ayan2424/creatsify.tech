@@ -3,6 +3,9 @@
 $user = auth() ?? ['name' => 'Admin User', 'email' => 'admin@creatsify.tech', 'role' => 'admin'];
 $primaryAccent = setting('primary_accent', '#8b7bff');
 $currentPath = request()->getPath();
+$topbarUnreadInquiries = \App\Models\Inquiry::countByStatus('new');
+$topbarUnreadNotifs = \App\Models\Notification::countUnread();
+$topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
 ?>
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
@@ -209,7 +212,7 @@ $currentPath = request()->getPath();
                 <!-- Notification Bell with Alert Badge (Analytics Style) -->
                 <a href="<?= url('/admin/inquiries') ?>" class="topbar-icon-btn topbar-bell-btn" title="Client Inquiries & Notifications">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    <span class="topbar-bell-badge">3</span>
+                    <span class="topbar-bell-badge" id="topbarBellBadge" style="<?= $topbarTotalAlerts > 0 ? '' : 'display:none;' ?>"><?= $topbarTotalAlerts ?></span>
                 </a>
 
                 <!-- Live Frontend Site Link -->
@@ -370,6 +373,16 @@ $currentPath = request()->getPath();
                                     badge.textContent = data.unread_chat_messages + ' New';
                                 } else {
                                     badge.style.display = 'none';
+                                }
+                            }
+                            const bellBadge = document.getElementById('topbarBellBadge');
+                            if (bellBadge) {
+                                const total = (data.new_inquiries || 0) + (data.unread_notifications || 0);
+                                if (total > 0) {
+                                    bellBadge.textContent = total;
+                                    bellBadge.style.display = 'inline-flex';
+                                } else {
+                                    bellBadge.style.display = 'none';
                                 }
                             }
                         }

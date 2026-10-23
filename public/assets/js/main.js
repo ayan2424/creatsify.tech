@@ -112,16 +112,12 @@ if(o.w)o.w.style.setProperty('--ty',(p*-16).toFixed(1)+'px');if(o.n)o.n.style.se
 if(o.f)o.f.forEach((f,k)=>f.style.setProperty('--cy',(p*(k?-34:26)).toFixed(1)+'px'));
 if(o.inn){o.inn.style.setProperty('--sc',(1-ov*.05).toFixed(3));o.inn.style.setProperty('--ov',(ov*.5).toFixed(3))}})};
 /* marquees, hero layers, scroll */
-const mqs=$$('.mq').map(el=>{
-  const t=el.querySelector('.mt');
-  if(t){
-    const minW = Math.max(window.innerWidth * 2.5, 3000);
-    while (t.scrollWidth < minW) {
-      t.innerHTML += t.innerHTML;
-    }
+$$('.mq .mt').forEach(t => {
+  if (t && !t.dataset.dup) {
+    t.dataset.dup = 'true';
+    t.innerHTML += t.innerHTML;
   }
-  return{el,t,dir:(+el.dataset.dir===-1?-1:1),sp:Math.max(0.4,+el.dataset.speed||0.8),x:0};
-}).filter(m=>m.t);
+});
 
 const lys=$$('.ly');let sy=scrollY,vel=0,pcx=0,pcy=0,cx=0,cy=0,tkS=false;
 addEventListener('pointermove',e=>{pcx=e.clientX/innerWidth-.5;pcy=e.clientY/innerHeight-.5},{passive:true});
@@ -130,8 +126,13 @@ if(y<1000){if(hi)hi.style.setProperty('--py',(y*.05)+'px');if(hero){hero.style.s
 pjUpdate()};
 addEventListener('scroll',()=>{if(!tkS){tkS=true;requestAnimationFrame(onScroll)}},{passive:true});addEventListener('resize',onScroll);addEventListener('load',onScroll);onScroll();
 (function T(){const ny=scrollY;vel=lerp(vel,ny-sy,.1);sy=ny;
-mqs.forEach(m=>{const w=m.t.scrollWidth/2;if(!w)return;if(m.x===0&&m.dir<0)m.x=-w;m.x-=(m.sp+Math.abs(vel)*.4)*m.dir;if(m.dir>0&&m.x<=-w)m.x+=w;if(m.dir<0&&m.x>=0)m.x-=w;
-m.t.style.transform=`translate3d(${m.x.toFixed(1)}px,0,0)`+(m.el.classList.contains('big')?` skewX(${clamp(-vel*.12,-7,7).toFixed(2)}deg)`:'')});
+if(Math.abs(vel) > 0.05){
+  $$('.mq.big').forEach(b => {
+    b.style.transform = `skewX(${clamp(-vel*.08,-6,6).toFixed(2)}deg)`;
+  });
+} else {
+  $$('.mq.big').forEach(b => { if(b.style.transform) b.style.transform = ''; });
+}
 cx=lerp(cx,pcx,.06);cy=lerp(cy,pcy,.06);lys.forEach(c=>{const d=+c.dataset.d;c.style.transform=`translate3d(${(-cx*d).toFixed(1)}px,${(-cy*d).toFixed(1)}px,0)`});
 requestAnimationFrame(T)})();
 /* nav highlight for in-page anchors */

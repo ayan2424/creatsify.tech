@@ -98,6 +98,7 @@ $projectsJson = array_map(function($p) {
 <!-- Tech Stack Infinite Marquee -->
 <div class="mq" data-dir="1" data-speed="0.9" aria-hidden="true"><div class="mt">
     <span>PHP</span><span>Laravel</span><span>MySQL</span><span>Python</span><span>React</span><span>Next.js</span><span>Flutter</span><span>Electron</span><span>WordPress</span><span>WooCommerce</span><span>Docker</span><span>Redis</span>
+    <span>PHP</span><span>Laravel</span><span>MySQL</span><span>Python</span><span>React</span><span>Next.js</span><span>Flutter</span><span>Electron</span><span>WordPress</span><span>WooCommerce</span><span>Docker</span><span>Redis</span>
 </div></div>
 
 <!-- Live Counter Stats Section -->
@@ -296,7 +297,10 @@ $projectsJson = array_map(function($p) {
 
 <!-- Big Dynamic Text Marquee with Scroll Velocity Skew -->
 <div class="mq big" data-dir="-1" data-speed="1.2" aria-hidden="true"><div class="mt">
-    <span>Let’s build</span><span>Let’s launch</span><span>Let’s grow</span><span>Let’s build</span><span>Let’s launch</span><span>Let’s grow</span>
+    <span>Let’s build</span><span>Let’s launch</span><span>Let’s grow</span>
+    <span>Let’s build</span><span>Let’s launch</span><span>Let’s grow</span>
+    <span>Let’s build</span><span>Let’s launch</span><span>Let’s grow</span>
+    <span>Let’s build</span><span>Let’s launch</span><span>Let’s grow</span>
 </div></div>
 
 <!-- Contact Section with Direct Form -->

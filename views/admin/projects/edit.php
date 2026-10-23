@@ -50,6 +50,17 @@ $this->layout('layouts/admin');
         </div>
 
         <div class="form-group">
+            <label for="image_url">Project Artwork / Preview Image URL</label>
+            <input type="text" id="image_url" name="image_url" class="form-control" value="<?= e($project['image_url']) ?>">
+            <?php if (!empty($project['image_url'])): ?>
+                <div style="margin-top:8px;display:flex;align-items:center;gap:12px;">
+                    <img src="<?= asset($project['image_url']) ?>" alt="Preview" style="width:80px;height:48px;object-fit:cover;border-radius:6px;border:1px solid var(--line);">
+                    <span style="font-size:12px;color:var(--muted);">Current asset: <?= e($project['image_url']) ?></span>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group">
             <label for="tech_stack">Tech Stack (comma separated)</label>
             <input type="text" id="tech_stack" name="tech_stack" class="form-control" value="<?= e($project['tech_stack']) ?>">
         </div>

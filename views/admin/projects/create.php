@@ -50,6 +50,12 @@ $this->layout('layouts/admin');
         </div>
 
         <div class="form-group">
+            <label for="image_url">Project Artwork / Preview Image URL</label>
+            <input type="text" id="image_url" name="image_url" class="form-control" placeholder="/assets/images/cheetah-showcase.jpg or upload in Media Library" value="/assets/images/hero-artwork.jpg">
+            <small style="color:var(--muted);font-size:12px;margin-top:4px;display:block;">Tip: You can use /assets/images/cheetah-showcase.jpg, /assets/images/restromaster-preview.jpg, /assets/images/viddmate-preview.jpg or upload in Media Library.</small>
+        </div>
+
+        <div class="form-group">
             <label for="tech_stack">Tech Stack (comma separated)</label>
             <input type="text" id="tech_stack" name="tech_stack" class="form-control" placeholder="PHP, Laravel, MySQL, Redis">
         </div>
