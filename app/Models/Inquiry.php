@@ -7,9 +7,27 @@ namespace App\Models;
  */
 class Inquiry
 {
-    public static function all(): array
+    public static function all(?string $status = null): array
     {
+        if ($status && in_array($status, ['new', 'in_discussion', 'converted', 'closed'], true)) {
+            return db()->fetchAll("SELECT * FROM `inquiries` WHERE `status` = :s ORDER BY `id` DESC", ['s' => $status]);
+        }
         return db()->fetchAll("SELECT * FROM `inquiries` ORDER BY `id` DESC");
+    }
+
+    public static function statusCounts(): array
+    {
+        $rows = db()->fetchAll("SELECT `status`, COUNT(*) as cnt FROM `inquiries` GROUP BY `status`");
+        $counts = ['all' => 0, 'new' => 0, 'in_discussion' => 0, 'converted' => 0, 'closed' => 0];
+        foreach ($rows as $r) {
+            $st = $r['status'] ?? '';
+            $cnt = (int)($r['cnt'] ?? 0);
+            if (isset($counts[$st])) {
+                $counts[$st] = $cnt;
+            }
+            $counts['all'] += $cnt;
+        }
+        return $counts;
     }
 
     public static function findById(int $id): ?array

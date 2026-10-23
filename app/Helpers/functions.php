@@ -254,3 +254,23 @@ if (!function_exists('clean_phone_number')) {
         return $withPlus ? '+' . $cleaned : $cleaned;
     }
 }
+
+if (!function_exists('format_phone_display')) {
+    /**
+     * Nicely format Pakistani and international phone numbers for display.
+     */
+    function format_phone_display(?string $phone): string
+    {
+        if (empty($phone)) {
+            return '—';
+        }
+        $cleaned = clean_phone_number($phone, false);
+        if (str_starts_with($cleaned, '92') && strlen($cleaned) === 12) {
+            return '+92 ' . substr($cleaned, 2, 3) . ' ' . substr($cleaned, 5);
+        }
+        if (str_starts_with($cleaned, '03') && strlen($cleaned) === 11) {
+            return substr($cleaned, 0, 4) . ' ' . substr($cleaned, 4);
+        }
+        return $phone;
+    }
+}

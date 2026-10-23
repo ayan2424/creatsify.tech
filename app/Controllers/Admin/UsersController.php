@@ -141,17 +141,21 @@ class UsersController
     public function auditLogs(Request $request): Response
     {
         $page = max(1, (int)$request->get('page', 1));
+        $action = trim((string)$request->get('action', ''));
+        $search = trim((string)$request->get('search', ''));
         $limit = 50;
         $offset = ($page - 1) * $limit;
 
-        $logs = AuditLog::paginate($limit, $offset);
-        $total = AuditLog::count();
+        $logs = AuditLog::paginate($limit, $offset, $action ?: null, $search ?: null);
+        $total = AuditLog::count($action ?: null, $search ?: null);
 
         return view('admin/users/audit_logs', [
             'logs' => $logs,
             'total' => $total,
             'page' => $page,
-            'totalPages' => ceil($total / $limit),
+            'actionFilter' => $action,
+            'search' => $search,
+            'totalPages' => max(1, (int)ceil($total / $limit)),
             'meta_title' => 'Security Audit Logs | Creatsify Admin'
         ]);
     }

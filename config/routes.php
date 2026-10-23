@@ -73,6 +73,7 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth']], function (Route
     $r->get('/sections', [\App\Controllers\Admin\SectionsController::class, 'index']);
     $r->get('/sections/{key}/edit', [\App\Controllers\Admin\SectionsController::class, 'edit']);
     $r->post('/sections/{key}', [\App\Controllers\Admin\SectionsController::class, 'update']);
+    $r->post('/sections/{key}/toggle', [\App\Controllers\Admin\SectionsController::class, 'toggle']);
 
     // Portfolio Projects
     $r->get('/projects', [\App\Controllers\Admin\ProjectsController::class, 'index']);

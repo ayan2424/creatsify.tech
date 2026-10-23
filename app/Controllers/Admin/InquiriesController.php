@@ -13,10 +13,15 @@ class InquiriesController
 {
     public function index(Request $request): Response
     {
-        $inquiries = Inquiry::all();
+        $status = $request->get('status');
+        $status = !empty($status) ? trim((string)$status) : null;
+        $inquiries = Inquiry::all($status);
+        $counts = Inquiry::statusCounts();
 
         return view('admin/inquiries/index', [
             'inquiries' => $inquiries,
+            'counts' => $counts,
+            'activeStatus' => $status,
             'meta_title' => 'Client Inquiries | Creatsify Admin'
         ]);
     }
