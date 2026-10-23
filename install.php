@@ -34,11 +34,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($driver === 'sqlite') {
                 $pdo = new PDO("sqlite:" . $baseDir . "/storage/database.sqlite");
             } else {
-                $dsn = "mysql:host={$host};port={$port};charset=utf8mb4";
-                $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-                // Create database if not exists
-                $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$dbname}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-                $pdo->exec("USE `{$dbname}`");
+                // Try connecting directly with database name first (Standard aaPanel / cPanel user)
+                try {
+                    $dsn = "mysql:host={$host};port={$port};dbname={$dbname};charset=utf8mb4";
+                    $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+                } catch (\Throwable $ex) {
+                    // If DB does not exist, try connecting without dbname and create it (root user)
+                    $dsn = "mysql:host={$host};port={$port};charset=utf8mb4";
+                    $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+                    $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$dbname}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+                    $pdo->exec("USE `{$dbname}`");
+                }
             }
 
             // Save temp DB session
@@ -70,7 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $adminEmail = trim($_POST['admin_email'] ?? 'ayan@creatsify.tech');
         $adminPass = (string)($_POST['admin_password'] ?? 'admin123');
         $siteTitle = trim($_POST['site_title'] ?? 'Creatsify — Full-stack web, mobile and AI studio');
-        $siteUrl = rtrim($_POST['site_url'] ?? 'http://' . $_SERVER['HTTP_HOST'], '/');
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') ? 'https://' : 'http://';
+        $siteUrl = rtrim($_POST['site_url'] ?? ($protocol . ($_SERVER['HTTP_HOST'] ?? 'localhost')), '/');
 
         if (empty($adminEmail) || empty($adminPass)) {
             $error = "Admin email and password are required.";
@@ -263,7 +270,8 @@ $allPassed = !in_array(false, $reqs, true);
                 </div>
                 <div class="form-group">
                     <label>Website URL</label>
-                    <input type="text" name="site_url" value="http://<?= $_SERVER['HTTP_HOST'] ?>" required>
+                    <?php $defaultProto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') ? 'https://' : 'http://'; ?>
+                    <input type="text" name="site_url" value="<?= $defaultProto . htmlspecialchars($_SERVER['HTTP_HOST'] ?? 'creatsify.tech') ?>" required>
                 </div>
                 <div class="form-group">
                     <label>Super Admin Full Name</label>

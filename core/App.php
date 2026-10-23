@@ -132,6 +132,17 @@ class App
     public function run(): void
     {
         try {
+            // 1. If not installed yet, redirect to web installer wizard
+            if (!file_exists($this->basePath . '/storage/installed.lock')) {
+                $uri = $_SERVER['REQUEST_URI'] ?? '';
+                if (!str_contains($uri, 'install.php')) {
+                    $sub = function_exists('app_base_path') ? app_base_path() : '';
+                    $target = $sub ? $sub . '/install.php' : '/install.php';
+                    header("Location: {$target}");
+                    exit;
+                }
+            }
+
             // Load routes
             $routesFile = $this->basePath . '/config/routes.php';
             if (file_exists($routesFile)) {
@@ -164,6 +175,25 @@ class App
         }
 
         http_response_code(500);
+
+        // Check if error is database connection failure
+        if (str_contains($e->getMessage(), 'Database Connection Failed') || str_contains($e->getMessage(), 'Access denied')) {
+            echo "<!DOCTYPE html><html><head><title>Database Setup Required | Creatsify Studio</title><style>body{background:#07080e;color:#eef0f7;font-family:'Segoe UI',sans-serif;padding:40px 20px;display:flex;justify-content:center;align-items:center;min-height:90vh;}div.box{background:#12131c;border:1px solid #252736;padding:36px;border-radius:14px;max-width:640px;box-shadow:0 20px 50px rgba(0,0,0,0.6);}h2{color:#ff4d6d;margin-top:0;font-size:22px;}p{color:#a3a7bb;font-size:14px;line-height:1.6;margin-bottom:18px;}code{background:#090a10;border:1px solid #252736;padding:2px 8px;border-radius:4px;color:#8b7bff;font-size:13px;word-break:break-all;}ol{margin-left:20px;color:#cbd0e3;font-size:13.5px;line-height:1.8;}li strong{color:#eef0f7;}.btn{display:inline-block;margin-top:20px;background:#8b7bff;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;}</style></head><body>";
+            echo "<div class='box'>";
+            echo "<h2>Database Connection Required</h2>";
+            echo "<p>Creatsify Studio cannot connect to MySQL with the current configuration.<br>Error: <code>" . htmlspecialchars($e->getMessage()) . "</code></p>";
+            echo "<div style='background:#090a10;border:1px solid #252736;padding:18px;border-radius:10px;'>";
+            echo "<strong style='color:#8b7bff;display:block;margin-bottom:10px;'>Quick Fix for aaPanel / Production Server:</strong>";
+            echo "<ol>";
+            echo "<li>Open <strong>aaPanel &rarr; Databases</strong> to view your database name, username, and password.</li>";
+            echo "<li>In <strong>aaPanel &rarr; Files</strong>, edit <code>/www/wwwroot/creatsify.tech/.env</code> and put your real credentials into <code>DB_DATABASE</code>, <code>DB_USERNAME</code>, and <code>DB_PASSWORD</code>.</li>";
+            echo "<li>Or run the 1-Click Installer to set everything up automatically:</li>";
+            echo "</ol>";
+            echo "<a href='/install.php' class='btn'>Launch 1-Click Web Installer &rarr;</a>";
+            echo "</div></div></body></html>";
+            return;
+        }
+
         if ($debug) {
             echo "<!DOCTYPE html><html><head><title>Creatsify Error</title><style>body{background:#07080e;color:#eef0f7;font-family:monospace;padding:30px}h1{color:#ff4fa3}.trace{background:#11131c;padding:20px;border-radius:10px;border:1px solid #252736;overflow-x:auto}</style></head><body>";
             echo "<h1>Application Error: " . htmlspecialchars($e->getMessage()) . "</h1>";
