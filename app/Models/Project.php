@@ -12,6 +12,38 @@ class Project
         return db()->fetchAll("SELECT * FROM `projects` ORDER BY `sort_order` ASC, `id` DESC");
     }
 
+    public static function allByCategory(?string $category = null): array
+    {
+        if ($category && in_array($category, ['saas', 'stores', 'apps'], true)) {
+            return db()->fetchAll("SELECT * FROM `projects` WHERE `category` = :cat ORDER BY `sort_order` ASC, `id` DESC", ['cat' => $category]);
+        }
+        return db()->fetchAll("SELECT * FROM `projects` ORDER BY `sort_order` ASC, `id` DESC");
+    }
+
+    public static function categoryCounts(): array
+    {
+        $rows = db()->fetchAll("SELECT `category`, COUNT(*) as cnt FROM `projects` GROUP BY `category`");
+        $counts = ['all' => 0, 'saas' => 0, 'stores' => 0, 'apps' => 0];
+        foreach ($rows as $r) {
+            $cat = $r['category'] ?? '';
+            $cnt = (int)($r['cnt'] ?? 0);
+            if (isset($counts[$cat])) {
+                $counts[$cat] = $cnt;
+            }
+            $counts['all'] += $cnt;
+        }
+        return $counts;
+    }
+
+    public static function toggleFeatured(int $id): bool
+    {
+        $project = self::findById($id);
+        if (!$project) return false;
+        $newStatus = $project['featured'] ? 0 : 1;
+        self::update($id, ['featured' => $newStatus]);
+        return (bool)$newStatus;
+    }
+
     public static function findBySlug(string $slug): ?array
     {
         return db()->fetchOne("SELECT * FROM `projects` WHERE `slug` = :slug LIMIT 1", ['slug' => $slug]);

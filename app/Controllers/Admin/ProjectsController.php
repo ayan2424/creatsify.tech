@@ -13,10 +13,15 @@ class ProjectsController
 {
     public function index(Request $request): Response
     {
-        $projects = Project::all();
+        $category = $request->get('category');
+        $category = !empty($category) ? trim((string)$category) : null;
+        $projects = Project::allByCategory($category);
+        $counts = Project::categoryCounts();
 
         return view('admin/projects/index', [
             'projects' => $projects,
+            'counts' => $counts,
+            'activeCategory' => $category,
             'meta_title' => 'Manage Portfolio Projects | Creatsify Admin'
         ]);
     }
@@ -122,6 +127,14 @@ class ProjectsController
         audit_log('update_project', 'project', (int)$id, "Updated project: {$title}");
         flash('success', "Project '{$title}' updated successfully!");
 
+        return Response::redirect('/admin/projects');
+    }
+
+    public function toggleFeatured(Request $request, string $id): Response
+    {
+        $newState = Project::toggleFeatured((int)$id);
+        audit_log('toggle_featured_project', 'project', (int)$id, "Toggled featured state to " . ($newState ? 'ON' : 'OFF'));
+        flash('success', 'Project featured state updated.');
         return Response::redirect('/admin/projects');
     }
 

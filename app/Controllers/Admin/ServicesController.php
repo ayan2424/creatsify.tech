@@ -103,6 +103,14 @@ class ServicesController
         return Response::redirect('/admin/services');
     }
 
+    public function toggle(Request $request, string $id): Response
+    {
+        $newState = Service::toggleActive((int)$id);
+        audit_log('toggle_service', 'service', (int)$id, "Toggled service active state to " . ($newState ? 'ACTIVE' : 'INACTIVE'));
+        flash('success', 'Service status updated.');
+        return Response::redirect('/admin/services');
+    }
+
     public function delete(Request $request, string $id): Response
     {
         Service::delete((int)$id);

@@ -44,6 +44,19 @@ class Post
         return db()->fetchOne("SELECT * FROM `posts` WHERE `id` = :id LIMIT 1", ['id' => $id]);
     }
 
+    public static function togglePublish(int $id): bool
+    {
+        $post = self::findById($id);
+        if (!$post) return false;
+        $new = $post['is_published'] ? 0 : 1;
+        $data = ['is_published' => $new];
+        if ($new && empty($post['published_at'])) {
+            $data['published_at'] = date('Y-m-d H:i:s');
+        }
+        self::update($id, $data);
+        return (bool)$new;
+    }
+
     public static function create(array $data): int
     {
         $data['created_at'] = date('Y-m-d H:i:s');

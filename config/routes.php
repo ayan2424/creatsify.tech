@@ -81,6 +81,7 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth']], function (Route
     $r->post('/projects', [\App\Controllers\Admin\ProjectsController::class, 'store']);
     $r->get('/projects/{id}/edit', [\App\Controllers\Admin\ProjectsController::class, 'edit']);
     $r->post('/projects/{id}', [\App\Controllers\Admin\ProjectsController::class, 'update']);
+    $r->post('/projects/{id}/toggle-featured', [\App\Controllers\Admin\ProjectsController::class, 'toggleFeatured']);
     $r->post('/projects/{id}/delete', [\App\Controllers\Admin\ProjectsController::class, 'delete']);
 
     // Services
@@ -89,6 +90,7 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth']], function (Route
     $r->post('/services', [\App\Controllers\Admin\ServicesController::class, 'store']);
     $r->get('/services/{id}/edit', [\App\Controllers\Admin\ServicesController::class, 'edit']);
     $r->post('/services/{id}', [\App\Controllers\Admin\ServicesController::class, 'update']);
+    $r->post('/services/{id}/toggle', [\App\Controllers\Admin\ServicesController::class, 'toggle']);
     $r->post('/services/{id}/delete', [\App\Controllers\Admin\ServicesController::class, 'delete']);
 
     // Blog Posts
@@ -97,6 +99,7 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth']], function (Route
     $r->post('/posts', [\App\Controllers\Admin\PostsController::class, 'store']);
     $r->get('/posts/{id}/edit', [\App\Controllers\Admin\PostsController::class, 'edit']);
     $r->post('/posts/{id}', [\App\Controllers\Admin\PostsController::class, 'update']);
+    $r->post('/posts/{id}/toggle', [\App\Controllers\Admin\PostsController::class, 'toggle']);
     $r->post('/posts/{id}/delete', [\App\Controllers\Admin\PostsController::class, 'delete']);
 
     // Inquiries

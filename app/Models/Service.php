@@ -22,6 +22,15 @@ class Service
         return db()->fetchOne("SELECT * FROM `services` WHERE `id` = :id LIMIT 1", ['id' => $id]);
     }
 
+    public static function toggleActive(int $id): bool
+    {
+        $service = self::findById($id);
+        if (!$service) return false;
+        $new = $service['is_active'] ? 0 : 1;
+        self::update($id, ['is_active' => $new]);
+        return (bool)$new;
+    }
+
     public static function create(array $data): int
     {
         $data['created_at'] = date('Y-m-d H:i:s');

@@ -101,6 +101,14 @@ class PostsController
         return Response::redirect('/admin/posts');
     }
 
+    public function toggle(Request $request, string $id): Response
+    {
+        $newState = Post::togglePublish((int)$id);
+        audit_log('toggle_post', 'post', (int)$id, "Toggled post publish state to " . ($newState ? 'LIVE' : 'DRAFT'));
+        flash('success', 'Post publish status updated.');
+        return Response::redirect('/admin/posts');
+    }
+
     public function delete(Request $request, string $id): Response
     {
         Post::delete((int)$id);
