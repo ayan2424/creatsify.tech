@@ -76,7 +76,8 @@ $code = $settings['custom_code'] ?? [];
                 <label for="primary_accent">Primary Accent Color</label>
                 <div style="display: flex; gap: 12px; align-items: center;">
                     <input type="color" id="primary_accent" name="primary_accent" value="<?= e($app['primary_accent'] ?? '#8b7bff') ?>" style="width: 50px; height: 42px; border-radius: 8px; padding: 2px; border: 1px solid var(--line); cursor: pointer;">
-                    <input type="text" class="form-control" value="<?= e($app['primary_accent'] ?? '#8b7bff') ?>" style="font-family: monospace;" readonly>
+                    <input type="text" id="primary_accent_hex" class="form-control" value="<?= e($app['primary_accent'] ?? '#8b7bff') ?>" style="font-family: monospace; max-width: 130px;" placeholder="#8b7bff" maxlength="7">
+                    <span id="accentPreviewBadge" style="font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 6px; background: <?= e($app['primary_accent'] ?? '#8b7bff') ?>; color: #fff;">Accent Preview</span>
                 </div>
                 <small style="color:var(--muted); font-size:12px; margin-top:4px; display:block;">Dynamically updates all buttons, glowing effects, and badges across the entire platform.</small>
             </div>
@@ -170,7 +171,12 @@ $code = $settings['custom_code'] ?? [];
                     </div>
                     <div class="form-group">
                         <label for="smtp_pass">Password</label>
-                        <input type="password" id="smtp_pass" name="smtp_pass" class="form-control" value="<?= e($m['smtp_pass'] ?? '') ?>">
+                        <div class="password-input-wrap">
+                            <input type="password" id="smtp_pass" name="smtp_pass" class="form-control" value="<?= e($m['smtp_pass'] ?? '') ?>" placeholder="••••••••">
+                            <button type="button" class="password-toggle-trigger" data-target="smtp_pass" title="Toggle password visibility">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="2" r="3"></circle></svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -270,7 +276,12 @@ $code = $settings['custom_code'] ?? [];
                 </div>
                 <div class="form-group">
                     <label for="sms_twilio_token">Twilio Auth Token</label>
-                    <input type="password" id="sms_twilio_token" name="sms_twilio_token" class="form-control" value="<?= e($s['sms_twilio_token'] ?? '') ?>">
+                    <div class="password-input-wrap">
+                        <input type="password" id="sms_twilio_token" name="sms_twilio_token" class="form-control" value="<?= e($s['sms_twilio_token'] ?? '') ?>" placeholder="••••••••">
+                        <button type="button" class="password-toggle-trigger" data-target="sms_twilio_token" title="Toggle token visibility">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="2" r="3"></circle></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -314,3 +325,38 @@ $code = $settings['custom_code'] ?? [];
         </form>
     <?php endif; ?>
 </div>
+
+<script>
+    // Color Picker 2-Way Synchronization
+    const colorPicker = document.getElementById('primary_accent');
+    const colorHex = document.getElementById('primary_accent_hex');
+    const previewBadge = document.getElementById('accentPreviewBadge');
+
+    if (colorPicker && colorHex) {
+        colorPicker.addEventListener('input', (e) => {
+            colorHex.value = e.target.value.toLowerCase();
+            if (previewBadge) previewBadge.style.backgroundColor = e.target.value;
+        });
+
+        colorHex.addEventListener('input', (e) => {
+            let val = e.target.value.trim();
+            if (!val.startsWith('#') && val.length > 0) val = '#' + val;
+            if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+                colorPicker.value = val;
+                if (previewBadge) previewBadge.style.backgroundColor = val;
+            }
+        });
+    }
+
+    // Reusable Password / Token Visibility Toggles
+    document.querySelectorAll('.password-toggle-trigger').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            if (!input) return;
+            const isPwd = input.type === 'password';
+            input.type = isPwd ? 'text' : 'password';
+            this.style.color = isPwd ? 'var(--adm-accent, #8b7bff)' : '';
+        });
+    });
+</script>

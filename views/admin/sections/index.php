@@ -17,48 +17,50 @@ $this->layout('layouts/admin');
         </div>
     </div>
 
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th style="width: 70px;">Order</th>
-                <th>Section Identifier</th>
-                <th>Live Title & Subtitle</th>
-                <th style="width: 120px;">Visibility</th>
-                <th style="width: 160px; text-align: right;">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($sections as $sec): ?>
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
                 <tr>
-                    <td style="font-weight: 700; color: var(--accent); font-size: 14px;">#<?= (int)$sec['sort_order'] ?></td>
-                    <td>
-                        <strong style="color:var(--text); font-family:monospace; font-size: 13px;"><?= e($sec['section_key']) ?></strong>
-                    </td>
-                    <td>
-                        <div style="font-weight: 600; color: var(--text); font-size: 13.5px;"><?= e($sec['title']) ?></div>
-                        <div style="font-size: 12px; color: var(--muted); margin-top: 2px;"><?= e($sec['subtitle'] ?: 'Default block') ?></div>
-                    </td>
-                    <td>
-                        <form action="<?= url('/admin/sections/' . $sec['section_key'] . '/toggle') ?>" method="POST" style="display:inline;">
-                            <?= csrf_field() ?>
-                            <?php if ($sec['is_active']): ?>
-                                <button type="submit" class="btn btn-sm" style="background: rgba(0,200,83,0.15); color: #00c853; border: 1px solid rgba(0,200,83,0.3); border-radius: 999px; padding: 3px 10px; font-weight: 700; cursor: pointer; font-size: 11.5px;" title="Click to hide from storefront">
-                                    &bull; Visible
-                                </button>
-                            <?php else: ?>
-                                <button type="submit" class="btn btn-sm" style="background: rgba(255,77,109,0.15); color: #ff4d6d; border: 1px solid rgba(255,77,109,0.3); border-radius: 999px; padding: 3px 10px; font-weight: 700; cursor: pointer; font-size: 11.5px;" title="Click to show on storefront">
-                                    &times; Hidden
-                                </button>
-                            <?php endif; ?>
-                        </form>
-                    </td>
-                    <td style="text-align: right;">
-                        <a href="<?= url('/admin/sections/' . e($sec['section_key']) . '/edit') ?>" class="btn btn-secondary btn-sm" style="font-size: 12px;">
-                            Configure &rarr;
-                        </a>
-                    </td>
+                    <th style="width: 70px;">Order</th>
+                    <th>Section Identifier</th>
+                    <th>Live Title & Subtitle</th>
+                    <th style="width: 120px;">Visibility</th>
+                    <th style="width: 160px; text-align: right;">Actions</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($sections as $sec): ?>
+                    <tr>
+                        <td style="font-weight: 700; color: var(--accent); font-size: 14px;">#<?= (int)$sec['sort_order'] ?></td>
+                        <td>
+                            <strong style="color:var(--text); font-family:monospace; font-size: 13px;"><?= e($sec['section_key']) ?></strong>
+                        </td>
+                        <td>
+                            <div style="font-weight: 600; color: var(--text); font-size: 13.5px;"><?= e($sec['title']) ?></div>
+                            <div style="font-size: 12px; color: var(--muted); margin-top: 2px;"><?= e($sec['subtitle'] ?: 'Default block') ?></div>
+                        </td>
+                        <td>
+                            <form action="<?= url('/admin/sections/' . $sec['section_key'] . '/toggle') ?>" method="POST" style="display:inline;">
+                                <?= csrf_field() ?>
+                                <?php if ($sec['is_active']): ?>
+                                    <button type="submit" class="btn btn-sm" style="background: rgba(0,200,83,0.15); color: #00c853; border: 1px solid rgba(0,200,83,0.3); border-radius: 999px; padding: 3px 10px; font-weight: 700; cursor: pointer; font-size: 11.5px;" title="Click to hide from storefront">
+                                        &bull; Visible
+                                    </button>
+                                <?php else: ?>
+                                    <button type="submit" class="btn btn-sm" style="background: rgba(255,77,109,0.15); color: #ff4d6d; border: 1px solid rgba(255,77,109,0.3); border-radius: 999px; padding: 3px 10px; font-weight: 700; cursor: pointer; font-size: 11.5px;" title="Click to show on storefront">
+                                        &times; Hidden
+                                    </button>
+                                <?php endif; ?>
+                            </form>
+                        </td>
+                        <td style="text-align: right;">
+                            <a href="<?= url('/admin/sections/' . e($sec['section_key']) . '/edit') ?>" class="btn btn-secondary btn-sm" style="font-size: 12px;">
+                                Configure &rarr;
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>

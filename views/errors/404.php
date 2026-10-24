@@ -9,6 +9,6 @@ $this->layout('layouts/main');
         <p style="color: var(--muted); font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
             The page or resource you are looking for has been relocated, renamed, or does not exist.
         </p>
-        <a href="/" class="btn btn-primary">Return to Homepage &rarr;</a>
+        <a href="<?= url('/') ?>" class="btn p">Return to Homepage &rarr;</a>
     </div>
 </section>

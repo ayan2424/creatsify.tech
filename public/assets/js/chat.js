@@ -92,7 +92,7 @@
                     appendMessage('bot', data.reply);
                     playChime();
                     if (data.handoff && statusText) {
-                        statusText.textContent = '⚡ Human Agent Alerted & Connecting...';
+                        statusText.textContent = '● Human Agent Alerted & Connecting...';
                         statusText.style.color = '#ff4fa3';
                     }
                 }, 400);
@@ -153,7 +153,7 @@
                             lastPollId = Math.max(lastPollId, m.id);
                         });
                         if (data.is_handoff && statusText) {
-                            statusText.textContent = '⚡ Connected to Human Support Agent';
+                            statusText.textContent = '● Connected to Human Support Agent';
                             statusText.style.color = '#00c853';
                         }
                     }

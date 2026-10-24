@@ -58,71 +58,75 @@ $total = $total ?? 0;
 
     <?php if (empty($logs)): ?>
         <div style="padding: 48px 20px; text-align: center; color: var(--muted);">
-            <div style="font-size: 32px; margin-bottom: 8px;">🛡️</div>
+            <div style="margin-bottom: 12px; display: flex; justify-content: center;">
+                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted); opacity: 0.6;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
             <div style="font-size: 15px; font-weight: 600; color: var(--text);">No security logs found</div>
             <p style="font-size: 13px; margin-top: 4px;">No security actions match your filter criteria.</p>
         </div>
     <?php else: ?>
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Timestamp</th>
-                    <th>Operator</th>
-                    <th>Action</th>
-                    <th>Target Entity</th>
-                    <th>IP Address</th>
-                    <th>Event Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($logs as $log): ?>
-                    <?php
-                    $act = strtolower($log['action'] ?? '');
-                    $badgeStyle = match(true) {
-                        str_contains($act, 'failed') || str_contains($act, 'delete') => 'background: rgba(239, 68, 68, 0.12); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);',
-                        str_contains($act, 'success') || str_contains($act, 'create') || str_contains($act, 'login') => 'background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);',
-                        str_contains($act, 'update') || str_contains($act, 'toggle') || str_contains($act, 'edit') => 'background: rgba(139, 123, 255, 0.12); color: #8b7bff; border: 1px solid rgba(139, 123, 255, 0.3);',
-                        str_contains($act, 'send') || str_contains($act, 'sms') || str_contains($act, 'whatsapp') => 'background: rgba(6, 182, 212, 0.12); color: #06b6d4; border: 1px solid rgba(6, 182, 212, 0.3);',
-                        default => 'background: var(--surface-hover); color: var(--muted); border: 1px solid var(--line);',
-                    };
-                    ?>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
                     <tr>
-                        <td style="font-size: 12px; color: var(--muted); white-space: nowrap;">
-                            <?= date('M j, Y', strtotime($log['created_at'])) ?>
-                            <div style="font-size: 11px; opacity: 0.7;"><?= date('H:i:s', strtotime($log['created_at'])) ?></div>
-                        </td>
-                        <td>
-                            <strong style="color:var(--text); font-size: 13.5px;"><?= e($log['user_name'] ?: 'System / Anonymous') ?></strong>
-                            <?php if (!empty($log['user_email'])): ?>
-                                <div style="font-size: 11px; color: var(--muted);"><?= e($log['user_email']) ?></div>
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <span style="display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; <?= $badgeStyle ?>">
-                                <?= e(str_replace('_', ' ', $log['action'])) ?>
-                            </span>
-                        </td>
-                        <td>
-                            <?php if (!empty($log['entity_type'])): ?>
-                                <span style="font-size: 11.5px; font-family: monospace; background: var(--bg); padding: 3px 6px; border-radius: 4px; border: 1px solid var(--line); color: var(--text);">
-                                    <?= e($log['entity_type']) ?><?= !empty($log['entity_id']) ? '#' . e((string)$log['entity_id']) : '' ?>
-                                </span>
-                            <?php else: ?>
-                                <span style="color: var(--muted); font-size: 12px;">&mdash;</span>
-                            <?php endif; ?>
-                        </td>
-                        <td style="font-size: 12px; color: var(--muted); font-family: monospace;">
-                            <?= e($log['ip_address'] ?? '—') ?>
-                        </td>
-                        <td style="font-size: 12.5px; color: var(--text); max-width: 320px;">
-                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="<?= e($log['details']) ?>">
-                                <?= e($log['details']) ?>
-                            </div>
-                        </td>
+                        <th>Timestamp</th>
+                        <th>Operator</th>
+                        <th>Action</th>
+                        <th>Target Entity</th>
+                        <th>IP Address</th>
+                        <th>Event Details</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($logs as $log): ?>
+                        <?php
+                        $act = strtolower($log['action'] ?? '');
+                        $badgeStyle = match(true) {
+                            str_contains($act, 'failed') || str_contains($act, 'delete') => 'background: rgba(239, 68, 68, 0.12); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);',
+                            str_contains($act, 'success') || str_contains($act, 'create') || str_contains($act, 'login') => 'background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);',
+                            str_contains($act, 'update') || str_contains($act, 'toggle') || str_contains($act, 'edit') => 'background: rgba(139, 123, 255, 0.12); color: #8b7bff; border: 1px solid rgba(139, 123, 255, 0.3);',
+                            str_contains($act, 'send') || str_contains($act, 'sms') || str_contains($act, 'whatsapp') => 'background: rgba(6, 182, 212, 0.12); color: #06b6d4; border: 1px solid rgba(6, 182, 212, 0.3);',
+                            default => 'background: var(--surface-hover); color: var(--muted); border: 1px solid var(--line);',
+                        };
+                        ?>
+                        <tr>
+                            <td style="font-size: 12px; color: var(--muted); white-space: nowrap;">
+                                <?= date('M j, Y', strtotime($log['created_at'])) ?>
+                                <div style="font-size: 11px; opacity: 0.7;"><?= date('H:i:s', strtotime($log['created_at'])) ?></div>
+                            </td>
+                            <td>
+                                <strong style="color:var(--text); font-size: 13.5px;"><?= e($log['user_name'] ?: 'System / Anonymous') ?></strong>
+                                <?php if (!empty($log['user_email'])): ?>
+                                    <div style="font-size: 11px; color: var(--muted);"><?= e($log['user_email']) ?></div>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <span style="display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; <?= $badgeStyle ?>">
+                                    <?= e(str_replace('_', ' ', $log['action'])) ?>
+                                </span>
+                            </td>
+                            <td>
+                                <?php if (!empty($log['entity_type'])): ?>
+                                    <span style="font-size: 11.5px; font-family: monospace; background: var(--bg); padding: 3px 6px; border-radius: 4px; border: 1px solid var(--line); color: var(--text);">
+                                        <?= e($log['entity_type']) ?><?= !empty($log['entity_id']) ? '#' . e((string)$log['entity_id']) : '' ?>
+                                    </span>
+                                <?php else: ?>
+                                    <span style="color: var(--muted); font-size: 12px;">&mdash;</span>
+                                <?php endif; ?>
+                            </td>
+                            <td style="font-size: 12px; color: var(--muted); font-family: monospace;">
+                                <?= e($log['ip_address'] ?? '—') ?>
+                            </td>
+                            <td style="font-size: 12.5px; color: var(--text); max-width: 320px;">
+                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="<?= e($log['details']) ?>">
+                                    <?= e($log['details']) ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Pagination Controls -->
         <?php if ($totalPages > 1): ?>

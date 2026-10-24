@@ -273,3 +273,90 @@ CREATE TABLE IF NOT EXISTS `media` (
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     INDEX `idx_media_created` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =======================================================
+-- Agency & Software Portfolio CRM Suite Tables
+-- =======================================================
+
+CREATE TABLE IF NOT EXISTS `crm_clients` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(150) NOT NULL,
+    `company` VARCHAR(150) NULL,
+    `email` VARCHAR(150) NOT NULL,
+    `phone` VARCHAR(50) NULL,
+    `whatsapp` VARCHAR(50) NULL,
+    `stage` ENUM('lead', 'discovery', 'proposal_sent', 'contract_signed', 'active_client', 'retained', 'churned') DEFAULT 'lead',
+    `deal_value` DECIMAL(12,2) DEFAULT 0.00,
+    `currency` VARCHAR(10) DEFAULT 'USD',
+    `source` VARCHAR(100) DEFAULT 'Website Inquiry',
+    `inquiry_id` INT NULL,
+    `assigned_to` INT NULL,
+    `city` VARCHAR(100) NULL,
+    `country` VARCHAR(100) NULL,
+    `website` VARCHAR(255) NULL,
+    `tags` VARCHAR(255) NULL,
+    `notes_summary` TEXT NULL,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_client_stage` (`stage`),
+    INDEX `idx_client_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `crm_tickets` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `ticket_number` VARCHAR(30) NOT NULL UNIQUE,
+    `client_id` INT NULL,
+    `client_name` VARCHAR(150) NOT NULL,
+    `client_email` VARCHAR(150) NOT NULL,
+    `client_phone` VARCHAR(50) NULL,
+    `subject` VARCHAR(255) NOT NULL,
+    `category` ENUM('bug', 'feature_request', 'maintenance', 'milestone', 'billing', 'onboarding') DEFAULT 'maintenance',
+    `priority` ENUM('low', 'medium', 'high', 'urgent') DEFAULT 'medium',
+    `status` ENUM('open', 'in_progress', 'waiting_client', 'resolved', 'closed') DEFAULT 'open',
+    `assigned_to` INT NULL,
+    `project_id` INT NULL,
+    `description` LONGTEXT NOT NULL,
+    `due_date` DATE NULL,
+    `resolved_at` DATETIME NULL,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_ticket_num` (`ticket_number`),
+    INDEX `idx_ticket_status` (`status`),
+    INDEX `idx_ticket_priority` (`priority`),
+    INDEX `idx_ticket_client` (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `crm_ticket_replies` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `ticket_id` INT NOT NULL,
+    `user_id` INT NULL,
+    `author_name` VARCHAR(100) NOT NULL,
+    `author_type` ENUM('staff', 'client', 'system') DEFAULT 'staff',
+    `message` LONGTEXT NOT NULL,
+    `is_internal_note` TINYINT(1) DEFAULT 0,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    INDEX `idx_replies_ticket` (`ticket_id`),
+    INDEX `idx_replies_created` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `crm_notes` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `client_id` INT NULL,
+    `inquiry_id` INT NULL,
+    `ticket_id` INT NULL,
+    `user_id` INT NOT NULL,
+    `author_name` VARCHAR(100) NOT NULL,
+    `type` ENUM('note', 'call_log', 'meeting', 'deal_terms', 'follow_up') DEFAULT 'note',
+    `title` VARCHAR(200) NOT NULL,
+    `content` LONGTEXT NOT NULL,
+    `follow_up_date` DATE NULL,
+    `is_follow_up_done` TINYINT(1) DEFAULT 0,
+    `is_pinned` TINYINT(1) DEFAULT 0,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_notes_client` (`client_id`),
+    INDEX `idx_notes_inquiry` (`inquiry_id`),
+    INDEX `idx_notes_ticket` (`ticket_id`),
+    INDEX `idx_notes_type` (`type`),
+    INDEX `idx_notes_followup` (`follow_up_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

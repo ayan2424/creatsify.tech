@@ -53,8 +53,9 @@ $this->layout('layouts/main', [
                 <!-- Connect Links -->
                 <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
                     <?php if (!empty($member['email'])): ?>
-                        <a href="mailto:<?= e($member['email']) ?>" class="btn p" style="padding: 8px 18px; font-size: 13px;">
-                            ✉️ Contact <?= e(explode(' ', $member['name'])[0]) ?>
+                        <a href="mailto:<?= e($member['email']) ?>" class="btn p" style="padding: 8px 18px; font-size: 13px; display:inline-flex; align-items:center; gap:6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            <span>Contact <?= e(explode(' ', $member['name'])[0]) ?></span>
                         </a>
                     <?php endif; ?>
                     <?php if (!empty($member['github_url'])): ?>

@@ -143,9 +143,9 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
         });
     }
 
-    // Clipboard Copy with Animated Pill Feedback
+    // Clipboard Copy with Animated Pill Feedback & Robust Fallback
     function copyUrl(url, btn) {
-        navigator.clipboard.writeText(url).then(() => {
+        function showSuccess() {
             const original = btn.textContent;
             btn.textContent = '✓ Copied!';
             btn.style.color = '#00c853';
@@ -155,6 +155,27 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
                 btn.style.color = '';
                 btn.style.borderColor = '';
             }, 2200);
-        });
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(url).then(showSuccess).catch(fallbackCopy);
+        } else {
+            fallbackCopy();
+        }
+
+        function fallbackCopy() {
+            const ta = document.createElement('textarea');
+            ta.value = url;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showSuccess();
+            } catch(e) {}
+            document.body.removeChild(ta);
+        }
     }
 </script>

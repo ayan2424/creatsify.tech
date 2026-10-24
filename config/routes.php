@@ -127,6 +127,33 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth']], function (Route
     $r->get('/inquiries/{id}', [\App\Controllers\Admin\InquiriesController::class, 'show']);
     $r->post('/inquiries/{id}/status', [\App\Controllers\Admin\InquiriesController::class, 'updateStatus']);
     $r->post('/inquiries/{id}/delete', [\App\Controllers\Admin\InquiriesController::class, 'delete']);
+    $r->post('/inquiries/{id}/convert-to-client', [\App\Controllers\Admin\CrmController::class, 'convertInquiry']);
+
+    // Agency CRM Suite (Clients, Deals, Support Tickets & Internal Notes)
+    $r->get('/crm/clients', [\App\Controllers\Admin\CrmController::class, 'clients']);
+    $r->get('/crm/clients/create', [\App\Controllers\Admin\CrmController::class, 'createClient']);
+    $r->post('/crm/clients', [\App\Controllers\Admin\CrmController::class, 'storeClient']);
+    $r->get('/crm/clients/{id}', [\App\Controllers\Admin\CrmController::class, 'showClient']);
+    $r->get('/crm/clients/{id}/edit', [\App\Controllers\Admin\CrmController::class, 'editClient']);
+    $r->post('/crm/clients/{id}', [\App\Controllers\Admin\CrmController::class, 'updateClient']);
+    $r->post('/crm/clients/{id}/stage', [\App\Controllers\Admin\CrmController::class, 'updateClientStage']);
+    $r->post('/crm/clients/{id}/delete', [\App\Controllers\Admin\CrmController::class, 'deleteClient']);
+
+    // Support & Project Tickets
+    $r->get('/crm/tickets', [\App\Controllers\Admin\CrmController::class, 'tickets']);
+    $r->get('/crm/tickets/create', [\App\Controllers\Admin\CrmController::class, 'createTicket']);
+    $r->post('/crm/tickets', [\App\Controllers\Admin\CrmController::class, 'storeTicket']);
+    $r->get('/crm/tickets/{id}', [\App\Controllers\Admin\CrmController::class, 'showTicket']);
+    $r->post('/crm/tickets/{id}/status', [\App\Controllers\Admin\CrmController::class, 'updateTicketStatus']);
+    $r->post('/crm/tickets/{id}/reply', [\App\Controllers\Admin\CrmController::class, 'replyTicket']);
+    $r->post('/crm/tickets/{id}/delete', [\App\Controllers\Admin\CrmController::class, 'deleteTicket']);
+
+    // Internal Notes & Reminders
+    $r->get('/crm/notes', [\App\Controllers\Admin\CrmController::class, 'notes']);
+    $r->post('/crm/notes', [\App\Controllers\Admin\CrmController::class, 'storeNote']);
+    $r->post('/crm/notes/{id}/toggle-pin', [\App\Controllers\Admin\CrmController::class, 'toggleNotePin']);
+    $r->post('/crm/notes/{id}/toggle-followup', [\App\Controllers\Admin\CrmController::class, 'toggleFollowUp']);
+    $r->post('/crm/notes/{id}/delete', [\App\Controllers\Admin\CrmController::class, 'deleteNote']);
 
     // Users, Roles & Security Audit Logs (Cheezify Architecture)
     $r->get('/users', [\App\Controllers\Admin\UsersController::class, 'index']);

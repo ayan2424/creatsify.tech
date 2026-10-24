@@ -31,8 +31,13 @@ const F=["Admin and branch agent","Warehouse manager and picker","Merchant and c
 
 const lk=a=>a.map(([t,u])=>`<a class="more" href="${u}"${u[0]=='h'?' target="_blank" rel="noopener noreferrer"':''}>${t} <span aria-hidden="true">→</span></a>`).join('');
 /* build content */
-if($('#pjs')) $('#pjs').innerHTML=P.map((p,i)=>`<article class="pj" style="--top:${86+i*12}px"><div class="pj-in" data-cur="View"><div class="pjt"><span class="pjn" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="pjw"><div class="st" style="--k:0"><i></i>${p[2]}</div><h3 style="--k:1">${p[0]}</h3><p style="--k:2">${p[3]}</p><div class="chips" style="--k:3">${p[4].map(x=>`<span>${x}</span>`).join('')}</div><div class="links" style="--k:4">${lk(p[6])}</div></div></div><div class="pjm"><img alt="${p[0]} preview" loading="lazy"><span class="fch a">${p[4][0]}</span>${p[4][1]?`<span class="fch b">${p[4][1]}</span>`:''}</div><div class="ov"></div></div></article>`).join('');
-$$('.pj img').forEach((im,i)=>{ if(P[i]) { const val = P[i][5]; im.src = (val && (val.startsWith('/') || val.startsWith('http') || val.startsWith('data:'))) ? val : (IM[val] || IM.h); } });
+const featuredP = P.slice(0, 4);
+if($('#pjs')) {
+  let cardsHtml = featuredP.map((p,i)=>`<article class="pj" style="--top:${86+i*14}px"><div class="pj-in" data-cur="View"><div class="pjt"><span class="pjn" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="pjw"><div class="st" style="--k:0"><i></i>${p[2]}</div><h3 style="--k:1">${p[0]}</h3><p style="--k:2">${p[3]}</p><div class="chips" style="--k:3">${p[4].map(x=>`<span>${x}</span>`).join('')}</div><div class="links" style="--k:4">${lk(p[6])}</div></div></div><div class="pjm"><img alt="${p[0]} preview" loading="lazy"><span class="fch a">${p[4][0]}</span>${p[4][1]?`<span class="fch b">${p[4][1]}</span>`:''}</div><div class="ov"></div></div></article>`).join('');
+  cardsHtml += `<div class="portfolio-gateway-card rv" style="--d:.2s;"><div class="gateway-content"><span class="section-tag" style="margin-bottom:8px;">Catalog Archive</span><h3>Explore All 10+ Production Builds & Marketplace Scripts</h3><p>Browse our complete catalog of Courier platforms, AI cloud IDEs, Flutter apps, and WooCommerce stores with live demos and case studies.</p></div><a href="${baseUrl}/portfolio" class="btn p" style="padding: 13px 28px; font-weight:700;">Open Full Portfolio (${P.length}) &rarr;</a></div>`;
+  $('#pjs').innerHTML = cardsHtml;
+}
+$$('.pj img').forEach((im,i)=>{ if(featuredP[i]) { const val = featuredP[i][5]; im.src = (val && (val.startsWith('/') || val.startsWith('http') || val.startsWith('data:'))) ? val : (IM[val] || IM.h); } });
 if($('#eds')){
   E.forEach((e,i)=>{const w=document.createElement('div');w.className='rv f';w.style.setProperty('--d',i*.14+'s');
   w.innerHTML=`<article class="card" data-tilt="7"><div class="cb"><div class="st"><i></i>${e[0]}</div><h3>${e[1]}</h3><p>${e[2]}</p><div class="links">${lk([["Open live demo",e[3]]])}</div></div></article>`;$('#eds').appendChild(w)});
@@ -60,9 +65,32 @@ if (themeBtn) {
 
 /* preloader */
 const pre=$('#pre'),preN=$('#preN');
-const go=()=>{pre.classList.add('done');setTimeout(()=>root.classList.add('ready'),380);setTimeout(()=>pre.remove(),1400)};
-if(RM){pre.remove();root.classList.add('ready')}else{let t0=performance.now(),ld=document.readyState=='complete';addEventListener('load',()=>ld=true);setTimeout(()=>ld=true,3500);
-const st=t=>{const k=Math.min(1,(t-t0)/1500),v=ld?k:Math.min(k,.9);pre.style.setProperty('--p',v);preN.textContent=String(Math.round(v*100)).padStart(2,'0');if(k>=1&&ld)go();else requestAnimationFrame(st)};requestAnimationFrame(st)}
+const hasEntered = (() => {
+  try { return sessionStorage.getItem('creatsify-entered') === '1'; } catch(e) { return false; }
+})();
+const go=()=>{
+  if(!pre) return;
+  pre.classList.add('done');
+  setTimeout(()=>root.classList.add('ready'),180);
+  setTimeout(()=>{ if(pre) pre.remove(); },600);
+  try { sessionStorage.setItem('creatsify-entered', '1'); } catch(e) {}
+};
+if(RM || hasEntered || !pre){
+  if(pre) pre.remove();
+  root.classList.add('ready');
+}else{
+  let t0=performance.now(),ld=document.readyState=='complete';
+  addEventListener('load',()=>ld=true);
+  setTimeout(()=>ld=true,2500);
+  const st=t=>{
+    const k=Math.min(1,(t-t0)/1200),v=ld?k:Math.min(k,.9);
+    if(pre) pre.style.setProperty('--p',v);
+    if(preN) preN.textContent=String(Math.round(v*100)).padStart(2,'0');
+    if(k>=1&&ld) go();
+    else requestAnimationFrame(st);
+  };
+  requestAnimationFrame(st);
+}
 /* reveal */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
 $$('.rv,.sp,.pj').forEach(el=>io.observe(el));
@@ -333,4 +361,69 @@ document.addEventListener('DOMContentLoaded', function () {
 
         counters.forEach(c => observer.observe(c));
     }
+
+    // 7. Mobile Navigation Drawer Controller
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const mobileDrawerBackdrop = document.getElementById('mobileDrawerBackdrop');
+    const mobileDrawerClose = document.getElementById('mobileDrawerClose');
+
+    const openDrawer = () => {
+        if (!mobileDrawer) return;
+        mobileDrawer.classList.add('open');
+        mobileDrawer.setAttribute('aria-hidden', 'false');
+        if (mobileDrawerBackdrop) mobileDrawerBackdrop.classList.add('active');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            const bars = mobileMenuBtn.querySelector('.icon-menu-bars');
+            const cross = mobileMenuBtn.querySelector('.icon-menu-cross');
+            if (bars) bars.style.display = 'none';
+            if (cross) cross.style.display = 'block';
+        }
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeDrawer = () => {
+        if (!mobileDrawer) return;
+        mobileDrawer.classList.remove('open');
+        mobileDrawer.setAttribute('aria-hidden', 'true');
+        if (mobileDrawerBackdrop) mobileDrawerBackdrop.classList.remove('active');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            const bars = mobileMenuBtn.querySelector('.icon-menu-bars');
+            const cross = mobileMenuBtn.querySelector('.icon-menu-cross');
+            if (bars) bars.style.display = 'block';
+            if (cross) cross.style.display = 'none';
+        }
+        document.body.style.overflow = '';
+    };
+
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', () => {
+            if (mobileDrawer && mobileDrawer.classList.contains('open')) {
+                closeDrawer();
+            } else {
+                openDrawer();
+            }
+        });
+    }
+
+    if (mobileDrawerClose) {
+        mobileDrawerClose.addEventListener('click', closeDrawer);
+    }
+
+    if (mobileDrawerBackdrop) {
+        mobileDrawerBackdrop.addEventListener('click', closeDrawer);
+    }
+
+    // Close mobile drawer when any link is clicked or ESC is pressed
+    document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', closeDrawer);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileDrawer && mobileDrawer.classList.contains('open')) {
+            closeDrawer();
+        }
+    });
 });

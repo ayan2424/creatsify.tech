@@ -4,9 +4,9 @@ $this->layout('layouts/admin');
 $prefillMsg = request()->get('msg', '');
 ?>
 
-<div style="display: grid; grid-template-columns: 320px 1fr; gap: 20px; height: calc(100vh - 140px); min-height: 550px;">
+<div class="comm-desk-grid">
     <!-- Left Pane: WhatsApp Contacts List -->
-    <div class="card" style="margin-bottom: 0; display: flex; flex-direction: column; padding: 0; overflow: hidden;">
+    <div class="card comm-desk-contacts">
         <div style="padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; background: var(--surface);">
             <div>
                 <h3 style="font-size: 15px; font-weight: 700; color: var(--text); margin: 0;">WhatsApp Threads</h3>
@@ -21,7 +21,9 @@ $prefillMsg = request()->get('msg', '');
         <div style="flex-grow: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 4px;">
             <?php if (empty($conversations)): ?>
                 <div style="padding: 30px 16px; font-size: 13px; color: var(--muted); text-align: center;">
-                    <div style="font-size: 28px; margin-bottom: 8px;">💬</div>
+                    <div style="margin-bottom: 12px; display: flex; justify-content: center;">
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted); opacity: 0.6;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
                     No WhatsApp logs yet.<br>Use the composer to start a conversation.
                 </div>
             <?php else: ?>
@@ -45,7 +47,7 @@ $prefillMsg = request()->get('msg', '');
     </div>
 
     <!-- Right Pane: Thread Stream & Outbound Composer -->
-    <div class="card" style="margin-bottom: 0; display: flex; flex-direction: column; padding: 0; overflow: hidden;">
+    <div class="card comm-desk-main">
         <!-- Header -->
         <div style="padding: 16px 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; background: var(--surface);">
             <div>
@@ -65,7 +67,9 @@ $prefillMsg = request()->get('msg', '');
         <div style="flex-grow: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 14px; background: var(--bg);" id="wa-stream">
             <?php if (empty($messages)): ?>
                 <div style="text-align: center; color: var(--muted); font-size: 13.5px; margin: auto; max-width: 380px;">
-                    <div style="font-size: 32px; margin-bottom: 8px;">📲</div>
+                    <div style="margin-bottom: 12px; display: flex; justify-content: center;">
+                        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color: var(--muted); opacity: 0.6;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                    </div>
                     <div style="font-weight: 600; color: var(--text); margin-bottom: 4px;">Start a WhatsApp Conversation</div>
                     Enter a phone number below or pick a contact from the left pane to send an official WhatsApp message.
                 </div>
@@ -103,17 +107,21 @@ $prefillMsg = request()->get('msg', '');
             <!-- Canned Responses (Cheetah Architecture) -->
             <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 8px;">
                 <span style="font-size: 11px; color: var(--muted); align-self: center; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 4px; font-weight: 600;">Canned:</span>
-                <button type="button" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 10px; border-radius: 12px; white-space: nowrap;" onclick="setWaQuickMsg('Assalam-o-Alaikum! Thanks for connecting with Creatsify Studio. How can we help you today?')">
-                    👋 Salam & Welcome
+                <button type="button" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 10px; border-radius: 12px; white-space: nowrap;" onclick="setWaQuickMsg('Assalam-o-Alaikum! Thanks for connecting with Creatsify Studio. How can we help you today?')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                    <span>Salam & Welcome</span>
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 10px; border-radius: 12px; white-space: nowrap;" onclick="setWaQuickMsg('We have reviewed your project requirements and would love to schedule a quick 15-minute discovery call.')">
-                    📞 Discovery Call
+                <button type="button" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 10px; border-radius: 12px; white-space: nowrap;" onclick="setWaQuickMsg('We have reviewed your project requirements and would love to schedule a quick 15-minute discovery call.')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <span>Discovery Call</span>
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 10px; border-radius: 12px; white-space: nowrap;" onclick="setWaQuickMsg('You can test our flagship courier & warehouse platform Cheetah live at https://creatsify.tech/#cheetah.')">
-                    📦 Cheetah Demo
+                <button type="button" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 10px; border-radius: 12px; white-space: nowrap;" onclick="setWaQuickMsg('You can test our flagship courier & warehouse platform Cheetah live at https://creatsify.tech/#cheetah.')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    <span>Cheetah Demo</span>
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 10px; border-radius: 12px; white-space: nowrap;" onclick="setWaQuickMsg('Thank you for confirming. Our engineering proposal and milestone breakdown have been dispatched to your email.')">
-                    📄 Quote Dispatched
+                <button type="button" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 10px; border-radius: 12px; white-space: nowrap;" onclick="setWaQuickMsg('Thank you for confirming. Our engineering proposal and milestone breakdown have been dispatched to your email.')">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>Quote Dispatched</span>
                 </button>
             </div>
 

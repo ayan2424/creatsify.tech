@@ -21,7 +21,7 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=DM+Sans:ital,opsz,wght@0,9..40,400..600;1,9..40,400..600&display=swap" rel="stylesheet">
 
     <!-- Lumix AI Command Center Stylesheet -->
-    <link rel="stylesheet" href="<?= asset('css/admin.css') ?>?v=3.0">
+    <link rel="stylesheet" href="<?= asset('css/admin.css') ?>?v=3.1">
 
     <!-- Theme & Sidebar State Initializer -->
     <script>
@@ -87,6 +87,30 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                     <span>SMS Gateway</span>
+                </span>
+                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+
+            <div class="menu-divider"></div>
+
+            <a href="<?= url('/admin/crm/clients') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/clients') ? 'active' : '' ?>" data-title="Clients & Deals" title="Clients & Deals">
+                <span class="nav-link-content">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <span>Clients & Deals</span>
+                </span>
+                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+            <a href="<?= url('/admin/crm/tickets') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/tickets') ? 'active' : '' ?>" data-title="Support Tickets" title="Support Tickets">
+                <span class="nav-link-content">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+                    <span>Support Tickets</span>
+                </span>
+                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+            <a href="<?= url('/admin/crm/notes') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/notes') ? 'active' : '' ?>" data-title="CRM Notes & Logs" title="CRM Notes & Logs">
+                <span class="nav-link-content">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    <span>CRM Notes & Logs</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
@@ -427,6 +451,63 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                     if (mobileSearchBar) mobileSearchBar.classList.remove('active');
                 }
             });
+
+            // Fast Executive Quick-Jump Search Handler
+            function executeDeskSearch(query) {
+                const q = (query || '').trim().toLowerCase();
+                if (!q) return;
+                const routes = {
+                    'chat': '<?= url("/admin/chat") ?>',
+                    'inquir': '<?= url("/admin/inquiries") ?>',
+                    'lead': '<?= url("/admin/inquiries") ?>',
+                    'project': '<?= url("/admin/projects") ?>',
+                    'product': '<?= url("/admin/projects") ?>',
+                    'post': '<?= url("/admin/posts") ?>',
+                    'blog': '<?= url("/admin/posts") ?>',
+                    'service': '<?= url("/admin/services") ?>',
+                    'team': '<?= url("/admin/team") ?>',
+                    'media': '<?= url("/admin/media") ?>',
+                    'asset': '<?= url("/admin/media") ?>',
+                    'user': '<?= url("/admin/users") ?>',
+                    'role': '<?= url("/admin/users") ?>',
+                    'setting': '<?= url("/admin/settings") ?>',
+                    'smtp': '<?= url("/admin/settings?tab=mail") ?>',
+                    'mail': '<?= url("/admin/settings?tab=mail") ?>',
+                    'theme': '<?= url("/admin/settings?tab=appearance") ?>',
+                    'color': '<?= url("/admin/settings?tab=appearance") ?>',
+                    'whatsapp': '<?= url("/admin/whatsapp") ?>',
+                    'sms': '<?= url("/admin/sms") ?>',
+                    'section': '<?= url("/admin/sections") ?>',
+                    'home': '<?= url("/admin/sections") ?>',
+                    'log': '<?= url("/admin/audit-logs") ?>',
+                    'audit': '<?= url("/admin/audit-logs") ?>'
+                };
+                for (const [key, dest] of Object.entries(routes)) {
+                    if (q.includes(key)) {
+                        window.location.href = dest;
+                        return;
+                    }
+                }
+                window.location.href = '<?= url("/admin/audit-logs") ?>?search=' + encodeURIComponent(q);
+            }
+
+            const deskGlobalSearch = document.getElementById('adminGlobalSearch');
+            if (deskGlobalSearch) {
+                deskGlobalSearch.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        executeDeskSearch(this.value);
+                    }
+                });
+            }
+            if (mobileSearchInput) {
+                mobileSearchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        executeDeskSearch(this.value);
+                    }
+                });
+            }
 
             // Live Desk Polling
             function pollSystem() {

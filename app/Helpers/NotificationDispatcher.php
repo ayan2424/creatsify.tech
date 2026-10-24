@@ -41,13 +41,13 @@ class NotificationDispatcher
         // 2. WhatsApp Alert to Admin
         $adminWaPhone = (string)setting('wa_admin_notification_phone', '');
         if (!empty($adminWaPhone)) {
-            $waText = "🚀 *New Creatsify Inquiry Received!*\n\n"
-                    . "👤 *Client:* {$name}\n"
-                    . "📧 *Email:* {$email}\n"
-                    . "📱 *Phone:* {$phone}\n"
-                    . "💼 *Project:* {$projectType}\n"
-                    . "💬 *Message:* " . substr($message, 0, 200) . "\n\n"
-                    . "🔗 Open Admin: " . url('/admin/inquiries');
+            $waText = "[ALERT] *New Creatsify Inquiry Received!*\n\n"
+                    . "• *Client:* {$name}\n"
+                    . "• *Email:* {$email}\n"
+                    . "• *Phone:* {$phone}\n"
+                    . "• *Project:* {$projectType}\n"
+                    . "• *Message:* " . substr($message, 0, 200) . "\n\n"
+                    . "» *Open Admin:* " . url('/admin/inquiries');
             $this->whatsApp->sendMessage($adminWaPhone, $waText);
         }
 
@@ -70,7 +70,7 @@ class NotificationDispatcher
                   . "<tr><td style='padding: 8px; font-weight: bold;'>Message:</td><td style='padding: 8px;'>" . nl2br(e($message)) . "</td></tr>"
                   . "</table>"
                   . "<p><a href='" . url('/admin/inquiries') . "' style='display:inline-block; padding: 12px 24px; background: #8b7bff; color: #fff; text-decoration: none; border-radius: 6px;'>View in Admin Panel</a></p>";
-            $this->mailer->send($adminEmail, "🚀 New Project Inquiry from {$name}", $html);
+            $this->mailer->send($adminEmail, "New Project Inquiry from {$name}", $html);
         }
     }
 
@@ -85,7 +85,7 @@ class NotificationDispatcher
         // In-App Notification
         $this->recordInApp(
             'chat_handoff',
-            "⚡ Human Support Requested in Live Chat",
+            "[URGENT] Human Support Requested in Live Chat",
             "{$name} ({$ip}) is requesting a human agent: \"{$latestMessage}\"",
             '/admin/chat'
         );
@@ -93,10 +93,10 @@ class NotificationDispatcher
         // WhatsApp Alert to Admin
         $adminWaPhone = (string)setting('wa_admin_notification_phone', '');
         if (!empty($adminWaPhone)) {
-            $waText = "⚡ *Creatsify Live Chat: Agent Requested!*\n\n"
-                    . "Visitor: {$name}\n"
-                    . "Question: \"{$latestMessage}\"\n\n"
-                    . "👉 Click to take over live chat: " . url('/admin/chat');
+            $waText = "[CHAT] *Creatsify Live Chat: Agent Requested!*\n\n"
+                    . "• Visitor: {$name}\n"
+                    . "• Question: \"{$latestMessage}\"\n\n"
+                    . "» *Take over live chat:* " . url('/admin/chat');
             $this->whatsApp->sendMessage($adminWaPhone, $waText);
         }
     }

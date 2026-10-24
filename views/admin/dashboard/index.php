@@ -1,6 +1,44 @@
 <?php
 /** @var Core\View $this */
 $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_title' => 'Dashboard | Creatsify Admin']);
+
+// 1. Calculate Real Dynamic Coordinates for 7-Day Traffic Area Graph
+$trendData = $dailyTrend ?? [];
+$hitsList = array_column($trendData, 'hits');
+$maxHits = !empty($hitsList) ? max(1, max($hitsList)) : 1;
+$total7Days = array_sum($hitsList);
+
+$chartPoints = [];
+$stepX = 700 / 6; // 6 intervals for 7 data points on 700px canvas
+foreach ($trendData as $idx => $d) {
+    $cx = round($idx * $stepX, 1);
+    // Y maps from baseline (150) to peak (30)
+    $ratio = $d['hits'] / $maxHits;
+    $cy = round(150 - ($ratio * 115), 1);
+    $chartPoints[] = [
+        'x' => $cx,
+        'y' => $cy,
+        'day' => $d['day'],
+        'date' => $d['date'],
+        'hits' => (int)$d['hits']
+    ];
+}
+
+// Generate smooth cubic bezier curve
+$pathD = "M" . $chartPoints[0]['x'] . "," . $chartPoints[0]['y'];
+for ($i = 0; $i < count($chartPoints) - 1; $i++) {
+    $p0 = $chartPoints[$i];
+    $p1 = $chartPoints[$i + 1];
+    $cp1x = round($p0['x'] + ($p1['x'] - $p0['x']) / 2, 1);
+    $cp1y = $p0['y'];
+    $cp2x = $cp1x;
+    $cp2y = $p1['y'];
+    $pathD .= " C$cp1x,$cp1y $cp2x,$cp2y " . $p1['x'] . "," . $p1['y'];
+}
+$areaD = $pathD . " L700,180 L0,180 Z";
+
+// Calculate circular dial dashoffset for 390 perimeter
+$dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))));
 ?>
 
 <!-- 1. Lumix AI Sparkline Metric Cards -->
@@ -11,7 +49,7 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
             <span class="metric-label">Total Traffic</span>
             <span class="metric-trend trend-up">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                +12.4%
+                <?= number_format($stats['total_visits'] ?? 0) ?>
             </span>
         </div>
         <div class="metric-value-row">
@@ -39,7 +77,7 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
             <span class="metric-label">Today's Visits</span>
             <span class="metric-trend trend-up" style="background:var(--adm-green-glow); color:var(--adm-green);">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                +24.1%
+                Live
             </span>
         </div>
         <div class="metric-value-row">
@@ -69,7 +107,7 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
         <div class="metric-top">
             <span class="metric-label">Shipped Systems</span>
             <span class="metric-trend trend-coral">
-                10 Active
+                <?= $totalProjects ?> Active
             </span>
         </div>
         <div class="metric-value-row">
@@ -96,7 +134,7 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
         <div class="metric-top">
             <span class="metric-label">Active Live Chats</span>
             <span class="metric-trend trend-live">
-                Cheetah AI
+                Cheetah Engine
             </span>
         </div>
         <div class="metric-value-row">
@@ -126,69 +164,113 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
         <div class="telemetry-header">
             <div>
                 <h3 class="telemetry-title">Studio Traffic & Inquiries Activity</h3>
-                <span style="font-size:12px; color:var(--adm-muted);">Real-time visitor velocity and lead dispatch trajectory</span>
+                <span style="font-size:12px; color:var(--adm-muted);">Real-time visitor velocity and lead dispatch trajectory (Last 7 Days)</span>
             </div>
             <div class="telemetry-tabs">
-                <button type="button" class="telemetry-tab active">Overview</button>
-                <button type="button" class="telemetry-tab">Visitors</button>
-                <button type="button" class="telemetry-tab">Leads</button>
+                <button type="button" class="telemetry-tab active" data-pane="paneOverview">Overview</button>
+                <button type="button" class="telemetry-tab" data-pane="paneTopPages">Top Pages</button>
+                <button type="button" class="telemetry-tab" data-pane="paneDevices">Devices</button>
             </div>
         </div>
 
         <div class="telemetry-metrics-split">
             <div class="telemetry-sub-metric">
-                <b>2,197 <span style="font-size:12px; color:var(--adm-green); font-weight:normal;">↑ 19.6%</span></b>
+                <b><?= number_format($total7Days) ?> <span style="font-size:12px; color:var(--adm-green); font-weight:normal;">7-Day</span></b>
                 <span>Weekly Engagements</span>
             </div>
             <div class="telemetry-sub-metric">
-                <b>8,903 <span style="font-size:12px; color:var(--adm-green); font-weight:normal;">↑ 24.1%</span></b>
-                <span>Monthly Impressions</span>
+                <b><?= number_format($totalInquiries ?? 0) ?> <span style="font-size:12px; color:var(--adm-accent); font-weight:normal;"><?= (int)($newInquiries ?? 0) ?> New</span></b>
+                <span>Client Inquiries</span>
             </div>
             <div class="telemetry-sub-metric">
-                <b>99.4%</b>
-                <span>Uptime SLA</span>
+                <b><?= $dbLatencyMs ?>ms <span style="font-size:12px; color:var(--adm-green); font-weight:normal;">Nominal</span></b>
+                <span>DB Response</span>
             </div>
         </div>
 
-        <!-- High-Precision Responsive Vector Chart with Multi-Stop Glowing Gradients -->
-        <div class="telemetry-graph-wrap">
-            <svg viewBox="0 0 700 180" preserveAspectRatio="none">
-                <defs>
-                    <linearGradient id="mainAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#ff5f38" stop-opacity="0.45"/>
-                        <stop offset="35%" stop-color="#ff4fa3" stop-opacity="0.25"/>
-                        <stop offset="70%" stop-color="#8b7bff" stop-opacity="0.10"/>
-                        <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
-                    </linearGradient>
-                    <linearGradient id="trendGrad" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stop-color="#ff5f38"/>
-                        <stop offset="35%" stop-color="#ff4fa3"/>
-                        <stop offset="70%" stop-color="#a855f7"/>
-                        <stop offset="100%" stop-color="#8b7bff"/>
-                    </linearGradient>
-                </defs>
-                <!-- Horizontal Grid Lines -->
-                <line x1="0" y1="30" x2="700" y2="30" stroke="var(--adm-line)" stroke-dasharray="4 4" stroke-width="1"/>
-                <line x1="0" y1="80" x2="700" y2="80" stroke="var(--adm-line)" stroke-dasharray="4 4" stroke-width="1"/>
-                <line x1="0" y1="130" x2="700" y2="130" stroke="var(--adm-line)" stroke-dasharray="4 4" stroke-width="1"/>
-                
-                <!-- Shaded Area -->
-                <path d="M0,150 Q100,140 180,90 T360,65 T520,30 T700,45 L700,180 L0,180 Z" fill="url(#mainAreaGrad)"/>
-                
-                <!-- Main Trend Line with Glowing Ribbon Gradient -->
-                <path d="M0,150 Q100,140 180,90 T360,65 T520,30 T700,45" fill="none" stroke="url(#trendGrad)" stroke-width="3.5" class="telemetry-trend-line"/>
-                
-                <!-- Comparison Wave Line -->
-                <path d="M0,165 Q120,130 220,110 T400,95 T580,70 T700,85" fill="none" stroke="var(--adm-accent)" stroke-width="2" stroke-dasharray="5 5" opacity="0.65" class="telemetry-comp-line"/>
-                
-                <!-- Data Nodes with Pulsing Glow -->
-                <circle cx="180" cy="90" r="5" fill="#ff4fa3" stroke="#fff" stroke-width="2" class="telemetry-node"/>
-                <circle cx="360" cy="65" r="5" fill="#a855f7" stroke="#fff" stroke-width="2" class="telemetry-node"/>
-                <circle cx="520" cy="30" r="6" fill="#8b7bff" stroke="#fff" stroke-width="2.5" class="telemetry-node active-node"/>
-            </svg>
+        <!-- Pane 1: Dynamic SVG Area Chart -->
+        <div id="paneOverview" class="telemetry-pane active">
+            <div class="telemetry-graph-wrap">
+                <svg viewBox="0 0 700 180" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="mainAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#ff5f38" stop-opacity="0.45"/>
+                            <stop offset="35%" stop-color="#ff4fa3" stop-opacity="0.25"/>
+                            <stop offset="70%" stop-color="#8b7bff" stop-opacity="0.10"/>
+                            <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+                        </linearGradient>
+                        <linearGradient id="trendGrad" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#ff5f38"/>
+                            <stop offset="35%" stop-color="#ff4fa3"/>
+                            <stop offset="70%" stop-color="#a855f7"/>
+                            <stop offset="100%" stop-color="#8b7bff"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Horizontal Grid Lines -->
+                    <line x1="0" y1="35" x2="700" y2="35" stroke="var(--adm-line)" stroke-dasharray="4 4" stroke-width="1"/>
+                    <line x1="0" y1="85" x2="700" y2="85" stroke="var(--adm-line)" stroke-dasharray="4 4" stroke-width="1"/>
+                    <line x1="0" y1="135" x2="700" y2="135" stroke="var(--adm-line)" stroke-dasharray="4 4" stroke-width="1"/>
+                    
+                    <!-- Shaded Area -->
+                    <path d="<?= $areaD ?>" fill="url(#mainAreaGrad)"/>
+                    
+                    <!-- Main Trend Line with Glowing Ribbon Gradient -->
+                    <path d="<?= $pathD ?>" fill="none" stroke="url(#trendGrad)" stroke-width="3.5" class="telemetry-trend-line"/>
+                    
+                    <!-- Data Nodes with Pulsing Glow -->
+                    <?php foreach ($chartPoints as $i => $pt): ?>
+                        <circle cx="<?= $pt['x'] ?>" cy="<?= $pt['y'] ?>" r="<?= ($i === count($chartPoints) - 1) ? '6' : '4.5' ?>" fill="<?= ($i === count($chartPoints) - 1) ? '#8b7bff' : '#ff4fa3' ?>" stroke="#fff" stroke-width="2" class="telemetry-node <?= ($i === count($chartPoints) - 1) ? 'active-node' : '' ?>">
+                            <title><?= e($pt['day']) ?> (<?= e($pt['date']) ?>): <?= $pt['hits'] ?> visits</title>
+                        </circle>
+                    <?php endforeach; ?>
+                </svg>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--adm-muted); margin-top:8px;">
+                <?php foreach ($chartPoints as $pt): ?>
+                    <span style="font-weight: 600;"><?= e($pt['day']) ?></span>
+                <?php endforeach; ?>
+            </div>
         </div>
-        <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--adm-muted); margin-top:8px;">
-            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+
+        <!-- Pane 2: Top Visited Pages -->
+        <div id="paneTopPages" class="telemetry-pane" style="display:none; padding-top: 15px;">
+            <?php if (empty($stats['top_pages'])): ?>
+                <div style="text-align: center; color: var(--adm-muted); font-size: 13px; padding: 30px;">No page hits logged yet.</div>
+            <?php else: ?>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <?php foreach ($stats['top_pages'] as $tp): ?>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--adm-surface); border: 1px solid var(--adm-line); border-radius: 8px;">
+                            <code style="color: var(--adm-accent); font-size: 13px;"><?= e($tp['path']) ?></code>
+                            <span class="user-role-badge" style="font-size: 11px;"><?= number_format((int)$tp['hits']) ?> hits</span>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Pane 3: Device Distribution -->
+        <div id="paneDevices" class="telemetry-pane" style="display:none; padding-top: 15px;">
+            <?php if (empty($stats['devices'])): ?>
+                <div style="text-align: center; color: var(--adm-muted); font-size: 13px; padding: 30px;">No device data recorded yet.</div>
+            <?php else: ?>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <?php 
+                    $totalDevHits = array_sum(array_column($stats['devices'], 'count'));
+                    foreach ($stats['devices'] as $dev): 
+                        $pct = $totalDevHits > 0 ? round(($dev['count'] / $totalDevHits) * 100) : 0;
+                    ?>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                                <strong style="text-transform: capitalize; color: var(--adm-text);"><?= e($dev['device_type'] ?: 'Unknown') ?></strong>
+                                <span style="color: var(--adm-muted);"><?= (int)$dev['count'] ?> (<?= $pct ?>%)</span>
+                            </div>
+                            <div style="width: 100%; height: 6px; background: var(--adm-surface); border-radius: 4px; overflow: hidden; border: 1px solid var(--adm-line);">
+                                <div style="height: 100%; width: <?= $pct ?>%; background: var(--adm-accent); border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -205,7 +287,7 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
                 <circle cx="80" cy="80" r="62" fill="none" stroke="var(--adm-line)" stroke-width="9"/>
                 <!-- Value Arc (SVG Dasharray) -->
                 <circle cx="80" cy="80" r="62" fill="none" stroke="url(#dialGrad)" stroke-width="9"
-                        stroke-dasharray="390" stroke-dashoffset="110" stroke-linecap="round"
+                        stroke-dasharray="390" stroke-dashoffset="<?= $dialOffset ?>" stroke-linecap="round"
                         transform="rotate(-90 80 80)"/>
                 <defs>
                     <linearGradient id="dialGrad" x1="0" y1="0" x2="1" y2="1">
@@ -214,8 +296,8 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
                         <stop offset="100%" stop-color="var(--adm-coral)"/>
                     </linearGradient>
                 </defs>
-                <text x="80" y="76" text-anchor="middle" class="dial-center-val">12<tspan font-size="14">ms</tspan></text>
-                <text x="80" y="94" text-anchor="middle" class="dial-center-sub">Server Latency</text>
+                <text x="80" y="76" text-anchor="middle" class="dial-center-val"><?= $dbLatencyMs ?><tspan font-size="14">ms</tspan></text>
+                <text x="80" y="94" text-anchor="middle" class="dial-center-sub">DB Handshake</text>
             </svg>
         </div>
 
@@ -224,30 +306,30 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
             <div class="resource-bar-item">
                 <div class="resource-bar-labels">
                     <span>Database Architecture</span>
-                    <span style="color:var(--adm-accent);">78 Tables (65%)</span>
+                    <span style="color:var(--adm-accent);"><?= $tableCount ?> Tables Active</span>
                 </div>
                 <div class="resource-bar-track">
-                    <div class="resource-bar-fill fill-accent" style="width: 65%;"></div>
+                    <div class="resource-bar-fill fill-accent" style="width: <?= min(100, max(20, $tableCount * 4)) ?>%;"></div>
                 </div>
             </div>
 
             <div class="resource-bar-item">
                 <div class="resource-bar-labels">
-                    <span>PHP 8.2 Memory Pool</span>
-                    <span style="color:var(--adm-green);">18MB / 128MB (14%)</span>
+                    <span>PHP Memory Pool</span>
+                    <span style="color:var(--adm-green);"><?= $memoryUsageMb ?>MB / <?= $memoryLimitMb ?>MB (<?= $memoryPercent ?>%)</span>
                 </div>
                 <div class="resource-bar-track">
-                    <div class="resource-bar-fill fill-green" style="width: 14%;"></div>
+                    <div class="resource-bar-fill fill-green" style="width: <?= $memoryPercent ?>%;"></div>
                 </div>
             </div>
 
             <div class="resource-bar-item">
                 <div class="resource-bar-labels">
-                    <span>Cheetah AI Automation</span>
-                    <span style="color:var(--adm-coral);">88% Automated</span>
+                    <span>Live Visitor Channels</span>
+                    <span style="color:var(--adm-coral);"><?= count($activeChats) ?> Active Chats</span>
                 </div>
                 <div class="resource-bar-track">
-                    <div class="resource-bar-fill fill-coral" style="width: 88%;"></div>
+                    <div class="resource-bar-fill fill-coral" style="width: <?= min(100, max(15, count($activeChats) * 20)) ?>%;"></div>
                 </div>
             </div>
         </div>
@@ -261,13 +343,19 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
         <div class="card-header">
             <div>
                 <h3 class="card-title">Recent Client Inquiries</h3>
-                <span style="font-size:12px; color:var(--adm-muted);">Direct messages and Scope Calculator leads</span>
+                <span style="font-size:12px; color:var(--adm-muted);">Direct consultation requests & product leads</span>
             </div>
             <a href="<?= url('/admin/inquiries') ?>" class="btn btn-secondary btn-sm">View All &rarr;</a>
         </div>
 
         <?php if (empty($recentInquiries)): ?>
-            <p style="color: var(--adm-muted); font-size: 13.5px; padding: 25px 0; text-align: center;">No client inquiries yet. Submissions from the website or interactive estimator will stream here.</p>
+            <div style="padding: 35px 20px; text-align: center; color: var(--adm-muted);">
+                <div style="margin-bottom: 12px; color: var(--adm-muted); opacity: 0.6;">
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </div>
+                <div style="font-weight: 600; color: var(--adm-text); font-size: 14px;">No client inquiries yet</div>
+                <p style="font-size: 12.5px; margin-top: 4px;">Inbound leads submitted from the website will stream here in real time.</p>
+            </div>
         <?php else: ?>
             <div class="table-responsive">
                 <table class="data-table">
@@ -282,6 +370,16 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
                     </thead>
                     <tbody>
                         <?php foreach ($recentInquiries as $inq): ?>
+                            <?php
+                            $st = strtolower($inq['status'] ?? 'new');
+                            $badgeStyle = match($st) {
+                                'new' => 'background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight:700;',
+                                'in_discussion' => 'background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight:700;',
+                                'converted' => 'background: rgba(139, 123, 255, 0.15); color: #8b7bff; border: 1px solid rgba(139, 123, 255, 0.3); font-weight:700;',
+                                'closed' => 'background: rgba(163, 167, 187, 0.15); color: #a3a7bb; border: 1px solid var(--adm-line); font-weight:700;',
+                                default => 'background: var(--adm-surface); color: var(--adm-muted); border: 1px solid var(--adm-line);'
+                            };
+                            ?>
                             <tr>
                                 <td>
                                     <strong style="color:var(--adm-text); display:block; font-size:13.5px;"><?= e($inq['name']) ?></strong>
@@ -293,17 +391,13 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
                                     </span>
                                 </td>
                                 <td>
-                                    <?php
-                                    $st = strtolower($inq['status'] ?? 'new');
-                                    $cls = $st === 'contacted' ? 'lead-contacted' : ($st === 'quoted' ? 'lead-quoted' : 'lead-new');
-                                    ?>
-                                    <span class="status-badge-lead <?= $cls ?>"><?= strtoupper(e($inq['status'] ?: 'NEW')) ?></span>
+                                    <span class="user-role-badge" style="<?= $badgeStyle ?>"><?= strtoupper(e(str_replace('_', ' ', $st))) ?></span>
                                 </td>
-                                <td style="font-size: 12px; color: var(--adm-muted);">
+                                <td style="font-size: 12px; color: var(--adm-muted); white-space: nowrap;">
                                     <?= date('M j, H:i', strtotime($inq['created_at'])) ?>
                                 </td>
                                 <td>
-                                    <a href="<?= url('/admin/inquiries/' . $inq['id']) ?>" class="btn btn-secondary btn-sm">Inspect</a>
+                                    <a href="<?= url('/admin/inquiries/' . $inq['id']) ?>" class="btn btn-secondary btn-sm" style="font-size: 11.5px; padding: 4px 10px;">Inspect</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -324,7 +418,14 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
         </div>
 
         <?php if (empty($activeChats)): ?>
-            <p style="color: var(--adm-muted); font-size: 13.5px; padding: 25px 0; text-align: center;">No active visitor chats right now. The Cheetah rule engine automatically handles incoming conversations.</p>
+            <div style="padding: 35px 20px; text-align: center; color: var(--adm-muted);">
+                <div style="margin-bottom: 12px; display: flex; justify-content: center;">
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color: var(--adm-muted); opacity: 0.6;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div style="font-weight: 600; color: var(--adm-text); font-size: 14px;">AI Auto-Pilot Idle</div>
+                <p style="font-size: 12.5px; margin-top: 4px; line-height: 1.5;">No active visitor chats right now. Incoming visitor inquiries will immediately stream here.</p>
+                <a href="<?= url('/admin/chat') ?>" class="btn btn-secondary btn-sm" style="margin-top: 8px;">View Past Sessions &rarr;</a>
+            </div>
         <?php else: ?>
             <div style="display: flex; flex-direction: column; gap: 10px;">
                 <?php foreach ($activeChats as $chat): ?>
@@ -346,10 +447,14 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
         <?php endif; ?>
 
         <!-- Quick System Diagnostic Badge -->
-        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--adm-line); font-size: 12px; color: var(--adm-muted); display:flex; flex-direction:column; gap:4px;">
+        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--adm-line); font-size: 12px; color: var(--adm-muted); display:flex; flex-direction:column; gap:6px;">
             <div style="display:flex; justify-content:space-between;">
                 <span>Engine Runtime:</span>
                 <strong style="color:var(--adm-text);">PHP <?= PHP_VERSION ?> (Zero Framework)</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span>Server Software:</span>
+                <span style="color:var(--adm-text);"><?= e($_SERVER['SERVER_SOFTWARE'] ?? 'PHP Development Server') ?></span>
             </div>
             <div style="display:flex; justify-content:space-between;">
                 <span>Server Time:</span>
@@ -358,3 +463,148 @@ $this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_titl
         </div>
     </div>
 </div>
+
+<!-- CRM Operations & Deliverables Grid -->
+<div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; margin-top: 24px;">
+    <!-- Active Support & Milestone Tickets -->
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h3 class="card-title">Client Support & Milestone Tickets</h3>
+                <span style="font-size: 12px; color: var(--adm-muted);"><?= (int)$openTicketsCount ?> active SLA tickets pending triage</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <a href="<?= url('/admin/crm/tickets/create') ?>" class="btn btn-secondary btn-sm">+ Open Ticket</a>
+                <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-primary btn-sm">All Tickets &rarr;</a>
+            </div>
+        </div>
+
+        <?php if (empty($recentTickets)): ?>
+            <div style="padding: 35px 20px; text-align: center; color: var(--adm-muted);">
+                <div style="font-weight: 600; color: var(--adm-text); font-size: 14px;">No active support tickets</div>
+                <p style="font-size: 12.5px; margin-top: 4px;">Bug reports, client change requests, and milestone deliverables will display here.</p>
+            </div>
+        <?php else: ?>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Ticket</th>
+                            <th>Subject</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($recentTickets as $t): ?>
+                            <?php
+                            $pColors = [
+                                'urgent' => '#ef4444',
+                                'high' => '#f97316',
+                                'medium' => '#f59e0b',
+                                'low' => '#10b981'
+                            ];
+                            $pc = $pColors[$t['priority']] ?? '#94a3b8';
+                            ?>
+                            <tr>
+                                <td>
+                                    <a href="<?= url('/admin/crm/tickets/' . $t['id']) ?>" style="font-family: monospace; font-weight: 700; color: var(--adm-accent); text-decoration: none; font-size: 12.5px;">
+                                        <?= e($t['ticket_number']) ?>
+                                    </a>
+                                </td>
+                                <td>
+                                    <strong style="color: var(--adm-text); font-size: 13px; display: block;"><?= e($t['subject']) ?></strong>
+                                    <span style="font-size: 11.5px; color: var(--adm-muted);"><?= e($t['client_name']) ?> <?= !empty($t['client_company']) ? '(' . e($t['client_company']) . ')' : '' ?></span>
+                                </td>
+                                <td>
+                                    <span style="font-size: 11px; font-weight: 700; color: <?= $pc ?>; text-transform: uppercase;">
+                                        ● <?= e($t['priority']) ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span style="font-size: 11px; padding: 2px 7px; border-radius: 6px; background: var(--adm-bg); border: 1px solid var(--adm-line);">
+                                        <?= e(str_replace('_', ' ', $t['status'])) ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="<?= url('/admin/crm/tickets/' . $t['id']) ?>" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 8px;">View</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- Client Deals & Follow-Up Reminders -->
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h3 class="card-title">Commercial Pipeline & Follow-Ups</h3>
+                <span style="font-size: 12px; color: var(--adm-muted);">Total Pipeline: $<?= number_format($totalPipelineValue, 2) ?></span>
+            </div>
+            <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary btn-sm">Clients File &rarr;</a>
+        </div>
+
+        <div style="padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+            <!-- Pipeline Quick Bar -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--adm-surface); border-radius: 8px; border: 1px solid var(--adm-line);">
+                <div>
+                    <span style="font-size: 11px; color: var(--adm-muted); text-transform: uppercase; font-weight: 600;">Active Retainers</span>
+                    <strong style="font-size: 16px; color: var(--adm-text); display: block;"><?= (int)($crmStageCounts['retained'] ?? 0) ?> Accounts</strong>
+                </div>
+                <div style="text-align: right;">
+                    <span style="font-size: 11px; color: var(--adm-muted); text-transform: uppercase; font-weight: 600;">In Execution</span>
+                    <strong style="font-size: 16px; color: #10b981; display: block;"><?= (int)($crmStageCounts['active_client'] ?? 0) ?> Clients</strong>
+                </div>
+            </div>
+
+            <!-- Follow-up tasks -->
+            <div>
+                <span style="font-size: 11.5px; font-weight: 700; color: var(--adm-text); text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 8px;">
+                    Scheduled Follow-Up Actions
+                </span>
+
+                <?php if (empty($pendingFollowUps)): ?>
+                    <p style="font-size: 12.5px; color: var(--adm-muted); margin: 0;">All scheduled client follow-ups are up to date.</p>
+                <?php else: ?>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <?php foreach (array_slice($pendingFollowUps, 0, 3) as $fu): ?>
+                            <div style="padding: 10px 12px; border-radius: 6px; background: var(--adm-bg); border: 1px solid var(--adm-line); display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong style="font-size: 12.5px; color: var(--adm-text); display: block;"><?= e($fu['title']) ?></strong>
+                                    <span style="font-size: 11px; color: #f59e0b;">Target: <?= date('M j, Y', strtotime($fu['follow_up_date'])) ?></span>
+                                </div>
+                                <a href="<?= url('/admin/crm/notes') ?>" class="btn btn-secondary btn-sm" style="font-size: 10.5px; padding: 2px 7px;">Action</a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Telemetry Tab Switcher
+    document.querySelectorAll('.telemetry-tab').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.telemetry-tab').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            const targetId = this.getAttribute('data-pane');
+            document.querySelectorAll('.telemetry-pane').forEach(p => {
+                p.style.display = 'none';
+                p.classList.remove('active');
+            });
+
+            const targetPane = document.getElementById(targetId);
+            if (targetPane) {
+                targetPane.style.display = 'block';
+                targetPane.classList.add('active');
+            }
+        });
+    });
+</script>

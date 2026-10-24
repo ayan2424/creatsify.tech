@@ -3,9 +3,9 @@
 $this->layout('layouts/admin');
 ?>
 
-<div style="display: grid; grid-template-columns: 280px 1fr <?= $activeSession ? '290px' : '' ?>; gap: 20px; height: calc(100vh - 145px);">
+<div class="chat-desk-grid <?= $activeSession ? '' : 'no-context' ?>">
     <!-- Left Pane: Conversations List -->
-    <div class="card" style="margin-bottom: 0; display: flex; flex-direction: column; padding: 0; overflow: hidden; border-radius: 16px;">
+    <div class="card chat-desk-pane chat-desk-sessions-pane">
         <div style="padding: 16px 18px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; background: var(--surface);">
             <div>
                 <h3 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0;">Live Visitor Sessions</h3>
@@ -46,7 +46,7 @@ $this->layout('layouts/admin');
     </div>
 
     <!-- Center Pane: Active Chat Room & Stream -->
-    <div class="card" style="margin-bottom: 0; display: flex; flex-direction: column; padding: 0; overflow: hidden; border-radius: 16px;">
+    <div class="card chat-desk-pane chat-desk-room-pane">
         <?php if (!$activeSession): ?>
             <div style="display: flex; align-items: center; justify-content: center; flex-grow: 1; flex-direction: column; color: var(--muted); gap: 15px; padding: 40px; text-align: center;">
                 <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(139,123,255,0.1); display: flex; align-items: center; justify-content: center; color: var(--accent);">
@@ -123,7 +123,7 @@ $this->layout('layouts/admin');
 
     <!-- Right Pane: Cheetah-Style Visitor Context Panel -->
     <?php if ($activeSession): ?>
-        <div class="card" style="margin-bottom: 0; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; border-radius: 16px; background: var(--surface);">
+        <div class="card chat-desk-pane chat-desk-context-pane" style="padding: 20px; overflow-y: auto; background: var(--surface);">
             <div style="text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
                 <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #ff4fa3); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; font-weight: 700; margin: 0 auto 10px auto;">
                     <?= strtoupper(substr($activeSession['visitor_name'], 0, 1)) ?>

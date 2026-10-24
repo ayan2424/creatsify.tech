@@ -40,9 +40,9 @@ $footerCode = setting('custom_footer_code', '');
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap" rel="stylesheet">
 
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
-    <link rel="stylesheet" href="<?= asset('css/chat.css') ?>">
-    <link rel="stylesheet" href="<?= asset('css/cinematic.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/style.css') ?>?v=2.8">
+    <link rel="stylesheet" href="<?= asset('css/chat.css') ?>?v=2.8">
+    <link rel="stylesheet" href="<?= asset('css/cinematic.css') ?>?v=2.8">
 
     <!-- Dynamic Custom Colors & Injected Code -->
     <style>
@@ -109,9 +109,9 @@ $footerCode = setting('custom_footer_code', '');
     </script>
 
     <!-- Scripts -->
-    <script src="<?= asset('js/main.js') ?>?v=2.4" defer></script>
-    <script src="<?= asset('js/chat.js') ?>?v=2.4" defer></script>
-    <script src="<?= asset('js/cinematic.js') ?>?v=2.4" defer></script>
+    <script src="<?= asset('js/main.js') ?>?v=2.7" defer></script>
+    <script src="<?= asset('js/chat.js') ?>?v=2.7" defer></script>
+    <script src="<?= asset('js/cinematic.js') ?>?v=2.7" defer></script>
 
     <?= $footerCode ?>
 </body>

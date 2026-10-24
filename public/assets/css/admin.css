@@ -2165,3 +2165,146 @@ select.form-control {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.15); opacity: 0.8; }
 }
+
+/* ==========================================================================
+   9. COMMUNICATION DESKS & INTERACTIVE REUSABLE STYLES
+   ========================================================================== */
+
+/* Communication Desks: WhatsApp & SMS */
+.comm-desk-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+  height: calc(100vh - 140px);
+  min-height: 550px;
+}
+
+.comm-desk-contacts {
+  margin-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.comm-desk-main {
+  margin-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 992px) {
+  .comm-desk-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: unset;
+    gap: 16px;
+  }
+  .comm-desk-contacts {
+    max-height: 280px;
+  }
+  .comm-desk-main {
+    min-height: 500px;
+  }
+}
+
+/* Live Chat Desk: 3-Column Adaptability */
+.chat-desk-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr 290px;
+  gap: 20px;
+  height: calc(100vh - 145px);
+  min-height: 550px;
+}
+
+.chat-desk-grid.no-context {
+  grid-template-columns: 280px 1fr;
+}
+
+.chat-desk-pane {
+  margin-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 16px !important;
+}
+
+@media (max-width: 1200px) {
+  .chat-desk-grid {
+    grid-template-columns: 260px 1fr;
+  }
+  .chat-desk-context-pane {
+    display: none !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .chat-desk-grid,
+  .chat-desk-grid.no-context {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: unset;
+    gap: 16px;
+  }
+  .chat-desk-sessions-pane {
+    max-height: 260px;
+  }
+  .chat-desk-room-pane {
+    min-height: 520px;
+  }
+}
+
+/* Reusable Password / API Key Input with Eye Toggle */
+.password-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-input-wrap .form-control {
+  padding-right: 42px !important;
+}
+
+.password-toggle-trigger {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--adm-muted);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.password-toggle-trigger:hover {
+  color: var(--adm-text);
+  background: var(--adm-surface-hover);
+}
+
+/* Telemetry Dynamic Panes Transition */
+.telemetry-pane {
+  animation: fadeInPane 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInPane {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+

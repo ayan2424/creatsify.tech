@@ -12,7 +12,7 @@ $this->layout('layouts/main');
 
 <section class="section">
     <div class="wrap">
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px;">
+        <div class="about-page-grid">
             <div style="background: var(--surface); padding: 45px; border-radius: 14px; border: 1px solid var(--line); font-size: 16px; line-height: 1.8; color: var(--muted);">
                 <h2 style="color: var(--text); font-size: 26px; margin-top: 0;">Built by Engineers, Designed for Scale</h2>
                 <p>

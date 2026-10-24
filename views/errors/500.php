@@ -9,6 +9,6 @@ $this->layout('layouts/main');
         <p style="color: var(--muted); font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
             An unexpected error occurred while processing this request. Our engineering team has been notified.
         </p>
-        <a href="/" class="btn btn-primary">Return to Homepage &rarr;</a>
+        <a href="<?= url('/') ?>" class="btn p">Return to Homepage &rarr;</a>
     </div>
 </section>
