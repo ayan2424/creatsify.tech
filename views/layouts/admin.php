@@ -12,6 +12,7 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?= csrf_token() ?>">
     <title><?= e($meta_title ?? 'Creatsify Admin Desk') ?></title>
     <link rel="icon" type="image/png" href="<?= asset('brand/favicon.png') ?>">
 
@@ -21,7 +22,7 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=DM+Sans:ital,opsz,wght@0,9..40,400..600;1,9..40,400..600&display=swap" rel="stylesheet">
 
     <!-- Lumix AI Command Center Stylesheet -->
-    <link rel="stylesheet" href="<?= asset('css/admin.css') ?>?v=3.1">
+    <link rel="stylesheet" href="<?= asset('css/admin.css') ?>?v=3.2">
 
     <!-- Theme & Sidebar State Initializer -->
     <script>
