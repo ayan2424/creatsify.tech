@@ -52,8 +52,9 @@ class MiddlewarePipeline
     private function resolveMiddleware(mixed $middleware, Request $request, callable $next): Response
     {
         if (is_string($middleware)) {
-            // Check alias map or direct class name
-            $class = $this->resolveAlias($middleware);
+            // Check alias map or direct class name. Aliases can carry route
+            // parameters, for example: role:admin,editor.
+            [$class, $parameters] = $this->resolveAlias($middleware);
             if (!class_exists($class)) {
                 if (is_callable($class)) {
                     $response = $class($request, $next);
@@ -65,7 +66,7 @@ class MiddlewarePipeline
                 if (!method_exists($instance, 'handle')) {
                     throw new \RuntimeException("Middleware {$class} must implement a handle() method.");
                 }
-                $response = $instance->handle($request, $next);
+                $response = $instance->handle($request, $next, ...$parameters);
             }
         } elseif (is_callable($middleware)) {
             $response = $middleware($request, $next);
@@ -87,10 +88,13 @@ class MiddlewarePipeline
     /**
      * Aliases for quick middleware referencing
      */
-    private function resolveAlias(string $alias): string
+    private function resolveAlias(string $alias): array
     {
         // Handle parameterized middleware like "role:admin,super_admin"
-        $name = explode(':', $alias)[0];
+        [$name, $parameterString] = array_pad(explode(':', $alias, 2), 2, '');
+        $parameters = $parameterString === ''
+            ? []
+            : array_values(array_filter(array_map('trim', explode(',', $parameterString)), static fn (string $value): bool => $value !== ''));
 
         $map = [
             'auth' => \App\Middleware\Authenticate::class,
@@ -100,6 +104,6 @@ class MiddlewarePipeline
             'demo' => \App\Middleware\DemoProtectMiddleware::class,
         ];
 
-        return $map[$name] ?? $alias;
+        return [$map[$name] ?? $name, $parameters];
     }
 }

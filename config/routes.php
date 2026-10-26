@@ -51,14 +51,16 @@ $router->post('/api/webhooks/whatsapp', [\App\Controllers\WebhookController::cla
 // --------------------------------------------------------------------------
 $router->get('/admin/login', [\App\Controllers\Admin\AuthController::class, 'showLogin']);
 $router->post('/admin/login', [\App\Controllers\Admin\AuthController::class, 'login'], ['csrf']);
-$router->get('/admin/demo-login', [\App\Controllers\Admin\AuthController::class, 'demoLogin']);
+if (env('DEMO_MODE', false) === true) {
+    $router->get('/admin/demo-login', [\App\Controllers\Admin\AuthController::class, 'demoLogin']);
+}
 $router->post('/admin/logout', [\App\Controllers\Admin\AuthController::class, 'logout'], ['csrf']);
-$router->get('/admin/logout', [\App\Controllers\Admin\AuthController::class, 'logout']);
 
 // --------------------------------------------------------------------------
 // Protected Admin Panel Desk (Requires Authenticate, CSRF & Demo Protection Middleware)
 // --------------------------------------------------------------------------
 $router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']], function (Router $r) {
+    $r->group(['middleware' => ['role:super_admin,admin']], function (Router $r) {
     // Dashboard & Live System Poll
     $r->get('/', [\App\Controllers\Admin\DashboardController::class, 'index']);
     $r->get('/poll', [\App\Controllers\Admin\DashboardController::class, 'poll']);
@@ -74,7 +76,9 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']],
     $r->post('/whatsapp/send', [\App\Controllers\Admin\WhatsAppController::class, 'send']);
     $r->get('/sms', [\App\Controllers\Admin\SmsController::class, 'index']);
     $r->post('/sms/send', [\App\Controllers\Admin\SmsController::class, 'send']);
+    });
 
+    $r->group(['middleware' => ['role:super_admin,admin,editor']], function (Router $r) {
     // Homepage Section Builder (Cheezify Architecture)
     $r->get('/sections', [\App\Controllers\Admin\SectionsController::class, 'index']);
     $r->get('/sections/{key}/edit', [\App\Controllers\Admin\SectionsController::class, 'edit']);
@@ -125,7 +129,9 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']],
     $r->post('/posts/{id}', [\App\Controllers\Admin\PostsController::class, 'update']);
     $r->post('/posts/{id}/toggle', [\App\Controllers\Admin\PostsController::class, 'toggle']);
     $r->post('/posts/{id}/delete', [\App\Controllers\Admin\PostsController::class, 'delete']);
+    });
 
+    $r->group(['middleware' => ['role:super_admin,admin']], function (Router $r) {
     // Inquiries
     $r->get('/inquiries', [\App\Controllers\Admin\InquiriesController::class, 'index']);
     $r->get('/inquiries/{id}', [\App\Controllers\Admin\InquiriesController::class, 'show']);
@@ -158,7 +164,9 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']],
     $r->post('/crm/notes/{id}/toggle-pin', [\App\Controllers\Admin\CrmController::class, 'toggleNotePin']);
     $r->post('/crm/notes/{id}/toggle-followup', [\App\Controllers\Admin\CrmController::class, 'toggleFollowUp']);
     $r->post('/crm/notes/{id}/delete', [\App\Controllers\Admin\CrmController::class, 'deleteNote']);
+    });
 
+    $r->group(['middleware' => ['role:super_admin']], function (Router $r) {
     // Users, Roles & Security Audit Logs (Cheezify Architecture)
     $r->get('/users', [\App\Controllers\Admin\UsersController::class, 'index']);
     $r->get('/users/create', [\App\Controllers\Admin\UsersController::class, 'create']);
@@ -167,14 +175,19 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']],
     $r->post('/users/{id}', [\App\Controllers\Admin\UsersController::class, 'update']);
     $r->post('/users/{id}/delete', [\App\Controllers\Admin\UsersController::class, 'delete']);
     $r->get('/audit-logs', [\App\Controllers\Admin\UsersController::class, 'auditLogs']);
+    });
 
+    $r->group(['middleware' => ['role:super_admin,admin,editor']], function (Router $r) {
     // Media Library (Cheezify Architecture)
     $r->get('/media', [\App\Controllers\Admin\MediaController::class, 'index']);
     $r->post('/media/upload', [\App\Controllers\Admin\MediaController::class, 'upload']);
     $r->post('/media/{id}/delete', [\App\Controllers\Admin\MediaController::class, 'delete']);
+    });
 
+    $r->group(['middleware' => ['role:super_admin']], function (Router $r) {
     // Platform Settings, Theme Customizer & Custom Code
     $r->get('/settings', [\App\Controllers\Admin\SettingsController::class, 'index']);
     $r->post('/settings', [\App\Controllers\Admin\SettingsController::class, 'update']);
     $r->post('/settings/test-email', [\App\Controllers\Admin\SettingsController::class, 'testEmail']);
+    });
 });

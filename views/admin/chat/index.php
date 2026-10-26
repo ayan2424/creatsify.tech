@@ -207,7 +207,11 @@ $this->layout('layouts/admin');
 
             fetch(replyUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                },
                 body: JSON.stringify({
                     session_id: sessionId,
                     message: msg

@@ -492,7 +492,7 @@
                             <span class="input-icon-left">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                             </span>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="ayan@creatsify.tech" required autofocus>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="admin@youragency.com" required autofocus>
                         </div>
                     </div>
 
@@ -517,13 +517,15 @@
                 </form>
             </div>
 
-            <div class="demo-box">
-                <p class="demo-box-hint">Evaluating for license purchase or commercial audit?</p>
-                <a href="<?= url('/admin/demo-login') ?>" class="btn-demo">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                    <span>1-Click Super Admin Instant Evaluation</span>
-                </a>
-            </div>
+            <?php if (env('DEMO_MODE', false) === true): ?>
+                <div class="demo-box">
+                    <p class="demo-box-hint">Demo access is enabled for this isolated environment.</p>
+                    <a href="<?= url('/admin/demo-login') ?>" class="btn-demo">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        <span>Open Demo Workspace</span>
+                    </a>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 

@@ -218,7 +218,7 @@ const handleFormSubmit=async(e)=>{
     budget:fd.get('budget')||'Not specified',
     message:fd.get('message')||fd.get('m')||'',
     website_url_hp:fd.get('website_url_hp')||'',
-    _token:fd.get('_token')||window.CREATSIFY_CSRF_TOKEN||''
+    _csrf_token:fd.get('_csrf_token')||window.CREATSIFY_CSRF_TOKEN||''
   };
 
   const apiUrl=window.CREATSIFY_API_URL||(window.CREATSIFY_BASE_URL?window.CREATSIFY_BASE_URL+'/api/contact':'/api/contact');
@@ -261,7 +261,10 @@ const handleFormSubmit=async(e)=>{
   }
 };
 
-$$('form').forEach(f=>f.onsubmit=handleFormSubmit);
+['#form', '#pageContactForm'].forEach(selector=>{
+  const form=$(selector);
+  if(form) form.addEventListener('submit', handleFormSubmit);
+});
 
 
 /* ==========================================================================
