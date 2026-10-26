@@ -235,23 +235,20 @@ if (!function_exists('audit_log')) {
 
 if (!function_exists('clean_phone_number')) {
     /**
-     * Normalize international phone numbers and Pakistani format:
-     * 03001234567 -> +923001234567 or 923001234567
+     * Normalize international phone numbers (E.164 compatible):
+     * Strips non-digit formatting and ensures clean standard output.
      */
     function clean_phone_number(?string $phone, bool $withPlus = false): string
     {
         if (empty($phone)) {
             return '';
         }
-        // Remove spaces, hyphens, brackets
-        $cleaned = preg_replace('/[^\d+]/', '', $phone);
+        $cleaned = preg_replace('/[^\d+]/', '', (string)$phone);
 
-        if (str_starts_with($cleaned, '03')) {
-            $cleaned = '92' . substr($cleaned, 1);
-        } elseif (str_starts_with($cleaned, '+92')) {
+        if (str_starts_with($cleaned, '+')) {
             $cleaned = substr($cleaned, 1);
-        } elseif (str_starts_with($cleaned, '+')) {
-            $cleaned = substr($cleaned, 1);
+        } elseif (str_starts_with($cleaned, '00')) {
+            $cleaned = substr($cleaned, 2);
         }
 
         return $withPlus ? '+' . $cleaned : $cleaned;
@@ -260,20 +257,45 @@ if (!function_exists('clean_phone_number')) {
 
 if (!function_exists('format_phone_display')) {
     /**
-     * Nicely format Pakistani and international phone numbers for display.
+     * Format international and national phone numbers for human display.
      */
     function format_phone_display(?string $phone): string
     {
         if (empty($phone)) {
             return '—';
         }
-        $cleaned = clean_phone_number($phone, false);
-        if (str_starts_with($cleaned, '92') && strlen($cleaned) === 12) {
-            return '+92 ' . substr($cleaned, 2, 3) . ' ' . substr($cleaned, 5);
+        $raw = trim((string)$phone);
+        if (str_starts_with($raw, '+')) {
+            return $raw;
         }
-        if (str_starts_with($cleaned, '03') && strlen($cleaned) === 11) {
-            return substr($cleaned, 0, 4) . ' ' . substr($cleaned, 4);
+        $cleaned = clean_phone_number($raw, false);
+        if (strlen($cleaned) >= 10 && strlen($cleaned) <= 15) {
+            return '+' . $cleaned;
         }
-        return $phone;
+        return $raw;
+    }
+}
+
+if (!function_exists('sanitize_html')) {
+    /**
+     * Sanitize rich-text HTML content against Stored XSS while preserving legitimate markup.
+     */
+    function sanitize_html(?string $html): string
+    {
+        if (empty($html)) {
+            return '';
+        }
+        // Allowed tags
+        $allowed = '<p><br><strong><b><em><i><u><s><h1><h2><h3><h4><h5><h6><ul><ol><li><blockquote><pre><code><a><img><hr><table><thead><tbody><tr><th><td><div><span>';
+        $cleaned = strip_tags($html, $allowed);
+
+        // Strip dangerous event attributes like onclick, onload, onerror, onmouseover, etc.
+        $cleaned = preg_replace('/\s+on\w+\s*=\s*(["\']).*?\1/is', '', $cleaned);
+        $cleaned = preg_replace('/\s+on\w+\s*=\s*[^>\s]+/is', '', $cleaned);
+
+        // Strip javascript: pseudoprotocol in links and image sources
+        $cleaned = preg_replace('/(href|src)\s*=\s*(["\'])\s*javascript:[^"\']*\2/is', '$1="#"', $cleaned);
+
+        return $cleaned;
     }
 }

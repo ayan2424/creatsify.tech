@@ -17,8 +17,10 @@ $footerCode = setting('custom_footer_code', '');
     <title><?= e($siteTitle) ?></title>
     <meta name="description" content="<?= e($siteDesc) ?>">
     <meta name="keywords" content="<?= e($siteKeywords) ?>">
-    <meta name="author" content="Muhammad Ayan Shamim">
+    <meta name="author" content="<?= e(setting('founder_name', 'Creatsify Studio')) ?>">
     <meta name="robots" content="index, follow">
+    <meta name="csrf-token" content="<?= csrf_token() ?>">
+    <link rel="canonical" href="<?= e(url(request()->getPath())) ?>">
 
     <!-- OpenGraph / Social -->
     <meta property="og:type" content="website">

@@ -44,6 +44,8 @@ class ProjectsController
         $description = trim((string)$request->input('description', ''));
         $imageUrl = trim((string)$request->input('image_url', '/assets/brand/creatsify-icon.png'));
         $liveUrl = trim((string)$request->input('live_url', ''));
+        $gumroadUrl = trim((string)$request->input('gumroad_url', ''));
+        $price = trim((string)$request->input('price', '$99'));
         $techStack = trim((string)$request->input('tech_stack', ''));
         $status = trim((string)$request->input('status', 'Shipped'));
         $sortOrder = (int)$request->input('sort_order', 0);
@@ -63,6 +65,8 @@ class ProjectsController
             'description' => $description,
             'image_url' => $imageUrl,
             'live_url' => $liveUrl,
+            'gumroad_url' => $gumroadUrl,
+            'price' => $price,
             'tech_stack' => $techStack,
             'status' => $status,
             'sort_order' => $sortOrder
@@ -105,6 +109,8 @@ class ProjectsController
         $description = trim((string)$request->input('description', ''));
         $imageUrl = trim((string)$request->input('image_url', '/assets/brand/creatsify-icon.png'));
         $liveUrl = trim((string)$request->input('live_url', ''));
+        $gumroadUrl = trim((string)$request->input('gumroad_url', ''));
+        $price = trim((string)$request->input('price', '$99'));
         $techStack = trim((string)$request->input('tech_stack', ''));
         $status = trim((string)$request->input('status', 'Shipped'));
         $sortOrder = (int)$request->input('sort_order', 0);
@@ -119,6 +125,8 @@ class ProjectsController
             'description' => $description,
             'image_url' => $imageUrl,
             'live_url' => $liveUrl,
+            'gumroad_url' => $gumroadUrl,
+            'price' => $price,
             'tech_stack' => $techStack,
             'status' => $status,
             'sort_order' => $sortOrder

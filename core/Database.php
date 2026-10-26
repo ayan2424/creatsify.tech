@@ -83,6 +83,9 @@ class Database
 
     public function insert(string $table, array $data): int|string
     {
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $table)) {
+            throw new \InvalidArgumentException("Invalid table name: {$table}");
+        }
         $keys = array_keys($data);
         $fields = implode(', ', array_map(fn($k) => "`$k`", $keys));
         $placeholders = implode(', ', array_map(fn($k) => ":$k", $keys));
@@ -94,6 +97,13 @@ class Database
 
     public function update(string $table, array $data, string $where, array $whereParams = []): int
     {
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $table)) {
+            throw new \InvalidArgumentException("Invalid table name: {$table}");
+        }
+        $cleanWhere = trim($where);
+        if ($cleanWhere === '') {
+            throw new \InvalidArgumentException("UPDATE query rejected: WHERE clause cannot be empty.");
+        }
         $setClauses = [];
         $params = [];
         foreach ($data as $key => $val) {
@@ -101,7 +111,7 @@ class Database
             $params["set_$key"] = $val;
         }
         $setString = implode(', ', $setClauses);
-        $sql = "UPDATE `{$table}` SET {$setString} WHERE {$where}";
+        $sql = "UPDATE `{$table}` SET {$setString} WHERE {$cleanWhere}";
         $stmt = $this->getPdo()->prepare($sql);
         $stmt->execute(array_merge($params, $whereParams));
         return $stmt->rowCount();
@@ -109,7 +119,14 @@ class Database
 
     public function delete(string $table, string $where, array $whereParams = []): int
     {
-        $sql = "DELETE FROM `{$table}` WHERE {$where}";
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $table)) {
+            throw new \InvalidArgumentException("Invalid table name: {$table}");
+        }
+        $cleanWhere = trim($where);
+        if ($cleanWhere === '') {
+            throw new \InvalidArgumentException("DELETE query rejected: WHERE clause cannot be empty.");
+        }
+        $sql = "DELETE FROM `{$table}` WHERE {$cleanWhere}";
         $stmt = $this->getPdo()->prepare($sql);
         $stmt->execute($whereParams);
         return $stmt->rowCount();

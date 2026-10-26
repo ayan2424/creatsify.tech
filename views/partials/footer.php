@@ -8,8 +8,8 @@ $icon = asset(setting('site_icon', 'brand/creatsify-icon.png'));
     <div class="wrap">
         <div class="ft">
             <div style="display:flex;gap:12px;align-items:center">
-                <img id="femb" src="<?= e($icon) ?>" width="42" height="42" alt="Creatsify emblem">
-                <span>© <?= date('Y') ?> Creatsify · creatsify.tech · Karachi, Pakistan</span>
+                <img id="femb" src="<?= e($icon) ?>" width="42" height="42" alt="<?= e(setting('site_name', 'Creatsify')) ?> emblem">
+                <span>&copy; <?= date('Y') ?> <?= e(setting('site_name', 'Creatsify')) ?> &bull; <?= e(setting('site_domain', $_SERVER['HTTP_HOST'] ?? 'creatsify.tech')) ?> &bull; <?= e(setting('site_location', 'Engineering Studio')) ?></span>
             </div>
             <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
                 <a href="<?= url('/portfolio') ?>">Work</a>
@@ -17,6 +17,7 @@ $icon = asset(setting('site_icon', 'brand/creatsify-icon.png'));
                 <a href="<?= url('/team') ?>">Team</a>
                 <a href="<?= url('/about') ?>">About</a>
                 <a href="<?= url('/blog') ?>">Blog</a>
+                <a href="<?= url('/support') ?>">Script Support</a>
                 <a href="<?= url('/admin/login') ?>">Admin</a>
                 <a class="btn" href="#top">Back to top ↑</a>
             </div>

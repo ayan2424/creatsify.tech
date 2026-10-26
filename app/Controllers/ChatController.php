@@ -53,7 +53,9 @@ class ChatController
             $dispatcher = new NotificationDispatcher();
             $dispatcher->dispatchChatHandoff($session, $message);
 
-            $reply = "I've flagged this conversation for **Muhammad Ayan Shamim** directly on the Admin Desk and WhatsApp. An engineer will respond here shortly. You can also email us directly at ayan@creatsify.tech or submit an inquiry.";
+            $founder = setting('founder_name', 'our engineering team');
+            $siteMail = setting('site_email', 'support@' . ($_SERVER['HTTP_HOST'] ?? 'example.com'));
+            $reply = "I've flagged this conversation for **{$founder}** directly on the Admin Desk. An engineer will respond here shortly. You can also reach us directly at {$siteMail} or submit a project inquiry.";
             ChatMessage::add((int)$session['id'], 'bot', 'Creatsify AI', $reply);
 
             return Response::json([
@@ -172,12 +174,12 @@ class ChatController
 
         // Pricing and quote inquiries
         if (str_contains($m, 'price') || str_contains($m, 'cost') || str_contains($m, 'quote') || str_contains($m, 'rate') || str_contains($m, 'budget')) {
-            return "Our pricing depends on your project scope. Pre-built software licenses (such as Cheetah editions or RestroMaster) start from marketplace rates on Codester and Coderobotics. For custom full-stack web or mobile builds, we provide transparent milestone-based contracts. Would you like to share your project details?";
+            return "Our pricing depends on your project scope. Pre-built software licenses (such as Cheetah editions or RestroMaster) can be purchased directly via our official Gumroad store with instant download and direct in-house technical support. For custom full-stack web or mobile builds, we provide transparent milestone-based contracts. Would you like to share your project details?";
         }
 
         // Founder and studio background
         if (str_contains($m, 'founder') || str_contains($m, 'ayan') || str_contains($m, 'who are you') || str_contains($m, 'about')) {
-            return "**Creatsify** is founded by **Muhammad Ayan Shamim**, an AI software engineer and distinction holder from Aptech Karachi. We design and ship production-grade web systems, mobile apps, and marketplace software used globally.";
+            return "**Creatsify** is founded by **Muhammad Ayan Shamim**, an AI software engineer and distinction holder from Aptech Karachi. We design and ship production-grade web systems, mobile apps, and white-label commercial software used globally.";
         }
 
         // Location / Karachi

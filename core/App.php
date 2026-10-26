@@ -183,11 +183,11 @@ class App
             echo "<h2>Database Connection Required</h2>";
             echo "<p>Creatsify Studio cannot connect to MySQL with the current configuration.<br>Error: <code>" . htmlspecialchars($e->getMessage()) . "</code></p>";
             echo "<div style='background:#090a10;border:1px solid #252736;padding:18px;border-radius:10px;'>";
-            echo "<strong style='color:#8b7bff;display:block;margin-bottom:10px;'>Quick Fix for aaPanel / Production Server:</strong>";
+            echo "<strong style='color:#8b7bff;display:block;margin-bottom:10px;'>Server Setup & Configuration:</strong>";
             echo "<ol>";
-            echo "<li>Open <strong>aaPanel &rarr; Databases</strong> to view your database name, username, and password.</li>";
-            echo "<li>In <strong>aaPanel &rarr; Files</strong>, edit <code>/www/wwwroot/creatsify.tech/.env</code> and put your real credentials into <code>DB_DATABASE</code>, <code>DB_USERNAME</code>, and <code>DB_PASSWORD</code>.</li>";
-            echo "<li>Or run the 1-Click Installer to set everything up automatically:</li>";
+            echo "<li>Check your hosting control panel or database administration tool to verify database name, username, and password.</li>";
+            echo "<li>Ensure your project <code>.env</code> file contains valid credentials for <code>DB_DATABASE</code>, <code>DB_USERNAME</code>, and <code>DB_PASSWORD</code>.</li>";
+            echo "<li>Alternatively, launch the web installer to automatically test credentials and migrate tables:</li>";
             echo "</ol>";
             echo "<a href='/install.php' class='btn'>Launch 1-Click Web Installer &rarr;</a>";
             echo "</div></div></body></html>";

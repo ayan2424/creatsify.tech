@@ -7,6 +7,11 @@
 
 declare(strict_types=1);
 
+if (php_sapi_name() !== 'cli') {
+    http_response_code(403);
+    die("Direct web access denied. Run via command line: php seed-demo.php\n");
+}
+
 $baseDir = file_exists(__DIR__ . '/core/App.php') ? __DIR__ : dirname(__DIR__);
 
 echo "========================================\n";

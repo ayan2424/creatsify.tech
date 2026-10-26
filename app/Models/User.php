@@ -17,6 +17,11 @@ class User
         return db()->fetchOne("SELECT * FROM `users` WHERE `email` = :email LIMIT 1", ['email' => $email]);
     }
 
+    public static function findByRole(string $role): ?array
+    {
+        return db()->fetchOne("SELECT * FROM `users` WHERE `role` = :role ORDER BY `id` ASC LIMIT 1", ['role' => $role]);
+    }
+
     public static function all(): array
     {
         return db()->fetchAll("SELECT id, name, email, role, phone, status, created_at FROM `users` ORDER BY id DESC");

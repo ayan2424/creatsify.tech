@@ -40,12 +40,24 @@ $this->layout('layouts/admin');
 
         <div class="form-row">
             <div class="form-group">
-                <label for="client">Client / Market</label>
-                <input type="text" id="client" name="client" class="form-control" placeholder="Logistics Operators">
+                <label for="live_url">Live Demo URL</label>
+                <input type="text" id="live_url" name="live_url" class="form-control" placeholder="https://cheetah.ayan24.me">
             </div>
             <div class="form-group">
-                <label for="live_url">Live URL / Marketplace Link</label>
-                <input type="text" id="live_url" name="live_url" class="form-control" placeholder="https://creatsify.tech">
+                <label for="gumroad_url">Gumroad Purchase URL (Direct Buy)</label>
+                <input type="text" id="gumroad_url" name="gumroad_url" class="form-control" placeholder="https://gumroad.com/l/cheetah-courier">
+                <small style="color:var(--muted);font-size:11.5px;margin-top:4px;display:block;">Direct license purchase checkout link on Gumroad.</small>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="price">Script Price (USD)</label>
+                <input type="text" id="price" name="price" class="form-control" placeholder="$99" value="$99">
+            </div>
+            <div class="form-group">
+                <label for="client">Client / Target Industry</label>
+                <input type="text" id="client" name="client" class="form-control" placeholder="Logistics Operators, Courier Startups">
             </div>
         </div>
 

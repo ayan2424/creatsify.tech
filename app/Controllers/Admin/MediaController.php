@@ -49,6 +49,43 @@ class MediaController
             return Response::redirect('/admin/media');
         }
 
+        // Detect real MIME type via finfo
+        $realMime = 'application/octet-stream';
+        if (function_exists('finfo_open')) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $detected = finfo_file($finfo, $file['tmp_name']);
+            if ($detected) {
+                $realMime = $detected;
+            }
+            finfo_close($finfo);
+        } elseif (function_exists('mime_content_type')) {
+            $realMime = mime_content_type($file['tmp_name']) ?: 'application/octet-stream';
+        }
+
+        // SVG Security Sanitization (Stored XSS Prevention)
+        if ($ext === 'svg' || str_contains($realMime, 'svg') || str_contains($realMime, 'xml')) {
+            $svgContent = file_get_contents($file['tmp_name']) ?: '';
+            $disallowedPatterns = [
+                '/<script\b[^>]*>/i',
+                '/<iframe\b[^>]*>/i',
+                '/<embed\b[^>]*>/i',
+                '/<object\b[^>]*>/i',
+                '/<!ENTITY\b/i',
+                '/\bon\w+\s*=/i', // Matches onclick, onload, onerror, etc.
+                '/href=["\']\s*javascript:/i',
+                '/xlink:href=["\']\s*javascript:/i'
+            ];
+            foreach ($disallowedPatterns as $pattern) {
+                if (preg_match($pattern, $svgContent)) {
+                    if ($request->isAjax()) {
+                        return Response::json(['success' => false, 'error' => 'SVG file contains prohibited scripts or tags.'], 422);
+                    }
+                    flash('error', 'Malicious SVG code detected. Upload rejected.');
+                    return Response::redirect('/admin/media');
+                }
+            }
+        }
+
         $newFileName = time() . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
         $destPath = $uploadDir . '/' . $newFileName;
 
@@ -57,7 +94,7 @@ class MediaController
             $id = Media::create([
                 'filename' => $newFileName,
                 'original_name' => $originalName,
-                'mime_type' => $file['type'] ?? 'application/octet-stream',
+                'mime_type' => $realMime,
                 'file_size' => $file['size'],
                 'path' => $webPath
             ]);

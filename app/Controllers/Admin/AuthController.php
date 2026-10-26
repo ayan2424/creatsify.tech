@@ -56,13 +56,29 @@ class AuthController
     }
 
     /**
-     * 1-Click Demo Login for marketplace buyers/evaluators
+     * 1-Click Demo Login for marketplace buyers/evaluators (Gated by DEMO_MODE)
      */
     public function demoLogin(Request $request): Response
     {
-        $superAdmin = User::findByEmail('ayan@creatsify.tech');
+        $isDemo = env('DEMO_MODE', false) === true 
+            || env('APP_ENV', '') === 'development' 
+            || env('APP_ENV', '') === 'local' 
+            || env('APP_DEBUG', false) === true;
+
+        if (!$isDemo) {
+            flash('error', 'Demo access is disabled on this server.');
+            return Response::redirect('/admin/login');
+        }
+
+        $superAdmin = User::findByRole('super_admin');
+        if (is_array($superAdmin) && isset($superAdmin[0])) {
+            $superAdmin = $superAdmin[0];
+        }
         if (!$superAdmin) {
-            // Fallback to first user in system
+            $defaultEmail = setting('site_email', 'admin@example.com');
+            $superAdmin = User::findByEmail($defaultEmail);
+        }
+        if (!$superAdmin) {
             $users = User::all();
             $superAdmin = $users[0] ?? null;
         }

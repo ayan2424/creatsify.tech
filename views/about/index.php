@@ -16,7 +16,7 @@ $this->layout('layouts/main');
             <div style="background: var(--surface); padding: 45px; border-radius: 14px; border: 1px solid var(--line); font-size: 16px; line-height: 1.8; color: var(--muted);">
                 <h2 style="color: var(--text); font-size: 26px; margin-top: 0;">Built by Engineers, Designed for Scale</h2>
                 <p>
-                    Creatsify was founded by <strong>Muhammad Ayan Shamim</strong>, an AI software engineer and distinction holder from the prestigious ACCP program at Aptech, Karachi. Frustrated by the sluggish performance and vulnerability overhead of heavy off-the-shelf platforms, we build software grounded in clean architecture, normalized relational schemas, and direct execution speed.
+                    <?= e(setting('site_name', 'Creatsify')) ?> was founded by <strong><?= e(setting('founder_name', 'Muhammad Ayan Shamim')) ?></strong>, a software engineer specializing in scalable application architectures. Frustrated by the sluggish performance and vulnerability overhead of heavy off-the-shelf platforms, we build software grounded in clean architecture, normalized relational schemas, and direct execution speed.
                 </p>
 
                 <h3 style="color: var(--text); font-size: 20px; margin-top: 35px;">Our Philosophy</h3>
@@ -28,17 +28,17 @@ $this->layout('layouts/main');
 
                 <h3 style="color: var(--text); font-size: 20px; margin-top: 35px;">Global Reach</h3>
                 <p>
-                    Our software products are licensed across top marketplaces including Coderobotics, Codester, and CodeGrape. We also work one-on-one with enterprise clients across North America, the UK, the Middle East, and Pakistan.
+                    Our white-label software products are licensed directly through our official Gumroad store with 100% source code ownership and direct in-house technical support. We also partner one-on-one with enterprise clients across North America, the UK, the Middle East, and Pakistan.
                 </p>
             </div>
 
             <div>
                 <div style="background: var(--surface); padding: 35px; border-radius: 14px; border: 1px solid var(--line); text-align: center;">
-                    <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Muhammad Ayan Shamim" width="96" height="96" style="border-radius: 50%; border: 2px solid var(--accent); margin-bottom: 20px;">
+                    <img src="<?= asset(setting('founder_avatar', 'brand/creatsify-icon.png')) ?>" alt="<?= e(setting('founder_name', 'Founder')) ?>" width="96" height="96" style="border-radius: 50%; border: 2px solid var(--accent); margin-bottom: 20px;">
                     <h3 style="margin: 0; color: var(--text); font-size: 20px;"><?= e(setting('founder_name', 'Muhammad Ayan Shamim')) ?></h3>
                     <p style="color: var(--accent); font-size: 14px; margin: 5px 0 20px;"><?= e(setting('founder_title', 'Founder & Lead Architect')) ?></p>
                     <p style="color: var(--muted); font-size: 14px; line-height: 1.6; text-align: left;">
-                        Studies AI at Aptech Karachi. Specializes in custom PHP MVC cores, Laravel architectures, Flutter mobile apps, and high-throughput databases.
+                        <?= e(setting('founder_bio', 'Specializes in custom PHP MVC cores, high-performance web systems, Flutter mobile applications, and relational database architecture.')) ?>
                     </p>
 
                     <div style="margin-top: 25px; display: flex; flex-direction: column; gap: 10px;">

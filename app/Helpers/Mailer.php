@@ -23,8 +23,9 @@ class Mailer
         $this->username   = (string)setting('smtp_user', '');
         $this->password   = (string)setting('smtp_pass', '');
         $this->encryption = strtolower((string)setting('smtp_encryption', 'tls'));
-        $this->fromEmail  = (string)setting('smtp_from_email', 'noreply@creatsify.tech');
-        $this->fromName   = (string)setting('smtp_from_name', 'Creatsify Studio');
+        $defaultHost = $_SERVER['HTTP_HOST'] ?? 'example.com';
+        $this->fromEmail  = (string)setting('smtp_from_email', setting('site_email', 'noreply@' . $defaultHost));
+        $this->fromName   = (string)setting('smtp_from_name', setting('site_name', 'Software Studio'));
     }
 
     /**

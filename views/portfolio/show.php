@@ -74,18 +74,42 @@ if (empty($img) || str_contains($img, 'creatsify-icon.png')) {
                             <strong style="color: var(--text); display: block; margin-bottom: 4px;">Category:</strong>
                             <?= ucfirst(e($project['category'])) ?>
                         </div>
+                        <?php if (!empty($project['price'])): ?>
+                            <div>
+                                <strong style="color: var(--text); display: block; margin-bottom: 4px;">License Price:</strong>
+                                <span style="font-size: 16px; font-weight: 700; color: var(--adm-green, #00e599);"><?= e($project['price']) ?></span>
+                                <span style="font-size: 12px; color: var(--muted);">(100% Source Code & White-Label)</span>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($project['gumroad_url'])): ?>
+                            <div style="margin-top: 14px;">
+                                <a href="<?= e($project['gumroad_url']) ?>" target="_blank" rel="noopener" class="btn p" style="width: 100%; text-align: center; justify-content: center; background: linear-gradient(135deg, #ff5f38, #ff4fa3); border:none; box-shadow: 0 6px 20px rgba(255,95,56,0.35); font-weight:700;">
+                                    ⚡ Buy License on Gumroad (<?= e($project['price'] ?: '$99') ?>) &rarr;
+                                </a>
+                            </div>
+                        <?php endif; ?>
+
                         <?php if (!empty($project['live_url'])): ?>
-                            <div style="margin-top: 12px;">
-                                <a href="<?= e($project['live_url']) ?>" target="_blank" rel="noopener" class="btn p" style="width: 100%; text-align: center; justify-content: center;">Visit Live Product &rarr;</a>
+                            <div style="margin-top: 10px;">
+                                <a href="<?= e($project['live_url']) ?>" target="_blank" rel="noopener" class="btn" style="width: 100%; text-align: center; justify-content: center;">View Live Demo &nearr;</a>
                             </div>
                         <?php endif; ?>
                     </div>
                 </div>
 
+                <!-- Dedicated In-House Script & Buyer Support Card -->
                 <div style="margin-top: 25px; background: linear-gradient(135deg, rgba(139,123,255,0.12), rgba(255,79,163,0.06)); padding: 30px; border-radius: 16px; border: 1px solid var(--line);">
-                    <h4 style="margin-top: 0; color: var(--text);">Want a similar platform?</h4>
-                    <p style="font-size: 14px; color: var(--muted); margin: 10px 0 20px; line-height: 1.6;">We can deploy or customize this software for your business.</p>
-                    <a href="<?= url('/contact') ?>" class="btn" style="width: 100%; text-align: center; justify-content: center;">Inquire now</a>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+                        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--adm-green, #00e599); box-shadow:0 0 8px var(--adm-green, #00e599);"></span>
+                        <h4 style="margin: 0; color: var(--text);">In-House Script Support</h4>
+                    </div>
+                    <p style="font-size: 13.5px; color: var(--muted); margin: 0 0 18px; line-height: 1.6;">
+                        Purchased this software on Gumroad? Our engineering team provides direct setup, aaPanel/Nginx configuration, and ticketed support right here.
+                    </p>
+                    <a href="<?= url('/support?script=' . urlencode($project['title'])) ?>" class="btn" style="width: 100%; text-align: center; justify-content: center; font-size:13px; font-weight:600;">
+                        Open Script Support Ticket &rarr;
+                    </a>
                 </div>
             </div>
         </div>

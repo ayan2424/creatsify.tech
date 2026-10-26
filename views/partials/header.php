@@ -17,6 +17,7 @@ $currentPath = request()->getPath();
             <a href="<?= url('/team') ?>" class="<?= str_starts_with($currentPath, '/team') ? 'act' : '' ?>">Team</a>
             <a href="<?= url('/about') ?>" class="<?= str_starts_with($currentPath, '/about') ? 'act' : '' ?>">About</a>
             <a href="<?= url('/blog') ?>" class="<?= str_starts_with($currentPath, '/blog') ? 'act' : '' ?>">Blog</a>
+            <a href="<?= url('/support') ?>" class="<?= str_starts_with($currentPath, '/support') ? 'act' : '' ?>">Support</a>
             <a href="<?= url('/contact') ?>" class="<?= str_starts_with($currentPath, '/contact') ? 'act' : '' ?>">Contact</a>
         </nav>
         <button class="btn icon sound-toggle-btn" id="soundToggle" type="button" aria-label="Toggle sound effects" title="Toggle sound effects">
@@ -75,6 +76,11 @@ $currentPath = request()->getPath();
             <span>Technical Blog</span>
             <span class="mobile-link-arrow">&rarr;</span>
         </a>
+        <a href="<?= url('/support') ?>" class="mobile-link <?= str_starts_with($currentPath, '/support') ? 'act' : '' ?>">
+            <span>Script Support Desk</span>
+            <span class="mobile-link-arrow">&rarr;</span>
+        </a>
+
         <a href="<?= url('/contact') ?>" class="mobile-link <?= str_starts_with($currentPath, '/contact') ? 'act' : '' ?>">
             <span>Contact & Quotations</span>
             <span class="mobile-link-arrow">&rarr;</span>

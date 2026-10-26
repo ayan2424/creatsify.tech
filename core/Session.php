@@ -12,10 +12,17 @@ class Session
     public function __construct()
     {
         if (session_status() === PHP_SESSION_NONE) {
+            $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+                || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https')
+                || (($_SERVER['SERVER_PORT'] ?? 80) == 443);
+
             ini_set('session.use_only_cookies', '1');
             ini_set('session.use_strict_mode', '1');
             ini_set('session.cookie_httponly', '1');
             ini_set('session.cookie_samesite', 'Lax');
+            if ($isHttps) {
+                ini_set('session.cookie_secure', '1');
+            }
 
             session_start();
         }
@@ -62,7 +69,9 @@ class Session
 
     public function regenerate(): void
     {
-        session_regenerate_id(true);
+        if (!headers_sent() && session_status() === PHP_SESSION_ACTIVE) {
+            @session_regenerate_id(true);
+        }
     }
 
     public function destroy(): void

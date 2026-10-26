@@ -32,6 +32,10 @@ $projectsJson = array_map(function($p) {
         $links[] = ['Live demo', $p['live_url']];
     }
     $links[] = ['Case study', url('/portfolio/' . $p['slug'])];
+    if (!empty($p['gumroad_url'])) {
+        $priceTag = !empty($p['price']) ? ' (' . $p['price'] . ')' : '';
+        $links[] = ['Buy on Gumroad' . $priceTag, $p['gumroad_url']];
+    }
     
     $img = $p['image_url'] ?? '';
     if (empty($img) || str_contains($img, 'creatsify-icon.png')) {
@@ -75,26 +79,24 @@ $projectsJson = array_map(function($p) {
         <a class="btn" href="#contact">Get a quote</a>
     </div>
     <div class="trust-wrap hf" style="--d:.8s">
-        <span class="trust-label">Verified & Endorsed On Commercial Marketplaces</span>
+        <span class="trust-label">Official Store on Gumroad &bull; Instant Software Delivery</span>
         <div class="trust-badges">
             <div class="trust-badge">
                 <span class="trust-star" style="display:inline-flex; align-items:center; gap:4px;">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 5.0
                 </span>
-                <b>CodeGrape</b>
-                <span class="trust-sub">Elite Author</span>
-            </div>
-            <div class="trust-badge">
-                <span class="trust-star" style="display:inline-flex; align-items:center; gap:4px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 5.0
-                </span>
-                <b>Coderobotics</b>
-                <span class="trust-sub">Featured Studio</span>
+                <b>Gumroad Store</b>
+                <span class="trust-sub">Instant Delivery</span>
             </div>
             <div class="trust-badge">
                 <span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
-                <b>Codester</b>
-                <span class="trust-sub">Verified Vendor</span>
+                <b>100% White-Label</b>
+                <span class="trust-sub">Full Source Code</span>
+            </div>
+            <div class="trust-badge">
+                <span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>
+                <b>In-House Support</b>
+                <span class="trust-sub">Direct Ticket Desk</span>
             </div>
             <div class="trust-badge highlight">
                 <span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>
@@ -130,7 +132,7 @@ $projectsJson = array_map(function($p) {
 <div class="wrap" style="margin-top:64px"><div class="stats rv s">
     <div><b data-n="10">10+</b><span>Commercial Products Shipped</span></div>
     <div><b data-n="78">78</b><span>Normalized DB Tables (Cheetah Flagship)</span></div>
-    <div><b data-n="5">5+</b><span>Global Software Marketplaces</span></div>
+    <div><b data-n="100">100%</b><span>White-Label Source Ownership</span></div>
     <div><b data-n="99">99.9%</b><span>Production Reliability & Fast MVC</span></div>
 </div></div>
 
@@ -244,8 +246,8 @@ $projectsJson = array_map(function($p) {
 <section id="about"><div class="wrap split">
     <div>
         <div class="idx rv">04 · Studio & Founder</div>
-        <h2 data-split class="sp"><?= e($about['title'] ?? 'Built by Muhammad Ayan Shamim') ?></h2>
-        <p class="sub rv" style="--d:.2s"><?= e(setting('founder_bio', 'Ayan is the founder of Creatsify. He studies AI in the ACCP program at Aptech, Karachi, and builds and sells real software: web platforms, mobile apps, desktop tools and WordPress stores.')) ?></p>
+        <h2 data-split class="sp"><?= e($about['title'] ?? ('Built by ' . setting('founder_name', 'Creatsify Team'))) ?></h2>
+        <p class="sub rv" style="--d:.2s"><?= e(setting('founder_bio', 'Specializing in custom PHP MVC cores, high-performance web systems, Flutter mobile applications, and relational database architecture.')) ?></p>
         <div class="row rv" style="margin-top:26px;--d:.3s">
             <a class="btn" href="<?= e(setting('founder_github', 'https://github.com/ayan2424')) ?>" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a class="btn" href="<?= e(setting('founder_linkedin', 'https://linkedin.com/in/muhammadayanshamim')) ?>" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -253,16 +255,16 @@ $projectsJson = array_map(function($p) {
         <div class="bdg rv s" style="--d:.4s">
             <svg viewBox="0 0 200 200" aria-hidden="true">
                 <defs><path id="cp" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
-                <text><textPath href="#cp" textLength="495" lengthAdjust="spacing"><?= e($aboutMeta['badge'] ?? 'CREATSIFY • KARACHI • BUILD • SHIP • GROW • ') ?></textPath></text>
+                <text><textPath href="#cp" textLength="495" lengthAdjust="spacing"><?= e($aboutMeta['badge'] ?? (strtoupper(setting('site_name', 'CREATSIFY')) . ' • BUILD • SHIP • GROW • ')) ?></textPath></text>
             </svg>
             <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify emblem">
         </div>
     </div>
     <ul class="facts">
         <li class="rv r"><b>Full-stack web</b><span>PHP, Laravel, Python, React, MySQL</span></li>
-        <li class="rv r" style="--d:.1s"><b>Mobile and desktop</b><span>Flutter apps and an Electron browser</span></li>
-        <li class="rv r" style="--d:.2s"><b>WordPress and e-commerce</b><span>Elementor and WooCommerce stores</span></li>
-        <li class="rv r" style="--d:.3s"><b>Education</b><span>Distinction in the first semester at Aptech</span></li>
+        <li class="rv r" style="--d:.1s"><b>Mobile and desktop</b><span>Flutter apps and native systems</span></li>
+        <li class="rv r" style="--d:.2s"><b>Architecture</b><span>Zero-bloat high-throughput MVC architectures</span></li>
+        <li class="rv r" style="--d:.3s"><b>Commercial</b><span>Proven marketplace and enterprise deliveries</span></li>
     </ul>
 </div>
 <!-- Live Studio CLI Terminal -->
@@ -274,15 +276,15 @@ $projectsJson = array_map(function($p) {
                 <span class="d-yellow"></span>
                 <span class="d-green"></span>
             </div>
-            <div class="terminal-title">creatsify-cli · v2.5 (zsh)</div>
-            <div class="terminal-status">LIVE NODE (Karachi)</div>
+            <div class="terminal-title"><?= e(setting('site_slug', 'studio')) ?>-cli &bull; v2.8 (zsh)</div>
+            <div class="terminal-status">LIVE NODE (<?= e(setting('server_region', 'Production')) ?>)</div>
         </div>
         <div class="terminal-body" id="termOutput">
-            <div class="term-line accent">Creatsify Interactive Studio CLI [Version 2.5.0-production]</div>
+            <div class="term-line accent"><?= e(setting('site_name', 'Creatsify')) ?> Interactive Studio CLI [Version 2.8.0-production]</div>
             <div class="term-line system">Type <b>help</b> or press <b>Tab</b> to autocomplete commands. Click quick action buttons below.</div>
         </div>
         <div class="terminal-input-row" style="padding: 10px 18px; background: rgba(0,0,0,0.3); border-top: 1px solid var(--line);">
-            <span class="term-prompt">ayan@creatsify:~$</span>
+            <span class="term-prompt"><?= e(setting('cli_prompt', 'guest@studio:~$')) ?></span>
             <input type="text" id="termInput" class="terminal-input" placeholder="type 'help', 'cheetah', 'team', 'matrix'..." autocomplete="off" spellcheck="false">
         </div>
         <div class="term-quick-cmds">
@@ -519,7 +521,7 @@ $projectsJson = array_map(function($p) {
                 <div class="review-avatar-fallback">MK</div>
                 <div class="review-meta">
                     <b>Marcus Keller</b>
-                    <span>Software Director, CodeGrape Licensee</span>
+                    <span>Software Director, Commercial Licensee</span>
                     <span class="review-verified-badge" style="display:inline-flex; align-items:center; gap:5px;">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                         <span>Verified Commercial Licensee</span>
@@ -578,12 +580,17 @@ $projectsJson = array_map(function($p) {
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
                     </span>
                     <div>
-                        <b>Fast-Track WhatsApp Consultation</b>
-                        <span>Connect directly with Founder Muhammad Ayan Shamim</span>
+                        <b>Fast-Track Direct Consultation</b>
+                        <span>Connect directly with Founder <?= e(setting('founder_name', 'Lead Architect')) ?></span>
                     </div>
                 </div>
-                <a href="https://wa.me/923002521199?text=Hello%20Ayan,%20I%20would%20like%20to%20discuss%20a%20software%20project%20with%20Creatsify" target="_blank" rel="noopener" class="wa-chat-btn">
-                    <span>Chat on WhatsApp (+92 300 2521199)</span> &rarr;
+                <?php
+                $waPhone = clean_phone_number(setting('whatsapp_number', setting('site_phone', '923002521199')), false);
+                $waMsg = urlencode("Hello, I would like to discuss a software project with " . setting('site_name', 'Creatsify Studio'));
+                $displayPhone = format_phone_display(setting('site_phone', '+92 300 2521199'));
+                ?>
+                <a href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener" class="wa-chat-btn">
+                    <span>Chat on WhatsApp (<?= e($displayPhone) ?>)</span> &rarr;
                 </a>
             </div>
 

@@ -27,13 +27,17 @@ $router->group(['middleware' => ['analytics']], function (Router $r) {
     $r->get('/blog', [\App\Controllers\BlogController::class, 'index']);
     $r->get('/blog/{slug}', [\App\Controllers\BlogController::class, 'show']);
     $r->get('/contact', [\App\Controllers\ContactController::class, 'index']);
-    $r->post('/contact', [\App\Controllers\ContactController::class, 'submit']);
+    $r->post('/contact', [\App\Controllers\ContactController::class, 'submit'], ['csrf']);
+    $r->get('/support', [\App\Controllers\SupportController::class, 'index']);
+    $r->post('/support', [\App\Controllers\SupportController::class, 'submit'], ['csrf']);
+    $r->get('/sitemap.xml', [\App\Controllers\SitemapController::class, 'index']);
 });
 
 // --------------------------------------------------------------------------
 // Public API Endpoints (Chat Engine, Contact AJAX, Meta Webhooks)
 // --------------------------------------------------------------------------
 $router->post('/api/contact', [\App\Controllers\ContactController::class, 'submit']);
+$router->post('/api/support', [\App\Controllers\SupportController::class, 'submit']);
 $router->post('/api/chat/send', [\App\Controllers\ChatController::class, 'send']);
 $router->get('/api/chat/messages', [\App\Controllers\ChatController::class, 'messages']);
 $router->get('/api/chat/poll', [\App\Controllers\ChatController::class, 'poll']);
@@ -46,15 +50,15 @@ $router->post('/api/webhooks/whatsapp', [\App\Controllers\WebhookController::cla
 // Admin Authentication Routes
 // --------------------------------------------------------------------------
 $router->get('/admin/login', [\App\Controllers\Admin\AuthController::class, 'showLogin']);
-$router->post('/admin/login', [\App\Controllers\Admin\AuthController::class, 'login']);
+$router->post('/admin/login', [\App\Controllers\Admin\AuthController::class, 'login'], ['csrf']);
 $router->get('/admin/demo-login', [\App\Controllers\Admin\AuthController::class, 'demoLogin']);
-$router->post('/admin/logout', [\App\Controllers\Admin\AuthController::class, 'logout']);
+$router->post('/admin/logout', [\App\Controllers\Admin\AuthController::class, 'logout'], ['csrf']);
 $router->get('/admin/logout', [\App\Controllers\Admin\AuthController::class, 'logout']);
 
 // --------------------------------------------------------------------------
-// Protected Admin Panel Desk (Requires Authenticate Middleware)
+// Protected Admin Panel Desk (Requires Authenticate, CSRF & Demo Protection Middleware)
 // --------------------------------------------------------------------------
-$router->group(['prefix' => '/admin', 'middleware' => ['auth']], function (Router $r) {
+$router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']], function (Router $r) {
     // Dashboard & Live System Poll
     $r->get('/', [\App\Controllers\Admin\DashboardController::class, 'index']);
     $r->get('/poll', [\App\Controllers\Admin\DashboardController::class, 'poll']);

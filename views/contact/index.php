@@ -22,6 +22,7 @@ $this->layout('layouts/main');
 
             <form action="<?= url('/contact') ?>" method="POST" class="contact-form" id="pageContactForm">
                 <?= csrf_field() ?>
+                <input type="text" name="_hp_check" value="" style="display:none!important;" tabindex="-1" autocomplete="off" aria-hidden="true">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="p_name">Your Name</label>
@@ -36,7 +37,7 @@ $this->layout('layouts/main');
                 <div class="form-row">
                     <div class="form-group">
                         <label for="p_phone">Phone / WhatsApp (Optional)</label>
-                        <input type="text" id="p_phone" name="phone" placeholder="+92 300 1234567">
+                        <input type="text" id="p_phone" name="phone" placeholder="+1 (555) 000-0000">
                     </div>
                     <div class="form-group">
                         <label for="p_type">Project Type</label>

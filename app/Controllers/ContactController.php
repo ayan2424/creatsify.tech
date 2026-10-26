@@ -15,14 +15,26 @@ class ContactController
     public function index(Request $request): Response
     {
         return view('contact/index', [
-            'meta_title' => 'Contact Creatsify | Start Your Project',
-            'meta_desc' => 'Tell us what you want to build. Get in direct contact with founder Muhammad Ayan Shamim.'
+            'meta_title' => 'Contact ' . setting('site_name', 'Creatsify') . ' | Start Your Project',
+            'meta_desc' => 'Tell us what you want to build. Get in direct contact with our engineering leadership.'
         ]);
     }
 
     public function submit(Request $request): Response
     {
         $isApi = $request->isAjax() || str_starts_with($request->getPath(), '/api');
+
+        // Anti-Spam Honeypot Check
+        $honeypot = trim((string)$request->input('_hp_check', ''));
+        if (!empty($honeypot)) {
+            // Silently drop bot submission
+            if ($isApi) {
+                return Response::json(['success' => true, 'message' => 'Thank you for reaching out!']);
+            }
+            flash('success', 'Thank you for reaching out! We will contact you shortly.');
+            return Response::redirect('/contact');
+        }
+
         $name = trim((string)$request->input('name', $request->input('n', '')));
         $email = trim((string)$request->input('email', $request->input('e', '')));
         $phone = trim((string)$request->input('phone', $request->input('p', '')));

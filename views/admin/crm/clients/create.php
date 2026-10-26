@@ -83,7 +83,7 @@
                     <option value="Website Inquiry">Website Inquiry</option>
                     <option value="WhatsApp Inbound">WhatsApp Inbound</option>
                     <option value="Direct Live Chat">Direct Live Chat</option>
-                    <option value="Marketplace License (CodeGrape)">Marketplace License (CodeGrape)</option>
+                    <option value="Gumroad Direct Store">Gumroad Direct Store</option>
                     <option value="Client Referral">Client Referral</option>
                     <option value="Direct Outreach">Direct Outreach</option>
                 </select>

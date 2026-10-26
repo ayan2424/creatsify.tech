@@ -96,9 +96,17 @@ class CrmClient
 
     public static function delete(int $id): int
     {
-        db()->delete('crm_notes', '`client_id` = :id', ['id' => $id]);
-        db()->update('crm_tickets', ['client_id' => null], '`client_id` = :id', ['id' => $id]);
-        return db()->delete('crm_clients', '`id` = :id', ['id' => $id]);
+        try {
+            db()->beginTransaction();
+            db()->delete('crm_notes', '`client_id` = :id', ['id' => $id]);
+            db()->update('crm_tickets', ['client_id' => null], '`client_id` = :id', ['id' => $id]);
+            $res = db()->delete('crm_clients', '`id` = :id', ['id' => $id]);
+            db()->commit();
+            return $res;
+        } catch (\Throwable $e) {
+            db()->rollback();
+            throw $e;
+        }
     }
 
     public static function getTickets(int $clientId): array

@@ -2,7 +2,7 @@
 
 /**
  * Creatsify Studio - 1-Click Graphical Web Installer
- * Designed for marketplace buyers (Codester / Coderobotics) and automated hosting setup.
+ * Designed for Gumroad buyers and white-label script operators and automated hosting setup.
  */
 
 declare(strict_types=1);
@@ -72,10 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $adminName = trim($_POST['admin_name'] ?? 'Muhammad Ayan Shamim');
-        $adminEmail = trim($_POST['admin_email'] ?? 'ayan@creatsify.tech');
-        $adminPass = (string)($_POST['admin_password'] ?? 'admin123');
-        $siteTitle = trim($_POST['site_title'] ?? 'Creatsify — Full-stack web, mobile and AI studio');
+        $adminName = trim($_POST['admin_name'] ?? 'Admin User');
+        $adminEmail = trim($_POST['admin_email'] ?? 'admin@example.com');
+        $adminPass = (string)($_POST['admin_password'] ?? '');
+        $siteTitle = trim($_POST['site_title'] ?? 'Studio — Web & Mobile Solutions');
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') ? 'https://' : 'http://';
         $siteUrl = rtrim($_POST['site_url'] ?? ($protocol . ($_SERVER['HTTP_HOST'] ?? 'localhost')), '/');
 
@@ -117,7 +117,8 @@ APP_NAME="{$siteTitle}"
 APP_ENV=production
 APP_DEBUG=false
 APP_URL="{$siteUrl}"
-APP_TIMEZONE="Asia/Karachi"
+APP_TIMEZONE="UTC"
+DEMO_MODE=false
 
 DB_CONNECTION={$dbConfig['driver']}
 DB_HOST={$dbConfig['host']}
@@ -151,6 +152,8 @@ $reqs = [
     'OpenSSL Extension' => extension_loaded('openssl'),
     'cURL Extension' => extension_loaded('curl'),
     'mbstring Extension' => extension_loaded('mbstring'),
+    'Fileinfo Extension' => extension_loaded('fileinfo'),
+    'GD / Image Extension' => extension_loaded('gd'),
     'JSON Extension' => extension_loaded('json'),
     'storage/ Writable' => is_writable($baseDir . '/storage') || is_writable($baseDir)
 ];
@@ -266,25 +269,25 @@ $allPassed = !in_array(false, $reqs, true);
             <form action="install.php?step=3" method="POST">
                 <div class="form-group">
                     <label>Studio / Website Title</label>
-                    <input type="text" name="site_title" value="Creatsify — Full-stack web, mobile and AI development studio" required>
+                    <input type="text" name="site_title" value="Creatsify Studio — Full-Stack Web & AI Applications" placeholder="Your Agency / Studio Name" required>
                 </div>
                 <div class="form-group">
                     <label>Website URL</label>
                     <?php $defaultProto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') ? 'https://' : 'http://'; ?>
-                    <input type="text" name="site_url" value="<?= $defaultProto . htmlspecialchars($_SERVER['HTTP_HOST'] ?? 'creatsify.tech') ?>" required>
+                    <input type="text" name="site_url" value="<?= $defaultProto . htmlspecialchars($_SERVER['HTTP_HOST'] ?? 'localhost') ?>" required>
                 </div>
                 <div class="form-group">
                     <label>Super Admin Full Name</label>
-                    <input type="text" name="admin_name" value="Muhammad Ayan Shamim" required>
+                    <input type="text" name="admin_name" value="Admin User" placeholder="Full Name" required>
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
                     <div class="form-group">
                         <label>Admin Email</label>
-                        <input type="email" name="admin_email" value="ayan@creatsify.tech" required>
+                        <input type="email" name="admin_email" value="admin@example.com" placeholder="admin@domain.com" required>
                     </div>
                     <div class="form-group">
                         <label>Admin Password</label>
-                        <input type="password" name="admin_password" value="admin123" required>
+                        <input type="password" name="admin_password" placeholder="Create strong password" required>
                     </div>
                 </div>
                 <button type="submit" class="btn">Run Migration & Finish Setup &rarr;</button>

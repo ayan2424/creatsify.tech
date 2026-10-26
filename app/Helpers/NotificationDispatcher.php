@@ -59,9 +59,11 @@ class NotificationDispatcher
         }
 
         // 4. Email Alert to Admin
-        $adminEmail = (string)setting('site_email', 'ayan@creatsify.tech');
+        $defaultHost = $_SERVER['HTTP_HOST'] ?? 'example.com';
+        $adminEmail = (string)setting('site_email', 'admin@' . $defaultHost);
+        $siteName = (string)setting('site_name', 'Creatsify Studio');
         if (!empty($adminEmail)) {
-            $html = "<p>A new prospective client submitted a project inquiry on <strong>creatsify.tech</strong>.</p>"
+            $html = "<p>A new prospective client submitted a project inquiry on <strong>" . e($siteName) . "</strong>.</p>"
                   . "<table style='width: 100%; border-collapse: collapse; margin: 20px 0;'>"
                   . "<tr><td style='padding: 8px; font-weight: bold;'>Name:</td><td style='padding: 8px;'>{$name}</td></tr>"
                   . "<tr><td style='padding: 8px; font-weight: bold;'>Email:</td><td style='padding: 8px;'><a href='mailto:{$email}'>{$email}</a></td></tr>"
@@ -97,6 +99,41 @@ class NotificationDispatcher
                     . "• Visitor: {$name}\n"
                     . "• Question: \"{$latestMessage}\"\n\n"
                     . "» *Take over live chat:* " . url('/admin/chat');
+            $this->whatsApp->sendMessage($adminWaPhone, $waText);
+        }
+    }
+
+    /**
+     * Dispatch script support ticket alert across channels
+     */
+    public function dispatchScriptSupport(array $ticket, array $client): void
+    {
+        $ticketNumber = $ticket['ticket_number'] ?? 'TCK-NEW';
+        $name = $client['name'] ?? 'Buyer';
+        $email = $client['email'] ?? '';
+        $subject = $ticket['subject'] ?? 'Script Support';
+        $script = $ticket['script_name'] ?? 'Software Script';
+        $orderId = $ticket['order_id'] ?? 'N/A';
+        $link = '/admin/crm/tickets/' . ($ticket['id'] ?? '');
+
+        // 1. In-App Notification
+        $this->recordInApp(
+            'ticket_created',
+            "New Script Support Ticket #{$ticketNumber}",
+            "{$name} ({$email}) submitted support request for {$script} (Order: {$orderId}).",
+            $link
+        );
+
+        // 2. WhatsApp Alert to Admin
+        $adminWaPhone = (string)setting('wa_admin_notification_phone', '');
+        if (!empty($adminWaPhone)) {
+            $waText = "🛠️ *New Creatsify Script Support Ticket!*\n\n"
+                    . "• *Ticket:* #{$ticketNumber}\n"
+                    . "• *Software:* {$script}\n"
+                    . "• *Buyer:* {$name} ({$email})\n"
+                    . "• *Gumroad Order:* {$orderId}\n"
+                    . "• *Subject:* {$subject}\n\n"
+                    . "» *Open Admin Desk:* " . url($link);
             $this->whatsApp->sendMessage($adminWaPhone, $waText);
         }
     }

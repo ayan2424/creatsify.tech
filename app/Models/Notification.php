@@ -24,6 +24,13 @@ class Notification
         db()->query("UPDATE `notifications` SET `is_read` = 1 WHERE `is_read` = 0");
     }
 
+    public static function create(array $data): int
+    {
+        $data['created_at'] = $data['created_at'] ?? date('Y-m-d H:i:s');
+        $data['is_read'] = $data['is_read'] ?? 0;
+        return (int)db()->insert('notifications', $data);
+    }
+
     public static function all(int $limit = 50): array
     {
         return db()->fetchAll("SELECT * FROM `notifications` ORDER BY `created_at` DESC LIMIT {$limit}");

@@ -55,6 +55,16 @@ class Response
         return $this->statusCode;
     }
 
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    public function getHeader(string $name): ?string
+    {
+        return $this->headers[$name] ?? null;
+    }
+
     public function getContent(): string
     {
         return $this->content;

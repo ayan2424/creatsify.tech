@@ -92,14 +92,28 @@ class CrmTicket
         return $counts;
     }
 
+    public static function ensureSchema(): void
+    {
+        static $checked = false;
+        if ($checked) return;
+        $checked = true;
+        try {
+            db()->query("ALTER TABLE `crm_tickets` MODIFY COLUMN `category` VARCHAR(60) NOT NULL DEFAULT 'maintenance'");
+        } catch (\Throwable $e) {
+            // Ignore if already updated or no permission
+        }
+    }
+
     public static function generateTicketNumber(): string
     {
+        self::ensureSchema();
         $lastId = (int)db()->fetchValue("SELECT MAX(`id`) FROM `crm_tickets`");
         return 'TCK-' . (1000 + $lastId + 1);
     }
 
     public static function create(array $data): int
     {
+        self::ensureSchema();
         if (empty($data['ticket_number'])) {
             $data['ticket_number'] = self::generateTicketNumber();
         }

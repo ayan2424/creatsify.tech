@@ -97,6 +97,7 @@ class MiddlewarePipeline
             'role' => \App\Middleware\RoleMiddleware::class,
             'csrf' => \App\Middleware\CsrfMiddleware::class,
             'analytics' => \App\Middleware\AnalyticsMiddleware::class,
+            'demo' => \App\Middleware\DemoProtectMiddleware::class,
         ];
 
         return $map[$name] ?? $alias;

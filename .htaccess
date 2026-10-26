@@ -1,5 +1,10 @@
 <IfModule mod_rewrite.c>
+    Options -Indexes
     RewriteEngine On
+
+    # Block access to hidden files and sensitive directories
+    RewriteRule ^(\.env|\.git|storage|database|app|core|config|views|composer\.(json|lock)) - [F,L,NC]
+
     RewriteRule ^$ public/ [L]
     RewriteRule (.*) public/$1 [L]
 </IfModule>

@@ -34,8 +34,24 @@ class Setting
 
     public static function bulkUpdate(array $data, string $group = 'general'): void
     {
-        foreach ($data as $key => $val) {
-            self::set($key, $val, $group);
+        try {
+            db()->beginTransaction();
+            $checkStmt = db()->getPdo()->prepare("SELECT `id` FROM `settings` WHERE `key` = :k LIMIT 1");
+            $updateStmt = db()->getPdo()->prepare("UPDATE `settings` SET `value` = :v, `group_name` = :g WHERE `key` = :k");
+            $insertStmt = db()->getPdo()->prepare("INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES (:k, :v, :g)");
+
+            foreach ($data as $key => $val) {
+                $checkStmt->execute(['k' => $key]);
+                if ($checkStmt->fetch()) {
+                    $updateStmt->execute(['v' => (string)$val, 'g' => $group, 'k' => $key]);
+                } else {
+                    $insertStmt->execute(['k' => $key, 'v' => (string)$val, 'g' => $group]);
+                }
+            }
+            db()->commit();
+        } catch (\Throwable $e) {
+            db()->rollback();
+            throw $e;
         }
     }
 }
