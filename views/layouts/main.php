@@ -111,7 +111,7 @@ $footerCode = setting('custom_footer_code', '');
     </script>
 
     <!-- Scripts -->
-    <script src="<?= asset('js/main.js') ?>?v=2.7" defer></script>
+    <script src="<?= asset('js/main.js') ?>?v=2.8" defer></script>
     <script src="<?= asset('js/chat.js') ?>?v=2.7" defer></script>
     <script src="<?= asset('js/cinematic.js') ?>?v=2.7" defer></script>
 

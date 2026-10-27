@@ -36,8 +36,8 @@ $router->group(['middleware' => ['analytics']], function (Router $r) {
 // --------------------------------------------------------------------------
 // Public API Endpoints (Chat Engine, Contact AJAX, Meta Webhooks)
 // --------------------------------------------------------------------------
-$router->post('/api/contact', [\App\Controllers\ContactController::class, 'submit']);
-$router->post('/api/support', [\App\Controllers\SupportController::class, 'submit']);
+$router->post('/api/contact', [\App\Controllers\ContactController::class, 'submit'], ['csrf']);
+$router->post('/api/support', [\App\Controllers\SupportController::class, 'submit'], ['csrf']);
 $router->post('/api/chat/send', [\App\Controllers\ChatController::class, 'send']);
 $router->get('/api/chat/messages', [\App\Controllers\ChatController::class, 'messages']);
 $router->get('/api/chat/poll', [\App\Controllers\ChatController::class, 'poll']);

@@ -127,6 +127,7 @@ class CrmClient
 
     public static function createFromInquiry(int $inquiryId): int
     {
+        Inquiry::ensureColumnsExist();
         $inquiry = db()->fetchOne("SELECT * FROM `inquiries` WHERE `id` = :id LIMIT 1", ['id' => $inquiryId]);
         if (!$inquiry) {
             return 0;
@@ -146,14 +147,14 @@ class CrmClient
             'email' => $inquiry['email'],
             'phone' => $inquiry['phone'] ?? null,
             'whatsapp' => !empty($inquiry['phone']) ? clean_phone_number($inquiry['phone'], false) : null,
-            'company' => null,
+            'company' => $inquiry['company'] ?? null,
             'stage' => 'lead',
             'deal_value' => (float)preg_replace('/[^0-9.]/', '', $inquiry['budget'] ?? '0'),
             'currency' => 'USD',
             'source' => 'Website Inquiry #' . $inquiry['id'],
             'inquiry_id' => $inquiry['id'],
             'tags' => $inquiry['project_type'] ?? 'General',
-            'notes_summary' => "Imported from web inquiry. Client Message: " . $inquiry['message']
+            'notes_summary' => "Imported from web inquiry. Intent: " . ($inquiry['inquiry_kind'] ?? 'general') . ". Timeline: " . ($inquiry['timeline'] ?? 'Not specified') . ". Client Message: " . $inquiry['message']
         ]);
 
         // Add initial note
@@ -164,7 +165,7 @@ class CrmClient
             'author_name' => auth()['name'] ?? 'Super Admin',
             'type' => 'note',
             'title' => 'Inquiry Converted to CRM Lead',
-            'content' => "Original Inquiry Details:\nProject Focus: " . ($inquiry['project_type'] ?? 'N/A') . "\nBudget: " . ($inquiry['budget'] ?? 'N/A') . "\nMessage: " . $inquiry['message'],
+            'content' => "Original Inquiry Details:\nIntent: " . ($inquiry['inquiry_kind'] ?? 'N/A') . "\nProject Focus: " . ($inquiry['project_type'] ?? 'N/A') . "\nTimeline: " . ($inquiry['timeline'] ?? 'N/A') . "\nBudget: " . ($inquiry['budget'] ?? 'N/A') . "\nMessage: " . $inquiry['message'],
             'is_pinned' => 1
         ]);
 

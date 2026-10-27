@@ -5,7 +5,7 @@ $this->layout('layouts/main');
 $hero = $sections['hero'] ?? [];
 $heroMeta = $hero['metadata'] ?? [];
 $rotatingWords = $heroMeta['rotating_words'] ?? ['courier companies', 'online stores', 'learning platforms', 'media brands', 'startups', 'restaurant chains'];
-$heroChips = $heroMeta['chips'] ?? ['7 role portals in Cheetah', 'Sold on 4 marketplaces', '10 products shipped'];
+$heroChips = $heroMeta['chips'] ?? ['7 role portals in Cheetah', 'Direct software licensing', 'Agency delivery team'];
 
 $cheetah = $sections['cheetah_showcase'] ?? [];
 $cheetahMeta = $cheetah['metadata'] ?? [];
@@ -74,12 +74,13 @@ $projectsJson = array_map(function($p) {
     <div class="pill hf"><i></i>Full-stack studio · Karachi, Pakistan</div>
     <h1><span class="ln"><span class="ch" style="--i:0"><?= e($hero['title'] ?? 'We build software') ?></span></span><span class="ln"><span class="ch" style="--i:1">for <span class="rot grad" id="rot"><?= e($rotatingWords[0] ?? 'courier companies') ?></span></span></span></h1>
     <p class="lead hf" style="--d:.5s"><?= e($hero['content'] ?? 'From idea to a live product. We build courier platforms, online stores, learning tools and apps that real businesses can run on.') ?></p>
-    <div class="row hf" style="--d:.65s">
-        <a class="btn p" href="#work">See our work <span aria-hidden="true">→</span></a>
-        <a class="btn" href="#contact">Get a quote</a>
+    <div class="row hf" style="--d:.65s;flex-wrap:wrap">
+        <a class="btn p" href="<?= url('/contact') ?>">Start a project <span aria-hidden="true">→</span></a>
+        <a class="btn" href="<?= url('/portfolio') ?>">Explore ready software</a>
+        <a class="hero-support-link" href="<?= url('/support') ?>">Already a customer? Get help &rarr;</a>
     </div>
     <div class="trust-wrap hf" style="--d:.8s">
-        <span class="trust-label">Official Store on Gumroad &bull; Instant Software Delivery</span>
+        <span class="trust-label">Direct software licensing &bull; Custom agency delivery &bull; First-party support</span>
         <div class="trust-badges">
             <div class="trust-badge">
                 <span class="trust-star" style="display:inline-flex; align-items:center; gap:4px;">
@@ -119,6 +120,29 @@ $projectsJson = array_map(function($p) {
     <div class="ly c2" data-d="44"><span class="chipi" style="animation-delay:1.4s"><i></i><?= e($heroChips[2] ?? '10 products shipped') ?></span></div>
 </div></div>
 </div><div class="sc" aria-hidden="true"></div></section>
+
+<section class="home-routes"><div class="wrap">
+    <div class="home-route-grid rv">
+        <a class="home-route" href="<?= url('/contact?kind=custom_service') ?>">
+            <span class="section-tag">01 · New work</span>
+            <h2>Build something custom.</h2>
+            <p>Bring us a product idea, service requirement, campaign, workflow, or ongoing delivery need.</p>
+            <b>Start a project brief &rarr;</b>
+        </a>
+        <a class="home-route" href="<?= url('/portfolio') ?>">
+            <span class="section-tag">02 · Ready software</span>
+            <h2>Start from a proven system.</h2>
+            <p>Explore commercial software, live demos, case studies, direct licensing, and implementation options.</p>
+            <b>Browse the software catalog &rarr;</b>
+        </a>
+        <a class="home-route home-route-support" href="<?= url('/support') ?>">
+            <span class="section-tag">03 · Existing customers</span>
+            <h2>Get support with a ticket.</h2>
+            <p>For active agency work, maintenance, delivery, a license, deployment, billing, or a technical issue.</p>
+            <b>Open customer support &rarr;</b>
+        </a>
+    </div>
+</div></section>
 
 <!-- Tech Stack Infinite Marquee with Edge Masking -->
 <div class="mq-wrapper">
@@ -195,13 +219,34 @@ $projectsJson = array_map(function($p) {
     </div>
 </div></section>
 
+<?php if (!empty($services)): ?>
+<section class="service-bridge"><div class="wrap">
+    <div class="top">
+        <div class="idx rv">02 · Agency Services</div>
+        <h2 data-split class="sp">A team behind the software.</h2>
+        <p class="sub rv" style="--d:.2s">Alongside our products, our agency team takes on focused work with clear ownership, practical milestones, and accountable delivery.</p>
+    </div>
+    <div class="home-service-grid rv" style="--d:.25s">
+        <?php foreach (array_slice($services, 0, 3) as $service): ?>
+            <article class="home-service-card">
+                <span class="section-tag"><?= e($service['category'] ?? 'Agency service') ?></span>
+                <h3><?= e($service['title']) ?></h3>
+                <p><?= e($service['short_description'] ?? $service['description'] ?? '') ?></p>
+                <a href="<?= url('/contact?kind=custom_service&offering=' . urlencode($service['title'])) ?>">Discuss this service &rarr;</a>
+            </article>
+        <?php endforeach; ?>
+    </div>
+    <a class="btn" href="<?= url('/services') ?>">View all services &rarr;</a>
+</div></section>
+<?php endif; ?>
+
 <!-- Featured Work Section with Card Parallax & Smooth Stacking -->
 <section id="work"><div class="wrap">
     <div class="top">
         <div>
-            <div class="idx rv">02 · Featured Work</div>
-            <h2 data-split class="sp">Featured flagship builds</h2>
-            <p class="sub rv" style="--d:.2s">Real production platforms we engineered, shipped, and commercialize globally.</p>
+            <div class="idx rv">03 · Ready-Made Software</div>
+            <h2 data-split class="sp">Flagship systems, ready to explore.</h2>
+            <p class="sub rv" style="--d:.2s">Review production platforms, case studies, direct licensing, and implementation possibilities.</p>
         </div>
     </div>
     <div class="pjs" id="pjs"></div>
@@ -264,7 +309,7 @@ $projectsJson = array_map(function($p) {
         <li class="rv r"><b>Full-stack web</b><span>PHP, Laravel, Python, React, MySQL</span></li>
         <li class="rv r" style="--d:.1s"><b>Mobile and desktop</b><span>Flutter apps and native systems</span></li>
         <li class="rv r" style="--d:.2s"><b>Architecture</b><span>Zero-bloat high-throughput MVC architectures</span></li>
-        <li class="rv r" style="--d:.3s"><b>Commercial</b><span>Proven marketplace and enterprise deliveries</span></li>
+        <li class="rv r" style="--d:.3s"><b>Commercial</b><span>Direct software licensing and enterprise delivery</span></li>
     </ul>
 </div>
 <!-- Live Studio CLI Terminal -->
@@ -471,12 +516,12 @@ $projectsJson = array_map(function($p) {
     </div>
 </div></section>
 
-<!-- Client Reviews & Marketplace Endorsements -->
+<!-- Client Reviews & Direct Customer Endorsements -->
 <section id="reviews" class="section-reviews alt"><div class="wrap">
     <div class="top">
         <div class="idx rv">07 · Client Endorsements</div>
         <h2 data-split class="sp">Verified buyer reviews & client proof</h2>
-        <p class="sub rv" style="--d:.2s">What logistics operators, marketplace licensees, and product founders say about our architecture and code quality.</p>
+        <p class="sub rv" style="--d:.2s">What logistics operators, direct software customers, and product founders say about our architecture and code quality.</p>
     </div>
 
     <div class="reviews-grid">
@@ -505,7 +550,7 @@ $projectsJson = array_map(function($p) {
             </div>
         </div>
 
-        <!-- Review 2: Marketplace Commercial Buyer -->
+        <!-- Review 2: Commercial Software Buyer -->
         <div class="review-card rv" style="--d:.2s;">
             <div>
                 <div class="review-stars" style="display:flex; gap:3px; color:#f59e0b; margin-bottom:12px;">
@@ -568,9 +613,9 @@ $projectsJson = array_map(function($p) {
 <!-- Contact Section with Direct Form -->
 <section id="contact" class="alt"><div class="wrap split">
     <div>
-        <div class="idx rv">08 · Direct Line & Quotation</div>
+        <div class="idx rv">08 · New Work & Quotations</div>
         <h2 data-split class="sp"><?= e($sections['contact']['title'] ?? 'Tell us what you want to build') ?></h2>
-        <p class="sub rv" style="--d:.2s">Send a direct message or quotation request. We dispatch real-time notifications to founder mobile and review every architectural requirement thoroughly.</p>
+        <p class="sub rv" style="--d:.2s">Use this short brief for new work and pre-purchase questions. Existing customers can use the <a href="<?= url('/support') ?>">customer support desk</a> for a tracked ticket.</p>
 
         <!-- Direct Communication Hub -->
         <div class="contact-direct-hub rv" style="--d:.3s;">
@@ -618,8 +663,11 @@ $projectsJson = array_map(function($p) {
     </div>
     <form id="form" class="rv r" action="<?= url('/contact') ?>" method="POST">
         <?= csrf_field() ?>
+        <input type="hidden" name="inquiry_kind" value="custom_service">
+        <input type="text" name="_hp_check" value="" style="display:none!important;" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label>Your name<input name="name" required autocomplete="name" placeholder="John Doe"></label>
         <label>Your email<input name="email" type="email" required autocomplete="email" placeholder="john@example.com"></label>
+        <label>Company / brand (Optional)<input name="company" placeholder="Your company"></label>
         <label>Phone / WhatsApp (Optional)<input name="phone" type="tel" placeholder="+92 300 1234567" autocomplete="tel"></label>
         <label>Project type
             <select name="project_type">
@@ -631,7 +679,14 @@ $projectsJson = array_map(function($p) {
                 <option>AI tool</option>
             </select>
         </label>
+        <label>Timeline (Optional)
+            <select name="timeline"><option value="">Not sure yet</option><option>As soon as possible</option><option>Within 1 month</option><option>1–3 months</option><option>3+ months / ongoing</option></select>
+        </label>
         <label>Message & Specifications<textarea name="message" rows="5" required placeholder="Describe your product idea, target users, or timeline..."></textarea></label>
         <button class="btn p" type="submit" style="width:100%;font-weight:700;">Send inquiry &rarr;</button>
     </form>
 </div></section>
+
+<style>
+.hero-support-link{align-self:center;color:var(--muted);font-size:14px;font-weight:700;text-decoration:none}.hero-support-link:hover{color:var(--accent)}.home-routes{padding:20px 0 8px}.home-route-grid,.home-service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.home-route,.home-service-card{min-height:225px;padding:26px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}.home-route{display:flex;flex-direction:column;color:var(--text);text-decoration:none;transition:transform .2s ease,border-color .2s ease}.home-route:hover{transform:translateY(-3px);border-color:var(--accent)}.home-route h2,.home-service-card h3{margin:12px 0 9px}.home-route p,.home-service-card p{margin:0;color:var(--muted);line-height:1.6}.home-route b{margin-top:auto;color:var(--accent);padding-top:18px}.home-route-support{background:linear-gradient(145deg,var(--surface),rgba(99,102,241,.11))}.service-bridge{padding:104px 0;background:linear-gradient(180deg,transparent,rgba(99,102,241,.05),transparent)}.home-service-grid{margin:32px 0 22px}.home-service-card a{display:inline-block;margin-top:20px;color:var(--accent);font-weight:700;text-decoration:none}@media(max-width:800px){.home-route-grid,.home-service-grid{grid-template-columns:1fr}.home-routes{padding-top:8px}}
+</style>

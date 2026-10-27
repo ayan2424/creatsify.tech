@@ -24,6 +24,12 @@ class HomeController
             $sections[$sec['section_key']] = $sec;
             if (!empty($sec['metadata']) && is_string($sec['metadata'])) {
                 $sections[$sec['section_key']]['metadata'] = json_decode($sec['metadata'], true) ?: [];
+                if ($sec['section_key'] === 'hero' && !empty($sections[$sec['section_key']]['metadata']['chips'])) {
+                    $sections[$sec['section_key']]['metadata']['chips'] = array_map(
+                        static fn ($chip) => str_contains(strtolower((string)$chip), 'marketplace') ? 'Direct software licensing' : $chip,
+                        $sections[$sec['section_key']]['metadata']['chips']
+                    );
+                }
             }
         }
 

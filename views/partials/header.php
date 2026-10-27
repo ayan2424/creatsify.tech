@@ -12,12 +12,12 @@ $currentPath = request()->getPath();
         </a>
         <nav id="nav">
             <a href="<?= url('/') ?>" class="<?= $currentPath === '/' ? 'act' : '' ?>">Home</a>
-            <a href="<?= url('/portfolio') ?>" class="<?= str_starts_with($currentPath, '/portfolio') ? 'act' : '' ?>">Work</a>
+            <a href="<?= url('/portfolio') ?>" class="<?= str_starts_with($currentPath, '/portfolio') ? 'act' : '' ?>">Software</a>
             <a href="<?= url('/services') ?>" class="<?= str_starts_with($currentPath, '/services') ? 'act' : '' ?>">Services</a>
             <a href="<?= url('/team') ?>" class="<?= str_starts_with($currentPath, '/team') ? 'act' : '' ?>">Team</a>
             <a href="<?= url('/about') ?>" class="<?= str_starts_with($currentPath, '/about') ? 'act' : '' ?>">About</a>
             <a href="<?= url('/blog') ?>" class="<?= str_starts_with($currentPath, '/blog') ? 'act' : '' ?>">Blog</a>
-            <a href="<?= url('/support') ?>" class="<?= str_starts_with($currentPath, '/support') ? 'act' : '' ?>">Support</a>
+            <a href="<?= url('/support') ?>" class="<?= str_starts_with($currentPath, '/support') ? 'act' : '' ?>">Customer Support</a>
             <a href="<?= url('/contact') ?>" class="<?= str_starts_with($currentPath, '/contact') ? 'act' : '' ?>">Contact</a>
         </nav>
         <button class="btn icon sound-toggle-btn" id="soundToggle" type="button" aria-label="Toggle sound effects" title="Toggle sound effects">
@@ -57,7 +57,7 @@ $currentPath = request()->getPath();
             <span class="mobile-link-arrow">&rarr;</span>
         </a>
         <a href="<?= url('/portfolio') ?>" class="mobile-link <?= str_starts_with($currentPath, '/portfolio') ? 'act' : '' ?>">
-            <span>Work & Showcase</span>
+            <span>Software & Case Studies</span>
             <span class="mobile-link-arrow">&rarr;</span>
         </a>
         <a href="<?= url('/services') ?>" class="mobile-link <?= str_starts_with($currentPath, '/services') ? 'act' : '' ?>">
@@ -77,7 +77,7 @@ $currentPath = request()->getPath();
             <span class="mobile-link-arrow">&rarr;</span>
         </a>
         <a href="<?= url('/support') ?>" class="mobile-link <?= str_starts_with($currentPath, '/support') ? 'act' : '' ?>">
-            <span>Script Support Desk</span>
+            <span>Customer Support Desk</span>
             <span class="mobile-link-arrow">&rarr;</span>
         </a>
 

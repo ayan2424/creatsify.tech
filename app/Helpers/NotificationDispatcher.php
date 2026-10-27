@@ -29,6 +29,9 @@ class NotificationDispatcher
         $phone = $inquiry['phone'] ?? 'Not provided';
         $projectType = $inquiry['project_type'] ?? 'General';
         $message = $inquiry['message'] ?? '';
+        $company = $inquiry['company'] ?? '';
+        $timeline = $inquiry['timeline'] ?? '';
+        $inquiryKind = $inquiry['inquiry_kind'] ?? 'general';
 
         // 1. In-App Notification
         $this->recordInApp(
@@ -65,10 +68,13 @@ class NotificationDispatcher
         if (!empty($adminEmail)) {
             $html = "<p>A new prospective client submitted a project inquiry on <strong>" . e($siteName) . "</strong>.</p>"
                   . "<table style='width: 100%; border-collapse: collapse; margin: 20px 0;'>"
-                  . "<tr><td style='padding: 8px; font-weight: bold;'>Name:</td><td style='padding: 8px;'>{$name}</td></tr>"
-                  . "<tr><td style='padding: 8px; font-weight: bold;'>Email:</td><td style='padding: 8px;'><a href='mailto:{$email}'>{$email}</a></td></tr>"
-                  . "<tr><td style='padding: 8px; font-weight: bold;'>Phone:</td><td style='padding: 8px;'>{$phone}</td></tr>"
-                  . "<tr><td style='padding: 8px; font-weight: bold;'>Project Type:</td><td style='padding: 8px;'>{$projectType}</td></tr>"
+                  . "<tr><td style='padding: 8px; font-weight: bold;'>Name:</td><td style='padding: 8px;'>" . e($name) . "</td></tr>"
+                  . "<tr><td style='padding: 8px; font-weight: bold;'>Email:</td><td style='padding: 8px;'><a href='mailto:" . e($email) . "'>" . e($email) . "</a></td></tr>"
+                  . "<tr><td style='padding: 8px; font-weight: bold;'>Phone:</td><td style='padding: 8px;'>" . e($phone) . "</td></tr>"
+                  . "<tr><td style='padding: 8px; font-weight: bold;'>Company:</td><td style='padding: 8px;'>" . e($company ?: 'Not provided') . "</td></tr>"
+                  . "<tr><td style='padding: 8px; font-weight: bold;'>Inquiry type:</td><td style='padding: 8px;'>" . e($inquiryKind) . "</td></tr>"
+                  . "<tr><td style='padding: 8px; font-weight: bold;'>Project Type:</td><td style='padding: 8px;'>" . e($projectType) . "</td></tr>"
+                  . "<tr><td style='padding: 8px; font-weight: bold;'>Timeline:</td><td style='padding: 8px;'>" . e($timeline ?: 'Not specified') . "</td></tr>"
                   . "<tr><td style='padding: 8px; font-weight: bold;'>Message:</td><td style='padding: 8px;'>" . nl2br(e($message)) . "</td></tr>"
                   . "</table>"
                   . "<p><a href='" . url('/admin/inquiries') . "' style='display:inline-block; padding: 12px 24px; background: #8b7bff; color: #fff; text-decoration: none; border-radius: 6px;'>View in Admin Panel</a></p>";
@@ -108,33 +114,60 @@ class NotificationDispatcher
      */
     public function dispatchScriptSupport(array $ticket, array $client): void
     {
+        $this->dispatchSupportTicket([
+            'id' => $ticket['id'] ?? null,
+            'ticket_number' => $ticket['ticket_number'] ?? 'TCK-NEW',
+            'subject' => $ticket['subject'] ?? 'Script Support',
+            'support_type' => 'Purchased software technical support',
+            'offering_name' => $ticket['script_name'] ?? 'Software script',
+            'purchase_reference' => $ticket['order_id'] ?? '',
+        ], $client);
+    }
+
+    /**
+     * Dispatch any first-party service or software support ticket.
+     */
+    public function dispatchSupportTicket(array $ticket, array $client): void
+    {
         $ticketNumber = $ticket['ticket_number'] ?? 'TCK-NEW';
-        $name = $client['name'] ?? 'Buyer';
+        $name = $client['name'] ?? 'Customer';
         $email = $client['email'] ?? '';
-        $subject = $ticket['subject'] ?? 'Script Support';
-        $script = $ticket['script_name'] ?? 'Software Script';
-        $orderId = $ticket['order_id'] ?? 'N/A';
+        $subject = $ticket['subject'] ?? 'Customer Support';
+        $supportType = $ticket['support_type'] ?? 'Customer support';
+        $offeringName = $ticket['offering_name'] ?? 'Creatsify product or service';
+        $purchaseReference = $ticket['purchase_reference'] ?? '';
         $link = '/admin/crm/tickets/' . ($ticket['id'] ?? '');
 
         // 1. In-App Notification
         $this->recordInApp(
             'ticket_created',
-            "New Script Support Ticket #{$ticketNumber}",
-            "{$name} ({$email}) submitted support request for {$script} (Order: {$orderId}).",
+            "New Customer Support Ticket #{$ticketNumber}",
+            "{$name} ({$email}) submitted {$supportType} request for {$offeringName}.",
             $link
         );
 
         // 2. WhatsApp Alert to Admin
         $adminWaPhone = (string)setting('wa_admin_notification_phone', '');
         if (!empty($adminWaPhone)) {
-            $waText = "🛠️ *New Creatsify Script Support Ticket!*\n\n"
+            $waText = "🛠️ *New Creatsify Customer Support Ticket!*\n\n"
                     . "• *Ticket:* #{$ticketNumber}\n"
-                    . "• *Software:* {$script}\n"
-                    . "• *Buyer:* {$name} ({$email})\n"
-                    . "• *Gumroad Order:* {$orderId}\n"
+                    . "• *Request:* {$supportType}\n"
+                    . "• *Product / service:* {$offeringName}\n"
+                    . "• *Customer:* {$name} ({$email})\n"
+                    . ($purchaseReference !== '' ? "• *Reference:* {$purchaseReference}\n" : '')
                     . "• *Subject:* {$subject}\n\n"
                     . "» *Open Admin Desk:* " . url($link);
             $this->whatsApp->sendMessage($adminWaPhone, $waText);
+        }
+
+        if ($email !== '') {
+            $siteName = (string)setting('site_name', 'Creatsify Studio');
+            $html = '<p>Hello ' . e($name) . ',</p>'
+                . '<p>We received your support request for <strong>' . e($offeringName) . '</strong>.</p>'
+                . '<p>Your ticket number is <strong>' . e($ticketNumber) . '</strong>. Keep it handy if you contact us again.</p>'
+                . '<p>Our team will review the request and reply through email or WhatsApp.</p>'
+                . '<p>— ' . e($siteName) . '</p>';
+            $this->mailer->send($email, 'We received your support ticket #' . $ticketNumber, $html);
         }
     }
 

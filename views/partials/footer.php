@@ -12,12 +12,12 @@ $icon = asset(setting('site_icon', 'brand/creatsify-icon.png'));
                 <span>&copy; <?= date('Y') ?> <?= e(setting('site_name', 'Creatsify')) ?> &bull; <?= e(setting('site_domain', $_SERVER['HTTP_HOST'] ?? 'creatsify.tech')) ?> &bull; <?= e(setting('site_location', 'Engineering Studio')) ?></span>
             </div>
             <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-                <a href="<?= url('/portfolio') ?>">Work</a>
+                <a href="<?= url('/portfolio') ?>">Software</a>
                 <a href="<?= url('/services') ?>">Services</a>
                 <a href="<?= url('/team') ?>">Team</a>
                 <a href="<?= url('/about') ?>">About</a>
                 <a href="<?= url('/blog') ?>">Blog</a>
-                <a href="<?= url('/support') ?>">Script Support</a>
+                <a href="<?= url('/support') ?>">Customer Support</a>
                 <a href="<?= url('/admin/login') ?>">Admin</a>
                 <a class="btn" href="#top">Back to top ↑</a>
             </div>

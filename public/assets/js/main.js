@@ -29,20 +29,29 @@ const P = (window.CREATSIFY_PROJECTS && window.CREATSIFY_PROJECTS.length > 0) ? 
 const E=[["Edition 1","Cheetah Express Lite","A lighter, courier-only edition. No warehouse module and no picker role.","https://cheetah-lite.ayan24.me"],["Edition 2","Cheetah Enterprise","The full system: 7 user roles, warehouse management, store sync and the Flutter driver and picker app.","https://cheetah.ayan24.me"],["Edition 3","Cheetah Pro","A white-label cloud SaaS. Run your own courier platform for many companies, with Stripe, PayPal and Razorpay billing, custom domains and plans.","https://cheetah-pro.ayan24.me"]];
 const F=["Admin and branch agent","Warehouse manager and picker","Merchant and customer portals","Driver app (Flutter)","Live rider tracking","WooCommerce and Shopify sync","Two-factor login, 19 security layers","Warehouse stock, orders and returns"];
 
-const lk=a=>a.map(([t,u])=>`<a class="more" href="${u}"${u[0]=='h'?' target="_blank" rel="noopener noreferrer"':''}>${t} <span aria-hidden="true">→</span></a>`).join('');
+const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+const safeHref=value=>{
+  const candidate=String(value??'').trim();
+  if(candidate.startsWith('/')||candidate.startsWith('#')) return candidate;
+  try{const parsed=new URL(candidate,window.location.origin);return ['http:','https:'].includes(parsed.protocol)?parsed.href:'#';}catch(e){return '#';}
+};
+const lk=links=>(Array.isArray(links)?links:[]).map(([title,href])=>{
+  const safeUrl=safeHref(href);
+  return `<a class="more" href="${escapeHtml(safeUrl)}"${safeUrl.startsWith('http')?' target="_blank" rel="noopener noreferrer"':''}>${escapeHtml(title)} <span aria-hidden="true">→</span></a>`;
+}).join('');
 /* build content */
 const featuredP = P.slice(0, 4);
 if($('#pjs')) {
-  let cardsHtml = featuredP.map((p,i)=>`<article class="pj" style="--top:${86+i*14}px"><div class="pj-in" data-cur="View"><div class="pjt"><span class="pjn" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="pjw"><div class="st" style="--k:0"><i></i>${p[2]}</div><h3 style="--k:1">${p[0]}</h3><p style="--k:2">${p[3]}</p><div class="chips" style="--k:3">${p[4].map(x=>`<span>${x}</span>`).join('')}</div><div class="links" style="--k:4">${lk(p[6])}</div></div></div><div class="pjm"><img alt="${p[0]} preview" loading="lazy"><span class="fch a">${p[4][0]}</span>${p[4][1]?`<span class="fch b">${p[4][1]}</span>`:''}</div><div class="ov"></div></div></article>`).join('');
-  cardsHtml += `<div class="portfolio-gateway-card rv" style="--d:.2s;"><div class="gateway-content"><span class="section-tag" style="margin-bottom:8px;">Catalog Archive</span><h3>Explore All 10+ Production Builds & Marketplace Scripts</h3><p>Browse our complete catalog of Courier platforms, AI cloud IDEs, Flutter apps, and WooCommerce stores with live demos and case studies.</p></div><a href="${baseUrl}/portfolio" class="btn p" style="padding: 13px 28px; font-weight:700;">Open Full Portfolio (${P.length}) &rarr;</a></div>`;
+  let cardsHtml = featuredP.map((p,i)=>{const tech=Array.isArray(p[4])?p[4]:[];return `<article class="pj" style="--top:${86+i*14}px"><div class="pj-in" data-cur="View"><div class="pjt"><span class="pjn" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="pjw"><div class="st" style="--k:0"><i></i>${escapeHtml(p[2])}</div><h3 style="--k:1">${escapeHtml(p[0])}</h3><p style="--k:2">${escapeHtml(p[3])}</p><div class="chips" style="--k:3">${tech.map(item=>`<span>${escapeHtml(item)}</span>`).join('')}</div><div class="links" style="--k:4">${lk(p[6])}</div></div></div><div class="pjm"><img alt="${escapeHtml(p[0])} preview" loading="lazy"><span class="fch a">${escapeHtml(tech[0])}</span>${tech[1]?`<span class="fch b">${escapeHtml(tech[1])}</span>`:''}</div><div class="ov"></div></div></article>`;}).join('');
+  cardsHtml += `<div class="portfolio-gateway-card rv" style="--d:.2s;"><div class="gateway-content"><span class="section-tag" style="margin-bottom:8px;">Software Catalog</span><h3>Explore production software and case studies</h3><p>Browse our complete catalog of courier platforms, AI tools, Flutter apps, web systems, and direct licensing options.</p></div><a href="${escapeHtml(safeHref(baseUrl+'/portfolio'))}" class="btn p" style="padding:13px 28px;font-weight:700;">Open Full Portfolio (${P.length}) &rarr;</a></div>`;
   $('#pjs').innerHTML = cardsHtml;
 }
-$$('.pj img').forEach((im,i)=>{ if(featuredP[i]) { const val = featuredP[i][5]; im.src = (val && (val.startsWith('/') || val.startsWith('http') || val.startsWith('data:'))) ? val : (IM[val] || IM.h); } });
+$$('.pj img').forEach((im,i)=>{ if(featuredP[i]) { const val = String(featuredP[i][5]??''); im.src = (val.startsWith('/') || /^https?:\/\//i.test(val)) ? val : (IM[val] || IM.h); } });
 if($('#eds')){
   E.forEach((e,i)=>{const w=document.createElement('div');w.className='rv f';w.style.setProperty('--d',i*.14+'s');
-  w.innerHTML=`<article class="card" data-tilt="7"><div class="cb"><div class="st"><i></i>${e[0]}</div><h3>${e[1]}</h3><p>${e[2]}</p><div class="links">${lk([["Open live demo",e[3]]])}</div></div></article>`;$('#eds').appendChild(w)});
+  w.innerHTML=`<article class="card" data-tilt="7"><div class="cb"><div class="st"><i></i>${escapeHtml(e[0])}</div><h3>${escapeHtml(e[1])}</h3><p>${escapeHtml(e[2])}</p><div class="links">${lk([["Open live demo",e[3]]])}</div></div></article>`;$('#eds').appendChild(w)});
 }
-if($('#feat')) $('#feat').innerHTML=F.map((f,i)=>`<li class="rv l" style="--d:${i*.06}s">${f}</li>`).join('');
+if($('#feat')) $('#feat').innerHTML=F.map((f,i)=>`<li class="rv l" style="--d:${i*.06}s">${escapeHtml(f)}</li>`).join('');
 if($('#cheetahimg') && !$('#cheetahimg').getAttribute('src')) $('#cheetahimg').src=IM.c;
 if($('#hm1') && !$('#hm1').getAttribute('src')) $('#hm1').src=IM.c;
 if($('#hm2') && !$('#hm2').getAttribute('src')) $('#hm2').src=IM.m;
@@ -214,10 +223,13 @@ const handleFormSubmit=async(e)=>{
     name:fd.get('name')||fd.get('n')||'',
     email:fd.get('email')||fd.get('e')||'',
     phone:fd.get('phone')||fd.get('p')||'',
+    company:fd.get('company')||'',
     project_type:fd.get('project_type')||fd.get('t')||'General Inquiry',
     budget:fd.get('budget')||'Not specified',
+    timeline:fd.get('timeline')||'',
+    inquiry_kind:fd.get('inquiry_kind')||'general',
     message:fd.get('message')||fd.get('m')||'',
-    website_url_hp:fd.get('website_url_hp')||'',
+    _hp_check:fd.get('_hp_check')||'',
     _csrf_token:fd.get('_csrf_token')||window.CREATSIFY_CSRF_TOKEN||''
   };
 
@@ -233,7 +245,7 @@ const handleFormSubmit=async(e)=>{
   try{
     const res=await fetch(apiUrl,{
       method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      headers:{'Content-Type':'application/json','Accept':'application/json','X-CSRF-Token':payload._csrf_token},
       body:JSON.stringify(payload)
     });
     const result=await res.json();
@@ -243,12 +255,12 @@ const handleFormSubmit=async(e)=>{
       notice.textContent=result.message||'Thank you! Your inquiry has been sent to Creatsify Studio. We will get back to you within 24 hours.';
       form.reset();
     } else {
-      throw new Error((result&&result.message)||'Server returned an error');
+      throw new Error((result&&(result.error||result.message))||'Server returned an error');
     }
   }catch(err){
     console.warn('API error, falling back to mailto:',err);
     const sub=encodeURIComponent('Project Inquiry: '+payload.project_type);
-    const body=encodeURIComponent(payload.message+'\n\nFrom: '+payload.name+' ('+payload.email+')'+(payload.phone?'\nPhone: '+payload.phone:''));
+    const body=encodeURIComponent(payload.message+'\n\nFrom: '+payload.name+' ('+payload.email+')'+(payload.company?'\nCompany: '+payload.company:'')+(payload.phone?'\nPhone: '+payload.phone:'')+(payload.timeline?'\nTimeline: '+payload.timeline:''));
     location.href='mailto:ayan@creatsify.tech?subject='+sub+'&body='+body;
     notice.className='form-notice info';
     notice.style.display='block';

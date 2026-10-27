@@ -57,7 +57,7 @@ $key = $section['section_key'];
 
                 <div class="form-group" style="margin-bottom: 0;">
                     <label for="meta_chips">Floating Glass Chips (comma separated)</label>
-                    <input type="text" id="meta_chips" name="meta[chips]" class="form-control" value="<?= e(implode(', ', $meta['chips'] ?? ['7 role portals in Cheetah', 'Sold on 4 marketplaces', '10 products shipped'])) ?>">
+                    <input type="text" id="meta_chips" name="meta[chips]" class="form-control" value="<?= e(implode(', ', $meta['chips'] ?? ['7 role portals in Cheetah', 'Direct software licensing', 'Agency delivery team'])) ?>">
                     <small style="color:var(--muted); font-size:12px; margin-top:4px; display:block;">Frosted glass floating telemetry chips positioned over the 3D studio frame.</small>
                 </div>
 
