@@ -2,7 +2,7 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const RM=false,FINE=true;
 const root=document.documentElement,clamp=(v,a,b)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t;
 let hero=null,hi=null;
-const baseUrl = window.CREATSIFY_BASE_URL || '';
+const baseUrl = (window.CREATSIFY_BASE_URL || '').replace(/\/$/, '');
 const IM = {
   c: baseUrl + '/assets/images/cheetah-showcase.jpg',
   m: baseUrl + '/assets/images/viddmate-preview.jpg',
@@ -40,7 +40,7 @@ const lk=links=>(Array.isArray(links)?links:[]).map(([title,href])=>{
   return `<a class="more" href="${escapeHtml(safeUrl)}"${safeUrl.startsWith('http')?' target="_blank" rel="noopener noreferrer"':''}>${escapeHtml(title)} <span aria-hidden="true">→</span></a>`;
 }).join('');
 /* build content */
-const featuredP = P.slice(0, 4);
+const featuredP = P.slice(0, 3);
 if($('#pjs')) {
   let cardsHtml = featuredP.map((p,i)=>{const tech=Array.isArray(p[4])?p[4]:[];return `<article class="pj" style="--top:${86+i*14}px"><div class="pj-in" data-cur="View"><div class="pjt"><span class="pjn" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="pjw"><div class="st" style="--k:0"><i></i>${escapeHtml(p[2])}</div><h3 style="--k:1">${escapeHtml(p[0])}</h3><p style="--k:2">${escapeHtml(p[3])}</p><div class="chips" style="--k:3">${tech.map(item=>`<span>${escapeHtml(item)}</span>`).join('')}</div><div class="links" style="--k:4">${lk(p[6])}</div></div></div><div class="pjm"><img alt="${escapeHtml(p[0])} preview" loading="lazy"><span class="fch a">${escapeHtml(tech[0])}</span>${tech[1]?`<span class="fch b">${escapeHtml(tech[1])}</span>`:''}</div><div class="ov"></div></div></article>`;}).join('');
   cardsHtml += `<div class="portfolio-gateway-card rv" style="--d:.2s;"><div class="gateway-content"><span class="section-tag" style="margin-bottom:8px;">Software Catalog</span><h3>Explore production software and case studies</h3><p>Browse our complete catalog of courier platforms, AI tools, Flutter apps, web systems, and direct licensing options.</p></div><a href="${escapeHtml(safeHref(baseUrl+'/portfolio'))}" class="btn p" style="padding:13px 28px;font-weight:700;">Open Full Portfolio (${P.length}) &rarr;</a></div>`;
