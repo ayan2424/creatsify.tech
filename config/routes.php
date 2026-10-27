@@ -164,6 +164,20 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']],
     $r->post('/crm/notes/{id}/toggle-pin', [\App\Controllers\Admin\CrmController::class, 'toggleNotePin']);
     $r->post('/crm/notes/{id}/toggle-followup', [\App\Controllers\Admin\CrmController::class, 'toggleFollowUp']);
     $r->post('/crm/notes/{id}/delete', [\App\Controllers\Admin\CrmController::class, 'deleteNote']);
+
+    // Internal agency delivery workspace (not public products or a client portal)
+    $r->get('/agency-projects', [\App\Controllers\Admin\AgencyProjectsController::class, 'index']);
+    $r->get('/agency-projects/create', [\App\Controllers\Admin\AgencyProjectsController::class, 'create']);
+    $r->post('/agency-projects', [\App\Controllers\Admin\AgencyProjectsController::class, 'store']);
+    $r->get('/agency-projects/{id}', [\App\Controllers\Admin\AgencyProjectsController::class, 'show']);
+    $r->post('/agency-projects/{id}/status', [\App\Controllers\Admin\AgencyProjectsController::class, 'updateStatus']);
+    $r->post('/agency-projects/{id}/members', [\App\Controllers\Admin\AgencyProjectsController::class, 'assignMember']);
+    $r->post('/agency-projects/{id}/members/{memberId}/remove', [\App\Controllers\Admin\AgencyProjectsController::class, 'removeMember']);
+    $r->post('/agency-projects/{id}/milestones', [\App\Controllers\Admin\AgencyProjectsController::class, 'storeMilestone']);
+    $r->post('/agency-projects/{id}/milestones/{milestoneId}/status', [\App\Controllers\Admin\AgencyProjectsController::class, 'updateMilestoneStatus']);
+    $r->post('/agency-projects/{id}/tasks', [\App\Controllers\Admin\AgencyProjectsController::class, 'storeTask']);
+    $r->post('/agency-projects/{id}/tasks/{taskId}/status', [\App\Controllers\Admin\AgencyProjectsController::class, 'updateTaskStatus']);
+    $r->post('/agency-projects/{id}/notes', [\App\Controllers\Admin\AgencyProjectsController::class, 'storeNote']);
     });
 
     $r->group(['middleware' => ['role:super_admin']], function (Router $r) {

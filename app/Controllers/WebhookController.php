@@ -23,9 +23,9 @@ class WebhookController
             $token = $request->get('hub_verify_token') ?? $request->get('hub.verify_token');
             $challenge = $request->get('hub_challenge') ?? $request->get('hub.challenge');
 
-            $configuredToken = (string)setting('wa_verify_token', 'creatsify_wa_webhook_token_secure');
+            $configuredToken = (string)env('WHATSAPP_VERIFY_TOKEN', setting('wa_verify_token', ''));
 
-            if ($mode === 'subscribe' && $token === $configuredToken) {
+            if ($configuredToken !== '' && $mode === 'subscribe' && is_string($token) && hash_equals($configuredToken, $token)) {
                 return Response::make((string)$challenge, 200, ['Content-Type' => 'text/plain']);
             }
 
@@ -33,7 +33,22 @@ class WebhookController
         }
 
         // 2. Incoming WhatsApp Message Dispatch
-        $payload = $request->all();
+        $appSecret = (string)env('WHATSAPP_APP_SECRET', '');
+        $signature = (string)($request->getHeader('X-Hub-Signature-256') ?? '');
+
+        if ($appSecret === '') {
+            return Response::json(['error' => 'Webhook signature verification is not configured.'], 503);
+        }
+
+        $expectedSignature = 'sha256=' . hash_hmac('sha256', $request->getRawBody(), $appSecret);
+        if ($signature === '' || !hash_equals($expectedSignature, $signature)) {
+            return Response::json(['error' => 'Invalid webhook signature.'], 401);
+        }
+
+        $payload = json_decode($request->getRawBody(), true);
+        if (!is_array($payload)) {
+            return Response::json(['error' => 'Invalid JSON payload.'], 400);
+        }
         $helper = new WhatsAppHelper();
         $parsed = $helper->parseIncomingWebhook($payload);
 

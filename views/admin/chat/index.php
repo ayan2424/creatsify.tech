@@ -258,7 +258,8 @@ $this->layout('layouts/admin');
                 bubble.style.color = 'var(--text)';
                 bubble.style.borderBottomLeftRadius = '2px';
             }
-            bubble.innerHTML = text.replace(/\n/g, '<br>');
+            bubble.textContent = text;
+            bubble.style.whiteSpace = 'pre-wrap';
 
             wrapper.appendChild(meta);
             wrapper.appendChild(bubble);

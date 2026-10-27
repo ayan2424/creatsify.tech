@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\WhatsAppMessage;
+
 /**
  * Creatsify Studio - Meta WhatsApp Cloud API v21.0 Driver
  * Modeled on Cheetah's WhatsApp architecture with automatic Pakistani/Intl E.164 normalization.
@@ -112,6 +114,12 @@ class WhatsAppHelper
 
             $messageId = $msg['id'] ?? '';
             $to = $entry['metadata']['display_phone_number'] ?? 'creatsify';
+
+            // Meta may retry a delivery. Do not create duplicate CRM alerts,
+            // stored messages, or automatic replies for the same message.
+            if (WhatsAppMessage::existsByMessageId($messageId)) {
+                return null;
+            }
 
             // Store in database
             $this->logMessage('inbound', $sender, $to, $text, 'received', $messageId);

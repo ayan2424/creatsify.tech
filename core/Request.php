@@ -13,6 +13,7 @@ class Request
     private array $cookies;
     private array $files;
     private ?array $json = null;
+    private string $rawBody;
 
     public function __construct()
     {
@@ -21,12 +22,12 @@ class Request
         $this->server = $_SERVER;
         $this->cookies = $_COOKIE;
         $this->files = $_FILES;
+        $this->rawBody = (string)file_get_contents('php://input');
 
         // Parse JSON body if Content-Type is application/json
         $contentType = $this->getHeader('Content-Type') ?? '';
         if (str_contains($contentType, 'application/json')) {
-            $raw = file_get_contents('php://input');
-            $decoded = json_decode($raw, true);
+            $decoded = json_decode($this->rawBody, true);
             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
                 $this->json = $decoded;
             }
@@ -112,6 +113,15 @@ class Request
             $all = array_merge($all, $this->json);
         }
         return $all;
+    }
+
+    /**
+     * Return the unmodified request payload for endpoints that verify a
+     * provider signature (for example, Meta webhooks).
+     */
+    public function getRawBody(): string
+    {
+        return $this->rawBody;
     }
 
     public function file(string $key): ?array

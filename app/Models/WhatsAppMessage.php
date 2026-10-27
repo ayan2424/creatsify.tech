@@ -7,6 +7,18 @@ namespace App\Models;
  */
 class WhatsAppMessage
 {
+    public static function existsByMessageId(string $messageId): bool
+    {
+        if ($messageId === '') {
+            return false;
+        }
+
+        return db()->fetchOne(
+            'SELECT id FROM whatsapp_messages WHERE message_id = :message_id LIMIT 1',
+            ['message_id' => $messageId]
+        ) !== null;
+    }
+
     public static function recentConversations(): array
     {
         return db()->fetchAll(

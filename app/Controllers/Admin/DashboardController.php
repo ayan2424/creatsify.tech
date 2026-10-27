@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Models\AnalyticsVisit;
+use App\Models\AgencyProject;
 use App\Models\ChatMessage;
 use App\Models\ChatSession;
 use App\Models\CrmClient;
@@ -66,6 +67,7 @@ class DashboardController
         $openTicketsCount = (int)db()->fetchValue("SELECT COUNT(*) FROM `crm_tickets` WHERE `status` IN ('open', 'in_progress', 'waiting_client')");
         $recentTickets = db()->fetchAll("SELECT t.*, c.company as client_company FROM `crm_tickets` t LEFT JOIN `crm_clients` c ON c.id = t.client_id ORDER BY t.id DESC LIMIT 4");
         $pendingFollowUps = CrmNote::pendingFollowUps();
+        $deliveryMetrics = AgencyProject::metrics();
 
         return view('admin/dashboard/index', [
             'stats' => $stats,
@@ -86,6 +88,7 @@ class DashboardController
             'openTicketsCount' => $openTicketsCount,
             'recentTickets' => $recentTickets,
             'pendingFollowUps' => $pendingFollowUps,
+            'deliveryMetrics' => $deliveryMetrics,
             'meta_title' => 'Dashboard | Creatsify Admin'
         ]);
     }

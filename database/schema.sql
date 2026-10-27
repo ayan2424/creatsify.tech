@@ -362,3 +362,87 @@ CREATE TABLE IF NOT EXISTS `crm_notes` (
     INDEX `idx_notes_type` (`type`),
     INDEX `idx_notes_followup` (`follow_up_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =======================================================
+-- Internal Agency Delivery Workspace (private admin only)
+-- =======================================================
+
+CREATE TABLE IF NOT EXISTS `agency_projects` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `project_code` VARCHAR(40) NOT NULL UNIQUE,
+    `client_id` INT NULL,
+    `title` VARCHAR(200) NOT NULL,
+    `project_type` VARCHAR(100) NOT NULL DEFAULT 'Custom Development',
+    `summary` TEXT NULL,
+    `scope_notes` LONGTEXT NULL,
+    `status` VARCHAR(30) NOT NULL DEFAULT 'planning',
+    `priority` VARCHAR(20) NOT NULL DEFAULT 'medium',
+    `deal_value` DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+    `currency` VARCHAR(10) NOT NULL DEFAULT 'USD',
+    `start_date` DATE NULL,
+    `target_date` DATE NULL,
+    `delivered_at` DATETIME NULL,
+    `created_by` INT NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_agency_projects_client` (`client_id`),
+    INDEX `idx_agency_projects_status` (`status`),
+    INDEX `idx_agency_projects_target` (`target_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `agency_project_members` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `agency_project_id` INT NOT NULL,
+    `team_member_id` INT NOT NULL,
+    `delivery_role` VARCHAR(120) NOT NULL,
+    `allocation_percent` TINYINT UNSIGNED NOT NULL DEFAULT 100,
+    `assigned_at` DATE NULL,
+    `unassigned_at` DATE NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY `uq_agency_project_member` (`agency_project_id`, `team_member_id`),
+    INDEX `idx_agency_project_members_team` (`team_member_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `agency_project_milestones` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `agency_project_id` INT NOT NULL,
+    `title` VARCHAR(200) NOT NULL,
+    `description` TEXT NULL,
+    `status` VARCHAR(30) NOT NULL DEFAULT 'not_started',
+    `amount` DECIMAL(12,2) NULL,
+    `due_date` DATE NULL,
+    `completed_at` DATETIME NULL,
+    `sort_order` INT NOT NULL DEFAULT 0,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_agency_milestones_project` (`agency_project_id`),
+    INDEX `idx_agency_milestones_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `agency_project_tasks` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `agency_project_id` INT NOT NULL,
+    `milestone_id` INT NULL,
+    `assigned_team_member_id` INT NULL,
+    `title` VARCHAR(200) NOT NULL,
+    `description` TEXT NULL,
+    `status` VARCHAR(30) NOT NULL DEFAULT 'todo',
+    `priority` VARCHAR(20) NOT NULL DEFAULT 'medium',
+    `due_date` DATE NULL,
+    `completed_at` DATETIME NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_agency_tasks_project` (`agency_project_id`),
+    INDEX `idx_agency_tasks_member` (`assigned_team_member_id`),
+    INDEX `idx_agency_tasks_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `agency_project_notes` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `agency_project_id` INT NOT NULL,
+    `user_id` INT NULL,
+    `author_name` VARCHAR(150) NOT NULL,
+    `body` LONGTEXT NOT NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX `idx_agency_notes_project` (`agency_project_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

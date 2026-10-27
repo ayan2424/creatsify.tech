@@ -115,6 +115,13 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
+            <a href="<?= url('/admin/agency-projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/agency-projects') ? 'active' : '' ?>" data-title="Delivery Workspace" title="Delivery Workspace">
+                <span class="nav-link-content">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+                    <span>Delivery Workspace</span>
+                </span>
+                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
 
             <div class="menu-divider"></div>
 

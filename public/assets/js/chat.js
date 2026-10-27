@@ -109,7 +109,7 @@
 
         const bubble = document.createElement('div');
         bubble.className = 'msg-bubble';
-        bubble.innerHTML = formatText(text);
+        bubble.appendChild(formatText(text));
 
         const time = document.createElement('span');
         time.className = 'msg-time';
@@ -123,9 +123,27 @@
     }
 
     function formatText(str) {
-        return str
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\n/g, '<br>');
+        const fragment = document.createDocumentFragment();
+        const lines = String(str).split('\n');
+
+        lines.forEach((line, lineIndex) => {
+            line.split(/(\*\*[^*]+\*\*)/g).forEach(part => {
+                const boldMatch = part.match(/^\*\*([^*]+)\*\*$/);
+                if (boldMatch) {
+                    const strong = document.createElement('strong');
+                    strong.textContent = boldMatch[1];
+                    fragment.appendChild(strong);
+                } else {
+                    fragment.appendChild(document.createTextNode(part));
+                }
+            });
+
+            if (lineIndex < lines.length - 1) {
+                fragment.appendChild(document.createElement('br'));
+            }
+        });
+
+        return fragment;
     }
 
     function scrollBottom() {
