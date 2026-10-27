@@ -43,9 +43,10 @@ $projectsJson = array_map(function (array $project): array {
 
 <script>window.CREATSIFY_PROJECTS = <?= json_encode($projectsJson) ?>;</script>
 
-<section class="hero" id="hero"><div class="wrap">
-    <div>
-        <div class="pill hf"><i></i>Full-stack studio · Karachi, Pakistan</div>
+<section class="hero hero-agency" id="hero"><div class="hero-glow" aria-hidden="true"></div><div class="wrap">
+    <div class="hero-copy">
+        <div class="pill hero-location hf"><i></i>Full-stack studio · Karachi, Pakistan</div>
+        <div class="hero-kicker hf" style="--d:.16s"><span>Creatsify / Operating studio</span><span>Products · systems · creative delivery</span></div>
         <h1><span class="ln"><span class="ch" style="--i:0"><?= e($hero['title'] ?? 'We build software') ?></span></span><span class="ln"><span class="ch" style="--i:1">for <span class="rot grad" id="rot"><?= e($rotatingWords[0] ?? 'courier companies') ?></span></span></span></h1>
         <p class="lead hf" style="--d:.5s"><?= e($hero['content'] ?? 'From idea to a live product. We build courier platforms, online stores, learning tools and apps that real businesses can run on.') ?></p>
         <div class="row hf" style="--d:.65s;flex-wrap:wrap">
@@ -54,20 +55,20 @@ $projectsJson = array_map(function (array $project): array {
             <a class="hero-support-link" href="<?= url('/support') ?>">Already a customer? Get help &rarr;</a>
         </div>
         <div class="trust-wrap hf" style="--d:.8s">
-            <span class="trust-label">Direct software licensing &bull; Custom agency delivery &bull; First-party support</span>
+            <span class="trust-label">One team from first brief to post-launch support.</span>
             <div class="trust-badges">
-                <div class="trust-badge"><span class="trust-star">★ 5.0</span><b>Gumroad Store</b><span class="trust-sub">Instant delivery</span></div>
-                <div class="trust-badge"><span class="trust-check">✓</span><b>White-label</b><span class="trust-sub">Full source code</span></div>
-                <div class="trust-badge"><span class="trust-check">✓</span><b>In-house support</b><span class="trust-sub">Direct ticket desk</span></div>
+                <div class="trust-badge"><span class="trust-number">01</span><span><b>Custom delivery</b><span class="trust-sub">Web, app &amp; creative work</span></span></div>
+                <div class="trust-badge"><span class="trust-number">02</span><span><b>Ready software</b><span class="trust-sub">Direct licensed systems</span></span></div>
+                <div class="trust-badge"><span class="trust-number">03</span><span><b>Real support</b><span class="trust-sub">One first-party ticket desk</span></span></div>
             </div>
         </div>
     </div>
     <div class="fv hf" style="--d:.45s"><div class="fw" id="hst">
-        <div class="ly" data-d="10"><div class="frame" id="hframe" data-tilt="8"><img id="heroimg" src="<?= asset('images/hero-artwork.jpg') ?>" alt="Creatsify digital product artwork"><p>Creatsify Studio · Karachi, Pakistan</p></div></div>
+        <div class="ly" data-d="10"><div class="frame" id="hframe" data-tilt="8"><div class="frame-status"><i></i><span>Currently shipping</span><b>Studio delivery</b></div><img id="heroimg" src="<?= asset('images/hero-artwork.jpg') ?>" alt="Creatsify digital product artwork"><div class="frame-caption"><p>From a clear brief to a business-ready system.</p><span>Explore our work <b aria-hidden="true">↗</b></span></div></div></div>
         <div class="ly l2" data-d="38"><div class="mini"><img id="hm1" src="<?= asset('images/cheetah-showcase.jpg') ?>" alt="Cheetah dashboard"><span>Cheetah</span></div></div>
         <div class="ly l3" data-d="56"><div class="mini"><img id="hm2" src="<?= asset('images/viddmate-preview.jpg') ?>" alt="ViddMate app"><span>ViddMate</span></div></div>
         <div class="ly c1" data-d="26"><span class="chipi"><i></i><?= e($heroChips[0] ?? '7 role portals in Cheetah') ?></span></div>
-        <div class="ly c2" data-d="44"><span class="chipi" style="animation-delay:1.4s"><i></i><?= e($heroChips[2] ?? 'Agency delivery team') ?></span></div>
+        <div class="ly c2" data-d="44"><span class="chipi chipi-delivery" style="animation-delay:1.4s"><i></i><?= e($heroChips[2] ?? 'Agency delivery team') ?></span></div>
     </div></div>
 </div><div class="sc" aria-hidden="true"></div></section>
 
