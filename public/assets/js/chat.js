@@ -28,6 +28,30 @@
     let lastPollId = 0;
     let pollInterval = null;
 
+    function loadHistory() {
+        if (!sessionToken) return;
+        fetch(`${getBaseUrl()}/api/chat/messages?token=${encodeURIComponent(sessionToken)}`)
+            .then(r => r.json())
+            .then(data => {
+                if (data.success && Array.isArray(data.messages) && data.messages.length > 0) {
+                    list.innerHTML = '';
+                    data.messages.forEach(m => {
+                        const type = m.sender_type === 'visitor' ? 'user' : 'bot';
+                        appendMessage(type, m.message);
+                        lastPollId = Math.max(lastPollId, parseInt(m.id, 10) || 0);
+                    });
+                    scrollBottom();
+                    if (data.session && data.session.is_human_handoff && statusText) {
+                        statusText.textContent = '● Connected to Human Support Agent';
+                        statusText.style.color = '#00c853';
+                    }
+                }
+            })
+            .catch(() => {});
+    }
+
+    loadHistory();
+
     // Toggle Chat Window
     launcher.addEventListener('click', () => {
         isOpen = !isOpen;

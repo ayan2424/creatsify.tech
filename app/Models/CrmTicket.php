@@ -133,9 +133,17 @@ class CrmTicket
 
     public static function delete(int $id): int
     {
-        db()->delete('crm_ticket_replies', '`ticket_id` = :id', ['id' => $id]);
-        db()->delete('crm_notes', '`ticket_id` = :id', ['id' => $id]);
-        return db()->delete('crm_tickets', '`id` = :id', ['id' => $id]);
+        try {
+            db()->beginTransaction();
+            db()->delete('crm_ticket_replies', '`ticket_id` = :id', ['id' => $id]);
+            db()->delete('crm_notes', '`ticket_id` = :id', ['id' => $id]);
+            $res = db()->delete('crm_tickets', '`id` = :id', ['id' => $id]);
+            db()->commit();
+            return $res;
+        } catch (\Throwable $e) {
+            db()->rollback();
+            throw $e;
+        }
     }
 
     public static function getReplies(int $ticketId): array

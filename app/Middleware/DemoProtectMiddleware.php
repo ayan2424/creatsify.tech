@@ -62,7 +62,8 @@ class DemoProtectMiddleware
                 return Response::json(['success' => false, 'error' => $msg], 403);
             }
             flash('error', $msg);
-            return Response::redirect($request->getUri() ?: '/admin');
+            $referrer = $_SERVER['HTTP_REFERER'] ?? '/admin';
+            return Response::redirect($referrer);
         }
 
         return $next($request);

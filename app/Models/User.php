@@ -49,6 +49,10 @@ class User
 
     public static function delete(int $id): int
     {
+        $user = self::findById($id);
+        if (!$user || ($user['role'] ?? '') === 'super_admin') {
+            return 0;
+        }
         return db()->delete('users', '`id` = :id', ['id' => $id]);
     }
 

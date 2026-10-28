@@ -100,6 +100,9 @@ class CrmClient
             db()->beginTransaction();
             db()->delete('crm_notes', '`client_id` = :id', ['id' => $id]);
             db()->update('crm_tickets', ['client_id' => null], '`client_id` = :id', ['id' => $id]);
+            try {
+                db()->update('agency_projects', ['client_id' => null], '`client_id` = :id', ['id' => $id]);
+            } catch (\Throwable $ignored) {}
             $res = db()->delete('crm_clients', '`id` = :id', ['id' => $id]);
             db()->commit();
             return $res;
