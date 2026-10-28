@@ -105,17 +105,19 @@ class Router
 
     private function executeAction(array|callable|string $action, Request $request, array $params): Response
     {
+        $positionalParams = array_values($params);
+
         if (is_callable($action)) {
-            $result = call_user_func_array($action, array_merge([$request], $params));
+            $result = call_user_func_array($action, array_merge([$request], $positionalParams));
         } elseif (is_array($action)) {
             [$controllerClass, $method] = $action;
             $controller = new $controllerClass();
-            $result = call_user_func_array([$controller, $method], array_merge([$request], $params));
+            $result = call_user_func_array([$controller, $method], array_merge([$request], $positionalParams));
         } elseif (is_string($action)) {
             [$controllerClass, $method] = explode('@', $action, 2);
             $fullClass = str_starts_with($controllerClass, 'App\\') ? $controllerClass : "App\\Controllers\\{$controllerClass}";
             $controller = new $fullClass();
-            $result = call_user_func_array([$controller, $method], array_merge([$request], $params));
+            $result = call_user_func_array([$controller, $method], array_merge([$request], $positionalParams));
         } else {
             throw new \RuntimeException("Invalid route action specified.");
         }
@@ -139,7 +141,7 @@ class Router
         }
 
         try {
-            return Response::html(view('errors/404', ['message' => 'The requested page does not exist.']), 404);
+            return view('errors/404', ['message' => 'The requested page does not exist.'])->setStatusCode(404);
         } catch (\Throwable $e) {
             return Response::make("<!DOCTYPE html><html><head><title>404 Not Found</title><style>body{background:#07080e;color:#eef0f7;font-family:sans-serif;text-align:center;padding:80px}a{color:#8b7bff}</style></head><body><h1>404 — Page Not Found</h1><p>The requested page does not exist.</p><a href='/'>Return to Home</a></body></html>", 404);
         }

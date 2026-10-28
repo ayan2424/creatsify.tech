@@ -24,31 +24,33 @@ class TeamMember
             db()->query("SELECT 1 FROM `team_members` LIMIT 1");
         } catch (\Throwable $e) {
             // Auto-create table if missing
-            db()->query("
-                CREATE TABLE IF NOT EXISTS `team_members` (
-                    `id` INT AUTO_INCREMENT PRIMARY KEY,
-                    `name` VARCHAR(150) NOT NULL,
-                    `slug` VARCHAR(150) NOT NULL UNIQUE,
-                    `role_title` VARCHAR(150) NOT NULL,
-                    `bio` TEXT NULL,
-                    `avatar` VARCHAR(255) NULL,
-                    `skills` VARCHAR(255) NULL,
-                    `github_url` VARCHAR(255) NULL,
-                    `linkedin_url` VARCHAR(255) NULL,
-                    `portfolio_url` VARCHAR(255) NULL,
-                    `email` VARCHAR(150) NULL,
-                    `phone` VARCHAR(50) NULL,
-                    `sort_order` INT DEFAULT 0,
-                    `is_active` TINYINT(1) DEFAULT 1,
-                    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    INDEX `idx_team_slug` (`slug`),
-                    INDEX `idx_team_active` (`is_active`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-            ");
+            try {
+                db()->query("
+                    CREATE TABLE IF NOT EXISTS `team_members` (
+                        `id` INT AUTO_INCREMENT PRIMARY KEY,
+                        `name` VARCHAR(150) NOT NULL,
+                        `slug` VARCHAR(150) NOT NULL UNIQUE,
+                        `role_title` VARCHAR(150) NOT NULL,
+                        `bio` TEXT NULL,
+                        `avatar` VARCHAR(255) NULL,
+                        `skills` VARCHAR(255) NULL,
+                        `github_url` VARCHAR(255) NULL,
+                        `linkedin_url` VARCHAR(255) NULL,
+                        `portfolio_url` VARCHAR(255) NULL,
+                        `email` VARCHAR(150) NULL,
+                        `phone` VARCHAR(50) NULL,
+                        `sort_order` INT DEFAULT 0,
+                        `is_active` TINYINT(1) DEFAULT 1,
+                        `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                        INDEX `idx_team_slug` (`slug`),
+                        INDEX `idx_team_active` (`is_active`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                ");
 
-            // Seed default founder & core teammates if table is freshly created
-            self::seedDefaults();
+                // Seed default founder & core teammates if table is freshly created
+                self::seedDefaults();
+            } catch (\Throwable $e2) {}
         }
     }
 
@@ -130,9 +132,22 @@ class TeamMember
     public static function delete(int $id): int
     {
         self::ensureTableExists();
-        // Also delete member portfolios
-        db()->delete('member_portfolios', '`member_id` = :m', ['m' => $id]);
-        return db()->delete('team_members', '`id` = :id', ['id' => $id]);
+        db()->beginTransaction();
+        try {
+            // Also delete member portfolios
+            db()->delete('member_portfolios', '`member_id` = :m', ['m' => $id]);
+            // Remove from agency project assignments
+            try {
+                db()->delete('agency_project_members', '`team_member_id` = :m', ['m' => $id]);
+                db()->update('agency_project_tasks', ['assigned_team_member_id' => null], '`assigned_team_member_id` = :m', ['m' => $id]);
+            } catch (\Throwable $ignored) {}
+            $res = db()->delete('team_members', '`id` = :id', ['id' => $id]);
+            db()->commit();
+            return $res;
+        } catch (\Throwable $e) {
+            db()->rollback();
+            throw $e;
+        }
     }
 
     public static function portfolios(int $memberId): array

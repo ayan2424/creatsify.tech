@@ -104,9 +104,9 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']],
     $r->post('/team/{id}/delete', [\App\Controllers\Admin\TeamController::class, 'delete']);
 
     // Individual Member Portfolios
-    $r->get('/team/{id}/portfolio', [\App\Controllers\Admin\TeamController::class, 'portfolio']);
-    $r->get('/team/{id}/portfolio/create', [\App\Controllers\Admin\TeamController::class, 'createPortfolio']);
-    $r->post('/team/{id}/portfolio', [\App\Controllers\Admin\TeamController::class, 'storePortfolio']);
+    $r->get('/team/{memberId}/portfolio', [\App\Controllers\Admin\TeamController::class, 'portfolio']);
+    $r->get('/team/{memberId}/portfolio/create', [\App\Controllers\Admin\TeamController::class, 'createPortfolio']);
+    $r->post('/team/{memberId}/portfolio', [\App\Controllers\Admin\TeamController::class, 'storePortfolio']);
     $r->get('/team/{memberId}/portfolio/{itemId}/edit', [\App\Controllers\Admin\TeamController::class, 'editPortfolio']);
     $r->post('/team/{memberId}/portfolio/{itemId}', [\App\Controllers\Admin\TeamController::class, 'updatePortfolio']);
     $r->post('/team/{memberId}/portfolio/{itemId}/toggle-featured', [\App\Controllers\Admin\TeamController::class, 'togglePortfolioFeatured']);

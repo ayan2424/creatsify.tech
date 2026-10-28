@@ -52,7 +52,8 @@ class AuthController
         audit_log('user_login', 'user', (int)$user['id'], 'User logged into admin desk.');
 
         flash('success', "Welcome back, {$user['name']}!");
-        return Response::redirect('/admin');
+        $redirectUrl = ($user['role'] ?? '') === 'editor' ? '/admin/posts' : '/admin';
+        return Response::redirect($redirectUrl);
     }
 
     /**
@@ -107,9 +108,9 @@ class AuthController
         }
 
         session()->remove('auth_user');
-        session()->destroy();
+        session()->regenerate();
 
-        flash('success', 'You have been logged out.');
+        flash('success', 'You have been securely logged out.');
         return Response::redirect('/admin/login');
     }
 }

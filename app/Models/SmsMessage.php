@@ -20,6 +20,9 @@ class SmsMessage
     public static function forContact(string $phone): array
     {
         $clean = clean_phone_number($phone, false);
+        if (strlen($clean) < 7) {
+            return [];
+        }
         return db()->fetchAll(
             "SELECT * FROM sms_messages 
              WHERE phone_number LIKE :p 

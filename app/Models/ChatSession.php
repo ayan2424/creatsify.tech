@@ -7,21 +7,23 @@ namespace App\Models;
  */
 class ChatSession
 {
-    public static function findOrCreate(string $token, string $ip, ?string $name = null, ?string $email = null): array
+    public static function findOrCreate(string $token, string $ip, ?string $name = null, ?string $email = null): ?array
     {
         $session = db()->fetchOne("SELECT * FROM `chat_sessions` WHERE `session_token` = :t LIMIT 1", ['t' => $token]);
         if ($session) {
+            $updatedName = (!empty($name) && $name !== 'Visitor') ? $name : $session['visitor_name'];
+            $updatedEmail = !empty($email) ? $email : $session['visitor_email'];
             db()->update('chat_sessions', [
                 'last_active_at' => date('Y-m-d H:i:s'),
-                'visitor_name' => $name ?: $session['visitor_name'],
-                'visitor_email' => $email ?: $session['visitor_email']
+                'visitor_name' => $updatedName,
+                'visitor_email' => $updatedEmail
             ], '`id` = :id', ['id' => $session['id']]);
             return db()->fetchOne("SELECT * FROM `chat_sessions` WHERE `id` = :id", ['id' => $session['id']]);
         }
 
         $id = db()->insert('chat_sessions', [
             'session_token' => $token,
-            'visitor_name' => $name ?: 'Guest Visitor',
+            'visitor_name' => (!empty($name) && $name !== 'Visitor') ? $name : 'Guest Visitor',
             'visitor_email' => $email,
             'ip_address' => $ip,
             'status' => 'active',

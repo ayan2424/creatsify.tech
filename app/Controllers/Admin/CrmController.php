@@ -190,8 +190,7 @@ class CrmController
         audit_log('update_client_stage', 'crm_client', (int)$id, "Moved client #{$id} to stage: {$stage}");
         flash('success', "Client stage updated to {$stage}.");
 
-        $redirect = $request->input('redirect', '/admin/crm/clients/' . $id);
-        return Response::redirect($redirect);
+        return Response::redirect($this->safeRedirect($request, '/admin/crm/clients/' . $id));
     }
 
     public function deleteClient(Request $request, string $id): Response
@@ -385,6 +384,26 @@ class CrmController
             CrmTicket::update((int)$id, ['status' => $updateStatus]);
         }
 
+        if (!$isInternal) {
+            // Dispatch notification to ticket client
+            try {
+                $clientEmail = $ticket['client_email'] ?? '';
+                if (!empty($clientEmail) && class_exists('App\Helpers\Mailer')) {
+                    $subject = "Update regarding your Support Ticket [#{$ticket['ticket_number']}]";
+                    $body = "<p>Hello " . htmlspecialchars($ticket['client_name'] ?? 'Client') . ",</p>"
+                          . "<p>Our engineering team has responded to your ticket <strong>#" . htmlspecialchars($ticket['ticket_number']) . "</strong>:</p>"
+                          . "<blockquote style='border-left: 4px solid #6366f1; padding-left: 14px; margin: 16px 0; color: #333;'>"
+                          . nl2br(htmlspecialchars($message))
+                          . "</blockquote>"
+                          . "<p>You can reply directly to this email or visit our <a href='" . url('/support') . "'>Support Desk</a>.</p>"
+                          . "<p>Best regards,<br>Creatsify Technical Support</p>";
+                    \App\Helpers\Mailer::send($clientEmail, $subject, $body);
+                }
+            } catch (\Throwable $mailErr) {
+                audit_log('ticket_reply_email_failed', 'crm_ticket', (int)$id, 'Failed to email client: ' . $mailErr->getMessage());
+            }
+        }
+
         audit_log('reply_ticket', 'crm_ticket', (int)$id, ($isInternal ? "Added internal note to ticket #{$id}" : "Replied to ticket #{$id}"));
         flash('success', $isInternal ? 'Internal staff note recorded.' : 'Response posted to ticket.');
 
@@ -437,8 +456,7 @@ class CrmController
 
         if (empty($title) || empty($content)) {
             flash('error', 'Note title and content are required.');
-            $back = $request->input('redirect', '/admin/crm/notes');
-            return Response::redirect($back);
+            return Response::redirect($this->safeRedirect($request, '/admin/crm/notes'));
         }
 
         $clientId = !empty($request->input('client_id')) ? (int)$request->input('client_id') : null;
@@ -461,24 +479,21 @@ class CrmController
         audit_log('create_crm_note', 'crm_note', $noteId, "Added CRM note: {$title}");
         flash('success', 'CRM note recorded successfully.');
 
-        $redirect = $request->input('redirect', '/admin/crm/notes');
-        return Response::redirect($redirect);
+        return Response::redirect($this->safeRedirect($request, '/admin/crm/notes'));
     }
 
     public function toggleNotePin(Request $request, string $id): Response
     {
         CrmNote::togglePin((int)$id);
         flash('success', 'Note pin status updated.');
-        $redirect = $request->input('redirect', '/admin/crm/notes');
-        return Response::redirect($redirect);
+        return Response::redirect($this->safeRedirect($request, '/admin/crm/notes'));
     }
 
     public function toggleFollowUp(Request $request, string $id): Response
     {
         CrmNote::toggleFollowUp((int)$id);
         flash('success', 'Follow-up status marked as complete.');
-        $redirect = $request->input('redirect', '/admin/crm/notes');
-        return Response::redirect($redirect);
+        return Response::redirect($this->safeRedirect($request, '/admin/crm/notes'));
     }
 
     public function deleteNote(Request $request, string $id): Response
@@ -486,7 +501,15 @@ class CrmController
         CrmNote::delete((int)$id);
         audit_log('delete_crm_note', 'crm_note', (int)$id, "Deleted CRM note #{$id}");
         flash('success', 'Note removed.');
-        $redirect = $request->input('redirect', '/admin/crm/notes');
-        return Response::redirect($redirect);
+        return Response::redirect($this->safeRedirect($request, '/admin/crm/notes'));
+    }
+
+    private function safeRedirect(Request $request, string $default): string
+    {
+        $redirect = trim((string)$request->input('redirect', ''));
+        if (str_starts_with($redirect, '/') && !str_starts_with($redirect, '//')) {
+            return $redirect;
+        }
+        return $default;
     }
 }

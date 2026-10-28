@@ -106,9 +106,13 @@ class ContactController
             'message' => $message
         ];
 
-        // Dispatch unified notification (WhatsApp, SMS, Email, In-App)
-        $dispatcher = new NotificationDispatcher();
-        $dispatcher->dispatchNewInquiry($inquiryData);
+        // Dispatch unified notification (WhatsApp, SMS, Email, In-App) safely
+        try {
+            $dispatcher = new NotificationDispatcher();
+            $dispatcher->dispatchNewInquiry($inquiryData);
+        } catch (\Throwable $dispatchErr) {
+            audit_log('inquiry_notification_failed', 'inquiry', $inquiryId, 'Notification dispatch failed: ' . $dispatchErr->getMessage());
+        }
 
         if ($isApi) {
             return Response::json([

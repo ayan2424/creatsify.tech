@@ -132,14 +132,28 @@ class App
     public function run(): void
     {
         try {
-            // 1. If not installed yet, redirect to web installer wizard
+            // 1. If not installed yet, check DB or redirect to web installer wizard
             if (!file_exists($this->basePath . '/storage/installed.lock')) {
-                $uri = $_SERVER['REQUEST_URI'] ?? '';
-                if (!str_contains($uri, 'install.php')) {
-                    $sub = function_exists('app_base_path') ? app_base_path() : '';
-                    $target = $sub ? $sub . '/install.php' : '/install.php';
-                    header("Location: {$target}");
-                    exit;
+                $isConfigured = false;
+                try {
+                    $db = $this->getDb();
+                    $stmt = $db->query("SELECT 1 FROM `users` LIMIT 1");
+                    if ($stmt !== false) {
+                        @file_put_contents($this->basePath . '/storage/installed.lock', date('Y-m-d H:i:s'));
+                        $isConfigured = true;
+                    }
+                } catch (\Throwable $ignored) {
+                    $isConfigured = false;
+                }
+
+                if (!$isConfigured) {
+                    $uri = $_SERVER['REQUEST_URI'] ?? '';
+                    if (!str_contains($uri, 'install.php')) {
+                        $sub = function_exists('app_base_path') ? app_base_path() : '';
+                        $target = $sub ? $sub . '/install.php' : '/install.php';
+                        header("Location: {$target}");
+                        exit;
+                    }
                 }
             }
 

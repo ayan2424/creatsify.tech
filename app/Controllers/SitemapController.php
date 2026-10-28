@@ -62,7 +62,7 @@ class SitemapController
 
         // Dynamic Blog Posts
         try {
-            $posts = Post::published();
+            $posts = Post::allPublished();
             foreach ($posts as $post) {
                 if (!empty($post['slug'])) {
                     $urls[] = [
@@ -77,7 +77,7 @@ class SitemapController
 
         // Dynamic Team Members
         try {
-            $members = TeamMember::active();
+            $members = TeamMember::allActive();
             foreach ($members as $m) {
                 if (!empty($m['slug'])) {
                     $urls[] = [

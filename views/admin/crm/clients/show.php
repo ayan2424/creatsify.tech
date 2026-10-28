@@ -1,4 +1,7 @@
 <?php
+/** @var Core\View $this */
+$this->layout('layouts/admin', ['page_title' => 'Client Profile', 'meta_title' => ($client['name'] ?? 'Client') . ' | Creatsify Admin']);
+
 $stageColors = [
     'lead' => ['bg' => 'rgba(100, 116, 139, 0.15)', 'color' => '#94a3b8', 'border' => 'rgba(100, 116, 139, 0.3)'],
     'discovery' => ['bg' => 'rgba(59, 130, 246, 0.15)', 'color' => '#60a5fa', 'border' => 'rgba(59, 130, 246, 0.3)'],

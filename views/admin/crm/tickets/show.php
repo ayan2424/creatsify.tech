@@ -1,4 +1,7 @@
 <?php
+/** @var Core\View $this */
+$this->layout('layouts/admin', ['page_title' => 'Ticket #' . ($ticket['ticket_number'] ?? ''), 'meta_title' => 'Ticket #' . ($ticket['ticket_number'] ?? '') . ' | Creatsify Admin']);
+
 $pColors = [
     'urgent' => ['color' => '#ef4444', 'bg' => 'rgba(239, 68, 68, 0.12)', 'border' => 'rgba(239, 68, 68, 0.3)'],
     'high' => ['color' => '#f97316', 'bg' => 'rgba(249, 115, 22, 0.12)', 'border' => 'rgba(249, 115, 22, 0.3)'],

@@ -50,6 +50,7 @@ try {
     $sqliteSchema = preg_replace('/ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci/i', '', $sqliteSchema);
     $sqliteSchema = preg_replace('/ON UPDATE CURRENT_TIMESTAMP/i', '', $sqliteSchema);
     $sqliteSchema = preg_replace('/ENUM\([^)]+\)/i', 'VARCHAR(50)', $sqliteSchema);
+    $sqliteSchema = preg_replace('/UNIQUE\s+KEY\s+`?[^`\s]+`?\s*\(([^)]+)\)/i', 'UNIQUE ($1)', $sqliteSchema);
     $sqliteSchema = preg_replace('/INDEX `[^`]+` \([^)]+\),?/i', '', $sqliteSchema);
     // Remove trailing commas before closing parenthesis
     $sqliteSchema = preg_replace('/,\s*\)/', ')', $sqliteSchema);
@@ -60,6 +61,7 @@ try {
     // Run Seeds
     $seedsSql = file_get_contents($baseDir . '/database/seeds.sql');
     $sqliteSeeds = preg_replace('/ON DUPLICATE KEY UPDATE `[^`]+`=VALUES\(`[^`]+`\);/i', ';', $seedsSql);
+    $sqliteSeeds = str_replace("\\'", "''", $sqliteSeeds);
 
     // Split and execute statements
     $queries = explode(";\n", $sqliteSeeds);

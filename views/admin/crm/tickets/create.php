@@ -1,3 +1,7 @@
+<?php
+/** @var Core\View $this */
+$this->layout('layouts/admin', ['page_title' => 'Create Ticket', 'meta_title' => 'New Support Ticket | Creatsify Admin']);
+?>
 <div class="content-header">
     <div>
         <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary btn-sm" style="margin-bottom: 8px;">&larr; Back to Tickets</a>

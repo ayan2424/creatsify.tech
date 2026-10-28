@@ -1,3 +1,7 @@
+<?php
+/** @var Core\View $this */
+$this->layout('layouts/admin', ['page_title' => 'Support Desk Tickets', 'meta_title' => 'Support Tickets | Creatsify Admin']);
+?>
 <div class="content-header">
     <div>
         <h1 class="page-title">Client Support & Project Tickets</h1>

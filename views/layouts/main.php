@@ -33,8 +33,8 @@ $footerCode = setting('custom_footer_code', '');
     <meta name="twitter:description" content="<?= e($siteDesc) ?>">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?= asset($siteIcon) ?>">
-    <link rel="apple-touch-icon" href="<?= asset($siteIcon) ?>">
+    <link rel="icon" type="image/png" href="<?= e(asset($siteIcon)) ?>">
+    <link rel="apple-touch-icon" href="<?= e(asset($siteIcon)) ?>">
 
     <!-- Fonts: Bricolage Grotesque & DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,8 +68,27 @@ $footerCode = setting('custom_footer_code', '');
             } catch(e) {}
         })();
     </script>
+    <style>
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 16px;
+            background: var(--accent, #6366f1);
+            color: #ffffff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            z-index: 999999;
+            text-decoration: none;
+            transition: top 0.2s ease;
+        }
+        .skip-link:focus {
+            top: 16px;
+        }
+    </style>
 </head>
 <body>
+    <a href="#mainContent" class="skip-link">Skip to main content</a>
     <div class="bg" aria-hidden="true"></div>
     <canvas id="glCanvas" aria-hidden="true"></canvas>
     <div class="vg" aria-hidden="true"></div>
@@ -88,7 +107,7 @@ $footerCode = setting('custom_footer_code', '');
     <?php $this->partial('partials/header'); ?>
 
     <!-- Main Content Injection -->
-    <main id="top">
+    <main id="mainContent">
         <?= $content ?>
     </main>
 

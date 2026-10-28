@@ -164,7 +164,14 @@
     font-size: 22px;
     cursor: pointer;
     line-height: 1;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 4px;
+    border-radius: 8px;
+    transition: background 0.15s ease, color 0.15s ease;
 }
 
 .chat-close-btn:hover {
@@ -302,4 +309,11 @@
 
 .chat-send-btn:hover {
     opacity: 0.9;
+}
+
+/* Mobile Ergonomics & iOS Zoom Prevention */
+@media (max-width: 768px) {
+    .chat-footer input {
+        font-size: 16px !important;
+    }
 }

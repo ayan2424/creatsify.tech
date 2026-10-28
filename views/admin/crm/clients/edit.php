@@ -1,3 +1,7 @@
+<?php
+/** @var Core\View $this */
+$this->layout('layouts/admin', ['page_title' => 'Edit Client', 'meta_title' => 'Edit Client | Creatsify Admin']);
+?>
 <div class="content-header">
     <div>
         <a href="<?= url('/admin/crm/clients/' . $client['id']) ?>" class="btn btn-secondary btn-sm" style="margin-bottom: 8px;">&larr; Back to Client Profile</a>

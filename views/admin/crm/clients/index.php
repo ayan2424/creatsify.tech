@@ -1,3 +1,7 @@
+<?php
+/** @var Core\View $this */
+$this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_title' => 'CRM Clients | Creatsify Admin']);
+?>
 <div class="content-header">
     <div>
         <h1 class="page-title">Clients & Deal Pipeline</h1>

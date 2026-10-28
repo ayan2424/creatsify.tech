@@ -424,7 +424,7 @@
                 </div>
 
                 <h2 class="hero-panel-headline">Engineered for Direct Execution Speed.</h2>
-                <p class="hero-panel-desc">Secure administrative gateway for Cheetah Logistics, OrderKit POS, multi-tenant databases, and omnichannel customer telemetry.</p>
+                <p class="hero-panel-desc">Secure administrative gateway for Cheetah Logistics, multi-tenant databases, and omnichannel customer telemetry.</p>
 
                 <div class="telemetry-pills-list">
                     <div class="telemetry-pill">

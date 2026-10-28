@@ -11,6 +11,7 @@ class View
     private string $viewPath;
     private array $data = [];
     private ?string $layout = null;
+    private array $layoutData = [];
     private array $sections = [];
     private ?string $currentSection = null;
 
@@ -45,6 +46,9 @@ class View
                 throw new \RuntimeException("Layout file not found: {$layoutPath}");
             }
 
+            // Extract layout variables, merging view data with layout-specific data
+            extract(array_merge($this->data, $this->layoutData));
+
             // Expose $content and sections to layout
             $this->sections['content'] = $content;
 
@@ -66,11 +70,12 @@ class View
     }
 
     /**
-     * Declare layout
+     * Declare layout with optional data
      */
-    public function layout(string $layout): void
+    public function layout(string $layout, array $data = []): void
     {
         $this->layout = $layout;
+        $this->layoutData = $data;
     }
 
     /**

@@ -21,7 +21,8 @@ class ChatController
     {
         $token = trim((string)$request->input('token', ''));
         $message = trim((string)$request->input('message', ''));
-        $name = trim((string)$request->input('name', 'Visitor'));
+        $rawName = trim((string)$request->input('name', ''));
+        $name = ($rawName !== '' && $rawName !== 'Visitor') ? $rawName : null;
         $email = trim((string)$request->input('email', ''));
 
         if (empty($token) || empty($message)) {
@@ -30,9 +31,13 @@ class ChatController
 
         // Get or initialize chat session
         $session = ChatSession::findOrCreate($token, $request->getIp(), $name, $email);
+        if (!$session) {
+            return Response::json(['success' => false, 'error' => 'Failed to initialize session.'], 500);
+        }
 
-        // Record visitor message
-        ChatMessage::add((int)$session['id'], 'visitor', $name, $message);
+        // Record visitor message using resolved visitor name
+        $displayName = $session['visitor_name'] ?: 'Visitor';
+        ChatMessage::add((int)$session['id'], 'visitor', $displayName, $message);
 
         // Check if session is already in human handoff mode
         if ((int)$session['is_human_handoff'] === 1) {
@@ -174,7 +179,7 @@ class ChatController
 
         // Pricing and quote inquiries
         if (str_contains($m, 'price') || str_contains($m, 'cost') || str_contains($m, 'quote') || str_contains($m, 'rate') || str_contains($m, 'budget')) {
-            return "Our pricing depends on your project scope. Pre-built software licenses (such as Cheetah editions or RestroMaster) can be purchased directly via our official Gumroad store with instant download and direct in-house technical support. For custom full-stack web or mobile builds, we provide transparent milestone-based contracts. Would you like to share your project details?";
+            return "Our pricing depends on your project scope. Pre-built software licenses (such as Cheetah editions or Cheezify) can be purchased directly via our official Gumroad store with instant download and direct in-house technical support. For custom full-stack web or mobile builds, we provide transparent milestone-based contracts. Would you like to share your project details?";
         }
 
         // Founder and studio background

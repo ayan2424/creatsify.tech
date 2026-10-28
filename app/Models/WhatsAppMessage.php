@@ -40,6 +40,9 @@ class WhatsAppMessage
     public static function forContact(string $phone): array
     {
         $clean = clean_phone_number($phone, false);
+        if (strlen($clean) < 7) {
+            return [];
+        }
         return db()->fetchAll(
             "SELECT * FROM whatsapp_messages 
              WHERE from_number LIKE :p1 OR to_number LIKE :p2 

@@ -35,7 +35,7 @@ class PortfolioController
     {
         $project = Project::findBySlug($slug);
         if (!$project) {
-            return Response::html(view('errors/404', ['message' => 'Project not found']), 404);
+            return view('errors/404', ['message' => 'Project not found'])->setStatusCode(404);
         }
 
         return view('portfolio/show', [

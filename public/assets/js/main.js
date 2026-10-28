@@ -14,19 +14,12 @@ const IM = {
   s: baseUrl + '/assets/brand/creatsify-icon.png'
 };
 const _P_FALLBACK=[
-["Cheetah Enterprise","p","Shipped · Flagship","Courier, 3PL warehouse and multi-branch logistics platform with 7 role portals, WMS and a 3D tracking globe.",["PHP 8.3","MySQL","Three.js","WooCommerce"],"c",[["Live demo","https://cheetah.ayan24.me"],["Buy on Gumroad","https://gumroad.com"]]],
-["Cheetah Driver and Picker App","t","Shipped · Android and iOS","Flutter app for delivery riders and warehouse pickers, with offline mode, signature and photo proof of delivery, and barcode scanning.",["Flutter","Dart","Hive","PHP REST API"],"a",[["Buy on Gumroad","https://gumroad.com"],]],
-["VisionLab and VisionCode AI","p","Shipped · Vision 2026 showcase","Browser-based coding platform: a Laravel 11 LMS, isolated cloud IDE workspaces, live collaboration, Jitsi video and a 3-mode AI agent.",["Laravel 11","Monaco","Docker","Laravel Reverb"],"v",[["View on GitHub","https://github.com/ayan2424/VisionLab"]]],
-["ViddMate Browser","t","Shipped · v3.4 desktop","Creator browser for Windows, macOS and Linux with a stream sniffer, fast downloader, built-in FFmpeg converter and an AI panel.",["Electron","React","yt-dlp","FFmpeg"],"m",[["Visit viddmate.app","https://www.viddmate.app"]]],
-["ViddMate Web","t","Shipped · Live","Web app to download video and audio from 1,000+ sites and convert 50+ file formats.",["Python","Celery","Redis","FFmpeg","React"],"m",[["Open converter","https://www.viddmate.app/converter"],["Website","https://www.viddmate.app"]]],
-["Cheezify","s","Shipped · Live","Online store for artisanal and pizza cheese in Karachi, with cold-chain delivery zones and SEO-ready pages.",["Storefront","Cart drawer","SEO schema","Cloudflare"],"z",[["Visit store","https://cheezify.ayan24.me"]]],
-["OrderKit","s","Shipped · Restaurant suite","Online ordering for restaurants and cloud kitchens: QR table menu, live kitchen display, thermal POS and rider dispatch.",["PHP","JavaScript","KDS","WhatsApp alerts"],"z",[["Ask for a demo","#contact"]]],
-["Creatsify Direct Store","s","Shipped · White-label","Our catalog of PHP scripts, Flutter apps, and SaaS engines, sold directly via Gumroad with instant delivery and full technical support.",["Licensing tiers","Instant delivery","In-house support"],"k",[["Gumroad Store","https://gumroad.com"]]],
-["SaaSForge","p","Shipped · SaaS launchpad","Multi-tenant SaaS starter kit with workspaces, role-based access, subscription billing and AI modules.",["Next.js","React 19","Tailwind","Stripe"],"k",[["Ask about it","#contact"]]],
-["Sawi Store and Mindora","s","Shipped · Web and CMS","WordPress and WooCommerce store hardened with Wordfence and Rank Math SEO, plus the Mindora wellness and posture platform.",["WordPress","Elementor","WooCommerce","Rank Math"],"s",[["See portfolio","http://ayan24.me/Portfolio/"]]]
+["Cheetah Enterprise","p","For sale","Courier, warehouse and multi-branch logistics platform with 7 role portals, store sync and the Flutter driver and picker app.",["PHP","MySQL","JavaScript","Flutter"],"c",[["Live demo","https://cheetah.ayan24.me"]]],
+["Cheetah Lite","p","For sale","A lighter, courier-only edition. No warehouse module and no picker role.",["PHP","MySQL","JavaScript"],"c",[["Live demo","https://cheetah-lite.ayan24.me"]]],
+["Cheezify","s","For sale","Online cheese store with its own admin panel, built for a client in Karachi, with cold-chain delivery zones and SEO-ready pages.",["PHP","MySQL","JavaScript"],"z",[["Visit store","https://cheezify.ayan24.me"]]],
+["Sawi Store","s","Delivered","WordPress and WooCommerce online store built with Elementor.",["WordPress","Elementor","WooCommerce"],"h",[]]
 ];
 const P = (window.CREATSIFY_PROJECTS && window.CREATSIFY_PROJECTS.length > 0) ? window.CREATSIFY_PROJECTS : _P_FALLBACK;
-const E=[["Edition 1","Cheetah Express Lite","A lighter, courier-only edition. No warehouse module and no picker role.","https://cheetah-lite.ayan24.me"],["Edition 2","Cheetah Enterprise","The full system: 7 user roles, warehouse management, store sync and the Flutter driver and picker app.","https://cheetah.ayan24.me"],["Edition 3","Cheetah Pro","A white-label cloud SaaS. Run your own courier platform for many companies, with Stripe, PayPal and Razorpay billing, custom domains and plans.","https://cheetah-pro.ayan24.me"]];
 const F=["Admin and branch agent","Warehouse manager and picker","Merchant and customer portals","Driver app (Flutter)","Live rider tracking","WooCommerce and Shopify sync","Two-factor login, 19 security layers","Warehouse stock, orders and returns"];
 
 const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
@@ -40,17 +33,13 @@ const lk=links=>(Array.isArray(links)?links:[]).map(([title,href])=>{
   return `<a class="more" href="${escapeHtml(safeUrl)}"${safeUrl.startsWith('http')?' target="_blank" rel="noopener noreferrer"':''}>${escapeHtml(title)} <span aria-hidden="true">→</span></a>`;
 }).join('');
 /* build content */
-const featuredP = P.slice(0, 3);
+const featuredP = P.slice(0, 4);
 if($('#pjs')) {
   let cardsHtml = featuredP.map((p,i)=>{const tech=Array.isArray(p[4])?p[4]:[];return `<article class="pj" style="--top:${86+i*14}px"><div class="pj-in" data-cur="View"><div class="pjt"><span class="pjn" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="pjw"><div class="st" style="--k:0"><i></i>${escapeHtml(p[2])}</div><h3 style="--k:1">${escapeHtml(p[0])}</h3><p style="--k:2">${escapeHtml(p[3])}</p><div class="chips" style="--k:3">${tech.map(item=>`<span>${escapeHtml(item)}</span>`).join('')}</div><div class="links" style="--k:4">${lk(p[6])}</div></div></div><div class="pjm"><img alt="${escapeHtml(p[0])} preview" loading="lazy"><span class="fch a">${escapeHtml(tech[0])}</span>${tech[1]?`<span class="fch b">${escapeHtml(tech[1])}</span>`:''}</div><div class="ov"></div></div></article>`;}).join('');
-  cardsHtml += `<div class="portfolio-gateway-card rv" style="--d:.2s;"><div class="gateway-content"><span class="section-tag" style="margin-bottom:8px;">Software Catalog</span><h3>Explore production software and case studies</h3><p>Browse our complete catalog of courier platforms, AI tools, Flutter apps, web systems, and direct licensing options.</p></div><a href="${escapeHtml(safeHref(baseUrl+'/portfolio'))}" class="btn p" style="padding:13px 28px;font-weight:700;">Open Full Portfolio (${P.length}) &rarr;</a></div>`;
+  cardsHtml += `<div class="portfolio-gateway-card rv" style="--d:.2s;"><div class="gateway-content"><span class="section-tag" style="margin-bottom:8px;">Portfolio</span><h3>See every project in detail</h3><p>Open any project for screenshots, the tech behind it and a live demo where there is one.</p></div><a href="${escapeHtml(safeHref(baseUrl+'/portfolio'))}" class="btn p" style="padding:13px 28px;font-weight:700;">Open Full Portfolio (${P.length}) &rarr;</a></div>`;
   $('#pjs').innerHTML = cardsHtml;
 }
 $$('.pj img').forEach((im,i)=>{ if(featuredP[i]) { const val = String(featuredP[i][5]??''); im.src = (val.startsWith('/') || /^https?:\/\//i.test(val)) ? val : (IM[val] || IM.h); } });
-if($('#eds')){
-  E.forEach((e,i)=>{const w=document.createElement('div');w.className='rv f';w.style.setProperty('--d',i*.14+'s');
-  w.innerHTML=`<article class="card" data-tilt="7"><div class="cb"><div class="st"><i></i>${escapeHtml(e[0])}</div><h3>${escapeHtml(e[1])}</h3><p>${escapeHtml(e[2])}</p><div class="links">${lk([["Open live demo",e[3]]])}</div></div></article>`;$('#eds').appendChild(w)});
-}
 if($('#feat')) $('#feat').innerHTML=F.map((f,i)=>`<li class="rv l" style="--d:${i*.06}s">${escapeHtml(f)}</li>`).join('');
 if($('#cheetahimg') && !$('#cheetahimg').getAttribute('src')) $('#cheetahimg').src=IM.c;
 if($('#hm1') && !$('#hm1').getAttribute('src')) $('#hm1').src=IM.c;
@@ -108,9 +97,14 @@ const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return
 const tk=t=>{const k=Math.min(1,(t-t0)/1400);el.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(tk)};requestAnimationFrame(tk)}),{threshold:.6});
 if(!RM)$$('[data-n]').forEach(el=>{el.textContent='0';co.observe(el)});
 /* tracking demo */
-const tl=$$('#trk li');let tkv=false,tki=0;
-if(RM)tl.forEach(l=>l.classList.add('d'));else{new IntersectionObserver(es=>es.forEach(e=>tkv=e.isIntersecting),{threshold:.3}).observe($('#trk'));
-setInterval(()=>{if(!tkv)return;tki=(tki+1)%7;tl.forEach((l,i)=>l.classList.toggle('d',i<tki))},1100)}
+const trkEl = $('#trk');
+if (trkEl) {
+  const tl = $$('#trk li'); let tkv = false, tki = 0;
+  if (RM) tl.forEach(l => l.classList.add('d')); else {
+    new IntersectionObserver(es => es.forEach(e => tkv = e.isIntersecting), { threshold: .3 }).observe(trkEl);
+    setInterval(() => { if (!tkv) return; tki = (tki + 1) % 7; tl.forEach((l, i) => l.classList.toggle('d', i < tki)) }, 1100);
+  }
+}
 /* buttons ripple */
 $$('.btn').forEach(b=>b.addEventListener('pointerdown',e=>{const r=b.getBoundingClientRect(),s=document.createElement('span');s.className='rp';s.style.left=e.clientX-r.left+'px';s.style.top=e.clientY-r.top+'px';b.appendChild(s);setTimeout(()=>s.remove(),700)}));
 /* tilt, magnetic, cursor, spotlights */
@@ -201,7 +195,7 @@ if(filterButtons.length){
 }
 
 /* rotating word */
-const words=['courier companies','online stores','learning platforms','media brands','startups','restaurant chains'],rot=$('#rot');let wi=0;
+const words=['courier companies','online stores','local brands','growing businesses'],rot=$('#rot');let wi=0;
 if(rot&&!RM)setInterval(()=>{rot.classList.add('out');setTimeout(()=>{wi=(wi+1)%words.length;rot.textContent=words[wi];rot.classList.remove('out')},380)},2800);
 
 /* footer wordmark hover highlight */
@@ -294,16 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 2. Mobile Drawer Toggle
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const drawer = document.getElementById('mobileDrawer');
-    if (mobileBtn && drawer) {
-        mobileBtn.addEventListener('click', function () {
-            drawer.classList.toggle('open');
-        });
-    }
-
-    // 3. Scroll Progress Bar
+    // 2. Scroll Progress Bar
     const prog = document.getElementById('scrollProgressBar');
     if (prog) {
         window.addEventListener('scroll', function () {
@@ -442,3 +427,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+/* hero product showcase: crossfade between shipped products, autoplay driven by the progress bar */
+(function(){const hv=$('#hv');if(!hv)return;
+const shots=$$('.hv-shot',hv),tabs=$$('.hv-tab',hv),toast=$('#hvToast'),url=$('#hvUrl'),link=$('#hvLink'),prog=$('#hvProg');
+if(shots.length<2||shots.length!==tabs.length)return;
+let i=0,tm=0;
+function show(n){i=(n+shots.length)%shots.length;
+shots.forEach((s,k)=>s.classList.toggle('on',k===i));
+tabs.forEach((b,k)=>{b.classList.toggle('on',k===i);b.setAttribute('aria-selected',k===i?'true':'false')});
+const d=tabs[i].dataset;url.textContent=d.host;link.href=d.href;
+toast.classList.remove('in');toast.lastElementChild.textContent=d.toast;clearTimeout(tm);tm=setTimeout(()=>toast.classList.add('in'),650);
+prog.style.animation='none';void prog.offsetWidth;prog.style.animation=''}
+tabs.forEach((b,k)=>b.addEventListener('click',()=>show(k)));
+prog.addEventListener('animationend',()=>show(i+1));
+new IntersectionObserver(es=>es.forEach(e=>hv.classList.toggle('off',!e.isIntersecting)),{threshold:.2}).observe(hv);
+show(0)})();
+
+/* "Get a quote" buttons preselect the product in the contact form */
+$$('[data-quote]').forEach(a=>a.addEventListener('click',()=>{const sel=$('#form select[name=project_type]'),msg=$('#form textarea');
+if(sel)[...sel.options].forEach(o=>{if(o.text===a.dataset.quote)sel.value=o.value});
+if(msg&&!msg.value)msg.value='I am interested in '+a.dataset.quote+'. '}));

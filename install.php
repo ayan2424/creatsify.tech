@@ -10,14 +10,14 @@ declare(strict_types=1);
 $baseDir = file_exists(__DIR__ . '/core/App.php') ? __DIR__ : dirname(__DIR__);
 $lockFile = $baseDir . '/storage/installed.lock';
 
-// 1. Check if already installed
-if (file_exists($lockFile)) {
-    die('<!DOCTYPE html><html><head><title>Creatsify - Already Installed</title><style>body{background:#07080d;color:#eef0f7;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;}div{background:#12131b;border:1px solid #252736;padding:40px;border-radius:12px;text-align:center;max-width:450px;}h2{color:#8b7bff;}a{color:#8b7bff;text-decoration:none;font-weight:bold;}</style></head><body><div><h2>Platform Installed</h2><p>Creatsify Studio is already configured. To re-run the installer, remove the file <code>storage/installed.lock</code>.</p><p><a href="/">Visit Website &rarr;</a> &bull; <a href="/admin">Admin Desk &rarr;</a></p></div></body></html>');
-}
-
 $step = (int)($_GET['step'] ?? 1);
 $error = null;
 $success = null;
+
+// 1. Check if already installed (allow step 4 completion screen)
+if (file_exists($lockFile) && $step !== 4) {
+    die('<!DOCTYPE html><html><head><title>Creatsify - Already Installed</title><style>body{background:#07080d;color:#eef0f7;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;}div{background:#12131b;border:1px solid #252736;padding:40px;border-radius:12px;text-align:center;max-width:450px;}h2{color:#8b7bff;}a{color:#8b7bff;text-decoration:none;font-weight:bold;}</style></head><body><div><h2>Platform Installed</h2><p>Creatsify Studio is already configured. To re-run the installer, remove the file <code>storage/installed.lock</code>.</p><p><a href="/">Visit Website &rarr;</a> &bull; <a href="/admin">Admin Desk &rarr;</a></p></div></body></html>');
+}
 
 // Handle Form Submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -94,15 +94,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // 1. Run Schema
                 $schemaSql = file_get_contents($baseDir . '/database/schema.sql');
-                $pdo->exec($schemaSql);
+                if ($driver === 'sqlite') {
+                    $sqliteSchema = preg_replace('/(INT|BIGINT)\s+AUTO_INCREMENT\s+PRIMARY\s+KEY/i', 'INTEGER PRIMARY KEY AUTOINCREMENT', $schemaSql);
+                    $sqliteSchema = preg_replace('/ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci/i', '', $sqliteSchema);
+                    $sqliteSchema = preg_replace('/ON UPDATE CURRENT_TIMESTAMP/i', '', $sqliteSchema);
+                    $sqliteSchema = preg_replace('/ENUM\([^)]+\)/i', 'VARCHAR(50)', $sqliteSchema);
+                    $sqliteSchema = preg_replace('/UNIQUE\s+KEY\s+`?[^`\s]+`?\s*\(([^)]+)\)/i', 'UNIQUE ($1)', $sqliteSchema);
+                    $sqliteSchema = preg_replace('/INDEX `[^`]+` \([^)]+\),?/i', '', $sqliteSchema);
+                    $sqliteSchema = preg_replace('/,\s*\)/', ')', $sqliteSchema);
+                    $pdo->exec($sqliteSchema);
+                } else {
+                    $pdo->exec($schemaSql);
+                }
 
                 // 2. Run Seeds
                 $seedsSql = file_get_contents($baseDir . '/database/seeds.sql');
-                $pdo->exec($seedsSql);
+                if ($driver === 'sqlite') {
+                    $sqliteSeeds = preg_replace('/ON DUPLICATE KEY UPDATE `[^`]+`=VALUES\(`[^`]+`\);/i', ';', $seedsSql);
+                    $sqliteSeeds = str_replace("\\'", "''", $sqliteSeeds);
+                    $queries = explode(";\n", $sqliteSeeds);
+                    foreach ($queries as $q) {
+                        $trimmed = trim($q);
+                        if (!empty($trimmed)) {
+                            try { $pdo->exec($trimmed); } catch (Throwable $e) {}
+                        }
+                    }
+                } else {
+                    $pdo->exec($seedsSql);
+                }
 
                 // 3. Update Super Admin & Title
                 $hashedPass = password_hash($adminPass, PASSWORD_BCRYPT);
-                $stmt = $pdo->prepare("UPDATE `users` SET `name` = :n, `email` = :e, `password` = :p WHERE `role` = 'super_admin' LIMIT 1");
+                if ($driver === 'sqlite') {
+                    $stmt = $pdo->prepare("UPDATE `users` SET `name` = :n, `email` = :e, `password` = :p WHERE `role` = 'super_admin'");
+                } else {
+                    $stmt = $pdo->prepare("UPDATE `users` SET `name` = :n, `email` = :e, `password` = :p WHERE `role` = 'super_admin' LIMIT 1");
+                }
                 $stmt->execute(['n' => $adminName, 'e' => $adminEmail, 'p' => $hashedPass]);
 
                 $stmt = $pdo->prepare("UPDATE `settings` SET `value` = :v WHERE `key` = 'site_title'");

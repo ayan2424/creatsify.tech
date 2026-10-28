@@ -26,7 +26,7 @@ class BlogController
     {
         $post = Post::findBySlug($slug);
         if (!$post) {
-            return Response::html(view('errors/404', ['message' => 'Post not found']), 404);
+            return view('errors/404', ['message' => 'Post not found'])->setStatusCode(404);
         }
 
         // Increment view count

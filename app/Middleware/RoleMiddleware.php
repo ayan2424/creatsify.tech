@@ -27,7 +27,11 @@ class RoleMiddleware
                 return Response::json(['success' => false, 'error' => 'Unauthorized. Insufficient permissions.'], 403);
             }
             flash('error', 'You do not have permission to access that area.');
-            return Response::redirect('/admin');
+            $fallback = ($user['role'] ?? '') === 'editor' ? '/admin/posts' : '/admin';
+            if ($request->getPath() === $fallback || $request->getPath() === '/admin') {
+                return ($user['role'] ?? '') === 'editor' ? Response::redirect('/admin/posts') : Response::redirect('/');
+            }
+            return Response::redirect($fallback);
         }
 
         return $next($request);

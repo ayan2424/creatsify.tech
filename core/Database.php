@@ -104,6 +104,9 @@ class Database
         if ($cleanWhere === '') {
             throw new \InvalidArgumentException("UPDATE query rejected: WHERE clause cannot be empty.");
         }
+        if (empty($data)) {
+            return 0;
+        }
         $setClauses = [];
         $params = [];
         foreach ($data as $key => $val) {
@@ -139,11 +142,22 @@ class Database
 
     public function commit(): bool
     {
-        return $this->getPdo()->commit();
+        if ($this->getPdo()->inTransaction()) {
+            return $this->getPdo()->commit();
+        }
+        return false;
     }
 
     public function rollback(): bool
     {
-        return $this->getPdo()->rollBack();
+        if ($this->getPdo()->inTransaction()) {
+            return $this->getPdo()->rollBack();
+        }
+        return false;
+    }
+
+    public function inTransaction(): bool
+    {
+        return $this->getPdo()->inTransaction();
     }
 }

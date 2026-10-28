@@ -1,3 +1,7 @@
+<?php
+/** @var Core\View $this */
+$this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_title' => 'CRM Notes | Creatsify Admin']);
+?>
 <div class="content-header">
     <div>
         <h1 class="page-title">CRM Notes, Call Logs & Reminders</h1>

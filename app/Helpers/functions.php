@@ -243,15 +243,16 @@ if (!function_exists('clean_phone_number')) {
         if (empty($phone)) {
             return '';
         }
-        $cleaned = preg_replace('/[^\d+]/', '', (string)$phone);
-
-        if (str_starts_with($cleaned, '+')) {
-            $cleaned = substr($cleaned, 1);
-        } elseif (str_starts_with($cleaned, '00')) {
-            $cleaned = substr($cleaned, 2);
+        $digits = preg_replace('/\D/', '', (string)$phone);
+        if ($digits === '') {
+            return '';
         }
 
-        return $withPlus ? '+' . $cleaned : $cleaned;
+        if (str_starts_with($digits, '00')) {
+            $digits = substr($digits, 2);
+        }
+
+        return $withPlus ? '+' . $digits : $digits;
     }
 }
 
