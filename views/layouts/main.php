@@ -48,7 +48,11 @@ $footerCode = setting('custom_footer_code', '');
 
     <!-- Dynamic Custom Colors & Injected Code -->
     <style>
-        :root {
+        :root,
+        :root[data-theme="light"],
+        [data-theme="light"],
+        :root[data-theme="dark"],
+        [data-theme="dark"] {
             --accent: <?= e($accentColor) ?>;
             --accent-glow: <?= e($accentColor) ?>33;
         }

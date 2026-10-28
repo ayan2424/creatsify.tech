@@ -22,7 +22,7 @@
   --adm-green-glow: rgba(0, 229, 153, 0.25);
   --adm-pink: #ff4fa3;
   --adm-pink-glow: rgba(255, 79, 163, 0.25);
-  --adm-sidebar-w: 236px;
+  --adm-sidebar-w: 240px;
   --adm-radius: 14px;
 
   /* Modern High-End Gradient Tokens (Obsidian Theme) */
@@ -202,8 +202,10 @@ body {
 
 .sidebar-close-btn {
   display: none;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   border-radius: 8px;
   border: 1px solid var(--adm-line);
   background: var(--adm-bg);
@@ -519,9 +521,11 @@ body {
 }
 
 .sidebar-logout-btn {
-  width: 28px;
-  height: 28px;
-  border-radius: 7px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 8px;
   background: var(--adm-bg);
   border: 1px solid var(--adm-line);
   color: var(--adm-muted);
@@ -657,8 +661,10 @@ body.sidebar-locked {
 /* Sidebar Toggle Button (Desktop & Mobile) */
 .sidebar-toggle-btn {
   display: flex;
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
   border-radius: 10px;
   border: 1px solid var(--adm-line);
   background: var(--adm-bg);
@@ -847,8 +853,10 @@ body.sidebar-locked {
   background: var(--adm-bg);
   border: 1px solid var(--adm-line);
   color: var(--adm-muted);
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   border-radius: 10px;
   display: inline-flex;
   align-items: center;
@@ -1447,7 +1455,7 @@ body.sidebar-locked {
 
 .data-table {
   width: 100%;
-  min-width: 580px;
+  min-width: 720px;
   border-collapse: separate;
   border-spacing: 0;
   text-align: left;
@@ -1909,7 +1917,7 @@ select.form-control {
     height: auto;
     padding: 10px 16px;
     justify-content: space-between;
-    border-radius: 999px;
+    border-radius: 12px;
     margin: 0;
   }
   .sidebar-collapsed .nav-link-content > span {
@@ -2562,6 +2570,44 @@ select.form-control {
   box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
   transform: translateY(-1px);
 }
+
+/* ==========================================================================
+   ADMIN PRINT SYSTEM
+   ========================================================================== */
+@media print {
+  .admin-sidebar,
+  .admin-topbar,
+  .sidebar-floating-tooltip,
+  .admin-sidebar-backdrop,
+  .command-search-wrap,
+  .btn-top-action,
+  .crm-btn-action,
+  .crm-btn-whatsapp,
+  .crm-filter-bar,
+  .table-action-btn,
+  .pagination,
+  .sidebar-toggle-btn {
+    display: none !important;
+  }
+  .admin-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .admin-main {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .card, .data-table {
+    box-shadow: none !important;
+    border: 1px solid #cccccc !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+}
+
 
 
 

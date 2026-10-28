@@ -45,7 +45,7 @@ if (empty($img) || str_contains($img, 'creatsify-icon.png')) {
             </div>
         <?php endif; ?>
 
-        <div class="case-study-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 36px;">
+        <div class="case-study-grid">
             <div class="case-study-body" style="background: var(--surface); padding: 40px; border-radius: 16px; border: 1px solid var(--line); font-size: 16px; line-height: 1.8;">
                 <h3 style="margin-top: 0; font-size: 22px; color: var(--text);">Overview & Technical Architecture</h3>
                 <p style="color: var(--muted);"><?= nl2br(e($project['description'] ?: $project['summary'])) ?></p>

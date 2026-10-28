@@ -12,7 +12,7 @@ $this->layout('layouts/main');
 
 <section class="section">
     <div class="wrap">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 30px;">
             <?php foreach ($services as $service): ?>
                 <div class="service-card" style="background: var(--surface); padding: 40px; border-radius: 14px; border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between;">
                     <div>

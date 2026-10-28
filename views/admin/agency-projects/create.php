@@ -7,7 +7,7 @@
 
 <form action="<?= url('/admin/agency-projects') ?>" method="POST" class="card" style="padding:24px; max-width:980px;">
     <?= csrf_field() ?>
-    <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap:18px;">
         <div style="grid-column:1/-1;"><label class="form-label" for="title">Project title *</label><input class="form-control" id="title" name="title" required maxlength="200" placeholder="e.g. Acme product launch website"></div>
         <div><label class="form-label" for="client_id">CRM client</label><select class="form-control" id="client_id" name="client_id"><option value="">Unlinked / internal initiative</option><?php foreach ($clients as $client): ?><option value="<?= (int)$client['id'] ?>" <?= (int)$client['id'] === (int)$selectedClientId ? 'selected' : '' ?>><?= e(($client['company'] ? $client['company'] . ' — ' : '') . $client['name']) ?></option><?php endforeach; ?></select></div>
         <div><label class="form-label" for="project_type">Work type *</label><input class="form-control" id="project_type" name="project_type" required maxlength="100" value="Custom Development" placeholder="AI video campaign, Web build, Brand system"></div>

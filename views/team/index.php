@@ -21,9 +21,9 @@ $this->layout('layouts/main', [
     </div>
 
     <!-- Team Cards Grid -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 28px;">
         <?php foreach ($members as $m): ?>
-            <div class="calc-platform-card rv" style="padding: 32px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); transition: transform 0.25s ease, border-color 0.25s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <div class="team-card rv" style="padding: 32px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
                 <div>
                     <!-- Member Header -->
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">

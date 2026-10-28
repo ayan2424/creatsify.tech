@@ -481,7 +481,7 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
 </div>
 
 <!-- CRM Operations & Deliverables Grid -->
-<div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; margin-top: 24px;">
+<div class="tables-grid" style="margin-top: 24px;">
     <!-- Active Support & Milestone Tickets -->
     <div class="card">
         <div class="card-header">

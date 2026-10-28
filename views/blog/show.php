@@ -18,7 +18,7 @@ $this->layout('layouts/main');
 
 <section class="section" style="padding-bottom: 90px;">
     <div class="wrap" style="max-width: 820px;">
-        <article class="article-content" style="background: var(--surface); padding: 48px; border-radius: 16px; border: 1px solid var(--line); font-size: 17px; line-height: 1.8; color: var(--muted);">
+        <article class="article-content">
             <?= sanitize_html($post['content']) ?>
         </article>
         <div style="margin-top: 36px; text-align: center;">

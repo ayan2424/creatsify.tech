@@ -100,9 +100,9 @@ $this->layout('layouts/main', [
             <p>No individual projects showcased yet for this team member.</p>
         </div>
     <?php else: ?>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 32px;">
             <?php foreach ($portfolios as $p): ?>
-                <div class="calc-platform-card rv" style="padding: 0; overflow: hidden; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                <div class="team-card rv" style="padding: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
                     <!-- Artwork Header with Hover Zoom -->
                     <div style="position: relative; overflow: hidden; height: 210px; background: var(--bg);">
                         <img src="<?= asset($p['image_url'] ?: 'images/hero-artwork.jpg') ?>" alt="<?= e($p['title']) ?>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
