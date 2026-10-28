@@ -4,14 +4,17 @@ $this->layout('layouts/admin');
 ?>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header" style="flex-wrap: wrap; gap: 14px;">
         <div>
             <h3 class="card-title">User & Role Management</h3>
             <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Role-based access controls for Super Admins, Admins, and Editors.</p>
         </div>
-        <div style="display: flex; gap: 10px;">
-            <a href="<?= url('/admin/audit-logs') ?>" class="btn btn-secondary btn-sm">View Audit Trail</a>
-            <a href="<?= url('/admin/users/create') ?>" class="btn btn-primary btn-sm">+ New User</a>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <a href="<?= url('/admin/audit-logs') ?>" class="btn btn-secondary" style="min-height: 38px; padding: 8px 14px;">View Audit Trail</a>
+            <a href="<?= url('/admin/users/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 16px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>+ New User</span>
+            </a>
         </div>
     </div>
 
@@ -42,13 +45,13 @@ $this->layout('layouts/admin');
                             <span class="user-role-badge" style="background: rgba(0,200,83,0.15); color: #00c853;"><?= e($u['status']) ?></span>
                         </td>
                         <td style="font-size:12px; color:var(--muted);"><?= date('M j, Y', strtotime($u['created_at'])) ?></td>
-                        <td>
-                            <div style="display: flex; gap: 8px;">
-                                <a href="<?= url('/admin') ?>/users/<?= $u['id'] ?>/edit" class="btn btn-secondary btn-sm">Edit</a>
+                        <td style="white-space: nowrap;">
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <a href="<?= url('/admin/users/' . $u['id'] . '/edit') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; min-height: 36px; padding: 6px 14px;">Edit</a>
                                 <?php if ((int)$u['id'] !== auth_id()): ?>
-                                    <form action="<?= url('/admin') ?>/users/<?= $u['id'] ?>/delete" method="POST" onsubmit="return confirm('Delete this user account?');">
+                                    <form action="<?= url('/admin/users/' . $u['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this user account?');" style="margin: 0;">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-secondary btn-sm" style="color:var(--danger);">Delete</button>
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="color: #ef4444; min-height: 36px; padding: 6px 12px;">Delete</button>
                                     </form>
                                 <?php endif; ?>
                             </div>

@@ -9,9 +9,12 @@ $this->layout('layouts/admin');
             <h3 class="card-title">Agency Creators & Team Portfolios</h3>
             <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Manage agency staff, specialists, and individual team member showcases.</p>
         </div>
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="<?= url('/team') ?>" target="_blank" class="btn btn-secondary btn-sm">View Public Team &nearr;</a>
-            <a href="<?= url('/admin/team/create') ?>" class="btn btn-primary btn-sm">+ Add Team Member</a>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <a href="<?= url('/team') ?>" target="_blank" class="btn btn-secondary" style="min-height: 38px; padding: 8px 14px;">View Public Team &nearr;</a>
+            <a href="<?= url('/admin/team/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 16px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>+ Add Team Member</span>
+            </a>
         </div>
     </div>
 
@@ -81,15 +84,16 @@ $this->layout('layouts/admin');
                                     </button>
                                 </form>
                             </td>
-                            <td style="text-align: right;">
-                                <div style="display: inline-flex; gap: 6px; justify-content: flex-end;">
-                                    <a href="<?= url('/team/' . $m['slug']) ?>" target="_blank" class="btn btn-secondary btn-sm" style="font-size: 11.5px; padding: 4px 8px;" title="View Public Portfolio">
-                                        View &nearr;
+                            <td style="text-align: right; white-space: nowrap;">
+                                <div style="display: inline-flex; gap: 8px; justify-content: flex-end; align-items: center;">
+                                    <a href="<?= url('/team/' . $m['slug']) ?>" target="_blank" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 4px; min-height: 36px; padding: 6px 12px;" title="View Public Portfolio">
+                                        <span>View</span>
+                                        <span style="font-size: 13px;">&nearr;</span>
                                     </a>
-                                    <a href="<?= url('/admin/team/' . $m['id'] . '/edit') ?>" class="btn btn-secondary btn-sm" style="font-size: 11.5px; padding: 4px 10px;">Edit</a>
+                                    <a href="<?= url('/admin/team/' . $m['id'] . '/edit') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; min-height: 36px; padding: 6px 14px;">Edit</a>
                                     <form action="<?= url('/admin/team/' . $m['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Remove this team member and all their individual portfolio projects?');" style="margin: 0;">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-secondary btn-sm" style="color:var(--danger); font-size: 11.5px; padding: 4px 8px;">Delete</button>
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="color: #ef4444; min-height: 36px; padding: 6px 12px;">Delete</button>
                                     </form>
                                 </div>
                             </td>

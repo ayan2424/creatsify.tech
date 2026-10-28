@@ -35,14 +35,14 @@ $assignedIds = array_column($members, 'team_member_id');
     <?php if ($project['scope_notes']): ?><details style="margin-top:16px;"><summary style="cursor:pointer; color:var(--adm-accent); font-weight:600;">Internal scope and constraints</summary><p style="white-space:pre-wrap; color:var(--adm-muted); line-height:1.65; margin:12px 0 0;"><?= e($project['scope_notes']) ?></p></details><?php endif; ?>
 </div>
 
-<div style="display:grid; grid-template-columns:minmax(0,1.55fr) minmax(300px,.85fr); gap:22px; align-items:start;">
+<div class="crm-ticket-grid">
     <div style="display:flex; flex-direction:column; gap:22px;">
         <section class="card" id="milestones">
             <div class="card-header"><div><h2 class="card-title">Milestones</h2><p style="font-size:12px; color:var(--adm-muted); margin:4px 0 0;">Commercial and delivery checkpoints.</p></div></div>
             <div style="padding:0 20px 18px;">
                 <?php if (!$milestones): ?><p style="color:var(--adm-muted); font-size:13px;">No milestones yet. Add the first agreed checkpoint below.</p><?php endif; ?>
                 <?php foreach ($milestones as $milestone): ?>
-                    <div style="padding:14px 0; border-bottom:1px solid var(--adm-line); display:flex; justify-content:space-between; gap:14px;">
+                    <div style="padding:14px 0; border-bottom:1px solid var(--adm-line); display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
                         <div><strong><?= e($milestone['title']) ?></strong><?php if ($milestone['description']): ?><p style="margin:5px 0 0; font-size:12px; color:var(--adm-muted);"><?= e($milestone['description']) ?></p><?php endif; ?><div style="margin-top:7px; font-size:11px; color:var(--adm-muted);"><?= $milestone['due_date'] ? 'Due ' . e(date('M j, Y', strtotime($milestone['due_date']))) : 'No due date' ?><?= $milestone['amount'] !== null ? ' · ' . e($project['currency']) . ' ' . number_format((float)$milestone['amount'], 2) : '' ?></div></div>
                         <form action="<?= url('/admin/agency-projects/' . $project['id'] . '/milestones/' . $milestone['id'] . '/status') ?>" method="POST" style="margin:0; align-self:center;">
                             <?= csrf_field() ?><select class="form-control form-control-sm" name="status" onchange="this.form.submit()" aria-label="Milestone status"><?php foreach ($milestoneLabels as $value => $label): ?><option value="<?= e($value) ?>" <?= $milestone['status'] === $value ? 'selected' : '' ?>><?= e($label) ?></option><?php endforeach; ?></select>
@@ -51,7 +51,7 @@ $assignedIds = array_column($members, 'team_member_id');
                 <?php endforeach; ?>
                 <form action="<?= url('/admin/agency-projects/' . $project['id'] . '/milestones') ?>" method="POST" style="margin-top:18px; padding-top:18px; border-top:1px solid var(--adm-line);">
                     <?= csrf_field() ?><strong style="font-size:13px;">Add milestone</strong>
-                    <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:8px; margin-top:10px;"><input class="form-control form-control-sm" name="title" required maxlength="200" placeholder="Milestone title"><input class="form-control form-control-sm" type="date" name="due_date" aria-label="Due date"><input class="form-control form-control-sm" type="number" min="0" step="0.01" name="amount" placeholder="Amount"></div>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; margin-top:10px;"><input class="form-control form-control-sm" name="title" required maxlength="200" placeholder="Milestone title"><input class="form-control form-control-sm" type="date" name="due_date" aria-label="Due date"><input class="form-control form-control-sm" type="number" min="0" step="0.01" name="amount" placeholder="Amount"></div>
                     <textarea class="form-control form-control-sm" name="description" maxlength="2000" rows="2" style="margin-top:8px;" placeholder="Private delivery context (optional)"></textarea>
                     <button class="btn btn-secondary btn-sm" type="submit" style="margin-top:8px;">Add milestone</button>
                 </form>
@@ -63,7 +63,7 @@ $assignedIds = array_column($members, 'team_member_id');
             <div style="padding:0 20px 18px;">
                 <?php if (!$tasks): ?><p style="color:var(--adm-muted); font-size:13px;">No tasks yet. Add the next concrete action below.</p><?php endif; ?>
                 <?php foreach ($tasks as $task): ?>
-                    <div style="padding:14px 0; border-bottom:1px solid var(--adm-line); display:flex; justify-content:space-between; gap:14px;">
+                    <div style="padding:14px 0; border-bottom:1px solid var(--adm-line); display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
                         <div><strong><?= e($task['title']) ?></strong><?php if ($task['description']): ?><p style="margin:5px 0 0; font-size:12px; color:var(--adm-muted);"><?= e($task['description']) ?></p><?php endif; ?><div style="margin-top:7px; font-size:11px; color:var(--adm-muted);"><?= e($task['assignee_name'] ?: 'Unassigned') ?><?= $task['milestone_title'] ? ' · ' . e($task['milestone_title']) : '' ?><?= $task['due_date'] ? ' · due ' . e(date('M j', strtotime($task['due_date']))) : '' ?></div></div>
                         <form action="<?= url('/admin/agency-projects/' . $project['id'] . '/tasks/' . $task['id'] . '/status') ?>" method="POST" style="margin:0; align-self:center;">
                             <?= csrf_field() ?><select class="form-control form-control-sm" name="status" onchange="this.form.submit()" aria-label="Task status"><?php foreach ($taskLabels as $value => $label): ?><option value="<?= e($value) ?>" <?= $task['status'] === $value ? 'selected' : '' ?>><?= e($label) ?></option><?php endforeach; ?></select>
@@ -72,8 +72,8 @@ $assignedIds = array_column($members, 'team_member_id');
                 <?php endforeach; ?>
                 <form action="<?= url('/admin/agency-projects/' . $project['id'] . '/tasks') ?>" method="POST" style="margin-top:18px; padding-top:18px; border-top:1px solid var(--adm-line);">
                     <?= csrf_field() ?><strong style="font-size:13px;">Add task</strong>
-                    <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:8px; margin-top:10px;"><input class="form-control form-control-sm" name="title" required maxlength="200" placeholder="Concrete action"><select class="form-control form-control-sm" name="assigned_team_member_id"><option value="">Unassigned</option><?php foreach ($members as $member): ?><option value="<?= (int)$member['team_member_id'] ?>"><?= e($member['name']) ?></option><?php endforeach; ?></select><input class="form-control form-control-sm" type="date" name="due_date" aria-label="Due date"></div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;"><select class="form-control form-control-sm" name="milestone_id"><option value="">No milestone</option><?php foreach ($milestones as $milestone): ?><option value="<?= (int)$milestone['id'] ?>"><?= e($milestone['title']) ?></option><?php endforeach; ?></select><select class="form-control form-control-sm" name="priority"><option value="medium">Medium priority</option><option value="low">Low priority</option><option value="high">High priority</option><option value="urgent">Urgent</option></select></div>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; margin-top:10px;"><input class="form-control form-control-sm" name="title" required maxlength="200" placeholder="Concrete action"><select class="form-control form-control-sm" name="assigned_team_member_id"><option value="">Unassigned</option><?php foreach ($members as $member): ?><option value="<?= (int)$member['team_member_id'] ?>"><?= e($member['name']) ?></option><?php endforeach; ?></select><input class="form-control form-control-sm" type="date" name="due_date" aria-label="Due date"></div>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; margin-top:8px;"><select class="form-control form-control-sm" name="milestone_id"><option value="">No milestone</option><?php foreach ($milestones as $milestone): ?><option value="<?= (int)$milestone['id'] ?>"><?= e($milestone['title']) ?></option><?php endforeach; ?></select><select class="form-control form-control-sm" name="priority"><option value="medium">Medium priority</option><option value="low">Low priority</option><option value="high">High priority</option><option value="urgent">Urgent</option></select></div>
                     <textarea class="form-control form-control-sm" name="description" maxlength="2000" rows="2" style="margin-top:8px;" placeholder="Definition of done or internal context (optional)"></textarea>
                     <button class="btn btn-secondary btn-sm" type="submit" style="margin-top:8px;">Add task</button>
                 </form>

@@ -42,8 +42,8 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
 
     <!-- Media Filter Toolbar -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-        <div style="display: flex; gap: 8px;">
-            <input type="text" id="mediaSearchInput" class="form-control form-control-sm" placeholder="Filter assets by name..." style="min-width: 260px; font-size: 13px;">
+        <div style="display: flex; gap: 8px; flex: 1 1 260px; max-width: 380px;">
+            <input type="text" id="mediaSearchInput" class="form-control" placeholder="Filter assets by name..." style="font-size: 13px; min-height: 38px;">
         </div>
         <span style="font-size: 12px; color: var(--muted);" id="visibleCountLabel">Showing all <?= $totalCount ?> files</span>
     </div>
@@ -80,12 +80,12 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
                         </div>
 
                         <div style="display: flex; gap: 6px; margin-top: 12px;">
-                            <button type="button" class="btn btn-secondary btn-sm" style="flex-grow:1; font-size: 11.5px; padding: 6px;" onclick="copyUrl('<?= asset($item['path']) ?>', this)">
+                            <button type="button" class="btn btn-secondary btn-sm" style="flex-grow:1; font-size: 11.5px; padding: 6px; min-height: 34px;" onclick="copyUrl('<?= asset($item['path']) ?>', this)">
                                 Copy URL
                             </button>
                             <form action="<?= url('/admin/media/' . $item['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this asset permanently?');" style="margin:0;">
                                 <?= csrf_field() ?>
-                                <button type="submit" class="btn btn-secondary btn-sm" style="color:var(--danger); font-size: 14px; padding: 5px 10px;" title="Delete asset">&times;</button>
+                                <button type="submit" class="btn btn-secondary btn-sm" style="color: #ef4444; font-size: 14px; padding: 5px 10px; min-height: 34px;" title="Delete asset">&times;</button>
                             </form>
                         </div>
                     </div>

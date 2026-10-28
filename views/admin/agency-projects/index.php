@@ -12,10 +12,13 @@ $statusLabels = [
         <h1 class="page-title">Delivery Workspace</h1>
         <p class="page-subtitle">Private project operations for your agency—separate from public products and client portals.</p>
     </div>
-    <a href="<?= url('/admin/agency-projects/create') ?>" class="btn btn-primary btn-sm">+ Create delivery project</a>
+    <a href="<?= url('/admin/agency-projects/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>+ Create Delivery Project</span>
+    </a>
 </div>
 
-<div class="metrics-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); margin-bottom:24px;">
+<div class="metrics-grid" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); margin-bottom:24px;">
     <div class="metric-card"><div class="metric-info"><span class="metric-label">Active delivery</span><strong class="metric-value"><?= (int)$metrics['counts']['active'] ?></strong><span class="metric-sub">Projects being delivered</span></div></div>
     <div class="metric-card"><div class="metric-info"><span class="metric-label">In planning</span><strong class="metric-value"><?= (int)$metrics['counts']['planning'] ?></strong><span class="metric-sub">Ready to scope and assign</span></div></div>
     <div class="metric-card"><div class="metric-info"><span class="metric-label">Open tasks</span><strong class="metric-value"><?= (int)$metrics['open_tasks'] ?></strong><span class="metric-sub"><?= (int)$metrics['overdue_tasks'] ?> past due</span></div></div>
@@ -23,19 +26,23 @@ $statusLabels = [
 </div>
 
 <div class="card">
-    <div class="card-header" style="gap:14px; flex-wrap:wrap;">
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            <a class="btn btn-secondary btn-sm" href="<?= url('/admin/agency-projects') ?>">All</a>
+    <div class="crm-filter-bar">
+        <div class="crm-filter-pills">
+            <a class="crm-filter-pill <?= empty($activeStatus) ? 'active' : '' ?>" href="<?= url('/admin/agency-projects') ?>">
+                <span>All Projects</span>
+                <span class="pill-count"><?= array_sum($metrics['counts']) ?></span>
+            </a>
             <?php foreach ($statusLabels as $value => $label): ?>
-                <a class="btn btn-secondary btn-sm" style="<?= $activeStatus === $value ? 'border-color:var(--adm-accent); color:var(--adm-accent);' : '' ?>" href="<?= url('/admin/agency-projects?status=' . $value) ?>">
-                    <?= e($label) ?> (<?= (int)$metrics['counts'][$value] ?>)
+                <a class="crm-filter-pill <?= $activeStatus === $value ? 'active' : '' ?>" href="<?= url('/admin/agency-projects?status=' . $value) ?>">
+                    <span><?= e($label) ?></span>
+                    <span class="pill-count"><?= (int)$metrics['counts'][$value] ?></span>
                 </a>
             <?php endforeach; ?>
         </div>
-        <form action="<?= url('/admin/agency-projects') ?>" method="GET" style="display:flex; gap:8px; margin-left:auto;">
+        <form action="<?= url('/admin/agency-projects') ?>" method="GET" class="crm-search-form">
             <?php if ($activeStatus): ?><input type="hidden" name="status" value="<?= e($activeStatus) ?>"><?php endif; ?>
-            <input class="form-control form-control-sm" name="search" value="<?= e($search) ?>" placeholder="Search project or client">
-            <button class="btn btn-secondary btn-sm" type="submit">Search</button>
+            <input class="form-control" name="search" value="<?= e($search) ?>" placeholder="Search project or client...">
+            <button class="btn btn-secondary" type="submit">Search</button>
         </form>
     </div>
 
@@ -47,7 +54,7 @@ $statusLabels = [
     <?php else: ?>
         <div class="table-responsive">
             <table class="data-table">
-                <thead><tr><th>Delivery project</th><th>Client</th><th>Team</th><th>Workload</th><th>Target</th><th>Status</th><th></th></tr></thead>
+                <thead><tr><th>Delivery project</th><th>Client</th><th>Team</th><th>Workload</th><th>Target</th><th>Status</th><th style="text-align:right;">Actions</th></tr></thead>
                 <tbody>
                 <?php foreach ($projects as $project): ?>
                     <tr>
@@ -55,9 +62,14 @@ $statusLabels = [
                         <td><?= e($project['client_company'] ?: $project['client_name'] ?: 'Unlinked') ?></td>
                         <td><?= (int)$project['member_count'] ?> assigned</td>
                         <td><?= (int)$project['open_task_count'] ?> open task<?= (int)$project['open_task_count'] === 1 ? '' : 's' ?><div style="font-size:11px; color:var(--adm-muted); margin-top:3px;"><?= (int)$project['milestone_count'] ?> milestones</div></td>
-                        <td><?= $project['target_date'] ? e(date('M j, Y', strtotime($project['target_date']))) : '—' ?></td>
-                        <td><span style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--adm-accent);"><?= e($statusLabels[$project['status']] ?? $project['status']) ?></span></td>
-                        <td style="text-align:right;"><a class="btn btn-secondary btn-sm" href="<?= url('/admin/agency-projects/' . $project['id']) ?>">Open workspace</a></td>
+                        <td style="white-space:nowrap;"><?= $project['target_date'] ? e(date('M j, Y', strtotime($project['target_date']))) : '—' ?></td>
+                        <td><span style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; text-transform:uppercase; padding:3px 8px; border-radius:12px; background:rgba(139,123,255,0.15); color:var(--adm-accent); border:1px solid rgba(139,123,255,0.3);"><?= e($statusLabels[$project['status']] ?? $project['status']) ?></span></td>
+                        <td style="text-align:right; white-space:nowrap;">
+                            <a class="btn btn-secondary btn-sm" href="<?= url('/admin/agency-projects/' . $project['id']) ?>" style="display:inline-flex; align-items:center; gap:4px; min-height:36px; padding:6px 12px;">
+                                <span>Open Workspace</span>
+                                <span style="font-size:13px;">&rarr;</span>
+                            </a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

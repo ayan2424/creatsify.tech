@@ -13,21 +13,26 @@ $counts = $counts ?? ['all' => 0, 'new' => 0, 'in_discussion' => 0, 'converted' 
         </div>
 
         <!-- Filter Tabs -->
-        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <a href="<?= url('/admin/inquiries') ?>" class="btn btn-sm <?= empty($activeStatus) ? 'btn-primary' : 'btn-secondary' ?>" style="border-radius: 20px; font-size: 12px; padding: 6px 14px;">
-                All <span style="opacity: 0.8; margin-left: 4px; font-size: 11px;"><?= $counts['all'] ?></span>
+        <div class="crm-filter-pills">
+            <a href="<?= url('/admin/inquiries') ?>" class="crm-filter-pill <?= empty($activeStatus) ? 'active' : '' ?>">
+                <span>All Inquiries</span>
+                <span class="pill-count"><?= $counts['all'] ?></span>
             </a>
-            <a href="<?= url('/admin/inquiries?status=new') ?>" class="btn btn-sm <?= $activeStatus === 'new' ? 'btn-primary' : 'btn-secondary' ?>" style="border-radius: 20px; font-size: 12px; padding: 6px 14px;">
-                New <span style="background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 1px 6px; border-radius: 10px; margin-left: 4px; font-size: 11px; font-weight: 700;"><?= $counts['new'] ?></span>
+            <a href="<?= url('/admin/inquiries?status=new') ?>" class="crm-filter-pill <?= $activeStatus === 'new' ? 'active' : '' ?>">
+                <span>New</span>
+                <span class="pill-count" style="<?= $activeStatus !== 'new' ? 'background: rgba(16, 185, 129, 0.2); color: #10b981;' : '' ?>"><?= $counts['new'] ?></span>
             </a>
-            <a href="<?= url('/admin/inquiries?status=in_discussion') ?>" class="btn btn-sm <?= $activeStatus === 'in_discussion' ? 'btn-primary' : 'btn-secondary' ?>" style="border-radius: 20px; font-size: 12px; padding: 6px 14px;">
-                In Discussion <span style="opacity: 0.8; margin-left: 4px; font-size: 11px;"><?= $counts['in_discussion'] ?></span>
+            <a href="<?= url('/admin/inquiries?status=in_discussion') ?>" class="crm-filter-pill <?= $activeStatus === 'in_discussion' ? 'active' : '' ?>">
+                <span>In Discussion</span>
+                <span class="pill-count"><?= $counts['in_discussion'] ?></span>
             </a>
-            <a href="<?= url('/admin/inquiries?status=converted') ?>" class="btn btn-sm <?= $activeStatus === 'converted' ? 'btn-primary' : 'btn-secondary' ?>" style="border-radius: 20px; font-size: 12px; padding: 6px 14px;">
-                Converted <span style="opacity: 0.8; margin-left: 4px; font-size: 11px;"><?= $counts['converted'] ?></span>
+            <a href="<?= url('/admin/inquiries?status=converted') ?>" class="crm-filter-pill <?= $activeStatus === 'converted' ? 'active' : '' ?>">
+                <span>Converted</span>
+                <span class="pill-count"><?= $counts['converted'] ?></span>
             </a>
-            <a href="<?= url('/admin/inquiries?status=closed') ?>" class="btn btn-sm <?= $activeStatus === 'closed' ? 'btn-primary' : 'btn-secondary' ?>" style="border-radius: 20px; font-size: 12px; padding: 6px 14px;">
-                Closed <span style="opacity: 0.8; margin-left: 4px; font-size: 11px;"><?= $counts['closed'] ?></span>
+            <a href="<?= url('/admin/inquiries?status=closed') ?>" class="crm-filter-pill <?= $activeStatus === 'closed' ? 'active' : '' ?>">
+                <span>Closed</span>
+                <span class="pill-count"><?= $counts['closed'] ?></span>
             </a>
         </div>
     </div>
@@ -102,12 +107,15 @@ $counts = $counts ?? ['all' => 0, 'new' => 0, 'in_discussion' => 0, 'converted' 
                                 <?= date('M j, Y', strtotime($inq['created_at'])) ?>
                                 <div style="font-size: 11px; color: var(--muted); opacity: 0.7;"><?= date('H:i', strtotime($inq['created_at'])) ?></div>
                             </td>
-                            <td style="text-align: right;">
-                                <div style="display: inline-flex; gap: 6px; justify-content: flex-end;">
-                                    <a href="<?= url('/admin/inquiries/' . $inq['id']) ?>" class="btn btn-secondary btn-sm" style="font-size: 12px;">Inspect &rarr;</a>
+                            <td style="text-align: right; white-space: nowrap;">
+                                <div style="display: inline-flex; gap: 8px; justify-content: flex-end; align-items: center;">
+                                    <a href="<?= url('/admin/inquiries/' . $inq['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 6px 12px;">
+                                        <span>Inspect</span>
+                                        <span style="font-size: 13px;">&rarr;</span>
+                                    </a>
                                     <form action="<?= url('/admin/inquiries/' . $inq['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this inquiry?');" style="margin: 0;">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-secondary btn-sm" style="color:var(--danger); font-size: 12px;">Delete</button>
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="color: #ef4444; min-height: 36px; padding: 6px 12px;">Delete</button>
                                     </form>
                                 </div>
                             </td>

@@ -159,14 +159,14 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
 
 <!-- Private Agency Delivery Workspace -->
 <div class="card" style="margin-top:24px;">
-    <div class="card-header">
+    <div class="card-header" style="flex-wrap: wrap; gap: 12px;">
         <div>
             <h3 class="card-title">Agency Delivery Workspace</h3>
             <span style="font-size:12px; color:var(--adm-muted);">Internal team assignments, milestones, tasks, and delivery context.</span>
         </div>
-        <a href="<?= url('/admin/agency-projects') ?>" class="btn btn-primary btn-sm">Open Workspace &rarr;</a>
+        <a href="<?= url('/admin/agency-projects') ?>" class="btn btn-primary btn-sm" style="min-height: 36px; padding: 6px 16px;">Open Workspace &rarr;</a>
     </div>
-    <div style="display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:1px; background:var(--adm-line);">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:1px; background:var(--adm-line);">
         <div style="padding:18px; background:var(--adm-surface);"><span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase;">Active projects</span><strong style="display:block; font-size:24px; margin-top:5px;"><?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?></strong></div>
         <div style="padding:18px; background:var(--adm-surface);"><span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase;">Open tasks</span><strong style="display:block; font-size:24px; margin-top:5px;"><?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?></strong></div>
         <div style="padding:18px; background:var(--adm-surface);"><span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase;">Past due</span><strong style="display:block; font-size:24px; margin-top:5px; color:#f59e0b;"><?= (int)($deliveryMetrics['overdue_tasks'] ?? 0) ?></strong></div>

@@ -12,24 +12,31 @@ $counts = $counts ?? ['all' => 0, 'saas' => 0, 'stores' => 0, 'apps' => 0];
             <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Manage showcase platforms, SaaS tools, and marketplace templates.</p>
         </div>
 
-        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
             <!-- Category Filter Tabs -->
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <a href="<?= url('/admin/projects') ?>" class="btn btn-sm <?= empty($activeCategory) ? 'btn-primary' : 'btn-secondary' ?>" style="border-radius: 20px; font-size: 12px; padding: 4px 12px;">
-                    All <span style="opacity: 0.8; margin-left: 4px; font-size: 11px;"><?= $counts['all'] ?></span>
+            <div class="crm-filter-pills">
+                <a href="<?= url('/admin/projects') ?>" class="crm-filter-pill <?= empty($activeCategory) ? 'active' : '' ?>">
+                    <span>All Projects</span>
+                    <span class="pill-count"><?= $counts['all'] ?></span>
                 </a>
-                <a href="<?= url('/admin/projects?category=saas') ?>" class="btn btn-sm <?= $activeCategory === 'saas' ? 'btn-primary' : 'btn-secondary' ?>" style="border-radius: 20px; font-size: 12px; padding: 4px 12px;">
-                    Platforms & SaaS <span style="opacity: 0.8; margin-left: 4px; font-size: 11px;"><?= $counts['saas'] ?></span>
+                <a href="<?= url('/admin/projects?category=saas') ?>" class="crm-filter-pill <?= $activeCategory === 'saas' ? 'active' : '' ?>">
+                    <span>Platforms & SaaS</span>
+                    <span class="pill-count"><?= $counts['saas'] ?></span>
                 </a>
-                <a href="<?= url('/admin/projects?category=stores') ?>" class="btn btn-sm <?= $activeCategory === 'stores' ? 'btn-primary' : 'btn-secondary' ?>" style="border-radius: 20px; font-size: 12px; padding: 4px 12px;">
-                    Stores & Ordering <span style="opacity: 0.8; margin-left: 4px; font-size: 11px;"><?= $counts['stores'] ?></span>
+                <a href="<?= url('/admin/projects?category=stores') ?>" class="crm-filter-pill <?= $activeCategory === 'stores' ? 'active' : '' ?>">
+                    <span>Stores & Ordering</span>
+                    <span class="pill-count"><?= $counts['stores'] ?></span>
                 </a>
-                <a href="<?= url('/admin/projects?category=apps') ?>" class="btn btn-sm <?= $activeCategory === 'apps' ? 'btn-primary' : 'btn-secondary' ?>" style="border-radius: 20px; font-size: 12px; padding: 4px 12px;">
-                    Apps & Tools <span style="opacity: 0.8; margin-left: 4px; font-size: 11px;"><?= $counts['apps'] ?></span>
+                <a href="<?= url('/admin/projects?category=apps') ?>" class="crm-filter-pill <?= $activeCategory === 'apps' ? 'active' : '' ?>">
+                    <span>Apps & Tools</span>
+                    <span class="pill-count"><?= $counts['apps'] ?></span>
                 </a>
             </div>
 
-            <a href="<?= url('/admin/projects/create') ?>" class="btn btn-primary btn-sm">+ Add Project</a>
+            <a href="<?= url('/admin/projects/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 16px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>+ Add Project</span>
+            </a>
         </div>
     </div>
 
@@ -123,17 +130,18 @@ $counts = $counts ?? ['all' => 0, 'saas' => 0, 'stores' => 0, 'apps' => 0];
                                     </button>
                                 </form>
                             </td>
-                            <td style="text-align: right;">
-                                <div style="display: inline-flex; gap: 6px; justify-content: flex-end;">
+                            <td style="text-align: right; white-space: nowrap;">
+                                <div style="display: inline-flex; gap: 8px; justify-content: flex-end; align-items: center;">
                                     <?php if (!empty($p['live_url']) && $p['live_url'] !== '#'): ?>
-                                        <a href="<?= e($p['live_url']) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="font-size: 11.5px; padding: 4px 8px;" title="View Live Demo">
-                                            Demo &nearr;
+                                        <a href="<?= e($p['live_url']) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 4px; min-height: 36px; padding: 6px 12px;" title="View Live Demo">
+                                            <span>Demo</span>
+                                            <span style="font-size: 13px;">&nearr;</span>
                                         </a>
                                     <?php endif; ?>
-                                    <a href="<?= url('/admin/projects/' . $p['id'] . '/edit') ?>" class="btn btn-secondary btn-sm" style="font-size: 11.5px; padding: 4px 10px;">Edit</a>
+                                    <a href="<?= url('/admin/projects/' . $p['id'] . '/edit') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; min-height: 36px; padding: 6px 14px;">Edit</a>
                                     <form action="<?= url('/admin/projects/' . $p['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this project?');" style="margin: 0;">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-secondary btn-sm" style="color:var(--danger); font-size: 11.5px; padding: 4px 8px;">Delete</button>
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="color: #ef4444; min-height: 36px; padding: 6px 12px;">Delete</button>
                                     </form>
                                 </div>
                             </td>

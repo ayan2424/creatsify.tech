@@ -20,14 +20,14 @@ $code = $settings['custom_code'] ?? [];
     </div>
 
     <!-- Tab Navigation -->
-    <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--line); margin-bottom: 30px; overflow-x: auto; padding-bottom: 8px;">
-        <a href="<?= url('/admin/settings?tab=general') ?>" class="btn btn-sm <?= $tab === 'general' ? 'btn-primary' : 'btn-secondary' ?>">General</a>
-        <a href="<?= url('/admin/settings?tab=appearance') ?>" class="btn btn-sm <?= $tab === 'appearance' ? 'btn-primary' : 'btn-secondary' ?>">Theme & Appearance</a>
-        <a href="<?= url('/admin/settings?tab=founder') ?>" class="btn btn-sm <?= $tab === 'founder' ? 'btn-primary' : 'btn-secondary' ?>">Founder Identity</a>
-        <a href="<?= url('/admin/settings?tab=mail') ?>" class="btn btn-sm <?= $tab === 'mail' ? 'btn-primary' : 'btn-secondary' ?>">Email SMTP</a>
-        <a href="<?= url('/admin/settings?tab=whatsapp') ?>" class="btn btn-sm <?= $tab === 'whatsapp' ? 'btn-primary' : 'btn-secondary' ?>">WhatsApp Meta API</a>
-        <a href="<?= url('/admin/settings?tab=sms') ?>" class="btn btn-sm <?= $tab === 'sms' ? 'btn-primary' : 'btn-secondary' ?>">SMS Gateways</a>
-        <a href="<?= url('/admin/settings?tab=custom_code') ?>" class="btn btn-sm <?= $tab === 'custom_code' ? 'btn-primary' : 'btn-secondary' ?>">Custom Code & CSS</a>
+    <div class="crm-filter-pills" style="margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px;">
+        <a href="<?= url('/admin/settings?tab=general') ?>" class="crm-filter-pill <?= $tab === 'general' ? 'active' : '' ?>">General</a>
+        <a href="<?= url('/admin/settings?tab=appearance') ?>" class="crm-filter-pill <?= $tab === 'appearance' ? 'active' : '' ?>">Theme & Appearance</a>
+        <a href="<?= url('/admin/settings?tab=founder') ?>" class="crm-filter-pill <?= $tab === 'founder' ? 'active' : '' ?>">Founder Identity</a>
+        <a href="<?= url('/admin/settings?tab=mail') ?>" class="crm-filter-pill <?= $tab === 'mail' ? 'active' : '' ?>">Email SMTP</a>
+        <a href="<?= url('/admin/settings?tab=whatsapp') ?>" class="crm-filter-pill <?= $tab === 'whatsapp' ? 'active' : '' ?>">WhatsApp Meta API</a>
+        <a href="<?= url('/admin/settings?tab=sms') ?>" class="crm-filter-pill <?= $tab === 'sms' ? 'active' : '' ?>">SMS Gateways</a>
+        <a href="<?= url('/admin/settings?tab=custom_code') ?>" class="crm-filter-pill <?= $tab === 'custom_code' ? 'active' : '' ?>">Custom Code & CSS</a>
     </div>
 
     <!-- 1. General Settings -->

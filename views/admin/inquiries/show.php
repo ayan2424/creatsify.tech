@@ -15,40 +15,40 @@ $waText = urlencode("Assalam-o-Alaikum " . $inquiry['name'] . "! This is Muhamma
 
 <div style="max-width: 900px;">
     <!-- Top Action Bar -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <a href="<?= url('/admin/inquiries') ?>" class="btn btn-secondary btn-sm">&larr; Back to Inquiries</a>
-            <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; <?= $badgeStyle ?>">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <a href="<?= url('/admin/inquiries') ?>" class="btn btn-secondary" style="min-height: 38px; padding: 8px 16px;">&larr; Back to Inquiries</a>
+            <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; <?= $badgeStyle ?>">
                 <?= e(str_replace('_', ' ', $status)) ?>
             </span>
         </div>
 
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
             <?php if (!empty($phoneClean)): ?>
-                <a href="https://wa.me/<?= $phoneClean ?>?text=<?= $waText ?>" target="_blank" rel="noopener" class="btn btn-sm" style="background: #25D366; color: #000; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                <a href="https://wa.me/<?= $phoneClean ?>?text=<?= $waText ?>" target="_blank" rel="noopener" class="crm-btn-action crm-btn-whatsapp" title="Open WhatsApp Direct">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    <span>Open WhatsApp Direct &rarr;</span>
+                    <span>WhatsApp Client</span>
                 </a>
-                <a href="<?= url('/admin/whatsapp?phone=' . urlencode($phoneClean)) ?>" class="btn btn-secondary btn-sm">
+                <a href="<?= url('/admin/whatsapp?phone=' . urlencode($phoneClean)) ?>" class="btn btn-secondary" style="min-height: 38px; padding: 8px 14px;">
                     In-Desk WhatsApp
                 </a>
-                <a href="<?= url('/admin/sms?phone=' . urlencode($phoneClean)) ?>" class="btn btn-secondary btn-sm">
+                <a href="<?= url('/admin/sms?phone=' . urlencode($phoneClean)) ?>" class="btn btn-secondary" style="min-height: 38px; padding: 8px 14px;">
                     Send SMS
                 </a>
             <?php endif; ?>
-            <a href="mailto:<?= e($inquiry['email']) ?>?subject=<?= urlencode('Regarding your inquiry on Creatsify Studio: ' . $inquiry['project_type']) ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+            <a href="mailto:<?= e($inquiry['email']) ?>?subject=<?= urlencode('Regarding your inquiry on Creatsify Studio: ' . $inquiry['project_type']) ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 16px;">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                 <span>Reply via Email</span>
             </a>
             <form action="<?= url('/admin/inquiries/' . $inquiry['id'] . '/convert-to-client') ?>" method="POST" style="margin: 0;">
                 <?= csrf_field() ?>
-                <button type="submit" class="btn btn-sm" style="background: rgba(139, 123, 255, 0.2); color: var(--accent); border: 1px solid rgba(139, 123, 255, 0.45); font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <button type="submit" class="btn" style="min-height: 38px; padding: 8px 16px; background: rgba(139, 123, 255, 0.18); color: var(--adm-accent); border: 1px solid rgba(139, 123, 255, 0.45); font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     <span>Convert to CRM Client &rarr;</span>
                 </button>
             </form>
-            <a href="<?= url('/admin/crm/tickets/create?client_name=' . urlencode($inquiry['name']) . '&client_email=' . urlencode($inquiry['email']) . '&client_phone=' . urlencode($inquiry['phone'] ?? '') . '&subject=' . urlencode($inquiry['project_type'] ?? 'Project Inquiry')) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+            <a href="<?= url('/admin/crm/tickets/create?client_name=' . urlencode($inquiry['name']) . '&client_email=' . urlencode($inquiry['email']) . '&client_phone=' . urlencode($inquiry['phone'] ?? '') . '&subject=' . urlencode($inquiry['project_type'] ?? 'Project Inquiry')) ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
                 <span>Open Ticket</span>
             </a>
         </div>
