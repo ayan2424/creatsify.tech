@@ -7,9 +7,9 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
         <h1 class="page-title">CRM Notes, Call Logs & Reminders</h1>
         <p class="page-subtitle">Internal agency memos, phone conversation summaries, agreed deal terms, and scheduled follow-ups.</p>
     </div>
-    <div style="display: flex; gap: 10px; align-items: center;">
-        <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
             <span>Clients Pipeline &rarr;</span>
         </a>
     </div>
@@ -68,15 +68,15 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
         <?= csrf_field() ?>
         <input type="hidden" name="redirect" value="<?= url('/admin/crm/notes') ?>">
 
-        <div style="display: grid; grid-template-columns: 1fr 180px 220px; gap: 12px; margin-bottom: 12px;">
-            <div class="form-group">
+        <div class="crm-note-composer-grid">
+            <div class="form-group" style="margin-bottom: 0;">
                 <label for="title" style="font-size: 11px; text-transform: uppercase;">Note Subject / Meeting Topic <span style="color:#ef4444;">*</span></label>
-                <input type="text" id="title" name="title" class="form-control form-control-sm" placeholder="e.g. Call with Tariq re: linehaul hub expansion" required>
+                <input type="text" id="title" name="title" class="form-control" placeholder="e.g. Call with Tariq re: linehaul hub expansion" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom: 0;">
                 <label for="type" style="font-size: 11px; text-transform: uppercase;">Record Type</label>
-                <select id="type" name="type" class="form-control form-control-sm">
+                <select id="type" name="type" class="form-control">
                     <option value="note">General Memo</option>
                     <option value="call_log">Phone / WhatsApp Call</option>
                     <option value="meeting">Zoom / In-Person Meeting</option>
@@ -85,9 +85,9 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom: 0;">
                 <label for="client_id" style="font-size: 11px; text-transform: uppercase;">Link Client (Optional)</label>
-                <select id="client_id" name="client_id" class="form-control form-control-sm">
+                <select id="client_id" name="client_id" class="form-control">
                     <option value="">-- Global Agency Memo --</option>
                     <?php foreach ($clients as $cl): ?>
                         <option value="<?= $cl['id'] ?>"><?= e($cl['name']) ?> <?= !empty($cl['company']) ? '· ' . e($cl['company']) : '' ?></option>
@@ -96,23 +96,23 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
             </div>
         </div>
 
-        <div class="form-group" style="margin-bottom: 12px;">
-            <textarea name="content" rows="3" class="form-control" placeholder="Write internal notes, discussion summary, deliverables, or action items..." required style="font-size: 13px;"></textarea>
+        <div class="form-group" style="margin-bottom: 14px;">
+            <textarea name="content" rows="3" class="form-control" placeholder="Write internal notes, discussion summary, deliverables, or action items..." required style="font-size: 13.5px;"></textarea>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-            <div style="display: flex; gap: 16px; align-items: center;">
-                <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--adm-muted); cursor: pointer; margin: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--adm-muted); cursor: pointer; margin: 0;">
                     <input type="checkbox" name="is_pinned" value="1">
                     <span>Pin to top</span>
                 </label>
-                <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--adm-muted);">
+                <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--adm-muted);">
                     <span>Follow-Up Due:</span>
-                    <input type="date" name="follow_up_date" class="form-control form-control-sm" style="width: 140px; font-size: 11.5px; padding: 2px 6px;">
+                    <input type="date" name="follow_up_date" class="form-control form-control-sm" style="width: auto; font-size: 12px; padding: 4px 8px;">
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-sm" style="padding: 6px 18px;">
+            <button type="submit" class="btn btn-primary" style="min-height: 40px; padding: 8px 24px;">
                 Save CRM Note &rarr;
             </button>
         </div>
@@ -121,8 +121,8 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
 
 <!-- Notes Stream with Filter Tabs -->
 <div class="card">
-    <div class="card-header" style="flex-wrap: wrap; gap: 14px; border-bottom: 1px solid var(--adm-line);">
-        <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+    <div class="crm-filter-bar">
+        <div class="crm-filter-pills">
             <?php
             $types = [
                 '' => ['label' => 'All Records', 'count' => $typeCounts['all'] ?? 0],
@@ -136,22 +136,21 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
             <?php foreach ($types as $key => $t): ?>
                 <?php $isSelected = ($activeType === $key || (empty($activeType) && $key === '')); ?>
                 <a href="<?= url('/admin/crm/notes' . ($key ? '?type=' . $key : '')) ?>" 
-                   class="btn btn-sm <?= $isSelected ? 'btn-primary' : 'btn-secondary' ?>" 
-                   style="border-radius: 20px; font-size: 11.5px; padding: 5px 12px; white-space: nowrap;">
+                   class="crm-filter-pill <?= $isSelected ? 'active' : '' ?>">
                     <span><?= e($t['label']) ?></span>
-                    <span style="opacity: 0.8; margin-left: 4px; font-size: 10.5px;"><?= $t['count'] ?></span>
+                    <span class="pill-count"><?= $t['count'] ?></span>
                 </a>
             <?php endforeach; ?>
         </div>
 
-        <form action="<?= url('/admin/crm/notes') ?>" method="GET" style="display: flex; gap: 8px; margin: 0;">
+        <form action="<?= url('/admin/crm/notes') ?>" method="GET" class="crm-search-form">
             <?php if (!empty($activeType)): ?>
                 <input type="hidden" name="type" value="<?= e($activeType) ?>">
             <?php endif; ?>
-            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search notes..." value="<?= e($search ?? '') ?>" style="width: 200px; font-size: 12.5px;">
-            <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 12px;">Search</button>
+            <input type="text" name="search" class="form-control" placeholder="Search notes..." value="<?= e($search ?? '') ?>">
+            <button type="submit" class="btn btn-secondary">Search</button>
             <?php if (!empty($search) || !empty($activeType)): ?>
-                <a href="<?= url('/admin/crm/notes') ?>" class="btn btn-secondary btn-sm" style="font-size: 12px; color: var(--adm-muted);" title="Reset filters">&times;</a>
+                <a href="<?= url('/admin/crm/notes') ?>" class="btn btn-secondary" style="color: var(--adm-muted); padding: 8px 12px;" title="Reset filters">&times;</a>
             <?php endif; ?>
         </form>
     </div>
@@ -189,7 +188,7 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
                             <?php endif; ?>
                         </div>
 
-                        <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
                             <span style="font-size: 11.5px; color: var(--adm-muted);">
                                 <?= date('M j, Y H:i', strtotime($n['created_at'])) ?> · by <?= e($n['author_name']) ?>
                             </span>
@@ -197,7 +196,7 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
                             <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/toggle-pin') ?>" method="POST" style="margin:0;">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="redirect" value="<?= url('/admin/crm/notes') ?>">
-                                <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 2px 7px;" title="<?= $n['is_pinned'] ? 'Unpin note' : 'Pin note' ?>">
+                                <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 8px; min-height: 28px;" title="<?= $n['is_pinned'] ? 'Unpin note' : 'Pin note' ?>">
                                     <?= $n['is_pinned'] ? 'Unpin' : 'Pin' ?>
                                 </button>
                             </form>
@@ -205,7 +204,7 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
                             <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this CRM note?');" style="margin:0;">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="redirect" value="<?= url('/admin/crm/notes') ?>">
-                                <button type="submit" style="background: none; border: none; color: var(--adm-muted); cursor: pointer; font-size: 16px; padding: 0 4px;" title="Delete note">&times;</button>
+                                <button type="submit" style="background: none; border: none; color: var(--adm-muted); cursor: pointer; font-size: 16px; padding: 2px 6px; border-radius: 4px;" title="Delete note">&times;</button>
                             </form>
                         </div>
                     </div>

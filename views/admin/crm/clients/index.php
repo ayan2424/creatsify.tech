@@ -7,14 +7,14 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
         <h1 class="page-title">Clients & Deal Pipeline</h1>
         <p class="page-subtitle">Track commercial leads, active clients, contractual retainers, and deal values.</p>
     </div>
-    <div style="display: flex; gap: 10px; align-items: center;">
-        <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
             <span>Tickets Desk &rarr;</span>
         </a>
-        <a href="<?= url('/admin/crm/clients/create') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span>+ Add Client</span>
+        <a href="<?= url('/admin/crm/clients/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>+ Add New Client</span>
         </a>
     </div>
 </div>
@@ -68,8 +68,8 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
 
 <div class="card">
     <!-- Filter Tabs & Search Bar -->
-    <div class="card-header" style="flex-wrap: wrap; gap: 14px; border-bottom: 1px solid var(--adm-line);">
-        <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+    <div class="crm-filter-bar">
+        <div class="crm-filter-pills">
             <?php
             $stages = [
                 '' => ['label' => 'All Clients', 'count' => $stageCounts['all'] ?? 0],
@@ -84,22 +84,21 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
             <?php foreach ($stages as $key => $st): ?>
                 <?php $isSelected = ($activeStage === $key || (empty($activeStage) && $key === '')); ?>
                 <a href="<?= url('/admin/crm/clients' . ($key ? '?stage=' . $key : '')) ?>" 
-                   class="btn btn-sm <?= $isSelected ? 'btn-primary' : 'btn-secondary' ?>" 
-                   style="border-radius: 20px; font-size: 11.5px; padding: 5px 12px; white-space: nowrap;">
+                   class="crm-filter-pill <?= $isSelected ? 'active' : '' ?>">
                     <span><?= e($st['label']) ?></span>
-                    <span style="opacity: 0.8; margin-left: 4px; font-size: 10.5px;"><?= $st['count'] ?></span>
+                    <span class="pill-count"><?= $st['count'] ?></span>
                 </a>
             <?php endforeach; ?>
         </div>
 
-        <form action="<?= url('/admin/crm/clients') ?>" method="GET" style="display: flex; gap: 8px; margin: 0;">
+        <form action="<?= url('/admin/crm/clients') ?>" method="GET" class="crm-search-form">
             <?php if (!empty($activeStage)): ?>
                 <input type="hidden" name="stage" value="<?= e($activeStage) ?>">
             <?php endif; ?>
-            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search name, company, email, tag..." value="<?= e($search ?? '') ?>" style="width: 220px; font-size: 12.5px;">
-            <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 12px;">Search</button>
+            <input type="text" name="search" class="form-control" placeholder="Search name, company, email, tag..." value="<?= e($search ?? '') ?>">
+            <button type="submit" class="btn btn-secondary">Search</button>
             <?php if (!empty($search) || !empty($activeStage)): ?>
-                <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary btn-sm" style="font-size: 12px; color: var(--adm-muted);" title="Reset filters">&times;</a>
+                <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary" style="color: var(--adm-muted); padding: 8px 12px;" title="Reset filters">&times;</a>
             <?php endif; ?>
         </form>
     </div>
@@ -210,15 +209,17 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
                             <td style="font-size: 12px; color: var(--adm-muted);">
                                 <?= date('M j, Y', strtotime($c['created_at'])) ?>
                             </td>
-                            <td style="text-align: right;">
-                                <div style="display: inline-flex; gap: 6px; justify-content: flex-end;">
+                            <td style="text-align: right; white-space: nowrap;">
+                                <div style="display: inline-flex; gap: 8px; justify-content: flex-end; align-items: center;">
                                     <?php if (!empty($phoneClean)): ?>
-                                        <a href="https://wa.me/<?= $phoneClean ?>" target="_blank" rel="noopener" class="btn btn-sm" style="background: #25D366; color: #000; padding: 4px 7px;" title="Chat on WhatsApp">
-                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                        <a href="https://wa.me/<?= $phoneClean ?>" target="_blank" rel="noopener" class="crm-btn-action crm-btn-whatsapp" title="Direct WhatsApp Chat">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                            <span>WhatsApp</span>
                                         </a>
                                     <?php endif; ?>
-                                    <a href="<?= url('/admin/crm/clients/' . $c['id']) ?>" class="btn btn-secondary btn-sm" style="font-size: 11.5px; padding: 4px 10px;">
-                                        View File &rarr;
+                                    <a href="<?= url('/admin/crm/clients/' . $c['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; min-height: 36px;">
+                                        <span>View File</span>
+                                        <span style="font-size: 13px;">&rarr;</span>
                                     </a>
                                 </div>
                             </td>

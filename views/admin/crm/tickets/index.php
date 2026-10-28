@@ -7,13 +7,13 @@ $this->layout('layouts/admin', ['page_title' => 'Support Desk Tickets', 'meta_ti
         <h1 class="page-title">Client Support & Project Tickets</h1>
         <p class="page-subtitle">Manage client requests, bug reports, milestone deliverables, and maintenance SLAs.</p>
     </div>
-    <div style="display: flex; gap: 10px; align-items: center;">
-        <a href="<?= url('/admin/crm/notes') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <a href="<?= url('/admin/crm/notes') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             <span>CRM Notes &rarr;</span>
         </a>
-        <a href="<?= url('/admin/crm/tickets/create') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <a href="<?= url('/admin/crm/tickets/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span>+ Open Ticket</span>
         </a>
     </div>
@@ -68,8 +68,8 @@ $this->layout('layouts/admin', ['page_title' => 'Support Desk Tickets', 'meta_ti
 
 <div class="card">
     <!-- Filter Tabs & Controls -->
-    <div class="card-header" style="flex-wrap: wrap; gap: 14px; border-bottom: 1px solid var(--adm-line);">
-        <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+    <div class="crm-filter-bar">
+        <div class="crm-filter-pills">
             <?php
             $statuses = [
                 '' => ['label' => 'All Tickets', 'count' => $statusCounts['all'] ?? 0],
@@ -83,22 +83,21 @@ $this->layout('layouts/admin', ['page_title' => 'Support Desk Tickets', 'meta_ti
             <?php foreach ($statuses as $key => $st): ?>
                 <?php $isSelected = ($activeStatus === $key || (empty($activeStatus) && $key === '')); ?>
                 <a href="<?= url('/admin/crm/tickets' . ($key ? '?status=' . $key : '')) ?>" 
-                   class="btn btn-sm <?= $isSelected ? 'btn-primary' : 'btn-secondary' ?>" 
-                   style="border-radius: 20px; font-size: 11.5px; padding: 5px 12px; white-space: nowrap;">
+                   class="crm-filter-pill <?= $isSelected ? 'active' : '' ?>">
                     <span><?= e($st['label']) ?></span>
-                    <span style="opacity: 0.8; margin-left: 4px; font-size: 10.5px;"><?= $st['count'] ?></span>
+                    <span class="pill-count"><?= $st['count'] ?></span>
                 </a>
             <?php endforeach; ?>
         </div>
 
-        <form action="<?= url('/admin/crm/tickets') ?>" method="GET" style="display: flex; gap: 8px; margin: 0;">
+        <form action="<?= url('/admin/crm/tickets') ?>" method="GET" class="crm-search-form">
             <?php if (!empty($activeStatus)): ?>
                 <input type="hidden" name="status" value="<?= e($activeStatus) ?>">
             <?php endif; ?>
-            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search ticket #, subject, client..." value="<?= e($search ?? '') ?>" style="width: 220px; font-size: 12.5px;">
-            <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 12px;">Search</button>
+            <input type="text" name="search" class="form-control" placeholder="Search ticket #, subject, client..." value="<?= e($search ?? '') ?>">
+            <button type="submit" class="btn btn-secondary">Search</button>
             <?php if (!empty($search) || !empty($activeStatus)): ?>
-                <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary btn-sm" style="font-size: 12px; color: var(--adm-muted);" title="Reset filters">&times;</a>
+                <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary" style="color: var(--adm-muted); padding: 8px 12px;" title="Reset filters">&times;</a>
             <?php endif; ?>
         </form>
     </div>
@@ -199,9 +198,10 @@ $this->layout('layouts/admin', ['page_title' => 'Support Desk Tickets', 'meta_ti
                             <td style="font-size: 12px; color: var(--adm-muted);">
                                 <?= !empty($t['due_date']) ? date('M j, Y', strtotime($t['due_date'])) : '—' ?>
                             </td>
-                            <td style="text-align: right;">
-                                <a href="<?= url('/admin/crm/tickets/' . $t['id']) ?>" class="btn btn-secondary btn-sm" style="font-size: 11.5px; padding: 4px 10px;">
-                                    Open Ticket &rarr;
+                            <td style="text-align: right; white-space: nowrap;">
+                                <a href="<?= url('/admin/crm/tickets/' . $t['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 6px 12px;">
+                                    <span>Open Ticket</span>
+                                    <span style="font-size: 13px;">&rarr;</span>
                                 </a>
                             </td>
                         </tr>

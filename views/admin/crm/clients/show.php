@@ -31,31 +31,31 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
         </div>
     </div>
 
-    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
         <?php if (!empty($phoneClean)): ?>
-            <a href="https://wa.me/<?= $phoneClean ?>" target="_blank" rel="noopener" class="btn btn-sm" style="background: #25D366; color: #000; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <a href="https://wa.me/<?= $phoneClean ?>" target="_blank" rel="noopener" class="crm-btn-action crm-btn-whatsapp" title="Chat on WhatsApp">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 <span>WhatsApp</span>
             </a>
         <?php endif; ?>
-        <a href="mailto:<?= e($client['email']) ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <a href="mailto:<?= e($client['email']) ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             <span>Email Client</span>
         </a>
-        <a href="<?= url('/admin/crm/tickets/create?client_id=' . $client['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+        <a href="<?= url('/admin/crm/tickets/create?client_id=' . $client['id']) ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
             <span>+ Open Ticket</span>
         </a>
-        <a href="<?= url('/admin/agency-projects/create?client_id=' . $client['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+        <a href="<?= url('/admin/agency-projects/create?client_id=' . $client['id']) ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
             <span>Start Delivery</span>
         </a>
-        <a href="<?= url('/admin/crm/clients/' . $client['id'] . '/edit') ?>" class="btn btn-secondary btn-sm">Edit</a>
+        <a href="<?= url('/admin/crm/clients/' . $client['id'] . '/edit') ?>" class="btn btn-secondary" style="min-height: 38px; padding: 8px 16px;">Edit Profile</a>
     </div>
 </div>
 
 <!-- Client Summary Grid -->
-<div style="display: grid; grid-template-columns: 320px 1fr; gap: 24px; margin-bottom: 24px;">
+<div class="crm-detail-grid">
     <!-- Left Column: Client File Card -->
     <div style="display: flex; flex-direction: column; gap: 18px;">
         <div class="card" style="padding: 22px;">
@@ -249,26 +249,26 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
                 <input type="hidden" name="client_id" value="<?= $client['id'] ?>">
                 <input type="hidden" name="redirect" value="<?= url('/admin/crm/clients/' . $client['id'] . '#notes') ?>">
 
-                <div style="display: grid; grid-template-columns: 1fr 140px 140px; gap: 10px; margin-bottom: 10px;">
-                    <input type="text" name="title" class="form-control form-control-sm" placeholder="Note headline (e.g. Discovery Call Summary, Milestone Discussion...)" required>
-                    <select name="type" class="form-control form-control-sm">
+                <div class="crm-note-composer-grid">
+                    <input type="text" name="title" class="form-control" placeholder="Note headline (e.g. Discovery Call Summary, Milestone Discussion...)" required>
+                    <select name="type" class="form-control">
                         <option value="note">General Note</option>
                         <option value="call_log">Phone / Call Log</option>
                         <option value="meeting">Meeting Minutes</option>
                         <option value="deal_terms">Deal Terms</option>
                         <option value="follow_up">Follow-Up Task</option>
                     </select>
-                    <input type="date" name="follow_up_date" class="form-control form-control-sm" title="Optional Follow-up deadline">
+                    <input type="date" name="follow_up_date" class="form-control" title="Optional Follow-up deadline">
                 </div>
 
-                <textarea name="content" rows="3" class="form-control" placeholder="Write internal memo, scope updates, or client conversation points..." required style="font-size: 13px; margin-bottom: 10px;"></textarea>
+                <textarea name="content" rows="3" class="form-control" placeholder="Write internal memo, scope updates, or client conversation points..." required style="margin-bottom: 12px;"></textarea>
 
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--adm-muted); cursor: pointer; margin: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--adm-muted); cursor: pointer; margin: 0;">
                         <input type="checkbox" name="is_pinned" value="1">
                         <span>Pin to top of client file</span>
                     </label>
-                    <button type="submit" class="btn btn-primary btn-sm" style="padding: 5px 16px;">
+                    <button type="submit" class="btn btn-primary" style="padding: 8px 20px; min-height: 38px;">
                         Save CRM Note
                     </button>
                 </div>
@@ -282,11 +282,13 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
                     </div>
                 <?php else: ?>
                     <?php foreach ($notes as $n): ?>
-                        <div style="padding: 14px 16px; border-radius: 10px; background: var(--adm-bg); border: 1px solid <?= $n['is_pinned'] ? 'var(--adm-accent)' : 'var(--adm-line)' ?>; position: relative;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
-                                <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="padding: 16px 18px; border-radius: 12px; background: var(--adm-bg); border: 1px solid <?= $n['is_pinned'] ? 'var(--adm-accent)' : 'var(--adm-line)' ?>; position: relative;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                                     <?php if ($n['is_pinned']): ?>
-                                        <span style="font-size: 10.5px; font-weight: 700; color: var(--adm-accent); background: rgba(139, 123, 255, 0.15); padding: 1px 6px; border-radius: 4px; border: 1px solid rgba(139, 123, 255, 0.3);">PINNED</span>
+                                        <span style="font-size: 10.5px; font-weight: 700; color: var(--adm-accent); background: rgba(139, 123, 255, 0.15); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(139, 123, 255, 0.3);">
+                                            PINNED
+                                        </span>
                                     <?php endif; ?>
                                     <strong style="font-size: 13.5px; color: var(--adm-text);"><?= e($n['title']) ?></strong>
                                     <span class="user-role-badge" style="font-size: 10px;"><?= e(strtoupper(str_replace('_', ' ', $n['type']))) ?></span>
@@ -295,25 +297,32 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
                                     <span style="font-size: 11.5px; color: var(--adm-muted);">
                                         <?= date('M j, Y H:i', strtotime($n['created_at'])) ?> · by <?= e($n['author_name']) ?>
                                     </span>
+                                    <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/toggle-pin') ?>" method="POST" style="margin:0;">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="redirect" value="<?= url('/admin/crm/clients/' . $client['id'] . '#notes') ?>">
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 10.5px; padding: 2px 7px;" title="<?= $n['is_pinned'] ? 'Unpin note' : 'Pin note' ?>">
+                                            <?= $n['is_pinned'] ? 'Unpin' : 'Pin' ?>
+                                        </button>
+                                    </form>
                                     <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this note?');" style="margin:0;">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="redirect" value="<?= url('/admin/crm/clients/' . $client['id'] . '#notes') ?>">
-                                        <button type="submit" style="background: none; border: none; color: var(--adm-muted); cursor: pointer; font-size: 14px; padding: 0 4px;" title="Delete note">&times;</button>
+                                        <button type="submit" style="background: none; border: none; color: var(--adm-muted); cursor: pointer; font-size: 16px; padding: 0 4px;" title="Delete note">&times;</button>
                                     </form>
                                 </div>
                             </div>
                             <p style="font-size: 13px; color: var(--adm-text); line-height: 1.6; margin: 0; white-space: pre-wrap;"><?= e($n['content']) ?></p>
 
                             <?php if (!empty($n['follow_up_date'])): ?>
-                                <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--adm-line); display: flex; align-items: center; justify-content: space-between; font-size: 11.5px;">
+                                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--adm-line); display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; flex-wrap: wrap; gap: 8px;">
                                     <span style="color: #f59e0b; font-weight: 600;">
                                         Follow-up target: <?= date('F j, Y', strtotime($n['follow_up_date'])) ?>
                                     </span>
                                     <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/toggle-followup') ?>" method="POST" style="margin:0;">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="redirect" value="<?= url('/admin/crm/clients/' . $client['id'] . '#notes') ?>">
-                                        <button type="submit" class="btn btn-sm" style="font-size: 11px; padding: 2px 8px; <?= $n['is_follow_up_done'] ? 'background: rgba(16, 185, 129, 0.15); color: #10b981;' : 'background: rgba(245, 158, 11, 0.15); color: #f59e0b;' ?>">
-                                            <?= $n['is_follow_up_done'] ? 'Resolved' : 'Mark Done' ?>
+                                        <button type="submit" class="btn btn-sm" style="font-size: 11px; padding: 3px 10px; border-radius: 12px; <?= $n['is_follow_up_done'] ? 'background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;' : 'background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight: 700;' ?>">
+                                            <?= $n['is_follow_up_done'] ? '✓ Completed' : '○ Mark Done' ?>
                                         </button>
                                     </form>
                                 </div>
