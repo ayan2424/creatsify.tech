@@ -2,8 +2,8 @@
 /** @var Core\View $this */
 $accentColor = setting('primary_accent', '#8b7bff');
 $siteTitle = $meta_title ?? setting('site_title', 'Creatsify — Full-stack web, mobile and AI development studio');
-$siteDesc = $meta_desc ?? setting('meta_description', 'Creatsify is a high-performance software studio in Karachi building full-stack web, mobile, and AI solutions.');
-$siteKeywords = setting('meta_keywords', 'Creatsify, Courier SaaS, Cheetah, PHP MVC, Laravel, Flutter, Karachi, Pakistan');
+$siteDesc = $meta_desc ?? setting('meta_description', 'Creatsify is a software studio building ready-made courier and store software, plus custom websites, admin panels and apps for clients worldwide.');
+$siteKeywords = setting('meta_keywords', 'Creatsify, Courier software, Cheetah, Cheezify, PHP, Admin panels, Web Development');
 $siteIcon = setting('site_icon', '/assets/brand/favicon.png');
 $customCss = setting('custom_css', '');
 $headerCode = setting('custom_header_code', '');
@@ -33,8 +33,8 @@ $footerCode = setting('custom_footer_code', '');
     <meta name="twitter:description" content="<?= e($siteDesc) ?>">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?= e(asset($siteIcon)) ?>">
-    <link rel="apple-touch-icon" href="<?= e(asset($siteIcon)) ?>">
+    <link rel="icon" type="image/png" href="<?= asset($siteIcon) ?>">
+    <link rel="apple-touch-icon" href="<?= asset($siteIcon) ?>">
 
     <!-- Fonts: Bricolage Grotesque & DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,11 +48,7 @@ $footerCode = setting('custom_footer_code', '');
 
     <!-- Dynamic Custom Colors & Injected Code -->
     <style>
-        :root,
-        :root[data-theme="light"],
-        [data-theme="light"],
-        :root[data-theme="dark"],
-        [data-theme="dark"] {
+        :root {
             --accent: <?= e($accentColor) ?>;
             --accent-glow: <?= e($accentColor) ?>33;
         }
@@ -72,27 +68,8 @@ $footerCode = setting('custom_footer_code', '');
             } catch(e) {}
         })();
     </script>
-    <style>
-        .skip-link {
-            position: absolute;
-            top: -100px;
-            left: 16px;
-            background: var(--accent, #6366f1);
-            color: #ffffff;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: 700;
-            z-index: 999999;
-            text-decoration: none;
-            transition: top 0.2s ease;
-        }
-        .skip-link:focus {
-            top: 16px;
-        }
-    </style>
 </head>
 <body>
-    <a href="#mainContent" class="skip-link">Skip to main content</a>
     <div class="bg" aria-hidden="true"></div>
     <canvas id="glCanvas" aria-hidden="true"></canvas>
     <div class="vg" aria-hidden="true"></div>
@@ -111,7 +88,7 @@ $footerCode = setting('custom_footer_code', '');
     <?php $this->partial('partials/header'); ?>
 
     <!-- Main Content Injection -->
-    <main id="mainContent">
+    <main id="top">
         <?= $content ?>
     </main>
 

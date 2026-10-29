@@ -4,15 +4,15 @@ $this->layout('layouts/main');
 
 $hero = $sections['hero'] ?? [];
 $heroMeta = $hero['metadata'] ?? [];
-$rotatingWords = $heroMeta['rotating_words'] ?? ['courier companies', 'online stores', 'learning platforms', 'media brands', 'startups', 'restaurant chains'];
+$rotatingWords = $heroMeta['rotating_words'] ?? ['couriers', 'online stores', 'local brands', 'startups'];
 $heroChips = $heroMeta['chips'] ?? ['7 role portals in Cheetah', 'Sold on 4 marketplaces', '10 products shipped'];
 
 $cheetah = $sections['cheetah_showcase'] ?? [];
 $cheetahMeta = $cheetah['metadata'] ?? [];
 $tracker = $cheetahMeta['tracker'] ?? [
-    'code' => 'PK-000007',
-    'from' => 'Karachi',
-    'to' => 'Lahore',
+    'code' => 'CH-000007',
+    'from' => 'Origin hub',
+    'to' => 'Customer',
     'steps' => ['Shipment created', 'Linehaul dispatched', 'Out for delivery', 'Delivered ePOD signed']
 ];
 
@@ -70,7 +70,7 @@ $projectsJson = array_map(function ($p) use ($imgFor) {
 
 <section class="hero" id="hero"><div class="wrap">
 <div>
-    <div class="pill hf"><i></i>Full-stack studio · Karachi, Pakistan</div>
+    <div class="pill hf"><i></i>Full-stack software studio</div>
     <h1><span class="ln"><span class="ch" style="--i:0"><?= e($hero['title'] ?? 'We build software') ?></span></span><span class="ln"><span class="ch" style="--i:1">for <span class="rot grad" id="rot"><?= e($rotatingWords[0] ?? 'courier companies') ?></span></span></span></h1>
     <p class="lead hf" style="--d:.5s"><?= e($hero['content'] ?? 'From idea to a live product. We build courier platforms, online stores, learning tools and apps that real businesses can run on.') ?></p>
     <div class="row hf" style="--d:.65s">
@@ -81,16 +81,16 @@ $projectsJson = array_map(function ($p) use ($imgFor) {
         <span class="trust-label">Every license includes</span>
         <div class="trust-badges">
             <div class="trust-badge"><span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span><b>Full source code</b><span class="trust-sub">No locked files</span></div>
-            <div class="trust-badge"><span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span><b>White-label rights</b><span class="trust-sub">Use your own brand</span></div>
+            <div class="trust-badge"><span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span><b>White-label rights</b><span class="trust-sub">Your brand</span></div>
             <div class="trust-badge"><span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span><b>Live demos</b><span class="trust-sub">Try before you buy</span></div>
-            <div class="trust-badge"><span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span><b>Direct support</b><span class="trust-sub">From the people who built it</span></div>
+            <div class="trust-badge"><span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span><b>Direct support</b><span class="trust-sub">From the builders</span></div>
         </div>
     </div>
 </div>
 <?php
 // Products for sale = featured projects. Hero showcase = those that have a screenshot.
 $products = array_values(array_filter($projects ?? [], static fn ($pr) => !empty($pr['featured'])));
-$toasts = ['cheetah-enterprise' => 'Shipment PK-000007 is out for delivery', 'cheetah-lite' => 'Courier orders, tracked end to end', 'cheezify' => 'New order from the online store'];
+$toasts = ['cheetah-enterprise' => 'Shipment CH-000007 is out for delivery', 'cheetah-lite' => 'Courier orders, tracked end to end', 'cheezify' => 'New order from the online store'];
 $kinds = ['cheetah-enterprise' => 'Courier and warehouse software', 'cheetah-lite' => 'Courier software, lite edition', 'cheezify' => 'Online cheese store'];
 $hostOf = static function (array $pr) {
     $live = $pr['live_url'] ?? '';
@@ -104,10 +104,40 @@ foreach ($products as $pr) {
     }
 }
 if (!$showcase) {
-    $showcase[] = ['name' => 'Creatsify', 'kind' => 'Software studio', 'img' => 'images/hero-artwork.jpg', 'toast' => 'Karachi, Pakistan', 'host' => 'creatsify.tech', 'href' => url('/portfolio')];
+    $showcase[] = ['name' => 'Creatsify', 'kind' => 'Software studio', 'img' => 'images/hero-artwork.jpg', 'toast' => 'Software studio', 'host' => 'creatsify.tech', 'href' => url('/portfolio')];
 }
+// Hero visual: 'paint' = a 3D brush that paints the page (needs public/assets/models/brush.glb),
+// 'showcase' = product screenshots. Switch without touching code by adding a setting named hero_visual with the value showcase.
+$heroVisual = setting('hero_visual', 'paint');
+$hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/assets/models/brush.glb');
 ?>
-<div class="fv hf" style="--d:.45s">
+<div class="fv hf<?= $hasPaint ? ' fv-paint' : '' ?>" style="--d:.45s">
+<?php if ($hasPaint):
+    // What the brush paints, in order. The caption under the stage explains each scene.
+    $makes = [
+        ['Websites', 'Fast, clean business websites and online stores.'],
+        ['Mobile apps', 'Apps for drivers, staff and customers.'],
+        ['Admin panels', 'Dashboards to run orders, stock and teams.'],
+        ['Design', 'Logos, colour systems and interface design.'],
+        ['Ads', 'Ad creatives that bring customers in.'],
+    ];
+?>
+    <div class="hp" id="hp" data-model="<?= asset('models/brush.glb') ?>">
+        <img class="hp-poster" src="<?= asset('images/hero-paint-poster.webp') ?>" width="900" height="758" alt="A paintbrush painting a website layout in purple, blue, pink and orange">
+        <canvas class="hp-paint" aria-hidden="true"></canvas>
+        <canvas class="hp-trail" aria-hidden="true"></canvas>
+        <canvas class="hp-gl" aria-hidden="true"></canvas>
+    </div>
+    <div class="hp-meta" id="hpMeta">
+        <p class="hp-cap" aria-live="polite"><?= e($makes[0][1]) ?></p>
+        <div class="hp-tabs" role="tablist" aria-label="What we make">
+            <?php foreach ($makes as $k => $mk): ?>
+                <button type="button" class="hp-tab<?= $k === 0 ? ' on' : '' ?>" role="tab" aria-selected="<?= $k === 0 ? 'true' : 'false' ?>" data-cap="<?= e($mk[1]) ?>"><?= e($mk[0]) ?></button>
+            <?php endforeach; ?>
+        </div>
+        <a class="hp-more" href="#products">See what we have built &darr;</a>
+    </div>
+<?php else: ?>
     <div class="hv<?= count($showcase) < 2 ? ' solo' : '' ?>" id="hv">
         <div class="hv-win" data-tilt="4">
             <div class="hv-bar">
@@ -131,6 +161,7 @@ if (!$showcase) {
             <?php endforeach; ?>
         </div>
     </div>
+<?php endif; ?>
 </div>
 </div><div class="sc" aria-hidden="true"></div></section>
 
@@ -179,7 +210,7 @@ if (!$showcase) {
                     <div class="prod-actions">
                         <?php if ($hasLive): ?><a class="btn p" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">Open live demo</a><?php endif; ?>
                         <a class="btn" href="#contact" data-quote="<?= e($pr['title']) ?>">Get a quote</a>
-                        <a class="btn" href="<?= url('/portfolio/' . $pr['slug']) ?>">Details</a>
+                        <a class="prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">Details &rarr;</a>
                     </div>
                 </div>
             </article>
@@ -204,8 +235,8 @@ if (!$showcase) {
             <div class="trk" id="trk">
                 <div class="th">
                     <span class="trk-status-pill"><i class="pulse-dot"></i> Sample shipment</span>
-                    <b><?= e($tracker['code'] ?? 'PK-000007') ?></b>
-                    <span><?= e($tracker['from'] ?? 'Karachi') ?> to <?= e($tracker['to'] ?? 'Lahore') ?></span>
+                    <b><?= e($tracker['code'] ?? 'CH-000007') ?></b>
+                    <span><?= e($tracker['from'] ?? 'Origin hub') ?> to <?= e($tracker['to'] ?? 'Customer') ?></span>
                 </div>
                 <ol>
                     <?php foreach (($tracker['steps'] ?? ['Shipment created', 'Linehaul dispatched', 'Out for delivery', 'Delivered, ePOD signed']) as $step): ?>
@@ -270,12 +301,27 @@ if (!$showcase) {
     </div>
 </div></section>
 
+<!-- How buying works -->
+<section id="how"><div class="wrap">
+    <div class="top">
+        <div class="idx rv">How it works</div>
+        <h2 data-split class="sp">From demo to live in three steps</h2>
+        <p class="sub rv" style="--d:.2s">Every product starts with a live demo, so you know exactly what you are getting before you ask for anything.</p>
+    </div>
+    <div class="how-grid">
+        <div class="how-step rv"><span class="how-n">1</span><h3>Try the live demo</h3><p>Open the Cheetah or Cheezify demo and click through the real admin panel, not a slide deck.</p></div>
+        <div class="how-step rv" style="--d:.12s"><span class="how-n">2</span><h3>Tell us what you need</h3><p>Send a quote request. If you want changes, we scope them and reply with a plan and a price.</p></div>
+        <div class="how-step rv" style="--d:.24s"><span class="how-n">3</span><h3>Get the code and go live</h3><p>You receive the full source code, white-label rights and help with setup.</p></div>
+    </div>
+    <div class="row rv" style="margin-top:34px;justify-content:center;--d:.3s"><a class="btn p" href="#products">Browse the software</a><a class="btn" href="#contact">Ask a question</a></div>
+</div></section>
+
 <!-- About -->
-<section id="about"><div class="wrap split">
+<section id="about" class="alt"><div class="wrap split">
     <div>
         <div class="idx rv">About</div>
         <h2 data-split class="sp"><?= e($about['title'] ?? ('Built by ' . setting('founder_name', 'Creatsify Team'))) ?></h2>
-        <p class="sub rv" style="--d:.2s"><?= e(setting('founder_bio', 'Creatsify is a software studio in Karachi. We sell ready-made courier and store software, and build custom websites and admin panels.')) ?></p>
+        <p class="sub rv" style="--d:.2s"><?= e(setting('founder_bio', 'Creatsify is a software studio. We sell ready-made courier and store software, and build custom websites and admin panels.')) ?></p>
         <div class="row rv" style="margin-top:26px;--d:.3s">
             <a class="btn" href="<?= e(setting('founder_github', 'https://github.com/ayan2424')) ?>" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a class="btn" href="<?= e(setting('founder_linkedin', 'https://linkedin.com/in/muhammadayanshamim')) ?>" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -292,12 +338,12 @@ if (!$showcase) {
         <li class="rv r"><b>Web development</b><span>PHP, MySQL and JavaScript, without a heavy framework</span></li>
         <li class="rv r" style="--d:.1s"><b>WordPress and e-commerce</b><span>Elementor and WooCommerce stores</span></li>
         <li class="rv r" style="--d:.2s"><b>Software products</b><span>Cheetah and Cheezify, sold with full source code</span></li>
-        <li class="rv r" style="--d:.3s"><b>Based in</b><span>Karachi, Pakistan</span></li>
+        <li class="rv r" style="--d:.3s"><b>Works with</b><span>Clients worldwide, fully remote</span></li>
     </ul>
 </div></section>
 
 <!-- Contact -->
-<section id="contact" class="alt"><div class="wrap split">
+<section id="contact"><div class="wrap split">
     <div>
         <div class="idx rv">Contact</div>
         <h2 data-split class="sp"><?= e($sections['contact']['title'] ?? 'Tell us what you want to build') ?></h2>
@@ -316,9 +362,8 @@ if (!$showcase) {
                 <?php
                 $waPhone = clean_phone_number(setting('whatsapp_number', setting('site_phone', '923002521199')), false);
                 $waMsg = urlencode("Hello, I would like to discuss a project with " . setting('site_name', 'Creatsify Studio'));
-                $displayPhone = format_phone_display(setting('site_phone', '+92 300 2521199'));
                 ?>
-                <a href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener" class="wa-chat-btn"><span>Message <?= e($displayPhone) ?></span> &rarr;</a>
+                <a href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener" class="wa-chat-btn"><span>Message us on WhatsApp</span> &rarr;</a>
             </div>
             <div class="contact-perks-list">
                 <div class="contact-perk-item">
@@ -327,7 +372,7 @@ if (!$showcase) {
                 </div>
                 <div class="contact-perk-item">
                     <span style="color:var(--accent);display:flex;align-items:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
-                    <div><b>Studio:</b> Karachi, Pakistan (GMT+5)</div>
+                    <div><b>Working:</b> Remote, with clients worldwide</div>
                 </div>
             </div>
         </div>
@@ -336,7 +381,7 @@ if (!$showcase) {
         <?= csrf_field() ?>
         <label>Your name<input name="name" required autocomplete="name" placeholder="John Doe"></label>
         <label>Your email<input name="email" type="email" required autocomplete="email" placeholder="john@example.com"></label>
-        <label>Phone / WhatsApp (optional)<input name="phone" type="tel" placeholder="+92 300 1234567" autocomplete="tel"></label>
+        <label>Phone / WhatsApp (optional)<input name="phone" type="tel" placeholder="+1 555 123 4567" autocomplete="tel"></label>
         <label>What do you need?
             <select name="project_type">
                 <option>Cheetah Enterprise</option>
@@ -351,3 +396,7 @@ if (!$showcase) {
         <button class="btn p" type="submit" style="width:100%;font-weight:700;">Send message &rarr;</button>
     </form>
 </div></section>
+
+<?php if ($hasPaint): ?>
+<script src="<?= asset('js/hero-paint.js') ?>?v=1" defer></script>
+<?php endif; ?>

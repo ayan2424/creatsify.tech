@@ -21,8 +21,7 @@ class ChatController
     {
         $token = trim((string)$request->input('token', ''));
         $message = trim((string)$request->input('message', ''));
-        $rawName = trim((string)$request->input('name', ''));
-        $name = ($rawName !== '' && $rawName !== 'Visitor') ? $rawName : null;
+        $name = trim((string)$request->input('name', 'Visitor'));
         $email = trim((string)$request->input('email', ''));
 
         if (empty($token) || empty($message)) {
@@ -31,13 +30,9 @@ class ChatController
 
         // Get or initialize chat session
         $session = ChatSession::findOrCreate($token, $request->getIp(), $name, $email);
-        if (!$session) {
-            return Response::json(['success' => false, 'error' => 'Failed to initialize session.'], 500);
-        }
 
-        // Record visitor message using resolved visitor name
-        $displayName = $session['visitor_name'] ?: 'Visitor';
-        ChatMessage::add((int)$session['id'], 'visitor', $displayName, $message);
+        // Record visitor message
+        ChatMessage::add((int)$session['id'], 'visitor', $name, $message);
 
         // Check if session is already in human handoff mode
         if ((int)$session['is_human_handoff'] === 1) {
@@ -184,12 +179,12 @@ class ChatController
 
         // Founder and studio background
         if (str_contains($m, 'founder') || str_contains($m, 'ayan') || str_contains($m, 'who are you') || str_contains($m, 'about')) {
-            return "**Creatsify** is founded by **Muhammad Ayan Shamim**, an AI software engineer and distinction holder from Aptech Karachi. We design and ship production-grade web systems, mobile apps, and white-label commercial software used globally.";
+            return "**Creatsify** is founded by **Muhammad Ayan Shamim**, an AI software engineer and distinction holder from Aptech. We design and ship production-grade web systems, mobile apps, and white-label commercial software used globally.";
         }
 
-        // Location / Karachi
+        // Location
         if (str_contains($m, 'location') || str_contains($m, 'where') || str_contains($m, 'karachi') || str_contains($m, 'office')) {
-            return "Creatsify Studio is headquartered in **Karachi, Pakistan**, collaborating with clients across North America, the UK, the Middle East, and Pakistan.";
+            return "Creatsify Studio is a remote-first software studio, working with clients across North America, the UK, the Middle East and beyond.";
         }
 
         // Default intelligent fallback

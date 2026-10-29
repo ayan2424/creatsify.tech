@@ -165,7 +165,7 @@ class Mailer
                     </tr>
                     <tr>
                         <td style="padding: 24px 40px; background-color: #0d0e15; border-top: 1px solid #252736; font-size: 12px; color: #70758f; text-align: center;">
-                            &copy; 2026 Creatsify Studio &bull; Karachi, Pakistan &bull; <a href="https://creatsify.tech" style="color: {$primary}; text-decoration: none;">creatsify.tech</a>
+                            &copy; 2026 Creatsify Studio &bull; <a href="https://creatsify.tech" style="color: {$primary}; text-decoration: none;">creatsify.tech</a>
                         </td>
                     </tr>
                 </table>

@@ -14,7 +14,7 @@ class AboutController
     {
         return view('about/index', [
             'meta_title' => 'About Creatsify & Muhammad Ayan Shamim',
-            'meta_desc' => 'Discover how Creatsify designs, ships, and scales digital software from Karachi to global marketplaces.'
+            'meta_desc' => 'Discover how Creatsify designs, ships, and scales digital software for clients around the world.'
         ]);
     }
 }

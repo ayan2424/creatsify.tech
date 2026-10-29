@@ -310,7 +310,7 @@
         printLine('  3. <b>VisionLab Cloud IDE</b> (Laravel 11, Docker, Monaco)', 'system');
         printLine('  4. <b>ViddMate Creator Suite</b> (Electron Desktop & Web Converter)', 'system');
         printLine('  5. <b>RestroMaster Ordering</b> (QR Table POS, Live KDS, WhatsApp)', 'system');
-        printLine('  6. <b>Cheezify Artisanal Store</b> (Karachi Cold-chain Delivery)', 'system');
+        printLine('  6. <b>Cheezify Artisanal Store</b> (Cold-chain Delivery)', 'system');
         printLine('  7. <b>SaaSForge Launchpad</b> (React 19, Next.js, Stripe)', 'system');
         printLine('→ Explore all at <a href="/portfolio" style="color:var(--accent);">creatsify.tech/portfolio</a>', 'accent');
       },
@@ -342,8 +342,8 @@
       },
       whoami: () => {
         printLine('[FOUNDER] <b>Muhammad Ayan Shamim</b>', 'success');
-        printLine('  Founder & Lead Architect at Creatsify Studio, Karachi, Pakistan.', 'system');
-        printLine('  ACCP AI Distinction Holder at Aptech Karachi.', 'system');
+        printLine('  Founder & Lead Architect at Creatsify Studio.', 'system');
+        printLine('  ACCP AI Distinction Holder at Aptech.', 'system');
         printLine('  Architected Cheetah Logistics (78 DB tables) & VisionLab Cloud IDE.', 'system');
         printLine('  GitHub: <a href="https://github.com/ayan2424" target="_blank" style="color:var(--accent);">github.com/ayan2424</a> | LinkedIn: <a href="https://linkedin.com/in/muhammadayanshamim" target="_blank" style="color:var(--accent);">in/muhammadayanshamim</a>', 'accent');
       },
@@ -387,7 +387,7 @@
       contact: () => {
         printLine('[CONTACT] Direct Line to Leadership:', 'accent');
         printLine('  Email: <a href="mailto:ayan@creatsify.tech" style="color:#fff;">ayan@creatsify.tech</a>', 'system');
-        printLine('  WhatsApp: <a href="https://wa.me/923002521199" target="_blank" style="color:var(--accent);">+92 300 2521199</a>', 'system');
+        printLine('  WhatsApp: <a href="https://wa.me/923002521199" target="_blank" style="color:var(--accent);">Chat on WhatsApp</a>', 'system');
         printLine('Opening chat desk widget...', 'success');
         const chatBtn = document.getElementById('chatLauncherBtn');
         if (chatBtn) chatBtn.click();

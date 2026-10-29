@@ -16,7 +16,7 @@ const IM = {
 const _P_FALLBACK=[
 ["Cheetah Enterprise","p","For sale","Courier, warehouse and multi-branch logistics platform with 7 role portals, store sync and the Flutter driver and picker app.",["PHP","MySQL","JavaScript","Flutter"],"c",[["Live demo","https://cheetah.ayan24.me"]]],
 ["Cheetah Lite","p","For sale","A lighter, courier-only edition. No warehouse module and no picker role.",["PHP","MySQL","JavaScript"],"c",[["Live demo","https://cheetah-lite.ayan24.me"]]],
-["Cheezify","s","For sale","Online cheese store with its own admin panel, built for a client in Karachi, with cold-chain delivery zones and SEO-ready pages.",["PHP","MySQL","JavaScript"],"z",[["Visit store","https://cheezify.ayan24.me"]]],
+["Cheezify","s","For sale","Online cheese store with its own admin panel, built for a client, with cold-chain delivery zones and SEO-ready pages.",["PHP","MySQL","JavaScript"],"z",[["Visit store","https://cheezify.ayan24.me"]]],
 ["Sawi Store","s","Delivered","WordPress and WooCommerce online store built with Elementor.",["WordPress","Elementor","WooCommerce"],"h",[]]
 ];
 const P = (window.CREATSIFY_PROJECTS && window.CREATSIFY_PROJECTS.length > 0) ? window.CREATSIFY_PROJECTS : _P_FALLBACK;
@@ -97,14 +97,9 @@ const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return
 const tk=t=>{const k=Math.min(1,(t-t0)/1400);el.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(tk)};requestAnimationFrame(tk)}),{threshold:.6});
 if(!RM)$$('[data-n]').forEach(el=>{el.textContent='0';co.observe(el)});
 /* tracking demo */
-const trkEl = $('#trk');
-if (trkEl) {
-  const tl = $$('#trk li'); let tkv = false, tki = 0;
-  if (RM) tl.forEach(l => l.classList.add('d')); else {
-    new IntersectionObserver(es => es.forEach(e => tkv = e.isIntersecting), { threshold: .3 }).observe(trkEl);
-    setInterval(() => { if (!tkv) return; tki = (tki + 1) % 7; tl.forEach((l, i) => l.classList.toggle('d', i < tki)) }, 1100);
-  }
-}
+const tl=$$('#trk li');let tkv=false,tki=0;
+if(RM)tl.forEach(l=>l.classList.add('d'));else{new IntersectionObserver(es=>es.forEach(e=>tkv=e.isIntersecting),{threshold:.3}).observe($('#trk'));
+setInterval(()=>{if(!tkv)return;tki=(tki+1)%7;tl.forEach((l,i)=>l.classList.toggle('d',i<tki))},1100)}
 /* buttons ripple */
 $$('.btn').forEach(b=>b.addEventListener('pointerdown',e=>{const r=b.getBoundingClientRect(),s=document.createElement('span');s.className='rp';s.style.left=e.clientX-r.left+'px';s.style.top=e.clientY-r.top+'px';b.appendChild(s);setTimeout(()=>s.remove(),700)}));
 /* tilt, magnetic, cursor, spotlights */
@@ -195,7 +190,7 @@ if(filterButtons.length){
 }
 
 /* rotating word */
-const words=['courier companies','online stores','local brands','growing businesses'],rot=$('#rot');let wi=0;
+const words=['couriers','online stores','local brands','startups'],rot=$('#rot');let wi=0;
 if(rot&&!RM)setInterval(()=>{rot.classList.add('out');setTimeout(()=>{wi=(wi+1)%words.length;rot.textContent=words[wi];rot.classList.remove('out')},380)},2800);
 
 /* footer wordmark hover highlight */
@@ -288,7 +283,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 2. Scroll Progress Bar
+    // 2. Mobile Drawer Toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    if (mobileBtn && drawer) {
+        mobileBtn.addEventListener('click', function () {
+            drawer.classList.toggle('open');
+        });
+    }
+
+    // 3. Scroll Progress Bar
     const prog = document.getElementById('scrollProgressBar');
     if (prog) {
         window.addEventListener('scroll', function () {

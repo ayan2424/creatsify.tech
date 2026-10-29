@@ -21,7 +21,7 @@ INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES
 ('site_tagline', 'We build software for courier companies, online stores, learning platforms, startups & enterprises.', 'general'),
 ('site_email', 'ayan@creatsify.tech', 'general'),
 ('site_phone', '+92 300 0000000', 'general'),
-('site_location', 'Karachi, Pakistan', 'general'),
+('site_location', 'Worldwide, remote', 'general'),
 ('site_logo', '/assets/brand/creatsify-wordmark.png', 'appearance'),
 ('site_logo_light', '/assets/brand/creatsify-wordmark-light.png', 'appearance'),
 ('site_icon', '/assets/brand/favicon.png', 'appearance'),
@@ -29,11 +29,11 @@ INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES
 ('dark_mode_default', '1', 'appearance'),
 ('founder_name', 'Muhammad Ayan Shamim', 'founder'),
 ('founder_title', 'Founder & Lead Architect', 'founder'),
-('founder_bio', 'Ayan is the founder of Creatsify. He studies AI in the ACCP program at Aptech, Karachi, and builds and sells real software: web platforms, mobile apps, desktop tools and WordPress stores.', 'founder'),
+('founder_bio', 'Ayan is the founder of Creatsify. He studies AI in the ACCP program at Aptech, and builds and sells real software: web platforms, mobile apps, desktop tools and WordPress stores.', 'founder'),
 ('founder_github', 'https://github.com/ayan2424', 'founder'),
 ('founder_linkedin', 'https://linkedin.com/in/muhammadayanshamim', 'founder'),
-('meta_keywords', 'Creatsify, Software Studio, Karachi, Pakistan, Courier SaaS, Cheetah, PHP MVC, Laravel, Flutter, Web Development', 'seo'),
-('meta_description', 'Creatsify is a high-performance software studio in Karachi building full-stack web, mobile, and AI solutions.', 'seo'),
+('meta_keywords', 'Creatsify, Software Studio, Courier software, Cheetah, Cheezify, PHP, Admin panels, Web Development', 'seo'),
+('meta_description', 'Creatsify is a software studio building ready-made courier and store software, plus custom websites, admin panels and apps for clients worldwide.', 'seo'),
 ('smtp_host', 'smtp.mailtrap.io', 'mail'),
 ('smtp_port', '2525', 'mail'),
 ('smtp_user', '', 'mail'),
@@ -59,11 +59,11 @@ ON DUPLICATE KEY UPDATE `value`=VALUES(`value`);
 
 -- 4. Dynamic Sections (Homepage Content Engine)
 INSERT INTO `sections` (`section_key`, `title`, `subtitle`, `content`, `metadata`, `is_active`, `sort_order`) VALUES
-('hero', 'We build software', 'for courier companies, online stores, local brands, growing businesses', 'Creatsify is a software studio in Karachi. We sell ready-made courier and online store software, and build custom websites, admin panels and WordPress stores.', '{"chips": ["7 role portals in Cheetah", "Direct software licensing", "3 products for sale"], "rotating_words": ["courier companies", "online stores", "local brands", "growing businesses"]}', 1, 1),
+('hero', 'We build software', 'for courier companies, online stores, local brands, growing businesses', 'Creatsify is a software studio. We sell ready-made courier and online store software, and build custom websites, admin panels and WordPress stores.', '{"chips": ["7 role portals in Cheetah", "Direct software licensing", "3 products for sale"], "rotating_words": ["couriers", "online stores", "local brands", "startups"]}', 1, 1),
 ('marquee_tech', 'Tech Stack', 'Built with industry-leading modern tooling', 'PHP, Laravel, MySQL, Python, React, Next.js, Flutter, Electron, WordPress, WooCommerce, Docker, Redis', '{}', 1, 2),
 ('stats', 'By the Numbers', 'Proven track record of engineering delivery', '{"stat_1": {"value": 10, "suffix": "+", "label": "Products shipped"}, "stat_2": {"value": 3, "suffix": "", "label": "Cheetah editions"}, "stat_3": {"value": 7, "suffix": "", "label": "Role portals in Cheetah"}, "stat_4": {"value": 78, "suffix": "", "label": "Database tables in Cheetah"}}', '{}', 1, 3),
-('cheetah_showcase', 'Cheetah: courier and warehouse software', 'Our flagship product', 'Cheetah comes in two editions, each with its own code. Enterprise covers couriers and warehouses with 7 role portals, and Lite is for courier-only businesses.', '{"tracker": {"code": "PK-000007", "from": "Karachi", "to": "Lahore", "steps": ["Shipment created", "Linehaul dispatched", "Out for delivery", "Delivered ePOD signed"]}}', 1, 4),
-('about_founder', 'Built by Muhammad Ayan Shamim', 'Founder', 'Ayan is the founder of Creatsify. He studies AI in the ACCP program at Aptech, Karachi, and builds and sells real software: courier and store systems, custom web apps and WordPress stores.', '{"badge": "CREATSIFY • KARACHI • BUILD • SHIP • GROW •"}', 1, 5),
+('cheetah_showcase', 'Cheetah: courier and warehouse software', 'Our flagship product', 'Cheetah comes in two editions, each with its own code. Enterprise covers couriers and warehouses with 7 role portals, and Lite is for courier-only businesses.', '{"tracker": {"code": "CH-000007", "from": "Origin hub", "to": "Customer", "steps": ["Shipment created", "Linehaul dispatched", "Out for delivery", "Delivered ePOD signed"]}}', 1, 4),
+('about_founder', 'Built by Muhammad Ayan Shamim', 'Founder', 'Ayan is the founder of Creatsify. He studies AI in the ACCP program at Aptech, and builds and sells real software: courier and store systems, custom web apps and WordPress stores.', '{"badge": "CREATSIFY • STUDIO • BUILD • SHIP • GROW •"}', 1, 5),
 ('marquee_cta', 'Let\'s build', 'Let\'s launch • Let\'s grow', 'Ready to scale your next digital breakthrough? We partner with founders and enterprise teams globally.', '{}', 1, 6),
 ('contact', 'Tell us what you want to build', 'Get in touch directly with our leadership team', 'Have a project in mind, need custom software, or want to deploy one of our pre-built platforms? Send a message and we will respond within 24 hours.', '{}', 1, 7)
 ON DUPLICATE KEY UPDATE `title`=VALUES(`title`);
@@ -72,7 +72,7 @@ ON DUPLICATE KEY UPDATE `title`=VALUES(`title`);
 INSERT INTO `projects` (`title`, `slug`, `category`, `client`, `featured`, `summary`, `description`, `image_url`, `live_url`, `tech_stack`, `status`, `sort_order`) VALUES
 ('Cheetah Enterprise', 'cheetah-enterprise', 'saas', NULL, 1, 'Courier, warehouse and multi-branch logistics platform with 7 role portals, store sync and the Flutter driver and picker app.', 'The full Cheetah system for courier and warehouse businesses: branch management, rider assignment, merchant portals, cash-on-delivery reconciliation, live tracking, proof of delivery and a Flutter app for drivers and pickers. Comes with full source code and white-label rights.', NULL, 'https://cheetah.ayan24.me', 'PHP, MySQL, JavaScript, Flutter', 'For sale', 1),
 ('Cheetah Lite', 'cheetah-lite', 'saas', NULL, 1, 'A lighter, courier-only edition. No warehouse module and no picker role.', 'The smaller Cheetah edition for businesses that only run courier deliveries. Shipment booking, rider assignment, tracking and cash-on-delivery, without the warehouse module. Comes with full source code and white-label rights.', NULL, 'https://cheetah-lite.ayan24.me', 'PHP, MySQL, JavaScript', 'For sale', 2),
-('Cheezify', 'cheezify', 'stores', NULL, 1, 'Online cheese store with its own admin panel, built for a client in Karachi, with cold-chain delivery zones and SEO-ready pages.', 'A complete online store and admin panel written in pure PHP with a hand-built MVC structure and no framework. Product catalog, cart, delivery zones and order management. Available as ready-made software.', NULL, 'https://cheezify.ayan24.me', 'PHP, MySQL, JavaScript', 'For sale', 3),
+('Cheezify', 'cheezify', 'stores', NULL, 1, 'Online cheese store with its own admin panel, built for a client, with cold-chain delivery zones and SEO-ready pages.', 'A complete online store and admin panel written in pure PHP with a hand-built MVC structure and no framework. Product catalog, cart, delivery zones and order management. Available as ready-made software.', NULL, 'https://cheezify.ayan24.me', 'PHP, MySQL, JavaScript', 'For sale', 3),
 ('Sawi Store', 'sawi-store', 'stores', NULL, 0, 'WordPress and WooCommerce online store built with Elementor.', 'An e-commerce website built on WordPress with Elementor and WooCommerce.', NULL, NULL, 'WordPress, Elementor, WooCommerce', 'Delivered', 4)
 ON DUPLICATE KEY UPDATE `title`=VALUES(`title`), `category`=VALUES(`category`), `featured`=VALUES(`featured`), `summary`=VALUES(`summary`), `description`=VALUES(`description`), `live_url`=VALUES(`live_url`), `tech_stack`=VALUES(`tech_stack`), `status`=VALUES(`status`), `sort_order`=VALUES(`sort_order`);
 
@@ -92,7 +92,7 @@ ON DUPLICATE KEY UPDATE `title`=VALUES(`title`);
 
 -- 8. Agency Team Members & Staff
 INSERT INTO `team_members` (`id`, `name`, `slug`, `role_title`, `bio`, `avatar`, `skills`, `github_url`, `linkedin_url`, `portfolio_url`, `email`, `sort_order`, `is_active`) VALUES
-(1, 'Muhammad Ayan Shamim', 'ayan-shamim', 'Founder & Lead Full-Stack Architect', 'Founder of Creatsify. ACCP AI student at Aptech Karachi. Specializes in building mission-critical courier platforms, multi-tenant SaaS backends, and full-stack software architectures.', '/assets/brand/creatsify-icon.png', 'PHP, Laravel, Python, React, Next.js, MySQL, Redis, Docker', 'https://github.com/ayan2424', 'https://linkedin.com/in/muhammadayanshamim', 'https://creatsify.tech', 'ayan@creatsify.tech', 1, 1),
+(1, 'Muhammad Ayan Shamim', 'ayan-shamim', 'Founder & Lead Full-Stack Architect', 'Founder of Creatsify. ACCP AI student at Aptech. Specializes in building mission-critical courier platforms, multi-tenant SaaS backends, and full-stack software architectures.', '/assets/brand/creatsify-icon.png', 'PHP, Laravel, Python, React, Next.js, MySQL, Redis, Docker', 'https://github.com/ayan2424', 'https://linkedin.com/in/muhammadayanshamim', 'https://creatsify.tech', 'ayan@creatsify.tech', 1, 1),
 (2, 'Bilal Ahmed', 'bilal-ahmed', 'Senior UI/UX & Design Systems Lead', 'Creative design architect with 4+ years of experience crafting high-conversion design systems, SaaS dashboards, and immersive micro-interactions.', '/assets/brand/creatsify-icon.png', 'Figma, UI/UX, Design Systems, Tailwind CSS, Interaction Design, Framer', 'https://github.com', 'https://linkedin.com', 'https://dribbble.com', 'bilal@creatsify.tech', 2, 1),
 (3, 'Hamza Malik', 'hamza-malik', 'Mobile Apps & Flutter Specialist', 'Cross-platform mobile developer dedicated to building fluid, 60fps native iOS and Android apps with robust offline sync and clean state architectures.', '/assets/brand/creatsify-icon.png', 'Flutter, Dart, Android, iOS, REST APIs, Firebase, SQLite', 'https://github.com', 'https://linkedin.com', 'https://github.com', 'hamza@creatsify.tech', 3, 1)
 ON DUPLICATE KEY UPDATE `name`=VALUES(`name`);

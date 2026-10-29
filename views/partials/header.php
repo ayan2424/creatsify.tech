@@ -92,7 +92,7 @@ $currentPath = request()->getPath();
             Start a project &rarr;
         </a>
         <div style="margin-top: 14px; text-align:center; font-size: 12px; color: var(--muted);">
-            Karachi, Pakistan &bull; Full-Stack Studio
+            Full-Stack Software Studio
         </div>
     </div>
 </div>

@@ -6,7 +6,7 @@ $this->layout('layouts/main');
     <div class="wrap">
         <span class="section-tag">Studio & Founder</span>
         <h1 class="page-title">About Creatsify</h1>
-        <p class="page-lead">We are an independent software development studio in Karachi, Pakistan, dedicated to engineering robust, high-performance web systems, SaaS platforms, and mobile apps.</p>
+        <p class="page-lead">We are an independent software development studio, dedicated to engineering robust, high-performance web systems, SaaS platforms, and mobile apps.</p>
     </div>
 </section>
 
@@ -28,7 +28,7 @@ $this->layout('layouts/main');
 
                 <h3 style="color: var(--text); font-size: 20px; margin-top: 35px;">Global Reach</h3>
                 <p>
-                    Our white-label software products are licensed directly through our official Gumroad store with 100% source code ownership and direct in-house technical support. We also partner one-on-one with enterprise clients across North America, the UK, the Middle East, and Pakistan.
+                    Our white-label software products are licensed directly through our official Gumroad store with 100% source code ownership and direct in-house technical support. We also partner one-on-one with enterprise clients across North America, the UK and the Middle East.
                 </p>
             </div>
 
