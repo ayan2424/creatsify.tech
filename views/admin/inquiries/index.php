@@ -5,14 +5,22 @@ $activeStatus = $activeStatus ?? null;
 $counts = $counts ?? ['all' => 0, 'new' => 0, 'in_discussion' => 0, 'converted' => 0, 'closed' => 0];
 ?>
 
-<div class="card">
-    <div class="card-header" style="flex-wrap: wrap; gap: 16px;">
-        <div>
-            <h3 class="card-title">Client Inquiries & Project Leads</h3>
-            <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Inbound consultation requests, enterprise quotations, and product inquiries.</p>
-        </div>
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Client Inquiries & Project Leads</h1>
+        <p class="page-subtitle">Inbound consultation requests, enterprise quotations, and product inquiries.</p>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <span>Clients Pipeline &rarr;</span>
+        </a>
+    </div>
+</div>
 
-        <!-- Filter Tabs -->
+<div class="card">
+    <!-- Filter Tabs -->
+    <div class="crm-filter-bar">
         <div class="crm-filter-pills">
             <a href="<?= url('/admin/inquiries') ?>" class="crm-filter-pill <?= empty($activeStatus) ? 'active' : '' ?>">
                 <span>All Inquiries</span>

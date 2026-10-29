@@ -14,13 +14,13 @@ $this->layout('layouts/admin', ['page_title' => 'Support Desk Tickets', 'meta_ti
         </a>
         <a href="<?= url('/admin/crm/tickets/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span>+ Open Ticket</span>
+            <span>Open Ticket</span>
         </a>
     </div>
 </div>
 
 <!-- Ticket Metrics Ribbon -->
-<div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin-bottom: 24px;">
+<div class="metrics-grid">
     <div class="metric-card">
         <div class="metric-icon" style="background: rgba(239, 68, 68, 0.12); color: #ef4444;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>

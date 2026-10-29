@@ -14,15 +14,51 @@ $statusLabels = [
     </div>
     <a href="<?= url('/admin/agency-projects/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        <span>+ Create Delivery Project</span>
+        <span>Create Delivery Project</span>
     </a>
 </div>
 
-<div class="metrics-grid" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); margin-bottom:24px;">
-    <div class="metric-card"><div class="metric-info"><span class="metric-label">Active delivery</span><strong class="metric-value"><?= (int)$metrics['counts']['active'] ?></strong><span class="metric-sub">Projects being delivered</span></div></div>
-    <div class="metric-card"><div class="metric-info"><span class="metric-label">In planning</span><strong class="metric-value"><?= (int)$metrics['counts']['planning'] ?></strong><span class="metric-sub">Ready to scope and assign</span></div></div>
-    <div class="metric-card"><div class="metric-info"><span class="metric-label">Open tasks</span><strong class="metric-value"><?= (int)$metrics['open_tasks'] ?></strong><span class="metric-sub"><?= (int)$metrics['overdue_tasks'] ?> past due</span></div></div>
-    <div class="metric-card"><div class="metric-info"><span class="metric-label">Delivered</span><strong class="metric-value"><?= (int)$metrics['counts']['delivered'] ?></strong><span class="metric-sub">Completed agency engagements</span></div></div>
+<div class="metrics-grid">
+    <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(139, 123, 255, 0.12); color: var(--adm-accent);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="metric-info">
+            <span class="metric-label">Active delivery</span>
+            <strong class="metric-value"><?= (int)$metrics['counts']['active'] ?></strong>
+            <span class="metric-sub">Projects being delivered</span>
+        </div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="metric-info">
+            <span class="metric-label">In planning</span>
+            <strong class="metric-value"><?= (int)$metrics['counts']['planning'] ?></strong>
+            <span class="metric-sub">Ready to scope and assign</span>
+        </div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(59, 130, 246, 0.12); color: #3b82f6;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+        </div>
+        <div class="metric-info">
+            <span class="metric-label">Open tasks</span>
+            <strong class="metric-value"><?= (int)$metrics['open_tasks'] ?></strong>
+            <span class="metric-sub"><?= (int)$metrics['overdue_tasks'] ?> past due</span>
+        </div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="metric-info">
+            <span class="metric-label">Delivered</span>
+            <strong class="metric-value"><?= (int)$metrics['counts']['delivered'] ?></strong>
+            <span class="metric-sub">Completed agency engagements</span>
+        </div>
+    </div>
 </div>
 
 <div class="card">

@@ -47,6 +47,7 @@
   --accent: var(--adm-accent);
 }
 
+:root[data-theme="light"],
 [data-theme="light"] {
   /* Panze Studio Soft Lilac Palette (Light Mode) */
   --adm-bg: #f4f6fc;
@@ -965,6 +966,40 @@ body.sidebar-locked {
   z-index: 1;
 }
 
+/* ==========================================================================
+   CONTENT HEADERS & PAGE TITLES
+   ========================================================================== */
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.content-header > div:first-child {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.page-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 700;
+  color: var(--adm-text);
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: 13.5px;
+  color: var(--adm-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
 @media (max-width: 1024px) {
   .admin-content {
     border-top-left-radius: 0;
@@ -1027,7 +1062,8 @@ body.sidebar-locked {
 /* ==========================================================================
    4. LUMIX AI DASHBOARD WIDGETS & SPARKLINE METRIC CARDS
    ========================================================================== */
-.metrics-row {
+.metrics-row,
+.metrics-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
@@ -1102,12 +1138,31 @@ body.sidebar-locked {
   margin-bottom: 12px;
 }
 
+.metric-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.metric-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
 .metric-label {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--adm-muted);
+  display: block;
 }
 
 .metric-trend {
@@ -1142,12 +1197,22 @@ body.sidebar-locked {
   gap: 10px;
 }
 
-.metric-val {
+.metric-val,
+.metric-value {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
   color: var(--adm-text);
-  line-height: 1;
+  line-height: 1.15;
+  display: block;
+  margin: 2px 0 4px;
+}
+
+.metric-sub {
+  font-size: 12px;
+  color: var(--adm-muted);
+  display: block;
+  line-height: 1.4;
 }
 
 .metric-sparkline {
@@ -1560,6 +1625,20 @@ body.sidebar-locked {
   transform: translateY(-1px);
 }
 
+.btn-danger {
+  background: rgba(239, 68, 68, 0.14);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.btn-danger:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
 .btn-sm {
   padding: 5px 12px;
   font-size: 12px;
@@ -1624,6 +1703,23 @@ body.sidebar-locked {
   margin-bottom: 4px;
 }
 
+/* Media Library Cards */
+.media-card-item {
+  background: var(--adm-card);
+  border: 1px solid var(--adm-line);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.media-card-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--adm-accent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
 /* ==========================================================================
    7. UNIVERSAL FORMS & SUBPAGE CONTROLS
    ========================================================================== */
@@ -1631,7 +1727,8 @@ body.sidebar-locked {
   margin-bottom: 20px;
 }
 
-.form-group label {
+.form-group label,
+.form-label {
   display: block;
   font-size: 13px;
   font-weight: 600;
@@ -1650,6 +1747,12 @@ body.sidebar-locked {
   outline: none;
   font-family: inherit;
   transition: all 0.2s ease;
+}
+
+.form-control-sm {
+  padding: 6.5px 11px;
+  font-size: 12.5px;
+  border-radius: 7px;
 }
 
 .form-control:focus {
@@ -1681,17 +1784,22 @@ select.form-control {
   display: block;
 }
 
-/* Badges */
-.badge {
+/* Badges & Role Pills */
+.badge,
+.user-role-badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 2.5px 8px;
+  padding: 3px 8px;
   border-radius: 6px;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  background: var(--adm-surface-hover);
+  color: var(--adm-muted);
+  border: 1px solid var(--adm-line);
+  line-height: 1.3;
 }
 
 .badge-primary { background: var(--adm-accent-glow); color: var(--adm-accent); border: 1px solid rgba(139, 123, 255, 0.3); }
@@ -1986,6 +2094,12 @@ select.form-control {
     gap: 20px;
   }
 
+  .metrics-row,
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
   .tables-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
@@ -2055,7 +2169,8 @@ select.form-control {
     padding: 16px 12px;
   }
 
-  .metrics-row {
+  .metrics-row,
+  .metrics-grid {
     grid-template-columns: 1fr;
     gap: 12px;
   }

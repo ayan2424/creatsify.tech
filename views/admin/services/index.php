@@ -3,17 +3,23 @@
 $this->layout('layouts/admin');
 ?>
 
-<div class="card">
-    <div class="card-header" style="flex-wrap: wrap; gap: 16px;">
-        <div>
-            <h3 class="card-title">Studio Engineering Services</h3>
-            <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Manage custom software engineering offerings, architectural scopes, and deliverables.</p>
-        </div>
-        <a href="<?= url('/admin/services/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 16px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span>+ Add Service</span>
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Studio Engineering Services</h1>
+        <p class="page-subtitle">Manage custom software engineering offerings, architectural scopes, and deliverables.</p>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <a href="<?= url('/services') ?>" target="_blank" class="btn btn-secondary" style="min-height: 40px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px;">
+            <span>View Public Services &nearr;</span>
+        </a>
+        <a href="<?= url('/admin/services/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 16px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Add Service</span>
         </a>
     </div>
+</div>
+
+<div class="card">
 
     <div class="table-responsive">
         <table class="data-table">

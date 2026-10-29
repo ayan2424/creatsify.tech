@@ -7,18 +7,18 @@ $totalSizeBytes = array_sum(array_column($media ?? [], 'file_size'));
 $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
 ?>
 
-<div class="card">
-    <div class="card-header" style="flex-wrap: wrap; gap: 14px;">
-        <div>
-            <h3 class="card-title">Media Library & Brand Assets</h3>
-            <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Cheezify-inspired central asset repository with drag & drop uploads and 1-click clipboard links.</p>
-        </div>
-        <div style="display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--muted);">
-            <span class="user-role-badge" style="background: rgba(139,123,255,0.15); color: var(--accent); font-weight: 700;"><?= $totalCount ?> Assets</span>
-            <span>&bull;</span>
-            <span><?= $totalMb ?> MB Total Storage</span>
-        </div>
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Media Library & Brand Assets</h1>
+        <p class="page-subtitle">Central asset repository with drag & drop uploads and 1-click clipboard links.</p>
     </div>
+    <div style="display: flex; align-items: center; gap: 12px; font-size: 12.5px;">
+        <span class="user-role-badge" style="background: rgba(139,123,255,0.15); color: var(--adm-accent); font-weight: 700; padding: 6px 12px; border-radius: 8px;"><?= $totalCount ?> Assets</span>
+        <span class="user-role-badge" style="background: var(--adm-surface); color: var(--adm-muted); padding: 6px 12px; border-radius: 8px;"><?= $totalMb ?> MB Total Storage</span>
+    </div>
+</div>
+
+<div class="card">
 
     <!-- Cheezify-Style Drag & Drop Upload Zone -->
     <div id="mediaDropzone" style="margin-bottom: 25px; padding: 32px 20px; border: 2px dashed var(--line); border-radius: 14px; text-align: center; background: var(--bg); transition: all 0.25s ease; cursor: pointer;">
@@ -61,7 +61,7 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
                     $isImage = str_starts_with($item['mime_type'], 'image/'); 
                     $ext = strtoupper(pathinfo($item['filename'], PATHINFO_EXTENSION));
                 ?>
-                <div class="media-card-item" data-name="<?= strtolower(e($item['original_name'])) ?>" style="background: var(--bg); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s;">
+                <div class="media-card-item" data-name="<?= strtolower(e($item['original_name'])) ?>">
                     <div style="height: 140px; background: #07080d; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
                         <?php if ($isImage): ?>
                             <img src="<?= asset($item['path']) ?>" alt="<?= e($item['original_name']) ?>" loading="lazy" style="max-width: 100%; max-height: 100%; object-fit: contain;">

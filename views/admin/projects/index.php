@@ -5,37 +5,40 @@ $activeCategory = $activeCategory ?? null;
 $counts = $counts ?? ['all' => 0, 'saas' => 0, 'stores' => 0, 'apps' => 0];
 ?>
 
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Commercial Software Products</h1>
+        <p class="page-subtitle">Manage showcase platforms, SaaS tools, and commercial Gumroad software.</p>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <a href="<?= url('/portfolio') ?>" target="_blank" class="btn btn-secondary" style="min-height: 40px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px;">
+            <span>View Public Store &nearr;</span>
+        </a>
+        <a href="<?= url('/admin/projects/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 16px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Add Project</span>
+        </a>
+    </div>
+</div>
+
 <div class="card">
-    <div class="card-header" style="flex-wrap: wrap; gap: 16px;">
-        <div>
-            <h3 class="card-title">Portfolio Projects & Shipped Software</h3>
-            <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Manage showcase platforms, SaaS tools, and marketplace templates.</p>
-        </div>
-
-        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-            <!-- Category Filter Tabs -->
-            <div class="crm-filter-pills">
-                <a href="<?= url('/admin/projects') ?>" class="crm-filter-pill <?= empty($activeCategory) ? 'active' : '' ?>">
-                    <span>All Projects</span>
-                    <span class="pill-count"><?= $counts['all'] ?></span>
-                </a>
-                <a href="<?= url('/admin/projects?category=saas') ?>" class="crm-filter-pill <?= $activeCategory === 'saas' ? 'active' : '' ?>">
-                    <span>Platforms & SaaS</span>
-                    <span class="pill-count"><?= $counts['saas'] ?></span>
-                </a>
-                <a href="<?= url('/admin/projects?category=stores') ?>" class="crm-filter-pill <?= $activeCategory === 'stores' ? 'active' : '' ?>">
-                    <span>Stores & Ordering</span>
-                    <span class="pill-count"><?= $counts['stores'] ?></span>
-                </a>
-                <a href="<?= url('/admin/projects?category=apps') ?>" class="crm-filter-pill <?= $activeCategory === 'apps' ? 'active' : '' ?>">
-                    <span>Apps & Tools</span>
-                    <span class="pill-count"><?= $counts['apps'] ?></span>
-                </a>
-            </div>
-
-            <a href="<?= url('/admin/projects/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 16px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                <span>+ Add Project</span>
+    <div class="crm-filter-bar">
+        <div class="crm-filter-pills">
+            <a href="<?= url('/admin/projects') ?>" class="crm-filter-pill <?= empty($activeCategory) ? 'active' : '' ?>">
+                <span>All Projects</span>
+                <span class="pill-count"><?= $counts['all'] ?></span>
+            </a>
+            <a href="<?= url('/admin/projects?category=saas') ?>" class="crm-filter-pill <?= $activeCategory === 'saas' ? 'active' : '' ?>">
+                <span>Platforms & SaaS</span>
+                <span class="pill-count"><?= $counts['saas'] ?></span>
+            </a>
+            <a href="<?= url('/admin/projects?category=stores') ?>" class="crm-filter-pill <?= $activeCategory === 'stores' ? 'active' : '' ?>">
+                <span>Stores & Ordering</span>
+                <span class="pill-count"><?= $counts['stores'] ?></span>
+            </a>
+            <a href="<?= url('/admin/projects?category=apps') ?>" class="crm-filter-pill <?= $activeCategory === 'apps' ? 'active' : '' ?>">
+                <span>Apps & Tools</span>
+                <span class="pill-count"><?= $counts['apps'] ?></span>
             </a>
         </div>
     </div>
