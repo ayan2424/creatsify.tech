@@ -41,146 +41,247 @@ $areaD = $pathD . " L700,180 L0,180 Z";
 $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))));
 ?>
 
-<!-- Needs attention + quick actions -->
-<section class="dash-attn" aria-label="Needs your attention">
-    <a class="attn-item<?= ((int)($newInquiries ?? 0)) > 0 ? ' hot' : '' ?>" href="<?= url('/admin/inquiries') ?>"><b><?= (int)($newInquiries ?? 0) ?></b><span>New inquiries</span></a>
-    <a class="attn-item<?= ((int)($openTicketsCount ?? 0)) > 0 ? ' hot' : '' ?>" href="<?= url('/admin/crm/tickets') ?>"><b><?= (int)($openTicketsCount ?? 0) ?></b><span>Open support tickets</span></a>
-    <a class="attn-item<?= count($activeChats ?? []) > 0 ? ' hot' : '' ?>" href="<?= url('/admin/chat') ?>"><b><?= count($activeChats ?? []) ?></b><span>Live chats</span></a>
-    <a class="attn-item<?= count($pendingFollowUps ?? []) > 0 ? ' hot' : '' ?>" href="<?= url('/admin/crm/clients') ?>"><b><?= count($pendingFollowUps ?? []) ?></b><span>Follow-ups due</span></a>
-</section>
-<div class="dash-actions">
-    <a class="btn btn-primary btn-sm" href="<?= url('/admin/projects/create') ?>">+ Add project</a>
-    <a class="btn btn-secondary btn-sm" href="<?= url('/admin/sections') ?>">Edit homepage</a>
-    <a class="btn btn-secondary btn-sm" href="<?= url('/admin/inquiries') ?>">Read messages</a>
-    <a class="btn btn-secondary btn-sm" href="<?= url('/') ?>" target="_blank" rel="noopener">View live site &nearr;</a>
+<!-- Executive Command Header -->
+<div class="content-header" style="align-items: center; margin-bottom: 22px;">
+    <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+            <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; background: rgba(0, 229, 153, 0.12); color: #00e599; border: 1px solid rgba(0, 229, 153, 0.3);">
+                <span style="width: 7px; height: 7px; border-radius: 50%; background: #00e599; box-shadow: 0 0 10px #00e599;"></span>
+                <span>Cheetah Core Engine Online</span>
+            </span>
+            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--adm-surface); color: var(--adm-muted); border: 1px solid var(--adm-glass-border);">
+                <span>DB Latency:</span>
+                <strong style="color: var(--adm-green);"><?= $dbLatencyMs ?>ms Nominal</strong>
+            </span>
+            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--adm-surface); color: var(--adm-muted); border: 1px solid var(--adm-glass-border);">
+                <span>Memory:</span>
+                <strong style="color: var(--adm-text);"><?= $memoryUsageMb ?>MB (<?= $memoryPercent ?>%)</strong>
+            </span>
+            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--adm-surface); color: var(--adm-muted); border: 1px solid var(--adm-glass-border);">
+                <span>MySQL Tables:</span>
+                <strong style="color: var(--adm-text);"><?= $tableCount ?></strong>
+            </span>
+        </div>
+        <h1 class="page-title" style="margin-bottom: 4px;">Studio Executive Command Desk</h1>
+        <p class="page-subtitle">Real-time commercial pipeline, delivery workload, customer live triage, and server telemetry.</p>
+    </div>
+    <div class="dash-actions" style="margin-bottom: 0; align-items: center;">
+        <a class="btn btn-primary" href="<?= url('/admin/projects/create') ?>" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 16px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Add Product</span>
+        </a>
+        <a class="btn btn-secondary" href="<?= url('/admin/agency-projects/create') ?>" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+            <span>Delivery Project</span>
+        </a>
+        <a class="btn btn-secondary" href="<?= url('/admin/crm/tickets/create') ?>" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>Open Ticket</span>
+        </a>
+        <a class="btn btn-secondary" href="<?= url('/admin/crm/clients/create') ?>" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <span>New Client</span>
+        </a>
+        <a class="btn btn-secondary" href="<?= url('/') ?>" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 4px; min-height: 38px; padding: 8px 12px;" title="View Live Public Storefront">
+            <span>Public Store &nearr;</span>
+        </a>
+    </div>
 </div>
 
-<!-- 1. Lumix AI Sparkline Metric Cards -->
-<div class="metrics-row">
-    <!-- Metric 1: Total Traffic -->
-    <div class="metric-card">
-        <div class="metric-top">
-            <span class="metric-label">Total Traffic</span>
-            <span class="metric-trend trend-up">7 days: <?= number_format($total7Days) ?></span>
+<!-- High-Craft Needs Attention Command Strip -->
+<section class="dash-attn" aria-label="Actionable Operational Telemetry">
+    <a class="attn-item<?= ((int)($newInquiries ?? 0)) > 0 ? ' hot-emerald' : '' ?>" href="<?= url('/admin/inquiries') ?>" title="Review Inbound Inquiries">
+        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(0, 229, 153, 0.12); color: #00e599; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
         </div>
-        <div class="metric-value-row">
-            <span class="metric-val"><?= number_format($stats['total_visits'] ?? 0) ?></span>
-            <svg class="metric-sparkline" viewBox="0 0 100 35" fill="none">
-                <defs>
-                    <linearGradient id="sg1" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="var(--adm-accent)" stop-opacity="0.35"/>
-                        <stop offset="100%" stop-color="var(--adm-accent)" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-                <path d="M0,30 Q20,15 40,22 T70,8 T100,5 L100,35 L0,35 Z" fill="url(#sg1)"/>
-                <path d="M0,30 Q20,15 40,22 T70,8 T100,5" stroke="var(--adm-accent)" stroke-width="2.5" fill="none" class="sparkline-line"/>
-            </svg>
+        <div>
+            <b><?= (int)($newInquiries ?? 0) ?></b>
+            <span>Inquiries Awaiting Reply</span>
         </div>
-        <div class="metric-footer">
-            <span>Unique IPs: <b><?= number_format($stats['unique_visitors'] ?? 0) ?></b></span>
-            <span>Recorded</span>
+    </a>
+    <a class="attn-item<?= ((int)($openTicketsCount ?? 0)) > 0 ? ' hot' : '' ?>" href="<?= url('/admin/crm/tickets') ?>" title="Open Support Tickets">
+        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(255, 95, 56, 0.12); color: #ff5f38; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
-    </div>
+        <div>
+            <b><?= (int)($openTicketsCount ?? 0) ?></b>
+            <span>Open Support Tickets</span>
+        </div>
+    </a>
+    <a class="attn-item<?= count($activeChats ?? []) > 0 ? ' hot-violet' : '' ?>" href="<?= url('/admin/chat') ?>" title="Live Visitor Chats">
+        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(139, 123, 255, 0.12); color: var(--adm-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div>
+            <b><?= count($activeChats ?? []) ?></b>
+            <span>Live Chat Sessions</span>
+        </div>
+    </a>
+    <a class="attn-item<?= count($pendingFollowUps ?? []) > 0 ? ' hot-amber' : '' ?>" href="<?= url('/admin/crm/clients') ?>" title="Scheduled Client Follow-Ups">
+        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(245, 158, 11, 0.12); color: #f59e0b; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+            <b><?= count($pendingFollowUps ?? []) ?></b>
+            <span>Follow-Ups Scheduled</span>
+        </div>
+    </a>
+</section>
 
-    <!-- Metric 2: Today's Active Visits -->
+<!-- 1. World-Class Glassmorphic KPI Cards -->
+<div class="metrics-row">
+    <!-- Card 1: Commercial Contract Pipeline -->
     <div class="metric-card">
         <div class="metric-top">
-            <span class="metric-label">Today's Visits</span>
-            <span class="metric-trend trend-up" style="background:var(--adm-green-glow); color:var(--adm-green);">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                Live
+            <span class="metric-label">Commercial Pipeline</span>
+            <span class="metric-trend trend-up">
+                <?= (int)($crmStageCounts['active_client'] ?? 0) ?> Active Deals
             </span>
         </div>
         <div class="metric-value-row">
-            <span class="metric-val" style="color:var(--adm-green);"><?= number_format($stats['today_visits'] ?? 0) ?></span>
+            <span class="metric-val">$<?= number_format($totalPipelineValue, 2) ?></span>
             <svg class="metric-sparkline" viewBox="0 0 100 35" fill="none">
                 <defs>
-                    <linearGradient id="sg2" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="var(--adm-green)" stop-opacity="0.35"/>
+                    <linearGradient id="sgPipeline" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#8b7bff" stop-opacity="0.4"/>
+                        <stop offset="100%" stop-color="#8b7bff" stop-opacity="0"/>
+                    </linearGradient>
+                </defs>
+                <path d="M0,30 Q25,12 50,22 T80,8 T100,4 L100,35 L0,35 Z" fill="url(#sgPipeline)"/>
+                <path d="M0,30 Q25,12 50,22 T80,8 T100,4" stroke="#8b7bff" stroke-width="2.5" fill="none" class="sparkline-line"/>
+            </svg>
+        </div>
+        <div class="metric-footer">
+            <a href="<?= url('/admin/crm/clients') ?>" style="color: var(--adm-accent); text-decoration: none; font-weight: 600;">
+                <?= (int)($crmStageCounts['retained'] ?? 0) ?> Accounts on Retainer &rarr;
+            </a>
+            <span>Contract SLA</span>
+        </div>
+    </div>
+
+    <!-- Card 2: Total Traffic & Reach -->
+    <div class="metric-card">
+        <div class="metric-top">
+            <span class="metric-label">Visitor Velocity</span>
+            <span class="metric-trend trend-up" style="background:var(--adm-green-glow); color:var(--adm-green);">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                +<?= number_format($stats['today_visits'] ?? 0) ?> Today
+            </span>
+        </div>
+        <div class="metric-value-row">
+            <span class="metric-val" style="color:var(--adm-green);"><?= number_format($stats['total_visits'] ?? 0) ?></span>
+            <svg class="metric-sparkline" viewBox="0 0 100 35" fill="none">
+                <defs>
+                    <linearGradient id="sgTraffic" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="var(--adm-green)" stop-opacity="0.4"/>
                         <stop offset="100%" stop-color="var(--adm-green)" stop-opacity="0"/>
                     </linearGradient>
                 </defs>
-                <path d="M0,28 Q25,20 50,14 T80,18 T100,3 L100,35 L0,35 Z" fill="url(#sg2)"/>
+                <path d="M0,28 Q25,20 50,14 T80,18 T100,3 L100,35 L0,35 Z" fill="url(#sgTraffic)"/>
                 <path d="M0,28 Q25,20 50,14 T80,18 T100,3" stroke="var(--adm-green)" stroke-width="2.5" fill="none" class="sparkline-line"/>
             </svg>
         </div>
         <div class="metric-footer">
             <span style="color:var(--adm-green); display:flex; align-items:center; gap:5px;">
                 <span style="width:6px;height:6px;border-radius:50%;background:var(--adm-green);display:inline-block;box-shadow:0 0 6px var(--adm-green);"></span>
-                Live Telemetry Active
+                <b><?= number_format($stats['unique_visitors'] ?? 0) ?></b> Unique Visitors
             </span>
-            <span>Real-time</span>
+            <span>Live Telemetry</span>
         </div>
     </div>
 
-    <!-- Metric 3: Shipped Projects -->
+    <!-- Card 3: Agency Delivery Operations -->
     <div class="metric-card">
         <div class="metric-top">
-            <span class="metric-label">Projects</span>
+            <span class="metric-label">Agency Delivery</span>
             <span class="metric-trend trend-coral">
-                <?= $totalProjects ?> Active
+                <?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?> Active
             </span>
         </div>
         <div class="metric-value-row">
-            <span class="metric-val"><?= $totalProjects ?></span>
+            <span class="metric-val" style="color: var(--adm-coral);"><?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?> <span style="font-size: 15px; font-weight: normal; color: var(--adm-muted);">Projects</span></span>
             <svg class="metric-sparkline" viewBox="0 0 100 35" fill="none">
                 <defs>
-                    <linearGradient id="sg3" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="var(--adm-coral)" stop-opacity="0.35"/>
+                    <linearGradient id="sgDelivery" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="var(--adm-coral)" stop-opacity="0.4"/>
                         <stop offset="100%" stop-color="var(--adm-coral)" stop-opacity="0"/>
                     </linearGradient>
                 </defs>
-                <path d="M0,25 Q30,28 60,10 T100,8 L100,35 L0,35 Z" fill="url(#sg3)"/>
+                <path d="M0,25 Q30,28 60,10 T100,8 L100,35 L0,35 Z" fill="url(#sgDelivery)"/>
                 <path d="M0,25 Q30,28 60,10 T100,8" stroke="var(--adm-coral)" stroke-width="2.5" fill="none" class="sparkline-line"/>
             </svg>
         </div>
         <div class="metric-footer">
-            <a href="<?= url('/admin/projects') ?>">Manage Catalog &rarr;</a>
-            <span>In your catalog</span>
+            <a href="<?= url('/admin/agency-projects') ?>" style="color: var(--adm-coral); text-decoration: none; font-weight: 600;">
+                <?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?> Tasks (<?= (int)($deliveryMetrics['overdue_tasks'] ?? 0) ?> Overdue) &rarr;
+            </a>
+            <span>Milestones</span>
         </div>
     </div>
 
-    <!-- Metric 4: Active Live Chats -->
+    <!-- Card 4: Support SLA & Live Channels -->
     <div class="metric-card">
         <div class="metric-top">
-            <span class="metric-label">Active Live Chats</span>
+            <span class="metric-label">Support SLA & Chats</span>
             <span class="metric-trend trend-live">
-                Cheetah Engine
+                Cheetah Realtime
             </span>
         </div>
         <div class="metric-value-row">
-            <span class="metric-val" style="color:var(--adm-pink);"><?= count($activeChats) ?></span>
+            <span class="metric-val" style="color:var(--adm-pink);"><?= (int)$openTicketsCount ?> <span style="font-size: 15px; font-weight: normal; color: var(--adm-muted);">Tickets</span></span>
             <svg class="metric-sparkline" viewBox="0 0 100 35" fill="none">
                 <defs>
-                    <linearGradient id="sg4" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="var(--adm-pink)" stop-opacity="0.35"/>
+                    <linearGradient id="sgSupport" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="var(--adm-pink)" stop-opacity="0.4"/>
                         <stop offset="100%" stop-color="var(--adm-pink)" stop-opacity="0"/>
                     </linearGradient>
                 </defs>
-                <path d="M0,32 Q25,12 50,26 T80,10 T100,6 L100,35 L0,35 Z" fill="url(#sg4)"/>
+                <path d="M0,32 Q25,12 50,26 T80,10 T100,6 L100,35 L0,35 Z" fill="url(#sgSupport)"/>
                 <path d="M0,32 Q25,12 50,26 T80,10 T100,6" stroke="var(--adm-pink)" stroke-width="2.5" fill="none" class="sparkline-line"/>
             </svg>
         </div>
         <div class="metric-footer">
-            <a href="<?= url('/admin/chat') ?>" style="color:var(--adm-pink);">Open Live Desk &rarr;</a>
-            <span>Live</span>
+            <a href="<?= url('/admin/chat') ?>" style="color:var(--adm-pink); text-decoration: none; font-weight: 600;">
+                <?= count($activeChats) ?> Active Visitor<?= count($activeChats) === 1 ? '' : 's' ?> &rarr;
+            </a>
+            <span>Live Channel</span>
         </div>
     </div>
 </div>
 
-<!-- Private Agency Delivery Workspace -->
+<!-- Private Agency Delivery Workspace Card -->
 <div class="card" style="margin-top:24px;">
     <div class="card-header">
         <div>
             <h3 class="card-title">Agency Delivery Workspace</h3>
-            <span style="font-size:12px; color:var(--adm-muted);">Internal team assignments, milestones, tasks, and delivery context.</span>
+            <span style="font-size:12px; color:var(--adm-muted);">Internal client engagements, development sprints, and milestone progress.</span>
         </div>
-        <a href="<?= url('/admin/agency-projects') ?>" class="btn btn-primary btn-sm">Open Workspace &rarr;</a>
+        <a href="<?= url('/admin/agency-projects') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 4px;">
+            <span>Open Delivery Workspace</span>
+            <span>&rarr;</span>
+        </a>
     </div>
-    <div style="display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:1px; background:var(--adm-line);">
-        <div style="padding:18px; background:var(--adm-surface);"><span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase;">Active projects</span><strong style="display:block; font-size:24px; margin-top:5px;"><?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?></strong></div>
-        <div style="padding:18px; background:var(--adm-surface);"><span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase;">Open tasks</span><strong style="display:block; font-size:24px; margin-top:5px;"><?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?></strong></div>
-        <div style="padding:18px; background:var(--adm-surface);"><span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase;">Past due</span><strong style="display:block; font-size:24px; margin-top:5px; color:#f59e0b;"><?= (int)($deliveryMetrics['overdue_tasks'] ?? 0) ?></strong></div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; padding:16px;">
+        <div style="padding:16px; border-radius:10px; background:var(--adm-surface); border:1px solid var(--adm-glass-border);">
+            <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Active Projects</span>
+            <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:var(--adm-text);"><?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?></strong>
+            <span style="font-size:12px; color:var(--adm-muted);">Under active engineering</span>
+        </div>
+        <div style="padding:16px; border-radius:10px; background:var(--adm-surface); border:1px solid var(--adm-glass-border);">
+            <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">In Planning</span>
+            <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:#f59e0b;"><?= (int)($deliveryMetrics['counts']['planning'] ?? 0) ?></strong>
+            <span style="font-size:12px; color:var(--adm-muted);">Ready to scope & assign</span>
+        </div>
+        <div style="padding:16px; border-radius:10px; background:var(--adm-surface); border:1px solid var(--adm-glass-border);">
+            <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Open Deliverables</span>
+            <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:var(--adm-accent);"><?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?></strong>
+            <span style="font-size:12px; color:var(--adm-muted);"><?= (int)($deliveryMetrics['overdue_tasks'] ?? 0) ?> tasks past target date</span>
+        </div>
+        <div style="padding:16px; border-radius:10px; background:var(--adm-surface); border:1px solid var(--adm-glass-border);">
+            <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Delivered Systems</span>
+            <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:#10b981;"><?= (int)($deliveryMetrics['counts']['delivered'] ?? 0) ?></strong>
+            <span style="font-size:12px; color:var(--adm-muted);">Completed engagements</span>
+        </div>
     </div>
 </div>
 
@@ -492,7 +593,7 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
 </div>
 
 <!-- CRM Operations & Deliverables Grid -->
-<div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; margin-top: 24px;">
+<div class="crm-split-grid">
     <!-- Active Support & Milestone Tickets -->
     <div class="card">
         <div class="card-header">

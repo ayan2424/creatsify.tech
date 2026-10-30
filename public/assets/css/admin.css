@@ -31,9 +31,12 @@
   --adm-grad-emerald: linear-gradient(135deg, #00b87a 0%, #00e599 100%);
   --adm-grad-coral: linear-gradient(135deg, #ff5f38 0%, #ff8c42 100%);
   --adm-grad-pink: linear-gradient(135deg, #ff4fa3 0%, #a855f7 100%);
-  --adm-grad-card: linear-gradient(145deg, rgba(255, 255, 255, 0.04) 0%, rgba(15, 17, 26, 0.95) 100%);
-  --adm-grad-card-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.075) 0%, rgba(24, 27, 42, 0.98) 100%);
-  --adm-grad-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --adm-grad-card: linear-gradient(145deg, rgba(255, 255, 255, 0.045) 0%, rgba(15, 17, 26, 0.78) 100%);
+  --adm-grad-card-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(22, 25, 38, 0.88) 100%);
+  --adm-grad-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 100%);
+  --adm-glass-border: rgba(255, 255, 255, 0.08);
+  --adm-glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --adm-glass-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.5);
 
   /* Universal Fallback Aliases for Subpages & Extensions */
   --bg: var(--adm-bg);
@@ -76,6 +79,9 @@
   --adm-grad-card: linear-gradient(145deg, #ffffff 0%, #f9faff 100%);
   --adm-grad-card-hover: linear-gradient(145deg, #ffffff 0%, #f0f3ff 100%);
   --adm-grad-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 100%);
+  --adm-glass-border: rgba(0, 0, 0, 0.08);
+  --adm-glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --adm-glass-shadow: 0 12px 28px -8px rgba(108, 92, 231, 0.08);
 
   /* Universal Fallback Aliases (Light Mode) */
   --bg: var(--adm-bg);
@@ -1055,15 +1061,15 @@ body.sidebar-locked {
    ========================================================================== */
 .metrics-row,
 .metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  margin-bottom: 24px;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  margin-bottom: 24px !important;
 }
 
 .metric-card {
   background: var(--adm-grad-card);
-  border: 1px solid var(--adm-line);
+  border: 1px solid var(--adm-glass-border);
   border-radius: var(--adm-radius);
   padding: 22px 20px;
   display: flex;
@@ -1071,10 +1077,12 @@ body.sidebar-locked {
   justify-content: space-between;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: var(--adm-glass-shadow), var(--adm-glass-highlight);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
   animation: adminCardFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  min-height: 120px;
 }
 
 /* Top Gradient Accent Bar per Card */
@@ -1112,9 +1120,9 @@ body.sidebar-locked {
 
 .metric-card:hover {
   background: var(--adm-grad-card-hover);
-  border-color: rgba(139, 123, 255, 0.4);
+  border-color: rgba(139, 123, 255, 0.45);
   transform: translateY(-4px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 0 24px var(--card-glow, var(--adm-accent-glow));
+  box-shadow: 0 20px 42px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 0 28px var(--card-glow, var(--adm-accent-glow));
 }
 
 .metric-card:hover::before {
@@ -1130,30 +1138,38 @@ body.sidebar-locked {
 }
 
 .metric-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 14px;
-  flex-shrink: 0;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  max-width: 44px !important;
+  max-height: 44px !important;
+  border-radius: 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: flex-start !important;
+  margin-bottom: 14px !important;
+  flex-shrink: 0 !important;
 }
 
 .metric-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  width: 100% !important;
+  min-width: 0 !important;
 }
 
 .metric-label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--adm-muted);
-  display: block;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: var(--adm-muted) !important;
+  display: block !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
 }
 
 .metric-trend {
@@ -1190,20 +1206,22 @@ body.sidebar-locked {
 
 .metric-val,
 .metric-value {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--adm-text);
-  line-height: 1.15;
-  display: block;
-  margin: 2px 0 4px;
+  font-family: 'Bricolage Grotesque', sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  color: var(--adm-text) !important;
+  line-height: 1.15 !important;
+  display: block !important;
+  margin: 4px 0 2px !important;
+  letter-spacing: -0.02em !important;
 }
 
 .metric-sub {
-  font-size: 12px;
-  color: var(--adm-muted);
-  display: block;
-  line-height: 1.4;
+  font-size: 12px !important;
+  color: var(--adm-muted) !important;
+  display: block !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
 }
 
 .metric-sparkline {
@@ -1254,15 +1272,16 @@ body.sidebar-locked {
 
 .telemetry-card {
   background: var(--adm-grad-card);
-  border: 1px solid var(--adm-line);
+  border: 1px solid var(--adm-glass-border);
   border-radius: var(--adm-radius);
   padding: 24px;
   display: flex;
   flex-direction: column;
   min-width: 0;
   max-width: 100%;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: var(--adm-glass-shadow), var(--adm-glass-highlight);
   position: relative;
   overflow: hidden;
   transition: border-color 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
@@ -1271,8 +1290,8 @@ body.sidebar-locked {
 }
 
 .telemetry-card:hover {
-  border-color: rgba(139, 123, 255, 0.38);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.32), 0 0 20px rgba(139, 123, 255, 0.12);
+  border-color: rgba(139, 123, 255, 0.45);
+  box-shadow: 0 20px 44px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 0 24px rgba(139, 123, 255, 0.18);
 }
 
 .telemetry-header {
@@ -1471,14 +1490,15 @@ body.sidebar-locked {
 
 .card {
   background: var(--adm-grad-card);
-  border: 1px solid var(--adm-line);
+  border: 1px solid var(--adm-glass-border);
   border-radius: var(--adm-radius);
   padding: 24px;
   margin-bottom: 24px;
   min-width: 0;
   max-width: 100%;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: var(--adm-glass-shadow), var(--adm-glass-highlight);
   position: relative;
   overflow: hidden;
   transition: border-color 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
@@ -1487,8 +1507,8 @@ body.sidebar-locked {
 }
 
 .card:hover {
-  border-color: rgba(139, 123, 255, 0.32);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+  border-color: rgba(139, 123, 255, 0.4);
+  box-shadow: 0 18px 40px -8px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .card-header {
@@ -2157,8 +2177,8 @@ select.form-control {
 
   .metrics-row,
   .metrics-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
   }
 
   .metric-card {
@@ -2211,6 +2231,12 @@ select.form-control {
 
 /* Extra Compact Phones (<= 440px) */
 @media (max-width: 440px) {
+  .metrics-row,
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
   .topbar-mobile-brand span {
     font-size: 14px;
   }
@@ -2443,18 +2469,144 @@ select.form-control {
 
 
 /* ==========================================================================
-   DASHBOARD: needs-attention strip and quick actions
+   DASHBOARD: needs-attention strip and quick actions (Obsidian Glassmorphism)
    ========================================================================== */
-.dash-attn{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
-.attn-item{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--adm-radius);border:1px solid var(--adm-line);background:var(--adm-grad-card);color:var(--adm-text);text-decoration:none;transition:transform .25s cubic-bezier(.16,1,.3,1),border-color .25s,box-shadow .25s}
-.attn-item b{min-width:1.3em;font-size:26px;line-height:1;letter-spacing:-.02em}
-.attn-item span{font-size:13px;color:var(--adm-muted)}
-.attn-item:hover{transform:translateY(-2px);border-color:var(--adm-accent);box-shadow:0 18px 36px -24px var(--adm-accent-glow)}
-.attn-item.hot{border-color:rgba(255,95,56,.5);box-shadow:inset 3px 0 0 #ff5f38}
-.attn-item.hot b{color:#ff8a65}
-.dash-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
-@media(max-width:1000px){.dash-attn{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.dash-attn{grid-template-columns:1fr}}
+.dash-attn {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.attn-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: var(--adm-radius);
+  border: 1px solid var(--adm-glass-border);
+  background: var(--adm-grad-card);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: var(--adm-glass-shadow), var(--adm-glass-highlight);
+  color: var(--adm-text);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+.attn-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--attn-accent, var(--adm-line)), transparent);
+  opacity: 0.6;
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+.attn-item b {
+  min-width: 1.4em;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--adm-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.attn-item span {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--adm-muted);
+  line-height: 1.35;
+}
+
+.attn-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(139, 123, 255, 0.45);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 0 24px var(--attn-glow, var(--adm-accent-glow));
+}
+
+.attn-item:hover::before {
+  opacity: 1;
+  height: 3px;
+}
+
+.attn-item.hot {
+  --attn-accent: #ff5f38;
+  --attn-glow: rgba(255, 95, 56, 0.3);
+  border-color: rgba(255, 95, 56, 0.35);
+  background: linear-gradient(145deg, rgba(255, 95, 56, 0.08) 0%, rgba(15, 17, 26, 0.85) 100%);
+}
+
+.attn-item.hot b {
+  color: #ff7654;
+}
+
+.attn-item.hot-emerald {
+  --attn-accent: #00e599;
+  --attn-glow: rgba(0, 229, 153, 0.3);
+  border-color: rgba(0, 229, 153, 0.35);
+  background: linear-gradient(145deg, rgba(0, 229, 153, 0.08) 0%, rgba(15, 17, 26, 0.85) 100%);
+}
+
+.attn-item.hot-emerald b {
+  color: #00e599;
+}
+
+.attn-item.hot-violet {
+  --attn-accent: #8b7bff;
+  --attn-glow: rgba(139, 123, 255, 0.3);
+  border-color: rgba(139, 123, 255, 0.35);
+  background: linear-gradient(145deg, rgba(139, 123, 255, 0.08) 0%, rgba(15, 17, 26, 0.85) 100%);
+}
+
+.attn-item.hot-violet b {
+  color: #a29bfe;
+}
+
+.attn-item.hot-amber {
+  --attn-accent: #f59e0b;
+  --attn-glow: rgba(245, 158, 11, 0.3);
+  border-color: rgba(245, 158, 11, 0.35);
+  background: linear-gradient(145deg, rgba(245, 158, 11, 0.08) 0%, rgba(15, 17, 26, 0.85) 100%);
+}
+
+.attn-item.hot-amber b {
+  color: #fbbf24;
+}
+
+.dash-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.dash-actions .btn {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (max-width: 1000px) {
+  .dash-attn {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 540px) {
+  .dash-attn {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
 
 /* ==========================================================================
    CRM DESK & PIPELINE UI/UX ERGONOMICS (AGENTS.md Dark Glassmorphism)
@@ -2574,6 +2726,21 @@ select.form-control {
 
 @media (max-width: 992px) {
   .crm-ticket-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.crm-split-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 24px;
+  margin-top: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .crm-split-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
