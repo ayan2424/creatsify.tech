@@ -57,8 +57,9 @@ $prefillMsg = request()->get('msg', '');
                 <span style="font-size: 12px; color: var(--muted);">Direct integration with Meta Graph API & Webhooks</span>
             </div>
             <?php if (!empty($selectedPhone)): ?>
-                <a href="https://wa.me/<?= clean_phone_number($selectedPhone, false) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="font-size: 12px; color: #25D366; font-weight: 600;">
-                    Open in WhatsApp App &rarr;
+                <a href="https://wa.me/<?= clean_phone_number($selectedPhone, false) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #25D366; font-weight: 600;">
+                    <span>Open in WhatsApp</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 </a>
             <?php endif; ?>
         </div>
@@ -130,8 +131,9 @@ $prefillMsg = request()->get('msg', '');
                 <div style="display: flex; gap: 10px;">
                     <input type="text" name="phone" class="form-control" placeholder="Recipient Phone (e.g. 923001234567)" value="<?= e($selectedPhone) ?>" style="max-width: 240px; font-size: 13.5px;" required>
                     <input type="text" name="message" id="wa-input" class="form-control" placeholder="Type WhatsApp message..." value="<?= e($prefillMsg) ?>" required autocomplete="off" style="font-size: 13.5px;">
-                    <button type="submit" class="btn btn-primary" style="background: #25D366; color: #000; font-weight: 700; white-space: nowrap; padding: 0 20px;">
-                        Send WhatsApp
+                    <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; background: #25D366; color: #000; font-weight: 700; white-space: nowrap; padding: 0 20px;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        <span>Send WhatsApp</span>
                     </button>
                 </div>
             </form>

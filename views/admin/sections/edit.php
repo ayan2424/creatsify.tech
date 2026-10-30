@@ -11,7 +11,10 @@ $key = $section['section_key'];
             <h3 class="card-title">Configure Section: <?= e($section['title'] ?: ucwords(str_replace('_', ' ', $key))) ?></h3>
             <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Key: <code><?= e($key) ?></code> &bull; Cheezify-inspired visual section customizer</p>
         </div>
-        <a href="<?= url('/admin/sections') ?>" class="btn btn-secondary btn-sm">&larr; Back to Sections</a>
+        <a href="<?= url('/admin/sections') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <span>Back to Sections</span>
+        </a>
     </div>
 
     <form action="<?= url('/admin/sections/' . e($key)) ?>" method="POST">
@@ -114,8 +117,14 @@ $key = $section['section_key'];
         </div>
 
         <div style="display: flex; gap: 12px; margin-top: 24px;">
-            <button type="submit" class="btn btn-primary" style="padding: 10px 24px; font-weight: 600;">Save Section Changes &rarr;</button>
-            <a href="<?= url('/admin/sections') ?>" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; font-weight: 600; min-height: 40px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save Section Changes</span>
+            </button>
+            <a href="<?= url('/admin/sections') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; min-height: 40px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <span>Cancel</span>
+            </a>
         </div>
     </form>
 </div>

@@ -33,8 +33,9 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
                     <strong style="color:var(--text); font-size:15px; display:block;">Drag &amp; Drop Assets Here, or Click to Browse</strong>
                     <span style="font-size:12px; color:var(--muted); margin-top:4px; display:block;">Supports high-res WebP, PNG, JPG, SVG, GIF &amp; PDF up to 25MB</span>
                 </div>
-                <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('mediaFileInput').click();" style="margin-top: 6px;">
-                    Select File From Device &rarr;
+                <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('mediaFileInput').click();" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; min-height: 36px; padding: 6px 14px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <span>Select File From Device</span>
                 </button>
             </div>
         </form>
@@ -80,12 +81,15 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
                         </div>
 
                         <div style="display: flex; gap: 6px; margin-top: 12px;">
-                            <button type="button" class="btn btn-secondary btn-sm" style="flex-grow:1; font-size: 11.5px; padding: 6px; min-height: 34px;" onclick="copyUrl('<?= asset($item['path']) ?>', this)">
-                                Copy URL
+                            <button type="button" class="btn btn-secondary btn-sm" style="flex-grow:1; display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-size: 11.5px; padding: 6px 10px; min-height: 34px;" onclick="copyUrl('<?= asset($item['path']) ?>', this)">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                <span>Copy URL</span>
                             </button>
                             <form action="<?= url('/admin/media/' . $item['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this asset permanently?');" style="margin:0;">
                                 <?= csrf_field() ?>
-                                <button type="submit" class="btn btn-secondary btn-sm" style="color: #ef4444; font-size: 14px; padding: 5px 10px; min-height: 34px;" title="Delete asset">&times;</button>
+                                <button type="submit" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; justify-content: center; color: #ef4444; padding: 5px 10px; min-height: 34px;" title="Delete asset">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                </button>
                             </form>
                         </div>
                     </div>

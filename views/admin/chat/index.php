@@ -80,7 +80,10 @@ $this->layout('layouts/admin');
                 <div style="display: flex; gap: 8px;">
                     <form action="<?= url('/admin/chat/' . $activeSession['id'] . '/close') ?>" method="POST" onsubmit="return confirm('Close this live session?');">
                         <?= csrf_field() ?>
-                        <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 12px;">Close Session</button>
+                        <button type="submit" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; min-height: 34px;">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                            <span>Close Session</span>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -104,10 +107,22 @@ $this->layout('layouts/admin');
             <!-- Cheetah-Style Canned Response Chips -->
             <div style="padding: 8px 16px; background: var(--surface); border-top: 1px solid var(--line); display: flex; gap: 6px; overflow-x: auto; white-space: nowrap;">
                 <span style="font-size: 11px; color: var(--muted); align-self: center; margin-right: 4px;">Quick replies:</span>
-                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="Hi! I am Muhammad Ayan Shamim, lead architect at Creatsify. How can I help you today?">Greeting</button>
-                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="You can explore the live demo of our Cheetah Logistics Suite at https://cheetah.ayan24.me">Cheetah Demo</button>
-                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="We would love to discuss your software specifications. Could you share your target timeline and budget?">Timeline & Quote</button>
-                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="Feel free to email your technical documents directly to ayan@creatsify.tech.">Email Invite</button>
+                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="Hi! I am Muhammad Ayan Shamim, lead architect at Creatsify. How can I help you today?">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                    <span>Greeting</span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="You can explore the live demo of our Cheetah Logistics Suite at https://cheetah.ayan24.me">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    <span>Cheetah Demo</span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="We would love to discuss your software specifications. Could you share your target timeline and budget?">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>Timeline & Quote</span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="Feel free to email your technical documents directly to ayan@creatsify.tech.">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <span>Email Invite</span>
+                </button>
             </div>
 
             <!-- Reply Box -->
@@ -115,7 +130,10 @@ $this->layout('layouts/admin');
                 <form id="adminReplyForm" style="display: flex; gap: 10px;">
                     <input type="hidden" name="session_id" value="<?= $activeSession['id'] ?>">
                     <input type="text" id="adminReplyInput" class="form-control" placeholder="Type your response to visitor..." autocomplete="off" required style="border-radius: 20px; padding: 10px 18px; font-size: 13.5px;">
-                    <button type="submit" class="btn btn-primary" id="adminSendBtn" style="border-radius: 20px; padding: 0 22px; font-weight: 600;">Reply &rarr;</button>
+                    <button type="submit" class="btn btn-primary" id="adminSendBtn" style="border-radius: 20px; padding: 0 22px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        <span>Send Reply</span>
+                    </button>
                 </form>
             </div>
         <?php endif; ?>

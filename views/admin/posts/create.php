@@ -6,7 +6,7 @@ $this->layout('layouts/admin');
 <div class="card" style="max-width: 800px;">
     <div class="card-header">
         <h3 class="card-title">Create Blog Article</h3>
-        <a href="<?= url('/admin/posts') ?>" class="btn btn-secondary btn-sm">&larr; Back to Posts</a>
+        <a href="<?= url('/admin/posts') ?>" class="btn btn-secondary btn-sm"style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg><span>Back to Posts</span></a>
     </div>
 
     <form action="<?= url('/admin/posts') ?>" method="POST">
@@ -48,8 +48,11 @@ $this->layout('layouts/admin');
         </div>
 
         <div style="display: flex; gap: 12px; margin-top: 20px;">
-            <button type="submit" class="btn btn-primary">Publish Post &rarr;</button>
-            <a href="<?= url('/admin/posts') ?>" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 10px 24px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                <span>Publish Post</span>
+            </button>
+            <a href="<?= url('/admin/posts') ?>" class="btn btn-secondary" style="min-height: 42px; padding: 10px 20px;">Cancel</a>
         </div>
     </form>
 </div>

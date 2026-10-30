@@ -13,7 +13,7 @@ $counts = $counts ?? ['all' => 0, 'new' => 0, 'in_discussion' => 0, 'converted' 
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-            <span>Clients Pipeline &rarr;</span>
+            <span>Clients Pipeline</span>
         </a>
     </div>
 </div>
@@ -116,13 +116,16 @@ $counts = $counts ?? ['all' => 0, 'new' => 0, 'in_discussion' => 0, 'converted' 
                             </td>
                             <td style="text-align: right; white-space: nowrap;">
                                 <div style="display: inline-flex; gap: 8px; justify-content: flex-end; align-items: center;">
-                                    <a href="<?= url('/admin/inquiries/' . $inq['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 6px 12px;">
+                                    <a href="<?= url('/admin/inquiries/' . $inq['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                                         <span>Inspect</span>
-                                        <span style="font-size: 13px;">&rarr;</span>
                                     </a>
                                     <form action="<?= url('/admin/inquiries/' . $inq['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this inquiry?');" style="margin: 0;">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-secondary btn-sm" style="color: #ef4444; min-height: 36px; padding: 6px 12px;">Delete</button>
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; color: #ef4444; min-height: 36px; padding: 6px 12px;">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                            <span>Delete</span>
+                                        </button>
                                     </form>
                                 </div>
                             </td>

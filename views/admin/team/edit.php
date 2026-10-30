@@ -10,8 +10,8 @@ $this->layout('layouts/admin');
             <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Update role, skills, bio, and social connections.</p>
         </div>
         <div style="display: flex; gap: 8px;">
-            <a href="<?= url('/admin/team/' . $member['id'] . '/portfolio') ?>" class="btn btn-primary btn-sm">Manage Portfolio &rarr;</a>
-            <a href="<?= url('/admin/team') ?>" class="btn btn-secondary btn-sm">&larr; Back to Team</a>
+            <a href="<?= url('/admin/team/' . $member['id'] . '/portfolio') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 14px;"><span>Manage Portfolio</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            <a href="<?= url('/admin/team') ?>" class="btn btn-secondary btn-sm"style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg><span>Back to Team</span></a>
         </div>
     </div>
 
@@ -92,8 +92,11 @@ $this->layout('layouts/admin');
         </div>
 
         <div style="display: flex; gap: 12px; margin-top: 24px;">
-            <button type="submit" class="btn btn-primary">Save Member Changes &rarr;</button>
-            <a href="<?= url('/admin/team') ?>" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 10px 24px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save Member Changes</span>
+            </button>
+            <a href="<?= url('/admin/team') ?>" class="btn btn-secondary" style="min-height: 42px; padding: 10px 20px;">Cancel</a>
         </div>
     </form>
 </div>

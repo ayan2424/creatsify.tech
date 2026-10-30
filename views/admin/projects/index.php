@@ -12,7 +12,8 @@ $counts = $counts ?? ['all' => 0, 'saas' => 0, 'stores' => 0, 'apps' => 0];
     </div>
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <a href="<?= url('/portfolio') ?>" target="_blank" class="btn btn-secondary" style="min-height: 40px; padding: 8px 16px; display: inline-flex; align-items: center; gap: 6px;">
-            <span>Public Showcase &nearr;</span>
+            <span>Public Showcase</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
         <a href="<?= url('/admin/projects/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 18px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -136,15 +137,21 @@ $counts = $counts ?? ['all' => 0, 'saas' => 0, 'stores' => 0, 'apps' => 0];
                             <td style="text-align: right; white-space: nowrap;">
                                 <div style="display: inline-flex; gap: 8px; justify-content: flex-end; align-items: center;">
                                     <?php if (!empty($p['live_url']) && $p['live_url'] !== '#'): ?>
-                                        <a href="<?= e($p['live_url']) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 4px; min-height: 36px; padding: 6px 12px;" title="View Live Demo">
+                                        <a href="<?= e($p['live_url']) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 6px 12px;" title="View Live Demo">
                                             <span>Demo</span>
-                                            <span style="font-size: 13px;">&nearr;</span>
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                                         </a>
                                     <?php endif; ?>
-                                    <a href="<?= url('/admin/projects/' . $p['id'] . '/edit') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; min-height: 36px; padding: 6px 14px;">Edit</a>
+                                    <a href="<?= url('/admin/projects/' . $p['id'] . '/edit') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 6px 14px;">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                        <span>Edit</span>
+                                    </a>
                                     <form action="<?= url('/admin/projects/' . $p['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this project?');" style="margin: 0;">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-secondary btn-sm" style="color: #ef4444; min-height: 36px; padding: 6px 12px;">Delete</button>
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; color: #ef4444; min-height: 36px; padding: 6px 12px;">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                            <span>Delete</span>
+                                        </button>
                                     </form>
                                 </div>
                             </td>

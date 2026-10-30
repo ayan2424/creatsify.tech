@@ -82,8 +82,9 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
             <span>New Client</span>
         </a>
-        <a class="btn btn-secondary" href="<?= url('/') ?>" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 4px; min-height: 38px; padding: 8px 12px;" title="View Live Public Storefront">
-            <span>Public Store &nearr;</span>
+        <a class="btn btn-secondary" href="<?= url('/') ?>" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;" title="View Live Public Storefront">
+            <span>Public Store</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
     </div>
 </div>
@@ -152,8 +153,9 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
             </svg>
         </div>
         <div class="metric-footer">
-            <a href="<?= url('/admin/crm/clients') ?>" style="color: var(--adm-accent); text-decoration: none; font-weight: 600;">
-                <?= (int)($crmStageCounts['retained'] ?? 0) ?> Accounts on Retainer &rarr;
+            <a href="<?= url('/admin/crm/clients') ?>" style="display: inline-flex; align-items: center; gap: 4px; color: var(--adm-accent); text-decoration: none; font-weight: 600;">
+                <span><?= (int)($crmStageCounts['retained'] ?? 0) ?> Accounts on Retainer</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
             <span>Contract SLA</span>
         </div>
@@ -212,8 +214,9 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
             </svg>
         </div>
         <div class="metric-footer">
-            <a href="<?= url('/admin/agency-projects') ?>" style="color: var(--adm-coral); text-decoration: none; font-weight: 600;">
-                <?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?> Tasks (<?= (int)($deliveryMetrics['overdue_tasks'] ?? 0) ?> Overdue) &rarr;
+            <a href="<?= url('/admin/agency-projects') ?>" style="display: inline-flex; align-items: center; gap: 4px; color: var(--adm-coral); text-decoration: none; font-weight: 600;">
+                <span><?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?> Tasks (<?= (int)($deliveryMetrics['overdue_tasks'] ?? 0) ?> Overdue)</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
             <span>Milestones</span>
         </div>
@@ -241,8 +244,9 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
             </svg>
         </div>
         <div class="metric-footer">
-            <a href="<?= url('/admin/chat') ?>" style="color:var(--adm-pink); text-decoration: none; font-weight: 600;">
-                <?= count($activeChats) ?> Active Visitor<?= count($activeChats) === 1 ? '' : 's' ?> &rarr;
+            <a href="<?= url('/admin/chat') ?>" style="display: inline-flex; align-items: center; gap: 4px; color:var(--adm-pink); text-decoration: none; font-weight: 600;">
+                <span><?= count($activeChats) ?> Active Visitor<?= count($activeChats) === 1 ? '' : 's' ?></span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
             <span>Live Channel</span>
         </div>
@@ -256,9 +260,9 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
             <h3 class="card-title">Agency Delivery Workspace</h3>
             <span style="font-size:12px; color:var(--adm-muted);">Internal client engagements, development sprints, and milestone progress.</span>
         </div>
-        <a href="<?= url('/admin/agency-projects') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 4px;">
+        <a href="<?= url('/admin/agency-projects') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 14px;">
             <span>Open Delivery Workspace</span>
-            <span>&rarr;</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; padding:16px;">
@@ -295,9 +299,18 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
                 <span style="font-size:12px; color:var(--adm-muted);">Real-time visitor velocity and lead dispatch trajectory (Last 7 Days)</span>
             </div>
             <div class="telemetry-tabs">
-                <button type="button" class="telemetry-tab active" data-pane="paneOverview">Overview</button>
-                <button type="button" class="telemetry-tab" data-pane="paneTopPages">Top Pages</button>
-                <button type="button" class="telemetry-tab" data-pane="paneDevices">Devices</button>
+                <button type="button" class="telemetry-tab active" data-pane="paneOverview" style="display: inline-flex; align-items: center; gap: 5px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    <span>Overview</span>
+                </button>
+                <button type="button" class="telemetry-tab" data-pane="paneTopPages" style="display: inline-flex; align-items: center; gap: 5px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>Top Pages</span>
+                </button>
+                <button type="button" class="telemetry-tab" data-pane="paneDevices" style="display: inline-flex; align-items: center; gap: 5px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    <span>Devices</span>
+                </button>
             </div>
         </div>
 
@@ -473,7 +486,10 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
                 <h3 class="card-title">Recent Client Inquiries</h3>
                 <span style="font-size:12px; color:var(--adm-muted);">Direct consultation requests & product leads</span>
             </div>
-            <a href="<?= url('/admin/inquiries') ?>" class="btn btn-secondary btn-sm">View All &rarr;</a>
+            <a href="<?= url('/admin/inquiries') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;">
+                <span>View All</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
         </div>
 
         <?php if (empty($recentInquiries)): ?>
@@ -552,7 +568,10 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
                 </div>
                 <div style="font-weight: 600; color: var(--adm-text); font-size: 14px;">AI Auto-Pilot Idle</div>
                 <p style="font-size: 12.5px; margin-top: 4px; line-height: 1.5;">No active visitor chats right now. Incoming visitor inquiries will immediately stream here.</p>
-                <a href="<?= url('/admin/chat') ?>" class="btn btn-secondary btn-sm" style="margin-top: 8px;">View Past Sessions &rarr;</a>
+                <a href="<?= url('/admin/chat') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; min-height: 36px; padding: 6px 14px;">
+                    <span>View Past Sessions</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
             </div>
         <?php else: ?>
             <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -602,8 +621,14 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
                 <span style="font-size: 12px; color: var(--adm-muted);"><?= (int)$openTicketsCount ?> active SLA tickets pending triage</span>
             </div>
             <div style="display: flex; gap: 8px;">
-                <a href="<?= url('/admin/crm/tickets/create') ?>" class="btn btn-secondary btn-sm">+ Open Ticket</a>
-                <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-primary btn-sm">All Tickets &rarr;</a>
+                <a href="<?= url('/admin/crm/tickets/create') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    <span>Open Ticket</span>
+                </a>
+                <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 14px;">
+                    <span>All Tickets</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
             </div>
         </div>
 
@@ -673,7 +698,10 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
                 <h3 class="card-title">Commercial Pipeline & Follow-Ups</h3>
                 <span style="font-size: 12px; color: var(--adm-muted);">Total Pipeline: $<?= number_format($totalPipelineValue, 2) ?></span>
             </div>
-            <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary btn-sm">Clients File &rarr;</a>
+            <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;">
+                <span>Clients File</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
         </div>
 
         <div style="padding: 18px; display: flex; flex-direction: column; gap: 14px;">

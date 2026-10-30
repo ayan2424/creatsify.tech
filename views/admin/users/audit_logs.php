@@ -18,7 +18,7 @@ $total = $total ?? 0;
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <a href="<?= url('/admin/users') ?>" class="btn btn-secondary btn-sm">&larr; Back to Users</a>
+            <a href="<?= url('/admin/users') ?>" class="btn btn-secondary btn-sm"style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg><span>Back to Users</span></a>
         </div>
     </div>
 
@@ -49,9 +49,14 @@ $total = $total ?? 0;
                 <input type="hidden" name="action" value="<?= e($actionFilter) ?>">
             <?php endif; ?>
             <input type="text" name="search" class="form-control form-control-sm" placeholder="Search IP, details, entity..." value="<?= e($search) ?>" style="width: 220px; font-size: 12px;">
-            <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 12px;">Search</button>
+            <button type="submit" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 4px 10px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>Search</span>
+            </button>
             <?php if (!empty($search) || !empty($actionFilter)): ?>
-                <a href="<?= url('/admin/audit-logs') ?>" class="btn btn-secondary btn-sm" style="font-size: 12px; color: var(--muted);" title="Reset filters">&times;</a>
+                <a href="<?= url('/admin/audit-logs') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; padding: 0; font-size: 12px; color: var(--muted);" title="Reset filters">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </a>
             <?php endif; ?>
         </form>
     </div>
@@ -138,13 +143,13 @@ $total = $total ?? 0;
                 <div style="display: flex; gap: 8px;">
                     <?php if ($page > 1): ?>
                         <a href="<?= url('/admin/audit-logs?page=' . ($page - 1) . (!empty($actionFilter) ? '&action=' . urlencode($actionFilter) : '') . (!empty($search) ? '&search=' . urlencode($search) : '')) ?>" class="btn btn-secondary btn-sm" style="font-size: 12px;">
-                            &larr; Previous
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> <span>Previous</span>
                         </a>
                     <?php endif; ?>
 
                     <?php if ($page < $totalPages): ?>
                         <a href="<?= url('/admin/audit-logs?page=' . ($page + 1) . (!empty($actionFilter) ? '&action=' . urlencode($actionFilter) : '') . (!empty($search) ? '&search=' . urlencode($search) : '')) ?>" class="btn btn-secondary btn-sm" style="font-size: 12px;">
-                            Next &rarr;
+                            <span>Next</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                         </a>
                     <?php endif; ?>
                 </div>

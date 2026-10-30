@@ -78,7 +78,10 @@ $statusLabels = [
         <form action="<?= url('/admin/agency-projects') ?>" method="GET" class="crm-search-form">
             <?php if ($activeStatus): ?><input type="hidden" name="status" value="<?= e($activeStatus) ?>"><?php endif; ?>
             <input class="form-control" name="search" value="<?= e($search) ?>" placeholder="Search project or client...">
-            <button class="btn btn-secondary" type="submit">Search</button>
+            <button class="btn btn-secondary" type="submit" style="display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>Search</span>
+            </button>
         </form>
     </div>
 
@@ -101,9 +104,9 @@ $statusLabels = [
                         <td style="white-space:nowrap;"><?= $project['target_date'] ? e(date('M j, Y', strtotime($project['target_date']))) : '—' ?></td>
                         <td><span style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; text-transform:uppercase; padding:3px 8px; border-radius:12px; background:rgba(139,123,255,0.15); color:var(--adm-accent); border:1px solid rgba(139,123,255,0.3);"><?= e($statusLabels[$project['status']] ?? $project['status']) ?></span></td>
                         <td style="text-align:right; white-space:nowrap;">
-                            <a class="btn btn-secondary btn-sm" href="<?= url('/admin/agency-projects/' . $project['id']) ?>" style="display:inline-flex; align-items:center; gap:4px; min-height:36px; padding:6px 12px;">
+                            <a class="btn btn-secondary btn-sm" href="<?= url('/admin/agency-projects/' . $project['id']) ?>" style="display:inline-flex; align-items:center; gap:6px; min-height:36px; padding:6px 12px;">
                                 <span>Open Workspace</span>
-                                <span style="font-size:13px;">&rarr;</span>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                             </a>
                         </td>
                     </tr>

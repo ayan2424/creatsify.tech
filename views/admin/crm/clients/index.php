@@ -10,7 +10,7 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>Tickets Desk &rarr;</span>
+            <span>Tickets Desk</span>
         </a>
         <a href="<?= url('/admin/crm/clients/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -96,9 +96,14 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
                 <input type="hidden" name="stage" value="<?= e($activeStage) ?>">
             <?php endif; ?>
             <input type="text" name="search" class="form-control" placeholder="Search name, company, email, tag..." value="<?= e($search ?? '') ?>">
-            <button type="submit" class="btn btn-secondary">Search</button>
+            <button type="submit" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>Search</span>
+            </button>
             <?php if (!empty($search) || !empty($activeStage)): ?>
-                <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary" style="color: var(--adm-muted); padding: 8px 12px;" title="Reset filters">&times;</a>
+                <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; justify-content: center; color: var(--adm-muted); width: 38px; height: 38px; padding: 0;" title="Reset filters">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </a>
             <?php endif; ?>
         </form>
     </div>
@@ -110,7 +115,10 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
             </div>
             <div style="font-size: 15px; font-weight: 600; color: var(--adm-text);">No clients found</div>
             <p style="font-size: 13px; margin-top: 4px;">There are no client records matching this pipeline filter.</p>
-            <a href="<?= url('/admin/crm/clients/create') ?>" class="btn btn-primary btn-sm" style="margin-top: 14px;">+ Add New Client</a>
+            <a href="<?= url('/admin/crm/clients/create') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Add New Client</span>
+            </a>
         </div>
     <?php else: ?>
         <div class="table-responsive">
@@ -217,9 +225,9 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
                                             <span>WhatsApp</span>
                                         </a>
                                     <?php endif; ?>
-                                    <a href="<?= url('/admin/crm/clients/' . $c['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; min-height: 36px;">
+                                    <a href="<?= url('/admin/crm/clients/' . $c['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; min-height: 36px;">
                                         <span>View File</span>
-                                        <span style="font-size: 13px;">&rarr;</span>
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                                     </a>
                                 </div>
                             </td>

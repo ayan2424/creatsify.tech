@@ -5,7 +5,7 @@ $this->layout('layouts/admin', ['page_title' => 'Create Ticket', 'meta_title' =>
 <div class="content-header">
     <div>
         <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary btn-sm" style="margin-bottom: 10px; display: inline-flex; align-items: center; gap: 6px;">
-            <span>&larr; Back to Tickets Desk</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg><span>Back to Tickets Desk</span>
         </a>
         <h1 class="page-title">Open Support or Milestone Ticket</h1>
         <p class="page-subtitle">Track client deliverables, technical issues, change orders, or maintenance requests.</p>
@@ -140,8 +140,9 @@ $this->layout('layouts/admin', ['page_title' => 'Create Ticket', 'meta_title' =>
 
         <div style="display: flex; gap: 12px; justify-content: flex-end; align-items: center; border-top: 1px solid var(--adm-line); padding-top: 20px;">
             <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary" style="min-height: 42px; padding: 10px 20px;">Cancel</a>
-            <button type="submit" class="btn btn-primary" style="min-height: 42px; padding: 10px 26px;">
-                Open Support Ticket &rarr;
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 10px 26px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Open Support Ticket</span>
             </button>
         </div>
     </form>

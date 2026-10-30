@@ -10,7 +10,7 @@ $this->layout('layouts/admin', ['page_title' => 'Support Desk Tickets', 'meta_ti
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <a href="<?= url('/admin/crm/notes') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            <span>CRM Notes &rarr;</span>
+            <span>CRM Notes</span>
         </a>
         <a href="<?= url('/admin/crm/tickets/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -95,9 +95,14 @@ $this->layout('layouts/admin', ['page_title' => 'Support Desk Tickets', 'meta_ti
                 <input type="hidden" name="status" value="<?= e($activeStatus) ?>">
             <?php endif; ?>
             <input type="text" name="search" class="form-control" placeholder="Search ticket #, subject, client..." value="<?= e($search ?? '') ?>">
-            <button type="submit" class="btn btn-secondary">Search</button>
+            <button type="submit" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>Search</span>
+            </button>
             <?php if (!empty($search) || !empty($activeStatus)): ?>
-                <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary" style="color: var(--adm-muted); padding: 8px 12px;" title="Reset filters">&times;</a>
+                <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; justify-content: center; color: var(--adm-muted); width: 38px; height: 38px; padding: 0;" title="Reset filters">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </a>
             <?php endif; ?>
         </form>
     </div>
@@ -109,7 +114,10 @@ $this->layout('layouts/admin', ['page_title' => 'Support Desk Tickets', 'meta_ti
             </div>
             <div style="font-size: 15px; font-weight: 600; color: var(--adm-text);">No support tickets found</div>
             <p style="font-size: 13px; margin-top: 4px;">There are no tickets matching your current filter.</p>
-            <a href="<?= url('/admin/crm/tickets/create') ?>" class="btn btn-primary btn-sm" style="margin-top: 14px;">+ Open First Ticket</a>
+            <a href="<?= url('/admin/crm/tickets/create') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Open First Ticket</span>
+            </a>
         </div>
     <?php else: ?>
         <div class="table-responsive">
@@ -199,9 +207,9 @@ $this->layout('layouts/admin', ['page_title' => 'Support Desk Tickets', 'meta_ti
                                 <?= !empty($t['due_date']) ? date('M j, Y', strtotime($t['due_date'])) : '—' ?>
                             </td>
                             <td style="text-align: right; white-space: nowrap;">
-                                <a href="<?= url('/admin/crm/tickets/' . $t['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 6px 12px;">
+                                <a href="<?= url('/admin/crm/tickets/' . $t['id']) ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;">
                                     <span>Open Ticket</span>
-                                    <span style="font-size: 13px;">&rarr;</span>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                                 </a>
                             </td>
                         </tr>

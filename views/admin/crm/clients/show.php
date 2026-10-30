@@ -18,7 +18,10 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
 
 <div class="content-header">
     <div>
-        <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary btn-sm" style="margin-bottom: 8px;">&larr; Back to Clients Pipeline</a>
+        <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <span>Clients Pipeline</span>
+        </a>
         <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
             <h1 class="page-title" style="margin-bottom: 0;"><?= e($client['name']) ?></h1>
             <?php if (!empty($client['company'])): ?>
@@ -50,7 +53,10 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
             <span>Start Delivery</span>
         </a>
-        <a href="<?= url('/admin/crm/clients/' . $client['id'] . '/edit') ?>" class="btn btn-secondary" style="min-height: 38px; padding: 8px 16px;">Edit Profile</a>
+        <a href="<?= url('/admin/crm/clients/' . $client['id'] . '/edit') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 16px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span>Edit Profile</span>
+        </a>
     </div>
 </div>
 
@@ -103,7 +109,7 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
                     <div>
                         <span style="color: var(--adm-muted); font-size: 11px; display: block; text-transform: uppercase;">Website</span>
                         <a href="<?= e($client['website']) ?>" target="_blank" rel="noopener" style="color: var(--adm-accent);">
-                            <?= e($client['website']) ?> &nearr;
+                            <span><?= e($client['website']) ?></span> <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         </a>
                     </div>
                 <?php endif; ?>
@@ -223,7 +229,7 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
                                     </td>
                                     <td style="text-align: right;">
                                         <a href="<?= url('/admin/crm/tickets/' . $t['id']) ?>" class="btn btn-secondary btn-sm" style="font-size: 11.5px; padding: 3px 8px;">
-                                            View &rarr;
+                                            <span>View</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                                         </a>
                                     </td>
                                 </tr>
@@ -268,8 +274,9 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
                         <input type="checkbox" name="is_pinned" value="1">
                         <span>Pin to top of client file</span>
                     </label>
-                    <button type="submit" class="btn btn-primary" style="padding: 8px 20px; min-height: 38px;">
-                        Save CRM Note
+                    <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 20px; min-height: 38px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        <span>Save CRM Note</span>
                     </button>
                 </div>
             </form>
@@ -300,14 +307,17 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
                                     <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/toggle-pin') ?>" method="POST" style="margin:0;">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="redirect" value="<?= url('/admin/crm/clients/' . $client['id'] . '#notes') ?>">
-                                        <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 10.5px; padding: 2px 7px;" title="<?= $n['is_pinned'] ? 'Unpin note' : 'Pin note' ?>">
-                                            <?= $n['is_pinned'] ? 'Unpin' : 'Pin' ?>
+                                        <button type="submit" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; padding: 3px 8px; min-height: 28px;" title="<?= $n['is_pinned'] ? 'Unpin note' : 'Pin note' ?>">
+                                            <svg width="11" height="11" viewBox="0 0 24 24" fill="<?= $n['is_pinned'] ? 'currentColor' : 'none' ?>" stroke="currentColor" stroke-width="2"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-2l-2-2V5a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v8l-2 2v2z"/></svg>
+                                            <span><?= $n['is_pinned'] ? 'Unpin' : 'Pin' ?></span>
                                         </button>
                                     </form>
                                     <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this note?');" style="margin:0;">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="redirect" value="<?= url('/admin/crm/clients/' . $client['id'] . '#notes') ?>">
-                                        <button type="submit" style="background: none; border: none; color: var(--adm-muted); cursor: pointer; font-size: 16px; padding: 0 4px;" title="Delete note">&times;</button>
+                                        <button type="submit" style="display: inline-flex; align-items: center; justify-content: center; background: none; border: none; color: var(--adm-muted); cursor: pointer; padding: 4px;" title="Delete note">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                        </button>
                                     </form>
                                 </div>
                             </div>
@@ -315,14 +325,21 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
 
                             <?php if (!empty($n['follow_up_date'])): ?>
                                 <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--adm-line); display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; flex-wrap: wrap; gap: 8px;">
-                                    <span style="color: #f59e0b; font-weight: 600;">
-                                        Follow-up target: <?= date('F j, Y', strtotime($n['follow_up_date'])) ?>
+                                    <span style="color: #f59e0b; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        <span>Follow-up target: <?= date('F j, Y', strtotime($n['follow_up_date'])) ?></span>
                                     </span>
                                     <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/toggle-followup') ?>" method="POST" style="margin:0;">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="redirect" value="<?= url('/admin/crm/clients/' . $client['id'] . '#notes') ?>">
-                                        <button type="submit" class="btn btn-sm" style="font-size: 11px; padding: 3px 10px; border-radius: 12px; <?= $n['is_follow_up_done'] ? 'background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;' : 'background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight: 700;' ?>">
-                                            <?= $n['is_follow_up_done'] ? '✓ Completed' : '○ Mark Done' ?>
+                                        <button type="submit" class="btn btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 12px; <?= $n['is_follow_up_done'] ? 'background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;' : 'background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight: 700;' ?>">
+                                            <?php if ($n['is_follow_up_done']): ?>
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                                <span>Completed</span>
+                                            <?php else: ?>
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+                                                <span>Mark Done</span>
+                                            <?php endif; ?>
                                         </button>
                                     </form>
                                 </div>

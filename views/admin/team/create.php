@@ -9,7 +9,7 @@ $this->layout('layouts/admin');
             <h3 class="card-title">Add Agency Team Member</h3>
             <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Create a new engineer, designer, or specialist profile for the agency.</p>
         </div>
-        <a href="<?= url('/admin/team') ?>" class="btn btn-secondary btn-sm">&larr; Back to Team</a>
+        <a href="<?= url('/admin/team') ?>" class="btn btn-secondary btn-sm"style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg><span>Back to Team</span></a>
     </div>
 
     <form action="<?= url('/admin/team') ?>" method="POST">
@@ -89,8 +89,11 @@ $this->layout('layouts/admin');
         </div>
 
         <div style="display: flex; gap: 12px; margin-top: 24px;">
-            <button type="submit" class="btn btn-primary">Save Team Member &rarr;</button>
-            <a href="<?= url('/admin/team') ?>" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 10px 24px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                <span>Save Team Member</span>
+            </button>
+            <a href="<?= url('/admin/team') ?>" class="btn btn-secondary" style="min-height: 42px; padding: 10px 20px;">Cancel</a>
         </div>
     </form>
 </div>

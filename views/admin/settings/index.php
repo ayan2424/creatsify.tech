@@ -62,7 +62,10 @@ $code = $settings['custom_code'] ?? [];
                 <input type="text" id="site_location" name="site_location" class="form-control" value="<?= e($g['site_location'] ?? '') ?>">
             </div>
 
-            <button type="submit" class="btn btn-primary">Save General Settings &rarr;</button>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save General Settings</span>
+            </button>
         </form>
     <?php endif; ?>
 
@@ -105,7 +108,10 @@ $code = $settings['custom_code'] ?? [];
                 <input type="text" id="site_icon" name="site_icon" class="form-control" value="<?= e($app['site_icon'] ?? '/assets/brand/favicon.png') ?>">
             </div>
 
-            <button type="submit" class="btn btn-primary">Save Appearance &rarr;</button>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save Appearance</span>
+            </button>
         </form>
     <?php endif; ?>
 
@@ -142,7 +148,10 @@ $code = $settings['custom_code'] ?? [];
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Save Founder Identity &rarr;</button>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save Founder Identity</span>
+            </button>
         </form>
     <?php endif; ?>
 
@@ -195,7 +204,10 @@ $code = $settings['custom_code'] ?? [];
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save SMTP Credentials &rarr;</button>
+                <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    <span>Save SMTP Credentials</span>
+                </button>
             </form>
 
             <!-- 1-Click Diagnostic SMTP Verification Tool -->
@@ -205,7 +217,10 @@ $code = $settings['custom_code'] ?? [];
                 <form action="<?= url('/admin/settings/test-email') ?>" method="POST" style="display: flex; gap: 10px;">
                     <?= csrf_field() ?>
                     <input type="email" name="test_email" class="form-control" placeholder="Recipient (e.g. ayan@creatsify.tech)" value="<?= e($g['site_email'] ?? '') ?>" required>
-                    <button type="submit" class="btn btn-secondary" style="white-space: nowrap;">Send Test Email</button>
+                    <button type="submit" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px; white-space: nowrap;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        <span>Send Test Email</span>
+                    </button>
                 </form>
             </div>
         </div>
@@ -251,7 +266,10 @@ $code = $settings['custom_code'] ?? [];
                 <strong>Webhook Callback URL:</strong> <code style="color:var(--accent);"><?= url('/api/webhooks/whatsapp') ?></code>
             </div>
 
-            <button type="submit" class="btn btn-primary">Save WhatsApp Config &rarr;</button>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save WhatsApp Config</span>
+            </button>
         </form>
     <?php endif; ?>
 
@@ -296,7 +314,10 @@ $code = $settings['custom_code'] ?? [];
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Save SMS Settings &rarr;</button>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save SMS Settings</span>
+            </button>
         </form>
     <?php endif; ?>
 
@@ -321,7 +342,10 @@ $code = $settings['custom_code'] ?? [];
                 <textarea id="custom_css" name="custom_css" class="form-control" rows="6" style="font-family: monospace; font-size: 13px;" placeholder="/* Custom CSS overrides */"><?= e($code['custom_css'] ?? '') ?></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Save Custom Code & CSS &rarr;</button>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save Custom Code & CSS</span>
+            </button>
         </form>
     <?php endif; ?>
 </div>

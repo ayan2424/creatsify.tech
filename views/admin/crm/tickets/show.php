@@ -23,7 +23,10 @@ $phoneClean = clean_phone_number($ticket['client_whatsapp'] ?: ($ticket['client_
 
 <div class="content-header">
     <div>
-        <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary btn-sm" style="margin-bottom: 8px;">&larr; Back to Tickets</a>
+        <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <span>Tickets Desk</span>
+        </a>
         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <span style="font-family: monospace; font-size: 15px; font-weight: 700; color: var(--adm-accent);"><?= e($ticket['ticket_number']) ?></span>
             <h1 class="page-title" style="margin-bottom: 0; font-size: 18px;"><?= e($ticket['subject']) ?></h1>
@@ -136,8 +139,9 @@ $phoneClean = clean_phone_number($ticket['client_whatsapp'] ?: ($ticket['client_
                             <option value="resolved">Mark Resolved</option>
                             <option value="closed">Close Ticket</option>
                         </select>
-                        <button type="submit" class="btn btn-primary" style="min-height: 40px; padding: 8px 22px;">
-                            Submit Post &rarr;
+                        <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 22px;">
+                            <span>Submit Post</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                         </button>
                     </div>
                 </div>
@@ -186,8 +190,9 @@ $phoneClean = clean_phone_number($ticket['client_whatsapp'] ?: ($ticket['client_
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-secondary" style="width: 100%; min-height: 40px; margin-top: 4px;">
-                    Apply Changes
+                <button type="submit" class="btn btn-secondary" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 40px; margin-top: 4px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Apply Changes</span>
                 </button>
             </form>
         </div>
@@ -201,7 +206,7 @@ $phoneClean = clean_phone_number($ticket['client_whatsapp'] ?: ($ticket['client_
                     <span style="color: var(--adm-muted); font-size: 11px; display: block; text-transform: uppercase;">Client Name</span>
                     <?php if (!empty($ticket['client_id'])): ?>
                         <a href="<?= url('/admin/crm/clients/' . $ticket['client_id']) ?>" style="font-weight: 600; color: var(--adm-accent); text-decoration: none;">
-                            <?= e($ticket['client_name']) ?> &rarr;
+                            <span><?= e($ticket['client_name']) ?></span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                         </a>
                     <?php else: ?>
                         <strong style="color: var(--adm-text);"><?= e($ticket['client_name']) ?></strong>
@@ -249,8 +254,9 @@ $phoneClean = clean_phone_number($ticket['client_whatsapp'] ?: ($ticket['client_
         <div class="card" style="padding: 16px; text-align: center;">
             <form action="<?= url('/admin/crm/tickets/' . $ticket['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this ticket and all conversation history?');" style="margin: 0;">
                 <?= csrf_field() ?>
-                <button type="submit" class="btn btn-sm" style="color: #ef4444; background: transparent; border: 1px solid rgba(239, 68, 68, 0.3); width: 100%; font-size: 11.5px;">
-                    Delete Ticket File
+                <button type="submit" class="btn btn-sm" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; color: #ef4444; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); width: 100%; font-size: 11.5px; padding: 6px 14px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <span>Delete Ticket File</span>
                 </button>
             </form>
         </div>

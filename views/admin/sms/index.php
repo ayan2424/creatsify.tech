@@ -114,8 +114,9 @@ $prefillMsg = request()->get('msg', '');
                 <div style="display: flex; gap: 10px;">
                     <input type="text" name="phone" class="form-control" placeholder="Recipient Phone (+923001234567)" value="<?= e($selectedPhone) ?>" style="max-width: 240px; font-size: 13.5px;" required>
                     <input type="text" name="message" id="sms-input" class="form-control" placeholder="Type SMS message..." value="<?= e($prefillMsg) ?>" required autocomplete="off" style="font-size: 13.5px;">
-                    <button type="submit" class="btn btn-primary" style="white-space: nowrap; padding: 0 20px;">
-                        Send SMS
+                    <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; padding: 0 20px;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        <span>Send SMS</span>
                     </button>
                 </div>
             </form>

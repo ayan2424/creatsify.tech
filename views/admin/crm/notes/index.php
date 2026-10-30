@@ -10,7 +10,7 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-            <span>Clients Pipeline &rarr;</span>
+            <span>Clients Pipeline</span>
         </a>
     </div>
 </div>
@@ -47,8 +47,9 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
                     <form action="<?= url('/admin/crm/notes/' . $fu['id'] . '/toggle-followup') ?>" method="POST" style="margin: 0; flex-shrink: 0;">
                         <?= csrf_field() ?>
                         <input type="hidden" name="redirect" value="<?= url('/admin/crm/notes') ?>">
-                        <button type="submit" class="btn btn-primary btn-sm" style="font-size: 11px; padding: 4px 8px;" title="Mark this follow-up as completed">
-                            ✓ Done
+                        <button type="submit" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 4px 10px;" title="Mark this follow-up as completed">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Done</span>
                         </button>
                     </form>
                 </div>
@@ -112,8 +113,9 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="min-height: 40px; padding: 8px 24px;">
-                Save CRM Note &rarr;
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 24px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save CRM Note</span>
             </button>
         </div>
     </form>
@@ -148,9 +150,14 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
                 <input type="hidden" name="type" value="<?= e($activeType) ?>">
             <?php endif; ?>
             <input type="text" name="search" class="form-control" placeholder="Search notes..." value="<?= e($search ?? '') ?>">
-            <button type="submit" class="btn btn-secondary">Search</button>
+            <button type="submit" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>Search</span>
+            </button>
             <?php if (!empty($search) || !empty($activeType)): ?>
-                <a href="<?= url('/admin/crm/notes') ?>" class="btn btn-secondary" style="color: var(--adm-muted); padding: 8px 12px;" title="Reset filters">&times;</a>
+                <a href="<?= url('/admin/crm/notes') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; justify-content: center; color: var(--adm-muted); width: 38px; height: 38px; padding: 0;" title="Reset filters">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </a>
             <?php endif; ?>
         </form>
     </div>
@@ -196,15 +203,18 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
                             <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/toggle-pin') ?>" method="POST" style="margin:0;">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="redirect" value="<?= url('/admin/crm/notes') ?>">
-                                <button type="submit" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 8px; min-height: 28px;" title="<?= $n['is_pinned'] ? 'Unpin note' : 'Pin note' ?>">
-                                    <?= $n['is_pinned'] ? 'Unpin' : 'Pin' ?>
+                                <button type="submit" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 8px; min-height: 28px;" title="<?= $n['is_pinned'] ? 'Unpin note' : 'Pin note' ?>">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="<?= $n['is_pinned'] ? 'currentColor' : 'none' ?>" stroke="currentColor" stroke-width="2"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-2l-2-2V5a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v8l-2 2v2z"/></svg>
+                                    <span><?= $n['is_pinned'] ? 'Unpin' : 'Pin' ?></span>
                                 </button>
                             </form>
 
                             <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/delete') ?>" method="POST" onsubmit="return confirm('Delete this CRM note?');" style="margin:0;">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="redirect" value="<?= url('/admin/crm/notes') ?>">
-                                <button type="submit" style="background: none; border: none; color: var(--adm-muted); cursor: pointer; font-size: 16px; padding: 2px 6px; border-radius: 4px;" title="Delete note">&times;</button>
+                                <button type="submit" style="display: inline-flex; align-items: center; justify-content: center; background: none; border: none; color: var(--adm-muted); cursor: pointer; padding: 4px;" title="Delete note">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -220,8 +230,14 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
                             <form action="<?= url('/admin/crm/notes/' . $n['id'] . '/toggle-followup') ?>" method="POST" style="margin:0;">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="redirect" value="<?= url('/admin/crm/notes') ?>">
-                                <button type="submit" class="btn btn-sm" style="font-size: 11px; padding: 3px 10px; border-radius: 12px; <?= $n['is_follow_up_done'] ? 'background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;' : 'background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight: 700;' ?>">
-                                    <?= $n['is_follow_up_done'] ? '✓ Completed' : '○ Mark Done' ?>
+                                <button type="submit" class="btn btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 12px; <?= $n['is_follow_up_done'] ? 'background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;' : 'background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight: 700;' ?>">
+                                    <?php if ($n['is_follow_up_done']): ?>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                        <span>Completed</span>
+                                    <?php else: ?>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+                                        <span>Mark Done</span>
+                                    <?php endif; ?>
                                 </button>
                             </form>
                         </div>

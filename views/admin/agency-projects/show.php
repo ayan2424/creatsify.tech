@@ -9,12 +9,20 @@ $assignedIds = array_column($members, 'team_member_id');
 
 <div class="content-header">
     <div>
-        <a href="<?= url('/admin/agency-projects') ?>" style="font-size:12px; color:var(--adm-muted); text-decoration:none;">&larr; Delivery workspace</a>
+        <a href="<?= url('/admin/agency-projects') ?>" class="btn btn-secondary btn-sm" style="display:inline-flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <span>Delivery Workspace</span>
+        </a>
         <h1 class="page-title" style="margin-top:8px;"><?= e($project['title']) ?></h1>
         <p class="page-subtitle"><?= e($project['project_code']) ?> · <?= e($project['project_type']) ?> · private agency delivery record</p>
     </div>
     <div style="display:flex; align-items:center; gap:10px;">
-        <?php if ($project['client_id']): ?><a class="btn btn-secondary btn-sm" href="<?= url('/admin/crm/clients/' . $project['client_id']) ?>">Open CRM client</a><?php endif; ?>
+        <?php if ($project['client_id']): ?>
+            <a class="btn btn-secondary btn-sm" href="<?= url('/admin/crm/clients/' . $project['client_id']) ?>" style="display:inline-flex; align-items:center; gap:6px; min-height:36px; padding:6px 14px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                <span>Open CRM Client</span>
+            </a>
+        <?php endif; ?>
         <form action="<?= url('/admin/agency-projects/' . $project['id'] . '/status') ?>" method="POST" style="display:flex; gap:7px; margin:0;">
             <?= csrf_field() ?>
             <select class="form-control form-control-sm" name="status" onchange="this.form.submit()" aria-label="Project status">
@@ -53,7 +61,10 @@ $assignedIds = array_column($members, 'team_member_id');
                     <?= csrf_field() ?><strong style="font-size:13px;">Add milestone</strong>
                     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; margin-top:10px;"><input class="form-control form-control-sm" name="title" required maxlength="200" placeholder="Milestone title"><input class="form-control form-control-sm" type="date" name="due_date" aria-label="Due date"><input class="form-control form-control-sm" type="number" min="0" step="0.01" name="amount" placeholder="Amount"></div>
                     <textarea class="form-control form-control-sm" name="description" maxlength="2000" rows="2" style="margin-top:8px;" placeholder="Private delivery context (optional)"></textarea>
-                    <button class="btn btn-secondary btn-sm" type="submit" style="margin-top:8px;">Add milestone</button>
+                    <button class="btn btn-secondary btn-sm" type="submit" style="display:inline-flex; align-items:center; gap:5px; margin-top:8px;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <span>Add Milestone</span>
+                    </button>
                 </form>
             </div>
         </section>
@@ -75,7 +86,10 @@ $assignedIds = array_column($members, 'team_member_id');
                     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; margin-top:10px;"><input class="form-control form-control-sm" name="title" required maxlength="200" placeholder="Concrete action"><select class="form-control form-control-sm" name="assigned_team_member_id"><option value="">Unassigned</option><?php foreach ($members as $member): ?><option value="<?= (int)$member['team_member_id'] ?>"><?= e($member['name']) ?></option><?php endforeach; ?></select><input class="form-control form-control-sm" type="date" name="due_date" aria-label="Due date"></div>
                     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; margin-top:8px;"><select class="form-control form-control-sm" name="milestone_id"><option value="">No milestone</option><?php foreach ($milestones as $milestone): ?><option value="<?= (int)$milestone['id'] ?>"><?= e($milestone['title']) ?></option><?php endforeach; ?></select><select class="form-control form-control-sm" name="priority"><option value="medium">Medium priority</option><option value="low">Low priority</option><option value="high">High priority</option><option value="urgent">Urgent</option></select></div>
                     <textarea class="form-control form-control-sm" name="description" maxlength="2000" rows="2" style="margin-top:8px;" placeholder="Definition of done or internal context (optional)"></textarea>
-                    <button class="btn btn-secondary btn-sm" type="submit" style="margin-top:8px;">Add task</button>
+                    <button class="btn btn-secondary btn-sm" type="submit" style="display:inline-flex; align-items:center; gap:5px; margin-top:8px;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        <span>Add Task</span>
+                    </button>
                 </form>
             </div>
         </section>
@@ -84,7 +98,11 @@ $assignedIds = array_column($members, 'team_member_id');
             <div class="card-header"><div><h2 class="card-title">Internal notes</h2><p style="font-size:12px; color:var(--adm-muted); margin:4px 0 0;">Never public and not visible to clients.</p></div></div>
             <div style="padding:0 20px 18px;">
                 <form action="<?= url('/admin/agency-projects/' . $project['id'] . '/notes') ?>" method="POST">
-                    <?= csrf_field() ?><textarea class="form-control" name="body" required maxlength="15000" rows="4" placeholder="Decision, risk, meeting outcome, or handoff note"></textarea><button class="btn btn-secondary btn-sm" type="submit" style="margin-top:8px;">Save internal note</button>
+                    <?= csrf_field() ?><textarea class="form-control" name="body" required maxlength="15000" rows="4" placeholder="Decision, risk, meeting outcome, or handoff note"></textarea>
+                    <button class="btn btn-secondary btn-sm" type="submit" style="display:inline-flex; align-items:center; gap:5px; margin-top:8px;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        <span>Save Internal Note</span>
+                    </button>
                 </form>
                 <?php foreach ($notes as $note): ?><article style="padding:15px 0; border-top:1px solid var(--adm-line); margin-top:15px;"><div style="font-size:11px; color:var(--adm-muted); margin-bottom:6px;"><?= e($note['author_name']) ?> · <?= e(date('M j, Y g:i A', strtotime($note['created_at']))) ?></div><div style="white-space:pre-wrap; color:var(--adm-text); line-height:1.6;"><?= e($note['body']) ?></div></article><?php endforeach; ?>
             </div>
@@ -99,12 +117,12 @@ $assignedIds = array_column($members, 'team_member_id');
                 <?php foreach ($members as $member): ?>
                     <div style="display:flex; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid var(--adm-line);">
                         <img src="<?= asset($member['avatar'] ?: 'brand/creatsify-icon.png') ?>" alt="" style="width:32px; height:32px; border-radius:50%; object-fit:cover;"><div style="min-width:0; flex:1;"><strong style="font-size:13px;"><?= e($member['name']) ?></strong><div style="font-size:11px; color:var(--adm-muted);"><?= e($member['delivery_role']) ?> · <?= (int)$member['allocation_percent'] ?>%</div></div>
-                        <form action="<?= url('/admin/agency-projects/' . $project['id'] . '/members/' . $member['id'] . '/remove') ?>" method="POST" style="margin:0;" onsubmit="return confirm('Remove this member from the delivery team?');"><?= csrf_field() ?><button class="btn btn-secondary btn-sm" style="color:var(--danger);" type="submit">Remove</button></form>
+                        <form action="<?= url('/admin/agency-projects/' . $project['id'] . '/members/' . $member['id'] . '/remove') ?>" method="POST" style="margin:0;" onsubmit="return confirm('Remove this member from the delivery team?');"><?= csrf_field() ?><button class="btn btn-secondary btn-sm" style="display:inline-flex; align-items:center; gap:4px; color:var(--danger);" type="submit" title="Remove member"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg><span>Remove</span></button></form>
                     </div>
                 <?php endforeach; ?>
                 <form action="<?= url('/admin/agency-projects/' . $project['id'] . '/members') ?>" method="POST" style="margin-top:18px; padding-top:18px; border-top:1px solid var(--adm-line);">
                     <?= csrf_field() ?><select class="form-control form-control-sm" name="team_member_id" required><option value="">Select active team member</option><?php foreach ($teamMembers as $member): ?><option value="<?= (int)$member['id'] ?>" <?= in_array((int)$member['id'], array_map('intval', $assignedIds), true) ? 'disabled' : '' ?>><?= e($member['name']) ?> — <?= e($member['role_title']) ?></option><?php endforeach; ?></select>
-                    <input class="form-control form-control-sm" name="delivery_role" maxlength="120" placeholder="Delivery role (uses profile role if blank)" style="margin-top:8px;"><div style="display:flex; gap:8px; margin-top:8px;"><input class="form-control form-control-sm" type="number" min="1" max="100" name="allocation_percent" value="100" aria-label="Allocation percentage"><button class="btn btn-secondary btn-sm" type="submit">Assign</button></div>
+                    <input class="form-control form-control-sm" name="delivery_role" maxlength="120" placeholder="Delivery role (uses profile role if blank)" style="margin-top:8px;"><div style="display:flex; gap:8px; margin-top:8px;"><input class="form-control form-control-sm" type="number" min="1" max="100" name="allocation_percent" value="100" aria-label="Allocation percentage"><button class="btn btn-secondary btn-sm" type="submit" style="display:inline-flex; align-items:center; gap:4px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg><span>Assign</span></button></div>
                 </form>
             </div>
         </section>
