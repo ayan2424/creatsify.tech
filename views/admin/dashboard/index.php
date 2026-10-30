@@ -262,22 +262,22 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
         </a>
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; padding:16px;">
-        <div style="padding:16px; border-radius:10px; background:var(--adm-surface); border:1px solid var(--adm-glass-border);">
+        <div class="delivery-milestone-box">
             <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Active Projects</span>
             <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:var(--adm-text);"><?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?></strong>
             <span style="font-size:12px; color:var(--adm-muted);">Under active engineering</span>
         </div>
-        <div style="padding:16px; border-radius:10px; background:var(--adm-surface); border:1px solid var(--adm-glass-border);">
+        <div class="delivery-milestone-box">
             <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">In Planning</span>
             <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:#f59e0b;"><?= (int)($deliveryMetrics['counts']['planning'] ?? 0) ?></strong>
             <span style="font-size:12px; color:var(--adm-muted);">Ready to scope & assign</span>
         </div>
-        <div style="padding:16px; border-radius:10px; background:var(--adm-surface); border:1px solid var(--adm-glass-border);">
+        <div class="delivery-milestone-box">
             <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Open Deliverables</span>
             <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:var(--adm-accent);"><?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?></strong>
             <span style="font-size:12px; color:var(--adm-muted);"><?= (int)($deliveryMetrics['overdue_tasks'] ?? 0) ?> tasks past target date</span>
         </div>
-        <div style="padding:16px; border-radius:10px; background:var(--adm-surface); border:1px solid var(--adm-glass-border);">
+        <div class="delivery-milestone-box">
             <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Delivered Systems</span>
             <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:#10b981;"><?= (int)($deliveryMetrics['counts']['delivered'] ?? 0) ?></strong>
             <span style="font-size:12px; color:var(--adm-muted);">Completed engagements</span>
