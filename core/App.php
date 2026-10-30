@@ -20,6 +20,9 @@ class App
     {
         self::$instance = $this;
         $this->basePath = rtrim($basePath, '/\\');
+        if (!defined('BASE_PATH')) {
+            define('BASE_PATH', $this->basePath);
+        }
 
         $this->registerAutoloader();
         $this->loadEnvironment();

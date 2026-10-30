@@ -12,6 +12,9 @@ define('CREATSIFY_START', microtime(true));
 
 // Base path of project root
 $basePath = dirname(__DIR__);
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', $basePath);
+}
 
 // Check if vendor/autoload.php exists (Composer), else core fallback autoloader will be used
 if (file_exists($basePath . '/vendor/autoload.php')) {
