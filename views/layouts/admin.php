@@ -21,8 +21,8 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=DM+Sans:ital,opsz,wght@0,9..40,400..600;1,9..40,400..600&display=swap" rel="stylesheet">
 
-    <!-- Lumix AI Command Center Stylesheet with Dynamic Asset Versioning -->
-    <link rel="stylesheet" href="<?= asset('css/admin.css') ?>?v=<?= @filemtime(app()->getBasePath() . '/public/assets/css/admin.css') ?: '4.0' ?>">
+    <!-- Lumix AI Command Center Stylesheet -->
+    <link rel="stylesheet" href="<?= asset('css/admin.css') ?>?v=<?= @filemtime(BASE_PATH . '/public/assets/css/admin.css') ?: '4.0' ?>">
 
     <!-- Theme & Sidebar State Initializer -->
     <script>

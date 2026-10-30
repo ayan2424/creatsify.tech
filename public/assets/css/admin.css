@@ -22,7 +22,7 @@
   --adm-green-glow: rgba(0, 229, 153, 0.25);
   --adm-pink: #ff4fa3;
   --adm-pink-glow: rgba(255, 79, 163, 0.25);
-  --adm-sidebar-w: 240px;
+  --adm-sidebar-w: 236px;
   --adm-radius: 14px;
 
   /* Modern High-End Gradient Tokens (Obsidian Theme) */
@@ -47,7 +47,6 @@
   --accent: var(--adm-accent);
 }
 
-:root[data-theme="light"],
 [data-theme="light"] {
   /* Panze Studio Soft Lilac Palette (Light Mode) */
   --adm-bg: #f4f6fc;
@@ -203,10 +202,8 @@ body {
 
 .sidebar-close-btn {
   display: none;
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  min-height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   border: 1px solid var(--adm-line);
   background: var(--adm-bg);
@@ -522,11 +519,9 @@ body {
 }
 
 .sidebar-logout-btn {
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  min-height: 36px;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
   background: var(--adm-bg);
   border: 1px solid var(--adm-line);
   color: var(--adm-muted);
@@ -662,10 +657,8 @@ body.sidebar-locked {
 /* Sidebar Toggle Button (Desktop & Mobile) */
 .sidebar-toggle-btn {
   display: flex;
-  width: 42px;
-  height: 42px;
-  min-width: 42px;
-  min-height: 42px;
+  width: 38px;
+  height: 38px;
   border-radius: 10px;
   border: 1px solid var(--adm-line);
   background: var(--adm-bg);
@@ -854,10 +847,8 @@ body.sidebar-locked {
   background: var(--adm-bg);
   border: 1px solid var(--adm-line);
   color: var(--adm-muted);
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  min-height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
   display: inline-flex;
   align-items: center;
@@ -966,40 +957,6 @@ body.sidebar-locked {
   z-index: 1;
 }
 
-/* ==========================================================================
-   CONTENT HEADERS & PAGE TITLES
-   ========================================================================== */
-.content-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.content-header > div:first-child {
-  flex: 1 1 280px;
-  min-width: 0;
-}
-
-.page-title {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(22px, 3vw, 28px);
-  font-weight: 700;
-  color: var(--adm-text);
-  margin: 0 0 6px 0;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-.page-subtitle {
-  font-size: 13.5px;
-  color: var(--adm-muted);
-  margin: 0;
-  line-height: 1.5;
-}
-
 @media (max-width: 1024px) {
   .admin-content {
     border-top-left-radius: 0;
@@ -1057,6 +1014,40 @@ body.sidebar-locked {
   border-color: rgba(255, 79, 163, 0.35);
   color: var(--adm-pink);
   box-shadow: 0 4px 14px rgba(255, 79, 163, 0.12);
+}
+
+/* ==========================================================================
+   CONTENT HEADERS & PAGE TITLES
+   ========================================================================== */
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.content-header > div:first-child {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.page-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 700;
+  color: var(--adm-text);
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: 13.5px;
+  color: var(--adm-muted);
+  margin: 0;
+  line-height: 1.5;
 }
 
 /* ==========================================================================
@@ -1520,7 +1511,7 @@ body.sidebar-locked {
 
 .data-table {
   width: 100%;
-  min-width: 720px;
+  min-width: 580px;
   border-collapse: separate;
   border-spacing: 0;
   text-align: left;
@@ -1830,7 +1821,8 @@ select.form-control {
 
 /* Laptop / Medium Desktops (<= 1200px) */
 @media (max-width: 1200px) {
-  .metrics-row {
+  .metrics-row,
+  .metrics-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
@@ -2025,7 +2017,7 @@ select.form-control {
     height: auto;
     padding: 10px 16px;
     justify-content: space-between;
-    border-radius: 12px;
+    border-radius: 999px;
     margin: 0;
   }
   .sidebar-collapsed .nav-link-content > span {
@@ -2092,12 +2084,6 @@ select.form-control {
   .telemetry-row {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
-  }
-
-  .metrics-row,
-  .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
   }
 
   .tables-grid {
@@ -2454,12 +2440,21 @@ select.form-control {
   }
 }
 
-/* iOS Safari Auto-Zoom Prevention & Mobile Ergonomics */
-@media (max-width: 768px) {
-  .form-control, input, select, textarea {
-    font-size: 16px !important;
-  }
-}
+
+
+/* ==========================================================================
+   DASHBOARD: needs-attention strip and quick actions
+   ========================================================================== */
+.dash-attn{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+.attn-item{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--adm-radius);border:1px solid var(--adm-line);background:var(--adm-grad-card);color:var(--adm-text);text-decoration:none;transition:transform .25s cubic-bezier(.16,1,.3,1),border-color .25s,box-shadow .25s}
+.attn-item b{min-width:1.3em;font-size:26px;line-height:1;letter-spacing:-.02em}
+.attn-item span{font-size:13px;color:var(--adm-muted)}
+.attn-item:hover{transform:translateY(-2px);border-color:var(--adm-accent);box-shadow:0 18px 36px -24px var(--adm-accent-glow)}
+.attn-item.hot{border-color:rgba(255,95,56,.5);box-shadow:inset 3px 0 0 #ff5f38}
+.attn-item.hot b{color:#ff8a65}
+.dash-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+@media(max-width:1000px){.dash-attn{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.dash-attn{grid-template-columns:1fr}}
 
 /* ==========================================================================
    CRM DESK & PIPELINE UI/UX ERGONOMICS (AGENTS.md Dark Glassmorphism)
@@ -2722,7 +2717,3 @@ select.form-control {
     color: #000000 !important;
   }
 }
-
-
-
-

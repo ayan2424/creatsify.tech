@@ -3,20 +3,19 @@
 $this->layout('layouts/admin');
 ?>
 
-<div class="content-header">
-    <div>
-        <h1 class="page-title">Homepage Section Builder</h1>
-        <p class="page-subtitle">Visual section manager. Show, hide, reorder, and configure storefront homepage blocks.</p>
-    </div>
-    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <a href="<?= url('/') ?>" target="_blank" class="btn btn-secondary" style="min-height: 40px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            <span>Preview Storefront &nearr;</span>
-        </a>
-    </div>
-</div>
-
 <div class="card">
+    <div class="card-header">
+        <div>
+            <h3 class="card-title">Homepage Section Builder</h3>
+            <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Cheezify-inspired visual section manager. Show, hide, reorder, and configure storefront homepage blocks.</p>
+        </div>
+        <div>
+            <a href="<?= url('/') ?>" target="_blank" class="btn btn-secondary btn-sm" style="display:flex; align-items:center; gap:6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                <span>Preview Storefront &rarr;</span>
+            </a>
+        </div>
+    </div>
 
     <div class="table-responsive">
         <table class="data-table">

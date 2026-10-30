@@ -1,6 +1,6 @@
 <?php
 /** @var Core\View $this */
-$this->layout('layouts/admin');
+$this->layout('layouts/admin', ['page_title' => 'Blog Posts', 'meta_title' => 'Posts | Creatsify Admin']);
 ?>
 
 <div class="content-header">
@@ -9,10 +9,10 @@ $this->layout('layouts/admin');
         <p class="page-subtitle">Publish engineering essays, release notes, and studio case studies.</p>
     </div>
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <a href="<?= url('/blog') ?>" target="_blank" class="btn btn-secondary" style="min-height: 40px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px;">
-            <span>View Public Blog &nearr;</span>
+        <a href="<?= url('/blog') ?>" target="_blank" class="btn btn-secondary" style="min-height: 40px; padding: 8px 16px; display: inline-flex; align-items: center; gap: 6px;">
+            <span>Public Blog &nearr;</span>
         </a>
-        <a href="<?= url('/admin/posts/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 16px;">
+        <a href="<?= url('/admin/posts/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 18px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span>New Post</span>
         </a>

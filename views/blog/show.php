@@ -9,7 +9,7 @@ $this->layout('layouts/main');
         </div>
         <div class="pill">
             <i></i>
-            <span><?= e($post['category']) ?> &bull; <?= date('F j, Y', strtotime($post['published_at'])) ?> &bull; <?= (int)$post['views_count'] ?> views</span>
+            <span><?= e($post['category']) ?> &bull; <?= date('F j, Y', strtotime($post['published_at'])) ?></span>
         </div>
         <h1 class="page-title" style="margin-top: 18px; font-size: clamp(28px, 4vw, 42px);"><?= e($post['title']) ?></h1>
         <p class="lead"><?= e($post['excerpt']) ?></p>
@@ -18,7 +18,7 @@ $this->layout('layouts/main');
 
 <section class="section" style="padding-bottom: 90px;">
     <div class="wrap" style="max-width: 820px;">
-        <article class="article-content">
+        <article class="article-content" style="background: var(--surface); padding: 48px; border-radius: 16px; border: 1px solid var(--line); font-size: 17px; line-height: 1.8; color: var(--muted);">
             <?= sanitize_html($post['content']) ?>
         </article>
         <div style="margin-top: 36px; text-align: center;">

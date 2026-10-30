@@ -14,7 +14,6 @@ $currentPath = request()->getPath();
             <a href="<?= url('/') ?>" class="<?= $currentPath === '/' ? 'act' : '' ?>">Home</a>
             <a href="<?= url('/portfolio') ?>" class="<?= str_starts_with($currentPath, '/portfolio') ? 'act' : '' ?>">Software</a>
             <a href="<?= url('/services') ?>" class="<?= str_starts_with($currentPath, '/services') ? 'act' : '' ?>">Services</a>
-            <a href="<?= url('/team') ?>" class="<?= str_starts_with($currentPath, '/team') ? 'act' : '' ?>">Team</a>
             <a href="<?= url('/about') ?>" class="<?= str_starts_with($currentPath, '/about') ? 'act' : '' ?>">About</a>
             <a href="<?= url('/blog') ?>" class="<?= str_starts_with($currentPath, '/blog') ? 'act' : '' ?>">Blog</a>
             <a href="<?= url('/support') ?>" class="<?= str_starts_with($currentPath, '/support') ? 'act' : '' ?>">Customer Support</a>
@@ -61,11 +60,7 @@ $currentPath = request()->getPath();
             <span class="mobile-link-arrow">&rarr;</span>
         </a>
         <a href="<?= url('/services') ?>" class="mobile-link <?= str_starts_with($currentPath, '/services') ? 'act' : '' ?>">
-            <span>Engineering Services</span>
-            <span class="mobile-link-arrow">&rarr;</span>
-        </a>
-        <a href="<?= url('/team') ?>" class="mobile-link <?= str_starts_with($currentPath, '/team') ? 'act' : '' ?>">
-            <span>Agency Creators & Team</span>
+            <span>Services</span>
             <span class="mobile-link-arrow">&rarr;</span>
         </a>
         <a href="<?= url('/about') ?>" class="mobile-link <?= str_starts_with($currentPath, '/about') ? 'act' : '' ?>">

@@ -25,3 +25,25 @@ INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES
 ('founder_bio', 'Ayan is the founder of Creatsify. He studies AI in the ACCP program at Aptech, and builds and sells real software: web platforms, mobile apps, desktop tools and WordPress stores.', 'founder')
 ON DUPLICATE KEY UPDATE `value`=VALUES(`value`);
 UPDATE `team_members` SET `bio` = REPLACE(`bio`, 'Aptech Karachi', 'Aptech') WHERE `bio` LIKE '%Karachi%';
+
+-- Services: replace the old list with the four services shown on the homepage
+DELETE FROM `services` WHERE `slug` NOT IN ('websites-admin-panels','wordpress-online-stores','courier-warehouse-systems','whatsapp-sms-alerts');
+INSERT INTO `services` (`title`, `slug`, `icon`, `short_description`, `full_description`, `deliverables`, `sort_order`, `is_active`) VALUES
+('Websites and admin panels', 'websites-admin-panels', 'server', 'Business websites, dashboards and management systems in PHP and MySQL.', 'Business websites, dashboards and management systems built in PHP and MySQL around how your team works. Fast, tidy and easy to host.', 'Responsive website, Admin panel, Contact and enquiry forms, SEO basics, Deployment help', 1, 1),
+('WordPress and online stores', 'wordpress-online-stores', 'shopping-bag', 'Elementor and WooCommerce stores with product pages, checkout and SEO basics.', 'Online stores and business sites built on WordPress with Elementor and WooCommerce, ready for you to manage yourself.', 'Product pages, Cart and checkout, SEO basics, Handover and training', 2, 1),
+('Courier and warehouse systems', 'courier-warehouse-systems', 'truck', 'Start from Cheetah Enterprise or Lite and adapt it to your business.', 'Start from Cheetah Enterprise or Cheetah Lite and we adapt it to your branches, riders and merchants.', 'Branch and rider management, Shipment tracking, Cash on delivery, Proof of delivery, Setup help', 3, 1),
+('WhatsApp and SMS alerts', 'whatsapp-sms-alerts', 'smartphone', 'Order and shipment updates sent through the WhatsApp Cloud API and SMS.', 'Order and shipment updates sent to your customers through the WhatsApp Cloud API and SMS.', 'WhatsApp Cloud API setup, SMS alerts, Webhooks, Message templates', 4, 1)
+ON DUPLICATE KEY UPDATE `title`=VALUES(`title`), `icon`=VALUES(`icon`), `short_description`=VALUES(`short_description`), `full_description`=VALUES(`full_description`), `deliverables`=VALUES(`deliverables`), `sort_order`=VALUES(`sort_order`), `is_active`=1;
+
+-- Team page: keep only the founder; the founder's portfolio lists the real projects
+UPDATE `team_members` SET `is_active` = 0 WHERE `id` <> 1;
+DELETE FROM `member_portfolios` WHERE `member_id` <> 1 OR `slug` NOT IN ('cheetah-enterprise','cheetah-lite','cheezify','sawi-store');
+INSERT INTO `member_portfolios` (`id`, `member_id`, `title`, `slug`, `category`, `client`, `role_in_project`, `summary`, `description`, `image_url`, `project_url`, `tech_stack`, `completion_date`, `is_featured`, `sort_order`) VALUES
+(1, 1, 'Cheetah Enterprise', 'cheetah-enterprise', 'Courier software', NULL, 'Founder and lead developer', 'Courier, warehouse and multi-branch logistics platform with 7 role portals.', 'Designed and built end to end: branch management, rider assignment, merchant portals, live tracking and proof of delivery.', NULL, 'https://cheetah.ayan24.me', 'PHP, MySQL, JavaScript, Flutter', NULL, 1, 1),
+(2, 1, 'Cheetah Lite', 'cheetah-lite', 'Courier software', NULL, 'Founder and lead developer', 'A lighter, courier-only edition of Cheetah.', 'The smaller Cheetah edition for businesses that only run courier deliveries.', NULL, 'https://cheetah-lite.ayan24.me', 'PHP, MySQL, JavaScript', NULL, 1, 2),
+(3, 1, 'Cheezify', 'cheezify', 'Online store', NULL, 'Founder and lead developer', 'Online cheese store with its own admin panel.', 'A complete online store and admin panel in plain PHP with a hand-built MVC structure.', NULL, 'https://cheezify.ayan24.me', 'PHP, MySQL, JavaScript', NULL, 1, 3),
+(4, 1, 'Sawi Store', 'sawi-store', 'Online store', NULL, 'Designer and developer', 'WordPress and WooCommerce online store built with Elementor.', 'An e-commerce website built on WordPress with Elementor and WooCommerce.', NULL, NULL, 'WordPress, Elementor, WooCommerce', NULL, 0, 4)
+ON DUPLICATE KEY UPDATE `title`=VALUES(`title`), `category`=VALUES(`category`), `role_in_project`=VALUES(`role_in_project`), `summary`=VALUES(`summary`), `description`=VALUES(`description`), `project_url`=VALUES(`project_url`), `tech_stack`=VALUES(`tech_stack`), `is_featured`=VALUES(`is_featured`);
+
+-- Blog: no made-up view counters
+UPDATE `posts` SET `views_count` = 0;

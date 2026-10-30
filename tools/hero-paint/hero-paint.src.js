@@ -19,9 +19,12 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
   const conn = navigator.connection || {};
   let glOk = false;
   try { const c = document.createElement('canvas'); glOk = !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) {}
-  if (!cp || !ct || !cg || !modelUrl || !glOk || conn.saveData) return fallback();
+  const spriteUrl = root.dataset.sprite, tipAttr = (root.dataset.tip || '').split(',').map(Number);
+  const mode = (m) => { root.dataset.mode = m; if (window.console && console.info) console.info('[hero-paint] mode:', m); };
+  if (!cp || !ct || !cg || !modelUrl || conn.saveData) { mode('poster'); return fallback(); }
 
-  const STATIC = matchMedia('(prefers-reduced-motion: reduce)').matches || root.dataset.static === '1';
+  // The painting always plays, like the rest of the site's motion. The pause button is the way to stop it.
+  const STATIC = root.dataset.static === '1';
   const EXT = { l: 0.22, r: 0.30, t: 0.24, b: 0.04 };   // the WebGL canvas is larger than the stage so the handle is never cut off
   const STOPS = [[123, 47, 247], [59, 107, 255], [20, 200, 255], [255, 60, 172], [255, 154, 46]];   // logo palette
   const DRAWT = 4.2, LIFT = 0.12, HOLD = 2.0, FADE = 0.5, LEAD = 0.7;
@@ -68,7 +71,7 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 
   let W = 0, H = 0, dpr = 1, glW = 0, glH = 0, ox = 0, oy = 0, K = 1;
   const px = cp.getContext('2d'), tx = ct.getContext('2d');
-  let renderer, camera, scene, holder, loaded = false, visible = false, pageOk = page.classList.contains('ready'), running = false, raf = 0, started = false;
+  let renderer, camera, scene, holder, cs, sx, spr, useSprite = false, paused = false, sp = { dz: 0 }, loaded = false, visible = false, pageOk = page.classList.contains('ready'), running = false, raf = 0, started = false;
   let clock = 0, last = 0, si = 0, drawn = [], st = { ph: 'lead', t: 0, from: { x: 0, y: 0 } }, trail = [], trailT = 0, touched = false;
   const tip = { x: 0, y: 0, vx: 0, vy: 0 };
 
@@ -106,7 +109,7 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
   function jump(i) {
     if (!loaded) return;
     setScene(i);
-    if (STATIC) { paintAll(); const e = endPt(); tip.x = e.x; tip.y = e.y; pose(0, 0, 0); draw(); }
+    if (STATIC || paused) { paintAll(); const e = endPt(); tip.x = e.x; tip.y = e.y; pose(0, 0, 0); draw(); }
     else { st = { ph: 'lead', t: 0, from: { x: tip.x, y: tip.y } }; if (!running) play(); }
   }
 
@@ -117,17 +120,25 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
     [cp, ct].forEach((c) => { c.width = W * dpr; c.height = H * dpr; });
     px.setTransform(dpr, 0, 0, dpr, 0, 0); tx.setTransform(dpr, 0, 0, dpr, 0, 0);
     glW = W * (1 + EXT.l + EXT.r); glH = H * (1 + EXT.t + EXT.b); ox = W * EXT.l; oy = H * EXT.t;
+    if (sx) { cs.width = glW * dpr; cs.height = glH * dpr; sx.setTransform(dpr, 0, 0, dpr, 0, 0); }
     if (renderer) { renderer.setPixelRatio(dpr); renderer.setSize(glW, glH, false); camera.left = -glW / 2; camera.right = glW / 2; camera.top = glH / 2; camera.bottom = -glH / 2; camera.updateProjectionMatrix(); }
     K = (W * (W < 460 ? 0.32 : 0.40)) / 1.102;   // brush length: 40% of the stage (32% on phones)
     repaint();
     if (STATIC && loaded) { const e = endPt(); tip.x = e.x; tip.y = e.y; pose(0, 0, 0); draw(); }
   }
   function pose(vx, vy, t) {
+    if (useSprite) { sp.dz = (W < 460 ? 0.25 : 0) + clamp(vx * 0.0004, -0.35, 0.35); return; }
     holder.position.set(tip.x + ox - glW / 2, -(tip.y + oy - glH / 2), 0);
     holder.scale.setScalar(K);
     holder.rotation.set(-0.28 + clamp(vy * 0.0002, -0.2, 0.2) + Math.sin(t * 1.1) * 0.03, Math.sin(t * 1.3) * 0.1 + clamp(vx * 0.0003, -0.3, 0.3), (W < 460 ? 2.75 : 2.5) + clamp(vx * 0.0004, -0.35, 0.35));
   }
-  const draw = () => renderer.render(scene, camera);
+  const draw = () => {
+    if (!useSprite) return renderer.render(scene, camera);
+    // 2D brush (used when WebGL is not available): the same brush, drawn from a picture
+    sx.clearRect(0, 0, glW, glH); sx.save(); sx.translate(tip.x + ox, tip.y + oy); sx.rotate(-sp.dz);
+    const k = (W / 520) * 0.5 * (W < 460 ? 0.8 : 1);
+    sx.drawImage(spr, -tipAttr[0] * k, -tipAttr[1] * k, spr.width * k, spr.height * k); sx.restore();
+  };
 
   function drawAt(sc, t) {
     const ss = sc.strokes; let set = false;
@@ -160,30 +171,44 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
     }
     draw(); raf = requestAnimationFrame(frame);
   }
-  function play() { if (!loaded || STATIC || running || !visible || !pageOk || document.hidden) return; running = true; last = 0; raf = requestAnimationFrame(frame); }
+  function play() { if (!loaded || STATIC || paused || running || !visible || !pageOk || document.hidden) return; running = true; last = 0; raf = requestAnimationFrame(frame); }
   const pause = () => { running = false; if (raf) cancelAnimationFrame(raf); raf = 0; };
 
+  function ready() {
+    loaded = true; fit(); setScene(0); root.classList.add('ready');
+    if (STATIC) { paintAll(); const e = endPt(); tip.x = e.x; tip.y = e.y; pose(0, 0, 0); draw(); }
+    else { tip.x = W * 1.1; tip.y = -H * 0.1; st = { ph: 'lead', t: 0, from: { x: tip.x, y: tip.y } }; pose(0, 0, 0); draw(); play(); }
+  }
+  function startSprite() {
+    if (!spriteUrl || tipAttr.length < 2 || isNaN(tipAttr[0])) { mode('poster'); return fallback(); }
+    spr = new Image();
+    spr.onload = () => {
+      cs = document.createElement('canvas'); cs.className = 'hp-gl'; cs.setAttribute('aria-hidden', 'true');
+      cg.parentNode.replaceChild(cs, cg); sx = cs.getContext('2d'); useSprite = true; mode('sprite'); ready();
+    };
+    spr.onerror = () => { mode('poster'); fallback(); };
+    spr.src = spriteUrl;
+  }
   function start() {
     started = true;
+    if (!glOk) return startSprite();
     try {
       renderer = new WebGLRenderer({ canvas: cg, alpha: true, antialias: true, powerPreference: 'high-performance' });
       renderer.setClearColor(0x000000, 0);
       scene = new Scene(); camera = new OrthographicCamera(-1, 1, 1, -1, -3000, 3000);
       scene.environment = new PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
       const key = new DirectionalLight(0xffffff, 1.2); key.position.set(-300, 500, 700); scene.add(key);
-    } catch (e) { return fallback(); }
+    } catch (e) { renderer = null; return startSprite(); }
     new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(modelUrl, (gltf) => {
       try {
         const brush = gltf.scene, box = new Box3().setFromObject(brush), c = box.getCenter(new Vector3());
         brush.position.sub(new Vector3(c.x, box.max.y, c.z));     // the bristle tip becomes the origin
         holder = new Group(); holder.add(brush); scene.add(holder);
         brush.traverse((o) => { if (o.isMesh) { const m = o.material; m.emissiveMap = m.map; m.emissive.setRGB(1, 1, 1); m.emissiveIntensity = 0.45; m.envMapIntensity = 0.8; m.roughness = Math.max(m.roughness, 0.25); m.needsUpdate = true; } });
-      } catch (e) { return fallback(); }
-      loaded = true; fit(); setScene(0); root.classList.add('ready');
-      if (STATIC) { paintAll(); const e = endPt(); tip.x = e.x; tip.y = e.y; pose(0, 0, 0); draw(); }
-      else { tip.x = W * 1.1; tip.y = -H * 0.1; st = { ph: 'lead', t: 0, from: { x: tip.x, y: tip.y } }; pose(0, 0, 0); draw(); play(); }
-    }, undefined, fallback);
-    cg.addEventListener('webglcontextlost', (e) => { e.preventDefault(); pause(); fallback(); });
+      } catch (e) { renderer = null; return startSprite(); }
+      mode('webgl'); ready();
+    }, undefined, () => { renderer = null; startSprite(); });
+    cg.addEventListener('webglcontextlost', (e) => { e.preventDefault(); pause(); loaded = false; renderer = null; startSprite(); });
   }
 
   // wait for the loading screen: the painting must start when the visitor can actually see it
@@ -196,6 +221,11 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
   new ResizeObserver(fit).observe(root);
   document.addEventListener('visibilitychange', () => (document.hidden ? pause() : play()));
   tabs.forEach((b, k) => b.addEventListener('click', () => jump(k)));
+  const pauseBtn = meta && meta.querySelector('.hp-pause');
+  if (pauseBtn) pauseBtn.addEventListener('click', () => {
+    paused = !paused; pauseBtn.setAttribute('aria-pressed', paused ? 'true' : 'false'); pauseBtn.setAttribute('aria-label', paused ? 'Play animation' : 'Pause animation');
+    if (paused) pause(); else play();
+  });
   if (!STATIC) {
     root.addEventListener('pointermove', (e) => {
       const r = root.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, q = trail[trail.length - 1];

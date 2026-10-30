@@ -1,14 +1,14 @@
 <?php
 /** @var Core\View $this */
-$this->layout('layouts/admin');
+$this->layout('layouts/admin', ['page_title' => 'Inquiries & Leads', 'meta_title' => 'Inquiries | Creatsify Admin']);
 $activeStatus = $activeStatus ?? null;
 $counts = $counts ?? ['all' => 0, 'new' => 0, 'in_discussion' => 0, 'converted' => 0, 'closed' => 0];
 ?>
 
 <div class="content-header">
     <div>
-        <h1 class="page-title">Client Inquiries & Project Leads</h1>
-        <p class="page-subtitle">Inbound consultation requests, enterprise quotations, and product inquiries.</p>
+        <h1 class="page-title">Client Inquiries & Leads</h1>
+        <p class="page-subtitle">Inbound consultation requests, enterprise quotations, and direct client leads.</p>
     </div>
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px;">
@@ -19,7 +19,6 @@ $counts = $counts ?? ['all' => 0, 'new' => 0, 'in_discussion' => 0, 'converted' 
 </div>
 
 <div class="card">
-    <!-- Filter Tabs -->
     <div class="crm-filter-bar">
         <div class="crm-filter-pills">
             <a href="<?= url('/admin/inquiries') ?>" class="crm-filter-pill <?= empty($activeStatus) ? 'active' : '' ?>">

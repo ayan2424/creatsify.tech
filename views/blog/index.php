@@ -12,13 +12,13 @@ $this->layout('layouts/main');
 
 <section class="section">
     <div class="wrap">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 30px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px;">
             <?php foreach ($posts as $post): ?>
                 <article class="post-card" style="background: var(--surface); border-radius: 14px; border: 1px solid var(--line); overflow: hidden; display: flex; flex-direction: column;">
                     <div style="padding: 30px; display: flex; flex-direction: column; flex-grow: 1;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 13px; color: var(--muted);">
                             <span class="stack-chip" style="color: var(--accent);"><?= e($post['category']) ?></span>
-                            <span><?= date('M j, Y', strtotime($post['published_at'])) ?> &bull; <?= (int)$post['views_count'] ?> views</span>
+                            <span><?= date('M j, Y', strtotime($post['published_at'])) ?></span>
                         </div>
 
                         <h3 style="font-size: 20px; color: var(--text); margin-top: 0; line-height: 1.4;">

@@ -122,18 +122,24 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
         ['Ads', 'Ad creatives that bring customers in.'],
     ];
 ?>
-    <div class="hp" id="hp" data-model="<?= asset('models/brush.glb') ?>">
-        <img class="hp-poster" src="<?= asset('images/hero-paint-poster.webp') ?>" width="900" height="758" alt="A paintbrush painting a website layout in purple, blue, pink and orange">
+    <div class="hp" id="hp" data-model="<?= asset_v('models/brush.glb') ?>" data-sprite="<?= asset_v('images/hero-brush.webp') ?>" data-tip="18.6,326.8">
+        <img class="hp-poster" src="<?= asset_v('images/hero-paint-poster.webp') ?>" width="900" height="758" alt="A paintbrush painting a website layout in purple, blue, pink and orange">
         <canvas class="hp-paint" aria-hidden="true"></canvas>
         <canvas class="hp-trail" aria-hidden="true"></canvas>
         <canvas class="hp-gl" aria-hidden="true"></canvas>
     </div>
     <div class="hp-meta" id="hpMeta">
         <p class="hp-cap" aria-live="polite"><?= e($makes[0][1]) ?></p>
-        <div class="hp-tabs" role="tablist" aria-label="What we make">
-            <?php foreach ($makes as $k => $mk): ?>
-                <button type="button" class="hp-tab<?= $k === 0 ? ' on' : '' ?>" role="tab" aria-selected="<?= $k === 0 ? 'true' : 'false' ?>" data-cap="<?= e($mk[1]) ?>"><?= e($mk[0]) ?></button>
-            <?php endforeach; ?>
+        <div class="hp-row">
+            <div class="hp-tabs" role="tablist" aria-label="What we make">
+                <?php foreach ($makes as $k => $mk): ?>
+                    <button type="button" class="hp-tab<?= $k === 0 ? ' on' : '' ?>" role="tab" aria-selected="<?= $k === 0 ? 'true' : 'false' ?>" data-cap="<?= e($mk[1]) ?>"><?= e($mk[0]) ?></button>
+                <?php endforeach; ?>
+            </div>
+            <button type="button" class="hp-pause" aria-pressed="false" aria-label="Pause animation" title="Pause or play">
+                <svg class="i-pause" width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><rect x="2" y="1" width="3" height="10" rx="1"/><rect x="7" y="1" width="3" height="10" rx="1"/></svg>
+                <svg class="i-play" width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.5v9l7.5-4.5z"/></svg>
+            </button>
         </div>
         <a class="hp-more" href="#products">See what we have built &darr;</a>
     </div>
@@ -209,7 +215,11 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
                     <div class="chips"><?php foreach ($tech as $t): ?><span><?= e($t) ?></span><?php endforeach; ?></div>
                     <div class="prod-actions">
                         <?php if ($hasLive): ?><a class="btn p" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">Open live demo</a><?php endif; ?>
-                        <a class="btn" href="#contact" data-quote="<?= e($pr['title']) ?>">Get a quote</a>
+                        <?php if (!empty($pr['gumroad_url'])): ?>
+                            <a class="btn" href="<?= e($pr['gumroad_url']) ?>" target="_blank" rel="noopener noreferrer">Buy<?= !empty($pr['price']) ? ' (' . e($pr['price']) . ')' : '' ?></a>
+                        <?php else: ?>
+                            <a class="btn" href="#contact" data-quote="<?= e($pr['title']) ?>">Get a quote</a>
+                        <?php endif; ?>
                         <a class="prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">Details &rarr;</a>
                     </div>
                 </div>
@@ -398,5 +408,5 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
 </div></section>
 
 <?php if ($hasPaint): ?>
-<script src="<?= asset('js/hero-paint.js') ?>?v=1" defer></script>
+<script src="<?= asset_v('js/hero-paint.js') ?>" defer></script>
 <?php endif; ?>

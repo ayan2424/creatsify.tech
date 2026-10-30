@@ -11,16 +11,16 @@ $s = $settings['sms'] ?? [];
 $code = $settings['custom_code'] ?? [];
 ?>
 
-<div class="content-header">
-    <div>
-        <h1 class="page-title">Platform Settings & Configuration</h1>
-        <p class="page-subtitle">Configure themes, API gateways, SMTP servers, brand identities, and custom code.</p>
-    </div>
-</div>
-
 <div class="card">
+    <div class="card-header">
+        <div>
+            <h3 class="card-title">Platform Settings & Customization Desk</h3>
+            <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Configure themes, API gateways, SMTP servers, brand identities, and custom code.</p>
+        </div>
+    </div>
+
     <!-- Tab Navigation -->
-    <div class="crm-filter-pills" style="margin-bottom: 26px; overflow-x: auto; padding-bottom: 8px;">
+    <div class="crm-filter-pills" style="margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px;">
         <a href="<?= url('/admin/settings?tab=general') ?>" class="crm-filter-pill <?= $tab === 'general' ? 'active' : '' ?>">General</a>
         <a href="<?= url('/admin/settings?tab=appearance') ?>" class="crm-filter-pill <?= $tab === 'appearance' ? 'active' : '' ?>">Theme & Appearance</a>
         <a href="<?= url('/admin/settings?tab=founder') ?>" class="crm-filter-pill <?= $tab === 'founder' ? 'active' : '' ?>">Founder Identity</a>

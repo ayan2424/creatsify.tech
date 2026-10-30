@@ -1,6 +1,6 @@
 <?php
 /** @var Core\View $this */
-$this->layout('layouts/admin');
+$this->layout('layouts/admin', ['page_title' => 'Media Library', 'meta_title' => 'Media Library | Creatsify Admin']);
 
 $totalCount = count($media ?? []);
 $totalSizeBytes = array_sum(array_column($media ?? [], 'file_size'));
@@ -10,11 +10,11 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
 <div class="content-header">
     <div>
         <h1 class="page-title">Media Library & Brand Assets</h1>
-        <p class="page-subtitle">Central asset repository with drag & drop uploads and 1-click clipboard links.</p>
+        <p class="page-subtitle">Central asset repository with drag &amp; drop uploads, instant previews, and 1-click clipboard URLs.</p>
     </div>
-    <div style="display: flex; align-items: center; gap: 12px; font-size: 12.5px;">
+    <div style="display: flex; align-items: center; gap: 10px; font-size: 12px; flex-wrap: wrap;">
         <span class="user-role-badge" style="background: rgba(139,123,255,0.15); color: var(--adm-accent); font-weight: 700; padding: 6px 12px; border-radius: 8px;"><?= $totalCount ?> Assets</span>
-        <span class="user-role-badge" style="background: var(--adm-surface); color: var(--adm-muted); padding: 6px 12px; border-radius: 8px;"><?= $totalMb ?> MB Total Storage</span>
+        <span class="user-role-badge" style="padding: 6px 12px; border-radius: 8px;"><?= $totalMb ?> MB Storage</span>
     </div>
 </div>
 

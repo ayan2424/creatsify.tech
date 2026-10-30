@@ -14,7 +14,6 @@ $icon = asset(setting('site_icon', 'brand/creatsify-icon.png'));
             <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
                 <a href="<?= url('/portfolio') ?>">Software</a>
                 <a href="<?= url('/services') ?>">Services</a>
-                <a href="<?= url('/team') ?>">Team</a>
                 <a href="<?= url('/about') ?>">About</a>
                 <a href="<?= url('/blog') ?>">Blog</a>
                 <a href="<?= url('/support') ?>">Customer Support</a>

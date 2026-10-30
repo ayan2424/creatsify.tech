@@ -4,48 +4,57 @@ $this->layout('layouts/main');
 ?>
 <section class="page-hero">
     <div class="wrap">
-        <span class="section-tag">Studio & Founder</span>
+        <span class="section-tag">About</span>
         <h1 class="page-title">About Creatsify</h1>
-        <p class="page-lead">We are an independent software development studio, dedicated to engineering robust, high-performance web systems, SaaS platforms, and mobile apps.</p>
+        <p class="page-lead">Creatsify is a small software studio. We build and sell ready-made courier and online store software, and we build custom websites and admin panels for businesses.</p>
     </div>
 </section>
 
 <section class="section">
     <div class="wrap">
         <div class="about-page-grid">
-            <div style="background: var(--surface); padding: 45px; border-radius: 14px; border: 1px solid var(--line); font-size: 16px; line-height: 1.8; color: var(--muted);">
-                <h2 style="color: var(--text); font-size: 26px; margin-top: 0;">Built by Engineers, Designed for Scale</h2>
+            <div class="pg-card pg-prose">
+                <h2>Built to be understood, hosted and owned</h2>
                 <p>
-                    <?= e(setting('site_name', 'Creatsify')) ?> was founded by <strong><?= e(setting('founder_name', 'Muhammad Ayan Shamim')) ?></strong>, a software engineer specializing in scalable application architectures. Frustrated by the sluggish performance and vulnerability overhead of heavy off-the-shelf platforms, we build software grounded in clean architecture, normalized relational schemas, and direct execution speed.
+                    <?= e(setting('site_name', 'Creatsify')) ?> was founded by <strong><?= e(setting('founder_name', 'Muhammad Ayan Shamim')) ?></strong>.
+                    We write software in plain PHP and MySQL with a clean MVC structure, so it stays fast, easy to read and easy to host almost anywhere.
                 </p>
 
-                <h3 style="color: var(--text); font-size: 20px; margin-top: 35px;">Our Philosophy</h3>
-                <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
-                    <li><strong style="color: var(--text);">Zero Bloat:</strong> We favor tailored, highly optimized native MVC cores over megabytes of unused framework boilerplate.</li>
-                    <li><strong style="color: var(--text);">Production Proven:</strong> From our 78-table Cheetah courier suite to white-label restaurant ordering engines, everything we ship runs in real commercial operations.</li>
-                    <li><strong style="color: var(--text);">Omnichannel Communication:</strong> We integrate first-party live chat engines, WhatsApp Cloud API v21.0, and SMS gateways directly into software systems.</li>
+                <h3>How we work</h3>
+                <ul>
+                    <li><strong>No framework bloat.</strong> A small, tidy codebase instead of megabytes of code you never use.</li>
+                    <li><strong>Proven by use.</strong> Cheetah and Cheezify both have live demos you can click through before you decide.</li>
+                    <li><strong>Messaging built in.</strong> Live chat, WhatsApp Cloud API and SMS alerts are part of the software, not add-ons.</li>
                 </ul>
 
-                <h3 style="color: var(--text); font-size: 20px; margin-top: 35px;">Global Reach</h3>
+                <h3>Who we work with</h3>
                 <p>
-                    Our white-label software products are licensed directly through our official Gumroad store with 100% source code ownership and direct in-house technical support. We also partner one-on-one with enterprise clients across North America, the UK and the Middle East.
+                    Our software is licensed directly, with full source code and white-label rights. We also work one-on-one with businesses across North America, the UK and the Middle East on custom projects.
                 </p>
             </div>
 
             <div>
-                <div style="background: var(--surface); padding: 35px; border-radius: 14px; border: 1px solid var(--line); text-align: center;">
-                    <img src="<?= asset(setting('founder_avatar', 'brand/creatsify-icon.png')) ?>" alt="<?= e(setting('founder_name', 'Founder')) ?>" width="96" height="96" style="border-radius: 50%; border: 2px solid var(--accent); margin-bottom: 20px;">
-                    <h3 style="margin: 0; color: var(--text); font-size: 20px;"><?= e(setting('founder_name', 'Muhammad Ayan Shamim')) ?></h3>
-                    <p style="color: var(--accent); font-size: 14px; margin: 5px 0 20px;"><?= e(setting('founder_title', 'Founder & Lead Architect')) ?></p>
-                    <p style="color: var(--muted); font-size: 14px; line-height: 1.6; text-align: left;">
-                        <?= e(setting('founder_bio', 'Specializes in custom PHP MVC cores, high-performance web systems, Flutter mobile applications, and relational database architecture.')) ?>
-                    </p>
-
-                    <div style="margin-top: 25px; display: flex; flex-direction: column; gap: 10px;">
-                        <a href="<?= e(setting('founder_github', 'https://github.com/ayan2424')) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-block">GitHub Profile &rarr;</a>
+                <div class="pg-card pg-founder">
+                    <img src="<?= asset(setting('founder_avatar', 'brand/creatsify-icon.png')) ?>" alt="<?= e(setting('founder_name', 'Founder')) ?>" width="96" height="96">
+                    <h3><?= e(setting('founder_name', 'Muhammad Ayan Shamim')) ?></h3>
+                    <p class="pg-role"><?= e(setting('founder_title', 'Founder & Lead Architect')) ?></p>
+                    <p class="pg-bio"><?= e(setting('founder_bio', 'Builds courier software, online stores and custom admin panels in PHP and MySQL.')) ?></p>
+                    <div class="pg-links">
+                        <a href="<?= e(setting('founder_github', 'https://github.com/ayan2424')) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-block">GitHub profile &rarr;</a>
                         <a href="<?= e(setting('founder_linkedin', 'https://linkedin.com/in/muhammadayanshamim')) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-block">LinkedIn &rarr;</a>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="pg-cta">
+            <div>
+                <h3>See it in action, or tell us what you need</h3>
+                <p>Open a live demo, or send a short message. We reply with a plan and a price.</p>
+            </div>
+            <div class="pg-cta-btns">
+                <a class="btn p" href="<?= url('/portfolio') ?>">Browse the software</a>
+                <a class="btn" href="<?= url('/contact') ?>">Start a project</a>
             </div>
         </div>
     </div>

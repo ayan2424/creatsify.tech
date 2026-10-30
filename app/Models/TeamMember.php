@@ -24,33 +24,31 @@ class TeamMember
             db()->query("SELECT 1 FROM `team_members` LIMIT 1");
         } catch (\Throwable $e) {
             // Auto-create table if missing
-            try {
-                db()->query("
-                    CREATE TABLE IF NOT EXISTS `team_members` (
-                        `id` INT AUTO_INCREMENT PRIMARY KEY,
-                        `name` VARCHAR(150) NOT NULL,
-                        `slug` VARCHAR(150) NOT NULL UNIQUE,
-                        `role_title` VARCHAR(150) NOT NULL,
-                        `bio` TEXT NULL,
-                        `avatar` VARCHAR(255) NULL,
-                        `skills` VARCHAR(255) NULL,
-                        `github_url` VARCHAR(255) NULL,
-                        `linkedin_url` VARCHAR(255) NULL,
-                        `portfolio_url` VARCHAR(255) NULL,
-                        `email` VARCHAR(150) NULL,
-                        `phone` VARCHAR(50) NULL,
-                        `sort_order` INT DEFAULT 0,
-                        `is_active` TINYINT(1) DEFAULT 1,
-                        `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-                        `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                        INDEX `idx_team_slug` (`slug`),
-                        INDEX `idx_team_active` (`is_active`)
-                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-                ");
+            db()->query("
+                CREATE TABLE IF NOT EXISTS `team_members` (
+                    `id` INT AUTO_INCREMENT PRIMARY KEY,
+                    `name` VARCHAR(150) NOT NULL,
+                    `slug` VARCHAR(150) NOT NULL UNIQUE,
+                    `role_title` VARCHAR(150) NOT NULL,
+                    `bio` TEXT NULL,
+                    `avatar` VARCHAR(255) NULL,
+                    `skills` VARCHAR(255) NULL,
+                    `github_url` VARCHAR(255) NULL,
+                    `linkedin_url` VARCHAR(255) NULL,
+                    `portfolio_url` VARCHAR(255) NULL,
+                    `email` VARCHAR(150) NULL,
+                    `phone` VARCHAR(50) NULL,
+                    `sort_order` INT DEFAULT 0,
+                    `is_active` TINYINT(1) DEFAULT 1,
+                    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    INDEX `idx_team_slug` (`slug`),
+                    INDEX `idx_team_active` (`is_active`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            ");
 
-                // Seed default founder & core teammates if table is freshly created
-                self::seedDefaults();
-            } catch (\Throwable $e2) {}
+            // Seed default founder & core teammates if table is freshly created
+            self::seedDefaults();
         }
     }
 
@@ -61,7 +59,7 @@ class TeamMember
             if ($count === 0) {
                 db()->query("
                     INSERT INTO `team_members` (`id`, `name`, `slug`, `role_title`, `bio`, `avatar`, `skills`, `github_url`, `linkedin_url`, `portfolio_url`, `email`, `sort_order`, `is_active`) VALUES
-                    (1, 'Muhammad Ayan Shamim', 'ayan-shamim', 'Founder & Lead Full-Stack Architect', 'Founder of Creatsify. ACCP AI student at Aptech Karachi. Specializes in building mission-critical courier platforms, multi-tenant SaaS backends, and full-stack software architectures.', '/assets/brand/creatsify-icon.png', 'PHP, Laravel, Python, React, Next.js, MySQL, Redis, Docker', 'https://github.com/ayan2424', 'https://linkedin.com/in/muhammadayanshamim', 'https://creatsify.tech', 'ayan@creatsify.tech', 1, 1),
+                    (1, 'Muhammad Ayan Shamim', 'ayan-shamim', 'Founder & Lead Full-Stack Architect', 'Founder of Creatsify. ACCP AI student at Aptech. Specializes in building mission-critical courier platforms, multi-tenant SaaS backends, and full-stack software architectures.', '/assets/brand/creatsify-icon.png', 'PHP, Laravel, Python, React, Next.js, MySQL, Redis, Docker', 'https://github.com/ayan2424', 'https://linkedin.com/in/muhammadayanshamim', 'https://creatsify.tech', 'ayan@creatsify.tech', 1, 1),
                     (2, 'Bilal Ahmed', 'bilal-ahmed', 'Senior UI/UX & Design Systems Lead', 'Creative design architect with 4+ years of experience crafting high-conversion design systems, SaaS dashboards, and immersive micro-interactions.', '/assets/brand/creatsify-icon.png', 'Figma, UI/UX, Design Systems, Tailwind CSS, Interaction Design, Framer', 'https://github.com', 'https://linkedin.com', 'https://dribbble.com', 'bilal@creatsify.tech', 2, 1),
                     (3, 'Hamza Malik', 'hamza-malik', 'Mobile Apps & Flutter Specialist', 'Cross-platform mobile developer dedicated to building fluid, 60fps native iOS and Android apps with robust offline sync and clean state architectures.', '/assets/brand/creatsify-icon.png', 'Flutter, Dart, Android, iOS, REST APIs, Firebase, SQLite', 'https://github.com', 'https://linkedin.com', 'https://github.com', 'hamza@creatsify.tech', 3, 1)
                 ");
@@ -132,22 +130,9 @@ class TeamMember
     public static function delete(int $id): int
     {
         self::ensureTableExists();
-        db()->beginTransaction();
-        try {
-            // Also delete member portfolios
-            db()->delete('member_portfolios', '`member_id` = :m', ['m' => $id]);
-            // Remove from agency project assignments
-            try {
-                db()->delete('agency_project_members', '`team_member_id` = :m', ['m' => $id]);
-                db()->update('agency_project_tasks', ['assigned_team_member_id' => null], '`assigned_team_member_id` = :m', ['m' => $id]);
-            } catch (\Throwable $ignored) {}
-            $res = db()->delete('team_members', '`id` = :id', ['id' => $id]);
-            db()->commit();
-            return $res;
-        } catch (\Throwable $e) {
-            db()->rollback();
-            throw $e;
-        }
+        // Also delete member portfolios
+        db()->delete('member_portfolios', '`member_id` = :m', ['m' => $id]);
+        return db()->delete('team_members', '`id` = :id', ['id' => $id]);
     }
 
     public static function portfolios(int $memberId): array

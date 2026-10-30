@@ -1,18 +1,18 @@
 <?php
 /** @var Core\View $this */
-$this->layout('layouts/admin');
+$this->layout('layouts/admin', ['page_title' => 'Team & Portfolios', 'meta_title' => 'Team | Creatsify Admin']);
 ?>
 
 <div class="content-header">
     <div>
         <h1 class="page-title">Agency Creators & Team Portfolios</h1>
-        <p class="page-subtitle">Manage agency staff, specialists, and individual team member showcases.</p>
+        <p class="page-subtitle">Manage agency staff, specialists, skills, bio, and individual showcases.</p>
     </div>
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <a href="<?= url('/team') ?>" target="_blank" class="btn btn-secondary" style="min-height: 40px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px;">
-            <span>View Public Team &nearr;</span>
+        <a href="<?= url('/team') ?>" target="_blank" class="btn btn-secondary" style="min-height: 40px; padding: 8px 16px; display: inline-flex; align-items: center; gap: 6px;">
+            <span>Public Team &nearr;</span>
         </a>
-        <a href="<?= url('/admin/team/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 16px;">
+        <a href="<?= url('/admin/team/create') ?>" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 18px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span>Add Team Member</span>
         </a>

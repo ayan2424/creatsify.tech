@@ -16,14 +16,14 @@ $this->layout('layouts/main');
             <a class="contact-path" href="#inquiry-form">
                 <span class="section-tag">01 · Build with us</span>
                 <h2>Custom project or agency service</h2>
-                <p>Website, web app, mobile product, AI automation, e-commerce, design, or an ongoing delivery team.</p>
+                <p>A website, admin panel, online store, a change to one of our products, or an ongoing delivery team.</p>
                 <span>Start a project brief &rarr;</span>
             </a>
             <a class="contact-path" href="<?= url('/portfolio') ?>">
                 <span class="section-tag">02 · Explore software</span>
                 <h2>Ready-made products &amp; licensing</h2>
                 <p>Browse production software first, then use the form below for demos, licensing, or a fit discussion.</p>
-                <span>Explore the catalog &rarr;</span>
+                <span>See the software &rarr;</span>
             </a>
             <a class="contact-path contact-path-support" href="<?= url('/support') ?>">
                 <span class="section-tag">Already a customer?</span>

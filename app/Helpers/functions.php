@@ -130,6 +130,18 @@ if (!function_exists('e')) {
     }
 }
 
+if (!function_exists('asset_v')) {
+    /**
+     * Asset URL with the file's modification time as ?v=, so browsers always load the newest CSS, JS and models.
+     */
+    function asset_v(string $path): string
+    {
+        $file = dirname(__DIR__, 2) . '/public/assets/' . ltrim(preg_replace('#^/?assets/#', '', str_replace('\\', '/', $path)), '/');
+        $version = is_file($file) ? filemtime($file) : 1;
+        return asset($path) . '?v=' . $version;
+    }
+}
+
 if (!function_exists('csrf_token')) {
     function csrf_token(): string
     {
@@ -243,16 +255,15 @@ if (!function_exists('clean_phone_number')) {
         if (empty($phone)) {
             return '';
         }
-        $digits = preg_replace('/\D/', '', (string)$phone);
-        if ($digits === '') {
-            return '';
+        $cleaned = preg_replace('/[^\d+]/', '', (string)$phone);
+
+        if (str_starts_with($cleaned, '+')) {
+            $cleaned = substr($cleaned, 1);
+        } elseif (str_starts_with($cleaned, '00')) {
+            $cleaned = substr($cleaned, 2);
         }
 
-        if (str_starts_with($digits, '00')) {
-            $digits = substr($digits, 2);
-        }
-
-        return $withPlus ? '+' . $digits : $digits;
+        return $withPlus ? '+' . $cleaned : $cleaned;
     }
 }
 
