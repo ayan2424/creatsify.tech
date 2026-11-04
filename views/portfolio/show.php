@@ -30,7 +30,7 @@ $host = $hasLive ? (parse_url($live, PHP_URL_HOST) ?: 'creatsify.tech') : 'creat
             <?php if (!empty($project['gumroad_url'])): ?>
                 <a class="btn p" href="<?= e($project['gumroad_url']) ?>" target="_blank" rel="noopener">Buy<?= !empty($project['price']) ? ' (' . e($project['price']) . ')' : '' ?> &rarr;</a>
             <?php elseif ($forSale): ?>
-                <a class="btn p" href="<?= url('/contact?t=' . urlencode($project['title'])) ?>">Get a quote</a>
+                <a class="btn p" href="<?= url('/contact?kind=software_presale&offering=' . urlencode($project['title'])) . '#inquiry-form' ?>">Get a quote</a>
             <?php endif; ?>
         </div>
     </div>

@@ -55,7 +55,24 @@ class SupportController
             return $this->successResponse($isApi, 'Support ticket received.');
         }
 
-        $name = $this->limit((string)$request->input('name', ''), 120);
+        // Flood / Rate Limiting (max 5 submissions per 10 minutes per IP)
+        $rateKey = 'support_rl_' . md5($request->getIp());
+        $now = time();
+        $history = session()->get($rateKey, []);
+        if (is_array($history)) {
+            $history = array_filter($history, static fn($ts) => ($now - (int)$ts) < 600);
+            if (count($history) >= 5) {
+                if ($isApi) {
+                    return Response::json(['success' => false, 'error' => 'Too many submissions. Please wait a few minutes before submitting another ticket.'], 429);
+                }
+                flash('error', 'Too many submissions. Please wait a few minutes before submitting another ticket.');
+                return Response::redirect('/support');
+            }
+            $history[] = $now;
+            session()->set($rateKey, $history);
+        }
+
+        $name = htmlspecialchars(strip_tags($this->limit((string)$request->input('name', ''), 120)), ENT_QUOTES, 'UTF-8');
         $email = $this->limit((string)$request->input('email', ''), 150);
         $company = $this->limit((string)$request->input('company', ''), 150);
         $whatsapp = $this->limit((string)$request->input('whatsapp', $request->input('phone', '')), 50);

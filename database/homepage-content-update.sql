@@ -35,9 +35,8 @@ INSERT INTO `services` (`title`, `slug`, `icon`, `short_description`, `full_desc
 ('WhatsApp and SMS alerts', 'whatsapp-sms-alerts', 'smartphone', 'Order and shipment updates sent through the WhatsApp Cloud API and SMS.', 'Order and shipment updates sent to your customers through the WhatsApp Cloud API and SMS.', 'WhatsApp Cloud API setup, SMS alerts, Webhooks, Message templates', 4, 1)
 ON DUPLICATE KEY UPDATE `title`=VALUES(`title`), `icon`=VALUES(`icon`), `short_description`=VALUES(`short_description`), `full_description`=VALUES(`full_description`), `deliverables`=VALUES(`deliverables`), `sort_order`=VALUES(`sort_order`), `is_active`=1;
 
--- Team page: keep only the founder; the founder's portfolio lists the real projects
-UPDATE `team_members` SET `is_active` = 0 WHERE `id` <> 1;
-DELETE FROM `member_portfolios` WHERE `member_id` <> 1 OR `slug` NOT IN ('cheetah-enterprise','cheetah-lite','cheezify','sawi-store');
+-- Founder portfolio: list the real projects (the other team members are left as they are)
+DELETE FROM `member_portfolios` WHERE `member_id` = 1 AND `slug` NOT IN ('cheetah-enterprise','cheetah-lite','cheezify','sawi-store');
 INSERT INTO `member_portfolios` (`id`, `member_id`, `title`, `slug`, `category`, `client`, `role_in_project`, `summary`, `description`, `image_url`, `project_url`, `tech_stack`, `completion_date`, `is_featured`, `sort_order`) VALUES
 (1, 1, 'Cheetah Enterprise', 'cheetah-enterprise', 'Courier software', NULL, 'Founder and lead developer', 'Courier, warehouse and multi-branch logistics platform with 7 role portals.', 'Designed and built end to end: branch management, rider assignment, merchant portals, live tracking and proof of delivery.', NULL, 'https://cheetah.ayan24.me', 'PHP, MySQL, JavaScript, Flutter', NULL, 1, 1),
 (2, 1, 'Cheetah Lite', 'cheetah-lite', 'Courier software', NULL, 'Founder and lead developer', 'A lighter, courier-only edition of Cheetah.', 'The smaller Cheetah edition for businesses that only run courier deliveries.', NULL, 'https://cheetah-lite.ayan24.me', 'PHP, MySQL, JavaScript', NULL, 1, 2),
@@ -47,3 +46,11 @@ ON DUPLICATE KEY UPDATE `title`=VALUES(`title`), `category`=VALUES(`category`), 
 
 -- Blog: no made-up view counters
 UPDATE `posts` SET `views_count` = 0;
+
+-- Browser tab title
+INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES ('site_title', 'Creatsify | Courier and store software, custom websites and admin panels', 'general')
+ON DUPLICATE KEY UPDATE `value`=VALUES(`value`);
+
+-- Brand colour (Midnight Gold). The old purple default would otherwise override the new brand colours.
+INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES ('primary_accent', '#2563EB', 'appearance')
+ON DUPLICATE KEY UPDATE `value`=VALUES(`value`);

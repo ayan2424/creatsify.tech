@@ -16,7 +16,7 @@ $success = null;
 
 // 1. Check if already installed (allow step 4 completion screen)
 if (file_exists($lockFile) && $step !== 4) {
-    die('<!DOCTYPE html><html><head><title>Creatsify - Already Installed</title><style>body{background:#07080d;color:#eef0f7;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;}div{background:#12131b;border:1px solid #252736;padding:40px;border-radius:12px;text-align:center;max-width:450px;}h2{color:#8b7bff;}a{color:#8b7bff;text-decoration:none;font-weight:bold;}</style></head><body><div><h2>Platform Installed</h2><p>Creatsify Studio is already configured. To re-run the installer, remove the file <code>storage/installed.lock</code>.</p><p><a href="/">Visit Website &rarr;</a> &bull; <a href="/admin">Admin Desk &rarr;</a></p></div></body></html>');
+    die('<!DOCTYPE html><html><head><title>Creatsify - Already Installed</title><style>body{background:#0A1A33;color:#F1F5F9;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;}div{background:#0F2447;border:1px solid #1E3A5F;padding:40px;border-radius:12px;text-align:center;max-width:450px;}h2{color:#2563EB;}a{color:#2563EB;text-decoration:none;font-weight:bold;}</style></head><body><div><h2>Platform Installed</h2><p>Creatsify Studio is already configured. To re-run the installer, remove the file <code>storage/installed.lock</code>.</p><p><a href="/">Visit Website &rarr;</a> &bull; <a href="/admin">Admin Desk &rarr;</a></p></div></body></html>');
 }
 
 // Handle Form Submissions
@@ -192,13 +192,12 @@ $allPassed = !in_array(false, $reqs, true);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creatsify Studio - 1-Click Web Installer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #07080d; --surface: #12131b; --line: #252736; --text: #eef0f7; --muted: #a3a7bb; --accent: #8b7bff; }
+        :root { --bg: #0A1A33; --surface: #0F2447; --line: #1E3A5F; --text: #F1F5F9; --muted: #A3B2C7; --accent: #2563EB; --cta: #D4A017; --on-cta: #0A1A33; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        body { font-family: Sora, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .wizard-card { width: 100%; max-width: 580px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
-        h1 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; margin-bottom: 6px; }
+        h1 { font-family: Sora, sans-serif; font-size: 24px; margin-bottom: 6px; }
         .steps { display: flex; gap: 8px; margin: 24px 0; }
         .step-pill { flex: 1; height: 4px; background: var(--line); border-radius: 2px; }
         .step-pill.active { background: var(--accent); }
@@ -206,7 +205,8 @@ $allPassed = !in_array(false, $reqs, true);
         label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
         .form-control, input, select { width: 100%; padding: 10px 14px; border-radius: 8px; background: #090a10; border: 1px solid var(--line); color: var(--text); font-size: 14px; outline: none; }
         .form-control:focus, input:focus, select:focus { border-color: var(--accent); }
-        .btn { display: inline-block; width: 100%; padding: 12px; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 600; text-align: center; border: none; cursor: pointer; text-decoration: none; font-size: 14px; }
+        .btn { display: inline-block; width: 100%; padding: 12px; border-radius: 8px; background: var(--cta); color: var(--on-cta); font-weight: 700; text-align: center; border: none; cursor: pointer; text-decoration: none; font-size: 14px; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.92; }
         .alert { padding: 12px 16px; border-radius: 8px; font-size: 13.5px; margin-bottom: 20px; }
         .alert-danger { background: rgba(255,77,109,0.15); color: #ff4d6d; border: 1px solid rgba(255,77,109,0.3); }
         .req-list { list-style: none; margin: 20px 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }

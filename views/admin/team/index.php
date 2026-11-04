@@ -84,7 +84,7 @@ $this->layout('layouts/admin', ['page_title' => 'Team & Portfolios', 'meta_title
                             <td>
                                 <form action="<?= url('/admin/team/' . $m['id'] . '/toggle') ?>" method="POST" style="margin: 0;">
                                     <?= csrf_field() ?>
-                                    <button type="submit" class="btn btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 12px; <?= $m['is_active'] ? 'background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;' : 'background: rgba(163, 167, 187, 0.12); color: #a3a7bb; border: 1px solid var(--line);' ?>" title="Click to toggle member active status">
+                                    <button type="submit" class="btn btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 12px; <?= $m['is_active'] ? 'background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;' : 'background: rgba(163,178,199,0.12); color: #A3B2C7; border: 1px solid var(--line);' ?>" title="Click to toggle member active status">
                                         <?php if ($m['is_active']): ?>
                                             <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
                                             <span>Active</span>

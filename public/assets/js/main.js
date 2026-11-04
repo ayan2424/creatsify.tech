@@ -33,7 +33,9 @@ const lk=links=>(Array.isArray(links)?links:[]).map(([title,href])=>{
   return `<a class="more" href="${escapeHtml(safeUrl)}"${safeUrl.startsWith('http')?' target="_blank" rel="noopener noreferrer"':''}>${escapeHtml(title)} <span aria-hidden="true">→</span></a>`;
 }).join('');
 /* build content */
-const featuredP = P.slice(0, 4);
+// The software that is for sale already has its own section; this stack shows the other work.
+const featuredP = P.filter(p => p[2] !== 'For sale').slice(0, 4);
+if (!featuredP.length) { const w = document.getElementById('work'); if (w) w.remove(); }
 if($('#pjs')) {
   let cardsHtml = featuredP.map((p,i)=>{const tech=Array.isArray(p[4])?p[4]:[];return `<article class="pj" style="--top:${86+i*14}px"><div class="pj-in" data-cur="View"><div class="pjt"><span class="pjn" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="pjw"><div class="st" style="--k:0"><i></i>${escapeHtml(p[2])}</div><h3 style="--k:1">${escapeHtml(p[0])}</h3><p style="--k:2">${escapeHtml(p[3])}</p><div class="chips" style="--k:3">${tech.map(item=>`<span>${escapeHtml(item)}</span>`).join('')}</div><div class="links" style="--k:4">${lk(p[6])}</div></div></div><div class="pjm"><img alt="${escapeHtml(p[0])} preview" loading="lazy"><span class="fch a">${escapeHtml(tech[0])}</span>${tech[1]?`<span class="fch b">${escapeHtml(tech[1])}</span>`:''}</div><div class="ov"></div></div></article>`;}).join('');
   cardsHtml += `<div class="portfolio-gateway-card rv" style="--d:.2s;"><div class="gateway-content"><span class="section-tag" style="margin-bottom:8px;">Portfolio</span><h3>See every project in detail</h3><p>Open any project for screenshots, the tech behind it and a live demo where there is one.</p></div><a href="${escapeHtml(safeHref(baseUrl+'/portfolio'))}" class="btn p" style="padding:13px 28px;font-weight:700;">Open Full Portfolio (${P.length}) &rarr;</a></div>`;
@@ -81,7 +83,7 @@ if(RM || hasEntered || !pre){
   addEventListener('load',()=>ld=true);
   setTimeout(()=>ld=true,2500);
   const st=t=>{
-    const k=Math.min(1,(t-t0)/1200),v=ld?k:Math.min(k,.9);
+    const k=Math.min(1,(t-t0)/700),v=ld?k:Math.min(k,.9);
     if(pre) pre.style.setProperty('--p',v);
     if(preN) preN.textContent=String(Math.round(v*100)).padStart(2,'0');
     if(k>=1&&ld) go();
@@ -98,7 +100,7 @@ const tk=t=>{const k=Math.min(1,(t-t0)/1400);el.textContent=Math.round(n*(1-Math
 if(!RM)$$('[data-n]').forEach(el=>{el.textContent='0';co.observe(el)});
 /* tracking demo */
 const tl=$$('#trk li');let tkv=false,tki=0;
-if(RM)tl.forEach(l=>l.classList.add('d'));else{new IntersectionObserver(es=>es.forEach(e=>tkv=e.isIntersecting),{threshold:.3}).observe($('#trk'));
+if(RM)tl.forEach(l=>l.classList.add('d'));else if($('#trk')){new IntersectionObserver(es=>es.forEach(e=>tkv=e.isIntersecting),{threshold:.3}).observe($('#trk'));
 setInterval(()=>{if(!tkv)return;tki=(tki+1)%7;tl.forEach((l,i)=>l.classList.toggle('d',i<tki))},1100)}
 /* buttons ripple */
 $$('.btn').forEach(b=>b.addEventListener('pointerdown',e=>{const r=b.getBoundingClientRect(),s=document.createElement('span');s.className='rp';s.style.left=e.clientX-r.left+'px';s.style.top=e.clientY-r.top+'px';b.appendChild(s);setTimeout(()=>s.remove(),700)}));
@@ -110,23 +112,10 @@ el.style.transform=`perspective(900px) rotateX(${((.5-py)*mx).toFixed(2)}deg) ro
 el.style.setProperty('--gx',px*100+'%');el.style.setProperty('--gy',py*100+'%');el.style.setProperty('--mx',px*r.width+'px');el.style.setProperty('--my',py*r.height+'px')});
 el.addEventListener('pointerleave',()=>{el.style.transform=''})});
 $$('.btn').forEach(b=>{b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${((e.clientX-r.left-r.width/2)*.2).toFixed(1)}px,${((e.clientY-r.top-r.height/2)*.3).toFixed(1)}px)`});b.addEventListener('pointerleave',()=>b.style.transform='')});
-root.classList.add('cc');const ring=$('#cr'),dot=$('#cd');let x=innerWidth/2,y=innerHeight/2,rx=x,ry=y;
 hero=$('#hero');hi=$('#heroimg');
-addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;if(dot)dot.style.transform=`translate3d(${x}px,${y}px,0)`;root.classList.add('cv');
-const inChat = !!e.target.closest('#creatsifyChatWidget');
-if(ring&&dot){
-  ring.classList.toggle('chat-cursor', inChat);
-  dot.classList.toggle('chat-dot', inChat);
-}
-if(ring){
-  ring.classList.toggle('h',!!e.target.closest('a,button,.card,[data-cur],input,select,textarea,label,.chat-chip,.chat-launcher-btn,.chat-close-btn,.chat-send-btn'));
-  const c=e.target.closest('[data-cur]');
-  ring.dataset.l=c?c.dataset.cur:(inChat&&e.target.closest('.chat-chip')?'Ask':(inChat&&e.target.closest('.chat-close-btn')?'Close':(inChat&&e.target.closest('.chat-send-btn')?'Send':'')));
-}
+addEventListener('pointermove',e=>{
 const pj=e.target.closest('.pj-in');if(pj){const r=pj.getBoundingClientRect();pj.style.setProperty('--mx',e.clientX-r.left+'px');pj.style.setProperty('--my',e.clientY-r.top+'px')}
-if(hero){const hr=hero.getBoundingClientRect();hero.style.setProperty('--sx',e.clientX-hr.left+'px');hero.style.setProperty('--sy',e.clientY-hr.top+'px');}});
-document.addEventListener('mouseleave',()=>root.classList.remove('cv'));
-(function L(){rx=lerp(rx,x,.17);ry=lerp(ry,y,.17);if(ring)ring.style.transform=`translate3d(${rx}px,${ry}px,0)`;requestAnimationFrame(L)})();}
+if(hero){const hr=hero.getBoundingClientRect();hero.style.setProperty('--sx',e.clientX-hr.left+'px');hero.style.setProperty('--sy',e.clientY-hr.top+'px');}});}
 /* project parallax + stacking */
 const pjs=$$('.pj').map(el=>({el,inn:el.querySelector('.pj-in'),img:el.querySelector('.pjm img'),m:el.querySelector('.pjm'),w:el.querySelector('.pjw'),n:el.querySelector('.pjn'),f:[...el.querySelectorAll('.fch')]}));
 const pjUpdate=()=>{const vh=innerHeight,stack=innerWidth>900;
@@ -283,14 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 2. Mobile Drawer Toggle
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const drawer = document.getElementById('mobileDrawer');
-    if (mobileBtn && drawer) {
-        mobileBtn.addEventListener('click', function () {
-            drawer.classList.toggle('open');
-        });
-    }
+    // 2. (The mobile drawer is handled in section 7. A second click handler here used to close it again straight after it opened.)
 
     // 3. Scroll Progress Bar
     const prog = document.getElementById('scrollProgressBar');
@@ -305,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
             prog.style.left = '0';
             prog.style.width = '100%';
             prog.style.height = '3px';
-            prog.style.background = 'linear-gradient(90deg, var(--accent), #ff4fa3, #3ecf8e)';
+            prog.style.background = 'linear-gradient(90deg, var(--accent), #D4A017, #3ecf8e)';
             prog.style.zIndex = '99999';
         }, { passive: true });
     }
@@ -376,6 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!mobileDrawer) return;
         mobileDrawer.classList.add('open');
         mobileDrawer.setAttribute('aria-hidden', 'false');
+        mobileDrawer.removeAttribute('inert');
         if (mobileDrawerBackdrop) mobileDrawerBackdrop.classList.add('active');
         if (mobileMenuBtn) {
             mobileMenuBtn.setAttribute('aria-expanded', 'true');
@@ -391,6 +374,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!mobileDrawer) return;
         mobileDrawer.classList.remove('open');
         mobileDrawer.setAttribute('aria-hidden', 'true');
+        mobileDrawer.setAttribute('inert', '');
         if (mobileDrawerBackdrop) mobileDrawerBackdrop.classList.remove('active');
         if (mobileMenuBtn) {
             mobileMenuBtn.setAttribute('aria-expanded', 'false');

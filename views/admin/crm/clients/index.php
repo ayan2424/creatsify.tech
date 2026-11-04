@@ -22,7 +22,7 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
 <!-- CRM Pipeline Metrics -->
 <div class="metrics-grid">
     <div class="metric-card">
-        <div class="metric-icon" style="background: rgba(139, 123, 255, 0.12); color: var(--adm-accent);">
+        <div class="metric-icon" style="background: color-mix(in srgb,var(--accent) 12%,transparent); color: var(--adm-accent);">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
         </div>
         <div class="metric-info">
@@ -143,7 +143,7 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
                             'proposal_sent' => ['bg' => 'rgba(245, 158, 11, 0.15)', 'color' => '#fbbf24', 'border' => 'rgba(245, 158, 11, 0.3)'],
                             'contract_signed' => ['bg' => 'rgba(16, 185, 129, 0.15)', 'color' => '#34d399', 'border' => 'rgba(16, 185, 129, 0.3)'],
                             'active_client' => ['bg' => 'rgba(16, 185, 129, 0.22)', 'color' => '#10b981', 'border' => 'rgba(16, 185, 129, 0.45)'],
-                            'retained' => ['bg' => 'rgba(139, 123, 255, 0.2)', 'color' => 'var(--adm-accent)', 'border' => 'rgba(139, 123, 255, 0.4)'],
+                            'retained' => ['bg' => 'color-mix(in srgb,var(--accent) 20%,transparent)', 'color' => 'var(--adm-accent)', 'border' => 'color-mix(in srgb,var(--accent) 40%,transparent)'],
                             'churned' => ['bg' => 'rgba(239, 68, 68, 0.15)', 'color' => '#f87171', 'border' => 'rgba(239, 68, 68, 0.3)'],
                         ];
                         $sc = $stageColors[$c['stage']] ?? $stageColors['lead'];
@@ -153,7 +153,7 @@ $this->layout('layouts/admin', ['page_title' => 'Clients & Pipeline', 'meta_titl
                         <tr>
                             <td>
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(139, 123, 255, 0.12); color: var(--adm-accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; border: 1px solid rgba(139, 123, 255, 0.25); flex-shrink: 0;">
+                                    <div style="width: 38px; height: 38px; border-radius: 10px; background: color-mix(in srgb,var(--accent) 12%,transparent); color: var(--adm-accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; border: 1px solid color-mix(in srgb,var(--accent) 25%,transparent); flex-shrink: 0;">
                                         <?= strtoupper(substr($c['name'], 0, 2)) ?>
                                     </div>
                                     <div>

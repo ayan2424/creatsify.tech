@@ -12,6 +12,7 @@ $this->layout('layouts/main');
 
 <section class="section">
     <div class="wrap">
+        <h2 class="sr-only">Articles</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px;">
             <?php foreach ($posts as $post): ?>
                 <article class="post-card" style="background: var(--surface); border-radius: 14px; border: 1px solid var(--line); overflow: hidden; display: flex; flex-direction: column;">

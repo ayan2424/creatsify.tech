@@ -1,7 +1,7 @@
 <?php
 /** @var Core\View $this */
 $user = auth() ?? ['name' => 'Admin User', 'email' => 'admin@creatsify.tech', 'role' => 'admin'];
-$primaryAccent = setting('primary_accent', '#8b7bff');
+$primaryAccent = setting('primary_accent', '#2563EB');
 $currentPath = request()->getPath();
 $topbarUnreadInquiries = \App\Models\Inquiry::countByStatus('new');
 $topbarUnreadNotifs = \App\Models\Notification::countUnread();
@@ -14,12 +14,11 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?= csrf_token() ?>">
     <title><?= e($meta_title ?? 'Creatsify Admin Desk') ?></title>
-    <link rel="icon" type="image/png" href="<?= asset('brand/favicon.png') ?>">
-
-    <!-- Fonts: Bricolage Grotesque & DM Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=DM+Sans:ital,opsz,wght@0,9..40,400..600;1,9..40,400..600&display=swap" rel="stylesheet">
+    <link rel="icon" href="<?= url('/favicon.ico') ?>" sizes="32x32">
+    <link rel="icon" href="<?= url('/favicon.svg') ?>" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="<?= url('/apple-touch-icon.png') ?>">
+    <meta name="theme-color" content="#081426">
+    <link rel="preload" href="<?= asset('fonts/sora-400.woff2') ?>" as="font" type="font/woff2" crossorigin>
 
     <!-- Lumix AI Command Center Stylesheet -->
     <link rel="stylesheet" href="<?= asset_v('css/admin.css') ?>">

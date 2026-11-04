@@ -14,13 +14,13 @@ $this->layout('layouts/main');
     <div class="wrap" style="max-width:1120px;">
         <div class="contact-paths">
             <a class="contact-path" href="#inquiry-form">
-                <span class="section-tag">01 · Build with us</span>
+                <span class="section-tag">Build with us</span>
                 <h2>Custom project or agency service</h2>
                 <p>A website, admin panel, online store, a change to one of our products, or an ongoing delivery team.</p>
                 <span>Start a project brief &rarr;</span>
             </a>
             <a class="contact-path" href="<?= url('/portfolio') ?>">
-                <span class="section-tag">02 · Explore software</span>
+                <span class="section-tag">Explore software</span>
                 <h2>Ready-made products &amp; licensing</h2>
                 <p>Browse production software first, then use the form below for demos, licensing, or a fit discussion.</p>
                 <span>See the software &rarr;</span>
@@ -93,9 +93,10 @@ $this->layout('layouts/main');
                                     <?php endforeach; ?>
                                 </optgroup>
                             <?php endif; ?>
-                            <?php if (!empty($projects)): ?>
+                            <?php $forSaleProjects = array_values(array_filter($projects ?? [], static fn ($pr) => ($pr['status'] ?? '') === 'For sale')); ?>
+                            <?php if (!empty($forSaleProjects)): ?>
                                 <optgroup label="Ready-made software">
-                                    <?php foreach ($projects as $project): ?>
+                                    <?php foreach ($forSaleProjects as $project): ?>
                                         <option value="<?= e($project['title']) ?>" <?= $selectedOffering === $project['title'] ? 'selected' : '' ?>><?= e($project['title']) ?></option>
                                     <?php endforeach; ?>
                                 </optgroup>

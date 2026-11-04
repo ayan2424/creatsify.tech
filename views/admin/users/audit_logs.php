@@ -89,8 +89,8 @@ $total = $total ?? 0;
                         $badgeStyle = match(true) {
                             str_contains($act, 'failed') || str_contains($act, 'delete') => 'background: rgba(239, 68, 68, 0.12); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);',
                             str_contains($act, 'success') || str_contains($act, 'create') || str_contains($act, 'login') => 'background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);',
-                            str_contains($act, 'update') || str_contains($act, 'toggle') || str_contains($act, 'edit') => 'background: rgba(139, 123, 255, 0.12); color: #8b7bff; border: 1px solid rgba(139, 123, 255, 0.3);',
-                            str_contains($act, 'send') || str_contains($act, 'sms') || str_contains($act, 'whatsapp') => 'background: rgba(6, 182, 212, 0.12); color: #06b6d4; border: 1px solid rgba(6, 182, 212, 0.3);',
+                            str_contains($act, 'update') || str_contains($act, 'toggle') || str_contains($act, 'edit') => 'background: color-mix(in srgb,var(--accent) 12%,transparent); color: var(--accent); border: 1px solid color-mix(in srgb,var(--accent) 30%,transparent);',
+                            str_contains($act, 'send') || str_contains($act, 'sms') || str_contains($act, 'whatsapp') => 'background: rgba(56,189,248,0.12); color: #38BDF8; border: 1px solid rgba(56,189,248,0.3);',
                             default => 'background: var(--surface-hover); color: var(--muted); border: 1px solid var(--line);',
                         };
                         ?>

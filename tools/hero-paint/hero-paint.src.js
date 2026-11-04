@@ -26,7 +26,7 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
   // The painting always plays, like the rest of the site's motion. The pause button is the way to stop it.
   const STATIC = root.dataset.static === '1';
   const EXT = { l: 0.22, r: 0.30, t: 0.24, b: 0.04 };   // the WebGL canvas is larger than the stage so the handle is never cut off
-  const STOPS = [[123, 47, 247], [59, 107, 255], [20, 200, 255], [255, 60, 172], [255, 154, 46]];   // logo palette
+  const STOPS = [[37, 99, 235], [59, 130, 246], [96, 165, 250], [147, 197, 253], [212, 160, 23]];   // brand palette: blue, sky, gold
   const DRAWT = 4.2, LIFT = 0.12, HOLD = 2.0, FADE = 0.5, LEAD = 0.7;
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);

@@ -72,8 +72,8 @@ $counts = $counts ?? ['all' => 0, 'new' => 0, 'in_discussion' => 0, 'converted' 
                         $badgeStyle = match($status) {
                             'new' => 'background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);',
                             'in_discussion' => 'background: rgba(245, 158, 11, 0.12); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3);',
-                            'converted' => 'background: rgba(139, 123, 255, 0.12); color: #8b7bff; border: 1px solid rgba(139, 123, 255, 0.3);',
-                            'closed' => 'background: rgba(163, 167, 187, 0.12); color: #a3a7bb; border: 1px solid rgba(163, 167, 187, 0.2);',
+                            'converted' => 'background: color-mix(in srgb,var(--accent) 12%,transparent); color: var(--accent); border: 1px solid color-mix(in srgb,var(--accent) 30%,transparent);',
+                            'closed' => 'background: rgba(163,178,199,0.12); color: #A3B2C7; border: 1px solid rgba(163,178,199,0.2);',
                             default => 'background: var(--surface-hover); color: var(--muted); border: 1px solid var(--line);',
                         };
                         $phoneClean = clean_phone_number($inq['phone'] ?? '', false);

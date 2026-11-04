@@ -5,12 +5,12 @@ $status = $inquiry['status'] ?? 'new';
 $badgeStyle = match($status) {
     'new' => 'background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);',
     'in_discussion' => 'background: rgba(245, 158, 11, 0.12); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3);',
-    'converted' => 'background: rgba(139, 123, 255, 0.12); color: #8b7bff; border: 1px solid rgba(139, 123, 255, 0.3);',
-    'closed' => 'background: rgba(163, 167, 187, 0.12); color: #a3a7bb; border: 1px solid rgba(163, 167, 187, 0.2);',
+    'converted' => 'background: color-mix(in srgb,var(--accent) 12%,transparent); color: var(--accent); border: 1px solid color-mix(in srgb,var(--accent) 30%,transparent);',
+    'closed' => 'background: rgba(163,178,199,0.12); color: #A3B2C7; border: 1px solid rgba(163,178,199,0.2);',
     default => 'background: var(--surface-hover); color: var(--muted); border: 1px solid var(--line);',
 };
 $phoneClean = clean_phone_number($inquiry['phone'] ?? '', false);
-$waText = urlencode("Assalam-o-Alaikum " . $inquiry['name'] . "! This is Muhammad Ayan Shamim from Creatsify Studio. I am reaching out regarding your project inquiry for " . $inquiry['project_type'] . ".");
+$waText = urlencode("Hello " . $inquiry['name'] . "! This is the Creatsify Studio leadership team reaching out regarding your project inquiry for " . $inquiry['project_type'] . ".");
 ?>
 
 <div style="max-width: 900px;">
@@ -47,7 +47,7 @@ $waText = urlencode("Assalam-o-Alaikum " . $inquiry['name'] . "! This is Muhamma
             </a>
             <form action="<?= url('/admin/inquiries/' . $inquiry['id'] . '/convert-to-client') ?>" method="POST" style="margin: 0;">
                 <?= csrf_field() ?>
-                <button type="submit" class="btn" style="min-height: 38px; padding: 8px 16px; background: rgba(139, 123, 255, 0.18); color: var(--adm-accent); border: 1px solid rgba(139, 123, 255, 0.45); font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                <button type="submit" class="btn" style="min-height: 38px; padding: 8px 16px; background: color-mix(in srgb,var(--accent) 18%,transparent); color: var(--adm-accent); border: 1px solid color-mix(in srgb,var(--accent) 45%,transparent); font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     <span>Convert to CRM Client</span>
                 </button>

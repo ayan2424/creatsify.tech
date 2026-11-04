@@ -26,8 +26,8 @@ class PortfolioController
         return view('portfolio/index', [
             'projects' => $filtered,
             'activeCategory' => $category,
-            'meta_title' => 'Portfolio & Case Studies | Creatsify',
-            'meta_desc' => 'Explore production software, SaaS platforms, and mobile apps engineered by Creatsify.'
+            'meta_title' => 'Our Work | Creatsify',
+            'meta_desc' => 'Courier software, an online store with its own admin panel, and a WordPress store built by Creatsify.'
         ]);
     }
 

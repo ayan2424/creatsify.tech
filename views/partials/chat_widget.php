@@ -25,7 +25,7 @@
                     <span class="status-dot"></span>
                 </div>
                 <div>
-                    <h4 class="chat-title">Creatsify Desk</h4>
+                    <p class="chat-title">Creatsify Desk</p>
                     <p class="chat-status" id="chatStatusText">AI Assistant &bull; Live Support Ready</p>
                 </div>
             </div>
@@ -36,7 +36,7 @@
             <div class="chat-timestamp"><?= date('l, M j') ?></div>
             <div class="chat-msg bot-msg">
                 <div class="msg-bubble">
-                    Hello! Welcome to <strong>Creatsify Studio</strong>. How can we help you today? Ask about our <strong>Cheetah Courier software</strong>, request a custom build, or talk directly with <strong>Muhammad Ayan Shamim</strong>.
+                    Hello! Welcome to <strong>Creatsify Studio</strong>. How can we help you today? Ask about our <strong>Cheetah Courier software</strong>, request a custom build, or talk directly with our <strong>Co-Founders</strong>.
                 </div>
                 <span class="msg-time"><?= date('H:i') ?></span>
             </div>

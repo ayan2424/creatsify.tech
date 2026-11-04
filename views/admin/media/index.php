@@ -13,7 +13,7 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
         <p class="page-subtitle">Central asset repository with drag &amp; drop uploads, instant previews, and 1-click clipboard URLs.</p>
     </div>
     <div style="display: flex; align-items: center; gap: 10px; font-size: 12px; flex-wrap: wrap;">
-        <span class="user-role-badge" style="background: rgba(139,123,255,0.15); color: var(--adm-accent); font-weight: 700; padding: 6px 12px; border-radius: 8px;"><?= $totalCount ?> Assets</span>
+        <span class="user-role-badge" style="background: color-mix(in srgb,var(--accent) 15%,transparent); color: var(--adm-accent); font-weight: 700; padding: 6px 12px; border-radius: 8px;"><?= $totalCount ?> Assets</span>
         <span class="user-role-badge" style="padding: 6px 12px; border-radius: 8px;"><?= $totalMb ?> MB Storage</span>
     </div>
 </div>
@@ -26,7 +26,7 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
             <?= csrf_field() ?>
             <input type="file" name="file" id="mediaFileInput" style="display:none;" onchange="this.form.submit();" accept="image/*,.pdf,.mp4" required>
             <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-                <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(139,123,255,0.12); display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                <div style="width: 52px; height: 52px; border-radius: 50%; background: color-mix(in srgb,var(--accent) 12%,transparent); display: flex; align-items: center; justify-content: center; color: var(--accent);">
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                 </div>
                 <div>
@@ -63,7 +63,7 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
                     $ext = strtoupper(pathinfo($item['filename'], PATHINFO_EXTENSION));
                 ?>
                 <div class="media-card-item" data-name="<?= strtolower(e($item['original_name'])) ?>">
-                    <div style="height: 140px; background: #07080d; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
+                    <div style="height: 140px; background: #0A1A33; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
                         <?php if ($isImage): ?>
                             <img src="<?= asset($item['path']) ?>" alt="<?= e($item['original_name']) ?>" loading="lazy" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         <?php else: ?>
@@ -108,7 +108,7 @@ $totalMb = round($totalSizeBytes / (1024 * 1024), 2);
             dropzone.addEventListener(name, (e) => {
                 e.preventDefault();
                 dropzone.style.borderColor = 'var(--accent)';
-                dropzone.style.background = 'rgba(139,123,255,0.06)';
+                dropzone.style.background = 'color-mix(in srgb,var(--accent) 6%,transparent)';
             });
         });
         ['dragleave', 'drop'].forEach(name => {

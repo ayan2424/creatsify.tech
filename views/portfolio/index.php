@@ -23,6 +23,7 @@ $thumb = static function (array $p) use ($assetDir) {
 
 <section class="section">
     <div class="wrap">
+        <h2 class="sr-only">Projects</h2>
         <div class="projects-grid">
             <?php foreach ($projects as $project):
                 $shot = $thumb($project);
@@ -30,7 +31,7 @@ $thumb = static function (array $p) use ($assetDir) {
                 $hasLive = $live && $live !== '#';
             ?>
                 <article class="project-card">
-                    <a class="prod-media" href="<?= url('/portfolio/' . e($project['slug'])) ?>" aria-label="<?= e($project['title']) ?> case study">
+                    <a class="prod-media" href="<?= url('/portfolio/' . e($project['slug'])) ?>">
                         <?php if ($shot): ?>
                             <img src="<?= asset($shot) ?>" width="1376" height="768" loading="lazy" alt="<?= e($project['title']) ?> screenshot">
                         <?php else: ?>
@@ -58,7 +59,7 @@ $thumb = static function (array $p) use ($assetDir) {
                         <?php if (!empty($project['gumroad_url'])): ?>
                             <a href="<?= e($project['gumroad_url']) ?>" target="_blank" rel="noopener" class="btn p pc-buy">Buy<?= !empty($project['price']) ? ' (' . e($project['price']) . ')' : '' ?></a>
                         <?php elseif (($project['status'] ?? '') === 'For sale'): ?>
-                            <a href="<?= url('/contact?t=' . urlencode($project['title'])) ?>" class="btn p pc-buy">Get a quote</a>
+                            <a href="<?= url('/contact?kind=software_presale&offering=' . urlencode($project['title'])) . '#inquiry-form' ?>" class="btn p pc-buy">Get a quote</a>
                         <?php endif; ?>
                     </div>
                 </article>

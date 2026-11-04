@@ -177,7 +177,7 @@ $this->layout('layouts/admin', ['page_title' => 'Internal Notes & Logs', 'meta_t
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                             <?php if ($n['is_pinned']): ?>
-                                <span style="font-size: 10.5px; font-weight: 700; color: var(--adm-accent); background: rgba(139, 123, 255, 0.15); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(139, 123, 255, 0.3);">
+                                <span style="font-size: 10.5px; font-weight: 700; color: var(--adm-accent); background: color-mix(in srgb,var(--accent) 15%,transparent); padding: 2px 7px; border-radius: 4px; border: 1px solid color-mix(in srgb,var(--accent) 30%,transparent);">
                                     PINNED
                                 </span>
                             <?php endif; ?>

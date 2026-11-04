@@ -4,4 +4,4 @@ Disallow: /admin/
 Disallow: /api/
 Disallow: /install.php
 
-Sitemap: /sitemap.xml
+Sitemap: https://creatsify.tech/sitemap.xml

@@ -154,7 +154,7 @@ $this->layout('layouts/main');
                 <div class="support-aside-card">
                     <h3>aaPanel Nginx quick check</h3>
                     <p>For internal-route 404s, use only the front-controller rule in aaPanel’s URL rewrite box:</p>
-                    <pre><code>location / {
+                    <pre tabindex="0" aria-label="aaPanel rewrite rule"><code>location / {
     try_files $uri $uri/ /index.php?$query_string;
 }</code></pre>
                     <p class="field-hint">Do not paste a complete <code>server { ... }</code> block or duplicate PHP-FPM rules in the aaPanel rewrite box.</p>
@@ -170,7 +170,7 @@ $this->layout('layouts/main');
 </section>
 
 <style>
-.support-intro-link{margin:18px 0 0;color:var(--muted)}.support-intro-link a,.field-hint a{color:var(--accent)}.support-success{margin:0 0 26px;padding:28px;border-radius:16px;background:rgba(16,185,129,.11);border:1px solid rgba(16,185,129,.45)}.support-success h2{margin:10px 0 8px}.support-success p{color:var(--muted);margin:0 0 20px}.support-layout-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,.9fr);gap:24px;align-items:start}.support-form-card,.support-aside-card{background:var(--surface);border:1px solid var(--line);border-radius:16px}.support-form-card{padding:36px}.support-form-heading{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:24px}.support-form-heading h2{margin:10px 0 8px}.support-form-heading p,.support-aside-card p{color:var(--muted);line-height:1.6}.support-aside{display:flex;flex-direction:column;gap:16px}.support-aside-card{padding:25px}.support-aside-card h3{margin:10px 0}.support-aside-card pre{margin:15px 0;padding:14px;overflow:auto;border-radius:9px;background:#0d1117;color:#a5d6ff;font-size:12px;line-height:1.55}.field-hint{display:block;margin-top:6px;font-size:12px;color:var(--muted);line-height:1.45}.support-whatsapp{background:#25D366!important;border-color:#25D366!important;color:#fff!important}@media(max-width:900px){.support-layout-grid{grid-template-columns:1fr}.support-form-card{padding:26px 20px}}
+.support-intro-link{margin:18px 0 0;color:var(--muted)}.support-intro-link a,.field-hint a{color:var(--accent)}.support-success{margin:0 0 26px;padding:28px;border-radius:16px;background:rgba(16,185,129,.11);border:1px solid rgba(16,185,129,.45)}.support-success h2{margin:10px 0 8px}.support-success p{color:var(--muted);margin:0 0 20px}.support-layout-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,.9fr);gap:24px;align-items:start}.support-form-card,.support-aside-card{background:var(--surface);border:1px solid var(--line);border-radius:16px}.support-form-card{padding:36px}.support-form-heading{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:24px}.support-form-heading h2{margin:10px 0 8px}.support-form-heading p,.support-aside-card p{color:var(--muted);line-height:1.6}.support-aside{display:flex;flex-direction:column;gap:16px}.support-aside-card{padding:25px}.support-aside-card h3{margin:10px 0}.support-aside-card pre{margin:15px 0;padding:14px;overflow:auto;border-radius:9px;background:#0d1117;color:#a5d6ff;font-size:12px;line-height:1.55}.field-hint{display:block;margin-top:6px;font-size:12px;color:var(--muted);line-height:1.45}.support-whatsapp{background:#25D366!important;border-color:#25D366!important;color:#052e16!important}@media(max-width:900px){.support-layout-grid{grid-template-columns:1fr}.support-form-card{padding:26px 20px}}
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function () {

@@ -20,7 +20,7 @@ $statusLabels = [
 
 <div class="metrics-grid">
     <div class="metric-card">
-        <div class="metric-icon" style="background: rgba(139, 123, 255, 0.12); color: var(--adm-accent);">
+        <div class="metric-icon" style="background: color-mix(in srgb,var(--accent) 12%,transparent); color: var(--adm-accent);">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         </div>
         <div class="metric-info">
@@ -102,7 +102,7 @@ $statusLabels = [
                         <td><?= (int)$project['member_count'] ?> assigned</td>
                         <td><?= (int)$project['open_task_count'] ?> open task<?= (int)$project['open_task_count'] === 1 ? '' : 's' ?><div style="font-size:11px; color:var(--adm-muted); margin-top:3px;"><?= (int)$project['milestone_count'] ?> milestones</div></td>
                         <td style="white-space:nowrap;"><?= $project['target_date'] ? e(date('M j, Y', strtotime($project['target_date']))) : '—' ?></td>
-                        <td><span style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; text-transform:uppercase; padding:3px 8px; border-radius:12px; background:rgba(139,123,255,0.15); color:var(--adm-accent); border:1px solid rgba(139,123,255,0.3);"><?= e($statusLabels[$project['status']] ?? $project['status']) ?></span></td>
+                        <td><span style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; text-transform:uppercase; padding:3px 8px; border-radius:12px; background:color-mix(in srgb,var(--accent) 15%,transparent); color:var(--adm-accent); border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);"><?= e($statusLabels[$project['status']] ?? $project['status']) ?></span></td>
                         <td style="text-align:right; white-space:nowrap;">
                             <a class="btn btn-secondary btn-sm" href="<?= url('/admin/agency-projects/' . $project['id']) ?>" style="display:inline-flex; align-items:center; gap:6px; min-height:36px; padding:6px 12px;">
                                 <span>Open Workspace</span>

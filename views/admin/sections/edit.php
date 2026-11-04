@@ -47,7 +47,7 @@ $key = $section['section_key'];
         <div style="background: var(--bg); padding: 22px; border-radius: 12px; border: 1px solid var(--line); margin-bottom: 24px;">
             <h4 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 16px 0; display:flex; align-items:center; gap:8px;">
                 <span>Visual Component Parameters</span>
-                <span class="user-role-badge" style="font-size: 10px; background: rgba(139,123,255,0.15); color: var(--accent);"><?= e($key) ?></span>
+                <span class="user-role-badge" style="font-size: 10px; background: color-mix(in srgb,var(--accent) 15%,transparent); color: var(--accent);"><?= e($key) ?></span>
             </h4>
 
             <?php if ($key === 'hero'): ?>
@@ -69,15 +69,15 @@ $key = $section['section_key'];
                 <div class="form-row">
                     <div class="form-group">
                         <label for="meta_tracker_code">Sample Consignment Tracking Number</label>
-                        <input type="text" id="meta_tracker_code" name="meta[tracker_code]" class="form-control" value="<?= e($meta['tracker']['code'] ?? 'PK-000007') ?>">
+                        <input type="text" id="meta_tracker_code" name="meta[tracker_code]" class="form-control" value="<?= e($meta['tracker']['code'] ?? 'CH-000007') ?>">
                     </div>
                     <div class="form-group">
                         <label for="meta_tracker_from">Route Origin City</label>
-                        <input type="text" id="meta_tracker_from" name="meta[tracker_from]" class="form-control" value="<?= e($meta['tracker']['from'] ?? 'Karachi') ?>">
+                        <input type="text" id="meta_tracker_from" name="meta[tracker_from]" class="form-control" value="<?= e($meta['tracker']['from'] ?? 'Origin Hub') ?>">
                     </div>
                     <div class="form-group">
                         <label for="meta_tracker_to">Route Destination City</label>
-                        <input type="text" id="meta_tracker_to" name="meta[tracker_to]" class="form-control" value="<?= e($meta['tracker']['to'] ?? 'Lahore') ?>">
+                        <input type="text" id="meta_tracker_to" name="meta[tracker_to]" class="form-control" value="<?= e($meta['tracker']['to'] ?? 'Destination Hub') ?>">
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@ $key = $section['section_key'];
                 <!-- Founder About Elements -->
                 <div class="form-group" style="margin-bottom: 0;">
                     <label for="meta_badge">Rotating Circular SVG Badge Text</label>
-                    <input type="text" id="meta_badge" name="meta[badge]" class="form-control" value="<?= e($meta['badge'] ?? 'CREATSIFY • KARACHI • BUILD • SHIP • GROW • ') ?>">
+                    <input type="text" id="meta_badge" name="meta[badge]" class="form-control" value="<?= e($meta['badge'] ?? 'CREATSIFY • EQUAL CO-FOUNDERS • BUILD • SHIP • ') ?>">
                     <small style="color:var(--muted); font-size:12px; margin-top:4px; display:block;">Circular SVG text path rotating around the Creatsify studio emblem.</small>
                 </div>
 

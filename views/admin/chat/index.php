@@ -11,7 +11,7 @@ $this->layout('layouts/admin');
                 <h3 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0;">Live Visitor Sessions</h3>
                 <span style="font-size: 11px; color: var(--muted);">Cheetah Chat Engine</span>
             </div>
-            <span class="user-role-badge" style="background: rgba(139,123,255,0.15); color: var(--accent); font-weight: 700;"><?= count($sessions) ?> Active</span>
+            <span class="user-role-badge" style="background: color-mix(in srgb,var(--accent) 15%,transparent); color: var(--accent); font-weight: 700;"><?= count($sessions) ?> Active</span>
         </div>
 
         <div style="flex-grow: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 6px;">
@@ -23,11 +23,11 @@ $this->layout('layouts/admin');
             <?php else: ?>
                 <?php foreach ($sessions as $s): ?>
                     <?php $isActive = ($activeSession && (int)$activeSession['id'] === (int)$s['id']); ?>
-                    <a href="<?= url('/admin/chat?session_id=' . $s['id']) ?>" style="display: block; padding: 12px; border-radius: 10px; background: <?= $isActive ? 'rgba(139,123,255,0.12)' : 'var(--surface)' ?>; border: 1px solid <?= $isActive ? 'var(--accent)' : 'var(--line)' ?>; text-decoration: none; color: inherit; transition: all 0.2s;">
+                    <a href="<?= url('/admin/chat?session_id=' . $s['id']) ?>" style="display: block; padding: 12px; border-radius: 10px; background: <?= $isActive ? 'color-mix(in srgb,var(--accent) 12%,transparent)' : 'var(--surface)' ?>; border: 1px solid <?= $isActive ? 'var(--accent)' : 'var(--line)' ?>; text-decoration: none; color: inherit; transition: all 0.2s;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                             <strong style="color: var(--text); font-size: 13px; font-weight: 600;"><?= e($s['visitor_name']) ?></strong>
                             <?php if ($s['is_human_handoff']): ?>
-                                <span style="font-size: 9.5px; padding: 2px 6px; border-radius: 4px; background: rgba(255,79,163,0.2); color: #ff4fa3; font-weight: 700;">HANDOFF</span>
+                                <span style="font-size: 9.5px; padding: 2px 6px; border-radius: 4px; background: rgba(212,160,23,0.2); color: #D4A017; font-weight: 700;">HANDOFF</span>
                             <?php else: ?>
                                 <span style="font-size: 9.5px; padding: 2px 6px; border-radius: 4px; background: rgba(0,200,83,0.15); color: #00c853; font-weight: 700;">BOT</span>
                             <?php endif; ?>
@@ -49,7 +49,7 @@ $this->layout('layouts/admin');
     <div class="card chat-desk-pane chat-desk-room-pane">
         <?php if (!$activeSession): ?>
             <div style="display: flex; align-items: center; justify-content: center; flex-grow: 1; flex-direction: column; color: var(--muted); gap: 15px; padding: 40px; text-align: center;">
-                <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(139,123,255,0.1); display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                <div style="width: 72px; height: 72px; border-radius: 50%; background: color-mix(in srgb,var(--accent) 10%,transparent); display: flex; align-items: center; justify-content: center; color: var(--accent);">
                     <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                 </div>
                 <div>
@@ -61,14 +61,14 @@ $this->layout('layouts/admin');
             <!-- Room Header -->
             <div style="padding: 14px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; background: var(--surface);">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #ff4fa3); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 15px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #D4A017); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 15px;">
                         <?= strtoupper(substr($activeSession['visitor_name'], 0, 1)) ?>
                     </div>
                     <div>
                         <h3 style="font-size: 15px; font-weight: 700; color: var(--text); margin: 0; display: flex; align-items: center; gap: 8px;">
                             <?= e($activeSession['visitor_name']) ?>
                             <?php if ($activeSession['is_human_handoff']): ?>
-                                <span style="font-size: 10px; padding: 2px 7px; border-radius: 999px; background: rgba(255,79,163,0.2); color: #ff4fa3; font-weight: 700;">Human Support Mode</span>
+                                <span style="font-size: 10px; padding: 2px 7px; border-radius: 999px; background: rgba(212,160,23,0.2); color: #D4A017; font-weight: 700;">Human Support Mode</span>
                             <?php endif; ?>
                         </h3>
                         <div style="font-size: 11.5px; color: var(--muted); margin-top: 2px;">
@@ -97,7 +97,7 @@ $this->layout('layouts/admin');
                         <span style="font-size: 10.5px; color: var(--muted); margin-bottom: 3px;">
                             <?= e($m['sender_name']) ?> &bull; <?= date('H:i', strtotime($m['created_at'])) ?>
                         </span>
-                        <div style="max-width: 72%; padding: 11px 15px; border-radius: 12px; font-size: 13.5px; line-height: 1.5; <?= $isAdmin ? 'background: var(--accent); color: #fff; border-bottom-right-radius: 2px;' : ($isBot ? 'background: rgba(139,123,255,0.12); border: 1px solid rgba(139,123,255,0.25); color: var(--text);' : 'background: var(--surface); border: 1px solid var(--line); color: var(--text); border-bottom-left-radius: 2px;') ?>">
+                        <div style="max-width: 72%; padding: 11px 15px; border-radius: 12px; font-size: 13.5px; line-height: 1.5; <?= $isAdmin ? 'background: var(--accent); color: #fff; border-bottom-right-radius: 2px;' : ($isBot ? 'background: color-mix(in srgb,var(--accent) 12%,transparent); border: 1px solid color-mix(in srgb,var(--accent) 25%,transparent); color: var(--text);' : 'background: var(--surface); border: 1px solid var(--line); color: var(--text); border-bottom-left-radius: 2px;') ?>">
                             <?= nl2br(e($m['message'])) ?>
                         </div>
                     </div>
@@ -107,7 +107,7 @@ $this->layout('layouts/admin');
             <!-- Cheetah-Style Canned Response Chips -->
             <div style="padding: 8px 16px; background: var(--surface); border-top: 1px solid var(--line); display: flex; gap: 6px; overflow-x: auto; white-space: nowrap;">
                 <span style="font-size: 11px; color: var(--muted); align-self: center; margin-right: 4px;">Quick replies:</span>
-                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="Hi! I am Muhammad Ayan Shamim, lead architect at Creatsify. How can I help you today?">
+                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="Hi! We are the Creatsify Co-Founders team. How can we help you today?">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
                     <span>Greeting</span>
                 </button>
@@ -119,7 +119,7 @@ $this->layout('layouts/admin');
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span>Timeline & Quote</span>
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="Feel free to email your technical documents directly to ayan@creatsify.tech.">
+                <button type="button" class="btn btn-secondary btn-sm canned-chip" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 20px;" data-reply="Feel free to email your technical documents directly to contact@creatsify.tech.">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                     <span>Email Invite</span>
                 </button>
@@ -143,7 +143,7 @@ $this->layout('layouts/admin');
     <?php if ($activeSession): ?>
         <div class="card chat-desk-pane chat-desk-context-pane" style="padding: 20px; overflow-y: auto; background: var(--surface);">
             <div style="text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
-                <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #ff4fa3); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; font-weight: 700; margin: 0 auto 10px auto;">
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #D4A017); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; font-weight: 700; margin: 0 auto 10px auto;">
                     <?= strtoupper(substr($activeSession['visitor_name'], 0, 1)) ?>
                 </div>
                 <h4 style="margin: 0; font-size: 15px; color: var(--text);"><?= e($activeSession['visitor_name']) ?></h4>
@@ -154,7 +154,7 @@ $this->layout('layouts/admin');
                 <div>
                     <span style="color: var(--muted); text-transform: uppercase; font-size: 10.5px; font-weight: 700; display: block; margin-bottom: 2px;">Session Mode</span>
                     <?php if ($activeSession['is_human_handoff']): ?>
-                        <span style="color: #ff4fa3; font-weight: 700;">Human Agent Handoff</span>
+                        <span style="color: #D4A017; font-weight: 700;">Human Agent Handoff</span>
                     <?php else: ?>
                         <span style="color: #00c853; font-weight: 700;">AI Auto-Pilot</span>
                     <?php endif; ?>

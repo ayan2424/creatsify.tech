@@ -12,6 +12,7 @@ $this->layout('layouts/main');
 
 <section class="section">
     <div class="wrap">
+        <h2 class="sr-only">Our services</h2>
         <div class="svc-grid">
             <?php foreach ($services as $i => $service): ?>
                 <article class="svc-card">
@@ -30,7 +31,7 @@ $this->layout('layouts/main');
                             </ul>
                         </div>
                     <?php endif; ?>
-                    <a href="<?= url('/contact?t=' . urlencode($service['title'])) ?>" class="btn p svc-btn">Ask about this &rarr;</a>
+                    <a href="<?= url('/contact?kind=custom_service&offering=' . urlencode($service['title'])) . '#inquiry-form' ?>" class="btn p svc-btn">Ask about this &rarr;</a>
                 </article>
             <?php endforeach; ?>
         </div>

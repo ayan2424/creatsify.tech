@@ -20,12 +20,35 @@ class ChatController
     public function send(Request $request): Response
     {
         $token = trim((string)$request->input('token', ''));
-        $message = trim((string)$request->input('message', ''));
-        $name = trim((string)$request->input('name', 'Visitor'));
+        $rawMessage = (string)$request->input('message', '');
+        $message = trim($rawMessage);
+        $rawName = trim((string)$request->input('name', 'Visitor'));
+        $name = htmlspecialchars(strip_tags($rawName), ENT_QUOTES, 'UTF-8');
+        if (empty($name) || mb_strlen($name) > 80) {
+            $name = 'Visitor';
+        }
         $email = trim((string)$request->input('email', ''));
 
         if (empty($token) || empty($message)) {
             return Response::json(['success' => false, 'error' => 'Token and message required.'], 422);
+        }
+
+        // Enforce 1,000 character length cap
+        if (mb_strlen($message) > 1000) {
+            return Response::json(['success' => false, 'error' => 'Message exceeds maximum length of 1,000 characters.'], 422);
+        }
+
+        // Flood / Rate Limiting (max 10 messages per minute per IP + token)
+        $rateKey = 'chat_rl_' . md5($request->getIp() . '_' . $token);
+        $now = time();
+        $history = session()->get($rateKey, []);
+        if (is_array($history)) {
+            $history = array_filter($history, static fn($ts) => ($now - (int)$ts) < 60);
+            if (count($history) >= 10) {
+                return Response::json(['success' => false, 'error' => 'Rate limit exceeded. Please wait a moment before sending another message.'], 429);
+            }
+            $history[] = $now;
+            session()->set($rateKey, $history);
         }
 
         // Get or initialize chat session
@@ -53,10 +76,9 @@ class ChatController
             $dispatcher = new NotificationDispatcher();
             $dispatcher->dispatchChatHandoff($session, $message);
 
-            $founder = setting('founder_name', 'our engineering team');
             $siteMail = setting('site_email', 'support@' . ($_SERVER['HTTP_HOST'] ?? 'example.com'));
-            $reply = "I've flagged this conversation for **{$founder}** directly on the Admin Desk. An engineer will respond here shortly. You can also reach us directly at {$siteMail} or submit a project inquiry.";
-            ChatMessage::add((int)$session['id'], 'bot', 'Creatsify AI', $reply);
+            $reply = "I've flagged this conversation directly for our co-founders (**Muhammad Ayan Shamim**, **Syeda Sukaina Batool**, and **Abdul Moiz**) on the Admin Desk. We will respond here shortly. You can also reach us directly at {$siteMail} or submit a quote request on our Contact page.";
+            ChatMessage::add((int)$session['id'], 'bot', 'Assistant', $reply);
 
             return Response::json([
                 'success' => true,
@@ -67,7 +89,7 @@ class ChatController
 
         // Local Smart Context Rule Engine
         $botReply = $this->getLocalChatResponse($message);
-        ChatMessage::add((int)$session['id'], 'bot', 'Creatsify AI', $botReply);
+        ChatMessage::add((int)$session['id'], 'bot', 'Assistant', $botReply);
 
         return Response::json([
             'success' => true,
@@ -127,18 +149,7 @@ class ChatController
     private function isHumanHandoffRequest(string $message): bool
     {
         $m = strtolower($message);
-        $triggers = [
-            'talk to human', 'speak with human', 'real person', 'live agent',
-            'speak with ayan', 'contact ayan', 'talk to founder', 'call me',
-            'phone number', 'whatsapp me', 'operator', 'agent', 'support rep'
-        ];
-
-        foreach ($triggers as $t) {
-            if (str_contains($m, $t)) {
-                return true;
-            }
-        }
-        return false;
+        return (bool)preg_match('/\b(talk\s+to(\s+a)?\s+human|speak\s+(with|to)(\s+a)?\s+human|real\s+person|live\s+agent|human\s+support|human\s+agent|human\s+please|connect\s+with\s+(a\s+)?human|talk\s+to\s+(founder|founders|team|ayan|sukaina|moiz)|speak\s+with\s+(ayan|sukaina|moiz)|call\s+me|phone\s+number|whatsapp\s+me|operator|support\s+rep)\b/i', $m);
     }
 
     /**
@@ -150,16 +161,44 @@ class ChatController
 
         // Greetings
         if (preg_match('/\b(hi|hello|hey|salam|assalam|aoa)\b/', $m)) {
-            return "Hello! Welcome to **Creatsify Studio**. I can assist you with our software products (like Cheetah Courier), custom web and mobile engineering, pricing, or connect you directly with founder Muhammad Ayan Shamim. How can I help you today?";
+            return "Hello! Welcome to **Creatsify Studio**. I am your Assistant. We build ready-made courier and e-commerce software (Cheetah Enterprise, Cheetah Lite, Cheezify) and high-velocity custom web applications. How can I help you today?";
         }
 
         // Cheetah Courier Software inquiries
         if (str_contains($m, 'cheetah') || str_contains($m, 'courier') || str_contains($m, 'logistics') || str_contains($m, 'warehouse') || str_contains($m, 'parcel')) {
-            return "Our flagship product line **Cheetah** is built specifically for courier and warehouse operators. It comes in 3 distinct editions:\n"
-                 . "1. **Cheetah Starter**: Single-origin parcel delivery with 7 role portals.\n"
-                 . "2. **Cheetah Pro**: Multi-origin, route optimization, fleet dispatch, and automated ePOD.\n"
-                 . "3. **Cheetah SaaS**: Multi-tenant cloud platform with subscription billing.\n\n"
-                 . "Would you like a live demo or technical pricing?";
+            return "Our flagship courier software **Cheetah** is sold with 100% full unencrypted source code and white-label rights via our official Gumroad store:\n\n"
+                 . "1. **Cheetah Enterprise**: Complete logistics & warehouse platform featuring 7 role portals, driver & picker Flutter app, cash-on-delivery reconciliation, live tracking, and merchant portals. Live demo: https://cheetah.ayan24.me\n"
+                 . "2. **Cheetah Lite**: Courier-only operations platform without warehouse overhead. Fast dispatch, live tracking, and rider assignment. Live demo: https://cheetah-lite.ayan24.me\n\n"
+                 . "Would you like a purchase link or direct technical details?";
+        }
+
+        // Cheezify Online Store
+        if (str_contains($m, 'cheezify') || str_contains($m, 'store') || str_contains($m, 'ecommerce') || str_contains($m, 'e-commerce') || str_contains($m, 'shop')) {
+            return "**Cheezify** is our complete online store platform and admin panel written in pure PHP with zero framework bloat. Features cold-chain delivery zones, responsive catalog, cart persistence, and order management. Sold directly on Gumroad with full source code. Live demo: https://cheezify.ayan24.me";
+        }
+
+        // White-label & Source Code
+        if (str_contains($m, 'white label') || str_contains($m, 'whitelabel') || str_contains($m, 'source code') || str_contains($m, 'license') || str_contains($m, 'gumroad')) {
+            return "All commercial software sold by Creatsify (Cheetah Enterprise, Cheetah Lite, Cheezify) comes with **100% full unencrypted source code** and lifetime white-label rights. You can rebrand it, host it on your own server (aaPanel, cPanel, VPS), and operate it without recurring vendor fees. Licenses are sold directly via our official Gumroad store with instant download and direct in-house technical support.";
+        }
+
+        // Installation & Server Setup
+        if (str_contains($m, 'install') || str_contains($m, 'setup') || str_contains($m, 'aapanel') || str_contains($m, 'nginx') || str_contains($m, 'cpanel') || str_contains($m, 'server')) {
+            return "Our scripts are engineered for simple, zero-downtime deployment on aaPanel, cPanel, or standard Linux VPS:\n"
+                 . "• **Requirements**: PHP 8.2+ with PDO MySQL and standard extensions\n"
+                 . "• **Web Server**: Nginx or Apache (includes built-in Front Controller URL rewrite rules)\n"
+                 . "• **1-Click Installer**: Every download includes a graphical browser wizard (`install.php`) that checks requirements and imports the database in seconds\n"
+                 . "Our co-founders provide direct in-house support if you need assistance with server setup.";
+        }
+
+        // Pricing and quote inquiries
+        if (str_contains($m, 'price') || str_contains($m, 'cost') || str_contains($m, 'quote') || str_contains($m, 'rate') || str_contains($m, 'budget') || str_contains($m, 'buy')) {
+            return "Our software pricing is transparent and direct:\n"
+                 . "• **Cheetah Enterprise**: Flagship logistics & warehouse suite with 7 portals & driver app (available on Gumroad)\n"
+                 . "• **Cheetah Lite**: Lightweight courier-only operations edition (available on Gumroad)\n"
+                 . "• **Cheezify**: Complete PHP MVC online store & admin system (available on Gumroad)\n"
+                 . "• **Custom Development**: Transparent milestone contracts tailored to your exact specifications.\n\n"
+                 . "You can explore live demos on our Software page or click 'Get a quote' to discuss your requirements.";
         }
 
         // Tech stack inquiries
@@ -172,22 +211,21 @@ class ChatController
                  . "• **Integrations**: Meta WhatsApp Cloud API v21.0, Twilio SMS, Stripe, Paymob.";
         }
 
-        // Pricing and quote inquiries
-        if (str_contains($m, 'price') || str_contains($m, 'cost') || str_contains($m, 'quote') || str_contains($m, 'rate') || str_contains($m, 'budget')) {
-            return "Our pricing depends on your project scope. Pre-built software licenses (such as Cheetah editions or Cheezify) can be purchased directly via our official Gumroad store with instant download and direct in-house technical support. For custom full-stack web or mobile builds, we provide transparent milestone-based contracts. Would you like to share your project details?";
-        }
-
-        // Founder and studio background
-        if (str_contains($m, 'founder') || str_contains($m, 'ayan') || str_contains($m, 'who are you') || str_contains($m, 'about')) {
-            return "**Creatsify** is founded by **Muhammad Ayan Shamim**, an AI software engineer and distinction holder from Aptech. We design and ship production-grade web systems, mobile apps, and white-label commercial software used globally.";
+        // Founders and studio background
+        if (str_contains($m, 'founder') || str_contains($m, 'ayan') || str_contains($m, 'sukaina') || str_contains($m, 'moiz') || str_contains($m, 'who are you') || str_contains($m, 'about') || str_contains($m, 'team')) {
+            return "**Creatsify** is an independent software studio led by three co-founders:\n"
+                 . "• **Muhammad Ayan Shamim**: Co-Founder & Lead Full-Stack Architect (PHP 8 MVC, MySQL, Systems)\n"
+                 . "• **Syeda Sukaina Batool**: Co-Founder & UI/UX Product Design Lead (Design Systems, Figma)\n"
+                 . "• **Abdul Moiz**: Co-Founder & Technical Operations Lead (aaPanel, Nginx, Deployments)\n\n"
+                 . "Together, we build and license production-grade software and craft high-performance web systems for clients globally.";
         }
 
         // Location
-        if (str_contains($m, 'location') || str_contains($m, 'where') || str_contains($m, 'karachi') || str_contains($m, 'office')) {
+        if (str_contains($m, 'location') || str_contains($m, 'where') || str_contains($m, 'office')) {
             return "Creatsify Studio is a remote-first software studio, working with clients across North America, the UK, the Middle East and beyond.";
         }
 
         // Default intelligent fallback
-        return "Thanks for your message! Creatsify builds custom web platforms, mobile apps, and flagship courier platforms like Cheetah. Could you tell me a bit more about what you're looking to build? You can also type 'talk to human' to connect with our founder.";
+        return "Thanks for your message! Creatsify builds high-velocity web platforms, courier platforms like Cheetah, and ready-made store software. Could you tell me a bit more about what you're looking to build? You can also type 'talk to a human' to connect directly with our co-founders.";
     }
 }

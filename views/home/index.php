@@ -5,7 +5,7 @@ $this->layout('layouts/main');
 $hero = $sections['hero'] ?? [];
 $heroMeta = $hero['metadata'] ?? [];
 $rotatingWords = $heroMeta['rotating_words'] ?? ['couriers', 'online stores', 'local brands', 'startups'];
-$heroChips = $heroMeta['chips'] ?? ['7 role portals in Cheetah', 'Sold on 4 marketplaces', '10 products shipped'];
+$heroChips = $heroMeta['chips'] ?? ['7 role portals in Cheetah', 'Direct software licensing', '3 commercial products'];
 
 $cheetah = $sections['cheetah_showcase'] ?? [];
 $cheetahMeta = $cheetah['metadata'] ?? [];
@@ -106,24 +106,19 @@ foreach ($products as $pr) {
 if (!$showcase) {
     $showcase[] = ['name' => 'Creatsify', 'kind' => 'Software studio', 'img' => 'images/hero-artwork.jpg', 'toast' => 'Software studio', 'host' => 'creatsify.tech', 'href' => url('/portfolio')];
 }
-// Hero visual: 'paint' = a 3D brush that paints the page (needs public/assets/models/brush.glb),
-// 'showcase' = product screenshots. Switch without touching code by adding a setting named hero_visual with the value showcase.
-$heroVisual = setting('hero_visual', 'paint');
-$hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/assets/models/brush.glb');
 ?>
-<div class="fv hf<?= $hasPaint ? ' fv-paint' : '' ?>" style="--d:.45s">
-<?php if ($hasPaint):
-    // What the brush paints, in order. The caption under the stage explains each scene.
-    $makes = [
-        ['Websites', 'Fast, clean business websites and online stores.'],
-        ['Mobile apps', 'Apps for drivers, staff and customers.'],
-        ['Admin panels', 'Dashboards to run orders, stock and teams.'],
-        ['Design', 'Logos, colour systems and interface design.'],
-        ['Ads', 'Ad creatives that bring customers in.'],
-    ];
+<?php
+// What the Creatsify "C." Core Engine constructs, in order. The caption under the stage explains each system.
+$makes = [
+    ['Web Systems & SaaS', 'Fast, custom PHP 8 MVC engines, cloud platforms and SaaS architectures.'],
+    ['Courier Logistics', 'Cheetah Enterprise multi-branch logistics, rider apps, and live tracking.'],
+    ['Admin Dashboards', 'Modern dark glassmorphism consoles to manage orders, stock, and telemetry.'],
+    ['E-Commerce Stores', 'Cheezify and custom WooCommerce stores with cold-chain delivery zones.'],
+    ['Design Systems & UI', 'High-contrast design tokens, Figma component systems, and fluid micro-interactions.'],
+];
 ?>
-    <div class="hp" id="hp" data-model="<?= asset_v('models/brush.glb') ?>" data-sprite="<?= asset_v('images/hero-brush.webp') ?>" data-tip="18.6,326.8">
-        <img class="hp-poster" src="<?= asset_v('images/hero-paint-poster.webp') ?>" width="900" height="758" alt="A paintbrush painting a website layout in purple, blue, pink and orange">
+<div class="fv hf fv-paint" style="--d:.45s">
+    <div class="hp" id="hp">
         <canvas class="hp-paint" aria-hidden="true"></canvas>
         <canvas class="hp-trail" aria-hidden="true"></canvas>
         <canvas class="hp-gl" aria-hidden="true"></canvas>
@@ -131,7 +126,7 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
     <div class="hp-meta" id="hpMeta">
         <p class="hp-cap" aria-live="polite"><?= e($makes[0][1]) ?></p>
         <div class="hp-row">
-            <div class="hp-tabs" role="tablist" aria-label="What we make">
+            <div class="hp-tabs" role="tablist" aria-label="Systems we architect and build">
                 <?php foreach ($makes as $k => $mk): ?>
                     <button type="button" class="hp-tab<?= $k === 0 ? ' on' : '' ?>" role="tab" aria-selected="<?= $k === 0 ? 'true' : 'false' ?>" data-cap="<?= e($mk[1]) ?>"><?= e($mk[0]) ?></button>
                 <?php endforeach; ?>
@@ -143,31 +138,6 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
         </div>
         <a class="hp-more" href="#products">See what we have built &darr;</a>
     </div>
-<?php else: ?>
-    <div class="hv<?= count($showcase) < 2 ? ' solo' : '' ?>" id="hv">
-        <div class="hv-win" data-tilt="4">
-            <div class="hv-bar">
-                <span class="hv-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="hv-url" id="hvUrl"><?= e($showcase[0]['host']) ?></span>
-                <span class="hv-live"><i></i>Live</span>
-            </div>
-            <a class="hv-screen" id="hvLink" href="<?= e($showcase[0]['href']) ?>" aria-label="Open the case study for the product on screen">
-                <?php foreach ($showcase as $k => $sc): ?>
-                    <img class="hv-shot<?= $k === 0 ? ' on' : '' ?>" src="<?= asset($sc['img']) ?>" width="1376" height="768" alt="<?= e($sc['name']) ?> screenshot"<?= $k === 0 ? ' fetchpriority="high"' : ' loading="lazy"' ?>>
-                <?php endforeach; ?>
-                <span class="hv-toast" id="hvToast"><i></i><span><?= e($showcase[0]['toast']) ?></span></span>
-            </a>
-            <div class="hv-prog" aria-hidden="true"><i id="hvProg"></i></div>
-        </div>
-        <div class="hv-tabs" role="tablist" aria-label="Our products">
-            <?php foreach ($showcase as $k => $sc): ?>
-                <button type="button" class="hv-tab<?= $k === 0 ? ' on' : '' ?>" role="tab" aria-selected="<?= $k === 0 ? 'true' : 'false' ?>" data-host="<?= e($sc['host']) ?>" data-href="<?= e($sc['href']) ?>" data-toast="<?= e($sc['toast']) ?>">
-                    <b><?= e($sc['name']) ?></b><span><?= e($sc['kind']) ?></span>
-                </button>
-            <?php endforeach; ?>
-        </div>
-    </div>
-<?php endif; ?>
 </div>
 </div><div class="sc" aria-hidden="true"></div></section>
 
@@ -209,7 +179,7 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
                     <?php endif; ?>
                 </div>
                 <div class="prod-body">
-                    <span class="prod-status"><?= e($pr['status'] ?? 'For sale') ?></span>
+                    <span class="prod-status"><?= e($pr['status'] ?? 'For sale') ?><?= !empty($pr['price']) ? ' &middot; ' . e($pr['price']) : '' ?></span>
                     <h3><?= e($pr['title']) ?></h3>
                     <p><?= e($pr['summary'] ?? '') ?></p>
                     <div class="chips"><?php foreach ($tech as $t): ?><span><?= e($t) ?></span><?php endforeach; ?></div>
@@ -265,9 +235,9 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
 <!-- Portfolio (stacked cards are built from the projects list in main.js) -->
 <section id="work"><div class="wrap">
     <div class="top">
-        <div class="idx rv">Portfolio</div>
-        <h2 data-split class="sp">Projects we have built</h2>
-        <p class="sub rv" style="--d:.2s">Courier software, an online store with its own admin panel, and a WordPress store.</p>
+        <div class="idx rv">More work</div>
+        <h2 data-split class="sp">Other things we have built</h2>
+        <p class="sub rv" style="--d:.2s">The software above is ready to buy. These are projects we built that are not for sale.</p>
     </div>
     <div class="pjs" id="pjs"></div>
 </div></section>
@@ -311,8 +281,33 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
     </div>
 </div></section>
 
+<!-- Team -->
+<?php if (!empty($teamMembers)): ?>
+<section id="team"><div class="wrap">
+    <div class="top">
+        <div class="idx rv">Team</div>
+        <h2 data-split class="sp">The people behind the software</h2>
+        <p class="sub rv" style="--d:.2s">The team that builds, ships and supports everything we sell.</p>
+    </div>
+    <div class="tm-grid">
+        <?php foreach ($teamMembers as $i => $m):
+            $skills = array_slice(array_filter(array_map('trim', explode(',', (string)($m['skills'] ?? '')))), 0, 4);
+        ?>
+            <article class="tm-card rv" style="--d:<?= $i * 0.1 ?>s">
+                <img class="tm-avatar" src="<?= asset($m['avatar'] ?: 'brand/creatsify-icon.png') ?>" width="72" height="72" loading="lazy" alt="<?= e($m['name']) ?>">
+                <h3><?= e($m['name']) ?></h3>
+                <p class="tm-role"><?= e($m['role_title']) ?></p>
+                <?php if ($skills): ?><div class="chips"><?php foreach ($skills as $sk): ?><span><?= e($sk) ?></span><?php endforeach; ?></div><?php endif; ?>
+                <a class="tm-link" href="<?= url('/team/' . $m['slug']) ?>">View profile &rarr;</a>
+            </article>
+        <?php endforeach; ?>
+    </div>
+    <div class="row rv" style="margin-top:30px;justify-content:center"><a class="btn" href="<?= url('/team') ?>">Meet the whole team</a></div>
+</div></section>
+<?php endif; ?>
+
 <!-- How buying works -->
-<section id="how"><div class="wrap">
+<section id="how" class="alt"><div class="wrap">
     <div class="top">
         <div class="idx rv">How it works</div>
         <h2 data-split class="sp">From demo to live in three steps</h2>
@@ -327,33 +322,36 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
 </div></section>
 
 <!-- About -->
-<section id="about" class="alt"><div class="wrap split">
+<section id="about"><div class="wrap split">
     <div>
-        <div class="idx rv">About</div>
-        <h2 data-split class="sp"><?= e($about['title'] ?? ('Built by ' . setting('founder_name', 'Creatsify Team'))) ?></h2>
-        <p class="sub rv" style="--d:.2s"><?= e(setting('founder_bio', 'Creatsify is a software studio. We sell ready-made courier and store software, and build custom websites and admin panels.')) ?></p>
+        <div class="idx rv">Leadership</div>
+        <h2 data-split class="sp"><?= e($about['title'] ?? 'Built by Three Equal Co-Founders') ?></h2>
+        <p class="sub rv" style="--d:.2s"><?= e(setting('founder_bio', 'Creatsify is an independent software studio led equally by three co-founders: Muhammad Ayan Shamim, Syeda Sukaina Batool, and Abdul Moiz. Together, we architect, design, and ship production-grade courier platforms, online store systems, and custom web applications for clients worldwide.')) ?></p>
         <div class="row rv" style="margin-top:26px;--d:.3s">
-            <a class="btn" href="<?= e(setting('founder_github', 'https://github.com/ayan2424')) ?>" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a class="btn" href="<?= e(setting('founder_linkedin', 'https://linkedin.com/in/muhammadayanshamim')) ?>" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a class="btn p" href="<?= url('/team') ?>" style="display:inline-flex;align-items:center;gap:6px;">
+                <span>Meet the 3 Co-Founders</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </a>
+            <a class="btn" href="<?= url('/contact') ?>">Work with us</a>
         </div>
         <div class="bdg rv s" style="--d:.4s">
             <svg viewBox="0 0 200 200" aria-hidden="true">
                 <defs><path id="cp" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
-                <text><textPath href="#cp" textLength="495" lengthAdjust="spacing"><?= e($aboutMeta['badge'] ?? (strtoupper(setting('site_name', 'CREATSIFY')) . ' • BUILD • SHIP • GROW • ')) ?></textPath></text>
+                <text><textPath href="#cp" textLength="495" lengthAdjust="spacing"><?= e($aboutMeta['badge'] ?? (strtoupper(setting('site_name', 'CREATSIFY')) . ' • EQUAL CO-FOUNDERS • BUILD • SHIP • ')) ?></textPath></text>
             </svg>
             <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify emblem">
         </div>
     </div>
     <ul class="facts">
-        <li class="rv r"><b>Web development</b><span>PHP, MySQL and JavaScript, without a heavy framework</span></li>
-        <li class="rv r" style="--d:.1s"><b>WordPress and e-commerce</b><span>Elementor and WooCommerce stores</span></li>
-        <li class="rv r" style="--d:.2s"><b>Software products</b><span>Cheetah and Cheezify, sold with full source code</span></li>
-        <li class="rv r" style="--d:.3s"><b>Works with</b><span>Clients worldwide, fully remote</span></li>
+        <li class="rv r"><b>Muhammad Ayan Shamim</b><span>Co-Founder & Lead Full-Stack Architect (PHP 8 MVC, MySQL 8, Core Systems)</span></li>
+        <li class="rv r" style="--d:.1s"><b>Syeda Sukaina Batool</b><span>Co-Founder & UI/UX Product Design Lead (Design Systems, High-Conversion UX, Figma)</span></li>
+        <li class="rv r" style="--d:.2s"><b>Abdul Moiz</b><span>Co-Founder & Technical Operations Lead (Production Linux, aaPanel, Server Ops)</span></li>
+        <li class="rv r" style="--d:.3s"><b>Equal Partnership</b><span>Every product and client engagement is planned, built, and supported directly by our three co-founders</span></li>
     </ul>
 </div></section>
 
 <!-- Contact -->
-<section id="contact"><div class="wrap split">
+<section id="contact" class="alt"><div class="wrap split">
     <div>
         <div class="idx rv">Contact</div>
         <h2 data-split class="sp"><?= e($sections['contact']['title'] ?? 'Tell us what you want to build') ?></h2>
@@ -366,14 +364,17 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
                     </span>
                     <div>
                         <b>Chat on WhatsApp</b>
-                        <span>Talk to <?= e(setting('founder_name', 'the founder')) ?> directly</span>
+                        <span>Talk to our Co-Founders directly</span>
                     </div>
                 </div>
                 <?php
                 $waPhone = clean_phone_number(setting('whatsapp_number', setting('site_phone', '923002521199')), false);
                 $waMsg = urlencode("Hello, I would like to discuss a project with " . setting('site_name', 'Creatsify Studio'));
                 ?>
-                <a href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener" class="wa-chat-btn"><span>Message us on WhatsApp</span> &rarr;</a>
+                <a href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener" class="wa-chat-btn" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;">
+                    <span>Message us on WhatsApp</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
             </div>
             <div class="contact-perks-list">
                 <div class="contact-perk-item">
@@ -403,10 +404,11 @@ $hasPaint = $heroVisual === 'paint' && is_file(dirname(__DIR__, 2) . '/public/as
             </select>
         </label>
         <label>Message<textarea name="message" rows="5" required placeholder="Tell us about your business and what you want to build..."></textarea></label>
-        <button class="btn p" type="submit" style="width:100%;font-weight:700;">Send message &rarr;</button>
+        <button class="btn p" type="submit" style="width:100%;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;">
+            <span>Send message</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
     </form>
 </div></section>
 
-<?php if ($hasPaint): ?>
-<script src="<?= asset_v('js/hero-paint.js') ?>" defer></script>
-<?php endif; ?>
+<script src="<?= asset_v('js/hero-scene.js') ?>" defer></script>

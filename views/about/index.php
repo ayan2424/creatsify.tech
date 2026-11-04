@@ -16,7 +16,7 @@ $this->layout('layouts/main');
             <div class="pg-card pg-prose">
                 <h2>Built to be understood, hosted and owned</h2>
                 <p>
-                    <?= e(setting('site_name', 'Creatsify')) ?> was founded by <strong><?= e(setting('founder_name', 'Muhammad Ayan Shamim')) ?></strong>.
+                    <?= e(setting('site_name', 'Creatsify')) ?> is an independent software studio founded by three co-founders: <strong>Muhammad Ayan Shamim</strong> (Lead Full-Stack Architect), <strong>Syeda Sukaina Batool</strong> (UI/UX Product Design Lead), and <strong>Abdul Moiz</strong> (Technical Operations Lead).
                     We write software in plain PHP and MySQL with a clean MVC structure, so it stays fast, easy to read and easy to host almost anywhere.
                 </p>
 
@@ -35,13 +35,33 @@ $this->layout('layouts/main');
 
             <div>
                 <div class="pg-card pg-founder">
-                    <img src="<?= asset(setting('founder_avatar', 'brand/creatsify-icon.png')) ?>" alt="<?= e(setting('founder_name', 'Founder')) ?>" width="96" height="96">
-                    <h3><?= e(setting('founder_name', 'Muhammad Ayan Shamim')) ?></h3>
-                    <p class="pg-role"><?= e(setting('founder_title', 'Founder & Lead Architect')) ?></p>
-                    <p class="pg-bio"><?= e(setting('founder_bio', 'Builds courier software, online stores and custom admin panels in PHP and MySQL.')) ?></p>
+                    <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify Co-Founders" width="80" height="80" style="border-radius:12px;margin:0 auto 16px;display:block;">
+                    <h3 style="text-align:center;">Co-Founders & Leadership</h3>
+                    <p class="pg-role" style="text-align:center;">The Engineering & Design Team</p>
+                    
+                    <div style="display:flex;flex-direction:column;gap:12px;margin:18px 0;text-align:left;">
+                        <div style="padding:10px 14px;background:var(--bg);border-radius:8px;border:1px solid var(--line);">
+                            <strong style="color:var(--text);font-size:13.5px;display:block;">Muhammad Ayan Shamim</strong>
+                            <span style="color:var(--accent);font-size:12px;font-weight:600;">Co-Founder & Lead Full-Stack Architect</span>
+                        </div>
+                        <div style="padding:10px 14px;background:var(--bg);border-radius:8px;border:1px solid var(--line);">
+                            <strong style="color:var(--text);font-size:13.5px;display:block;">Syeda Sukaina Batool</strong>
+                            <span style="color:var(--accent);font-size:12px;font-weight:600;">Co-Founder & UI/UX Product Design Lead</span>
+                        </div>
+                        <div style="padding:10px 14px;background:var(--bg);border-radius:8px;border:1px solid var(--line);">
+                            <strong style="color:var(--text);font-size:13.5px;display:block;">Abdul Moiz</strong>
+                            <span style="color:var(--accent);font-size:12px;font-weight:600;">Co-Founder & Technical Operations Lead</span>
+                        </div>
+                    </div>
+
+                    <p class="pg-bio" style="font-size:13px;line-height:1.5;margin-bottom:18px;">
+                        Together, we design, build, and support all commercial software and client platforms shipped by Creatsify.
+                    </p>
                     <div class="pg-links">
-                        <a href="<?= e(setting('founder_github', 'https://github.com/ayan2424')) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-block">GitHub profile &rarr;</a>
-                        <a href="<?= e(setting('founder_linkedin', 'https://linkedin.com/in/muhammadayanshamim')) ?>" target="_blank" rel="noopener" class="btn btn-secondary btn-block">LinkedIn &rarr;</a>
+                        <a href="<?= url('/team') ?>" class="btn btn-secondary btn-block" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;">
+                            <span>Meet the 3 Co-Founders</span>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                        </a>
                     </div>
                 </div>
             </div>

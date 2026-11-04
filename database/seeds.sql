@@ -17,7 +17,7 @@ ON DUPLICATE KEY UPDATE `name`=VALUES(`name`);
 
 -- 3. Platform Settings
 INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES
-('site_title', 'Creatsify — Full-stack web, mobile and AI development studio', 'general'),
+('site_title', 'Creatsify | Courier and store software, custom websites and admin panels', 'general'),
 ('site_tagline', 'We build software for courier companies, online stores, learning platforms, startups & enterprises.', 'general'),
 ('site_email', 'ayan@creatsify.tech', 'general'),
 ('site_phone', '+92 300 0000000', 'general'),
@@ -25,7 +25,7 @@ INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES
 ('site_logo', '/assets/brand/creatsify-wordmark.png', 'appearance'),
 ('site_logo_light', '/assets/brand/creatsify-wordmark-light.png', 'appearance'),
 ('site_icon', '/assets/brand/favicon.png', 'appearance'),
-('primary_accent', '#8b7bff', 'appearance'),
+('primary_accent', '#2563EB', 'appearance'),
 ('dark_mode_default', '1', 'appearance'),
 ('founder_name', 'Muhammad Ayan Shamim', 'founder'),
 ('founder_title', 'Founder & Lead Architect', 'founder'),
@@ -92,7 +92,9 @@ ON DUPLICATE KEY UPDATE `title`=VALUES(`title`);
 
 -- 8. Agency Team Members & Staff
 INSERT INTO `team_members` (`id`, `name`, `slug`, `role_title`, `bio`, `avatar`, `skills`, `github_url`, `linkedin_url`, `portfolio_url`, `email`, `sort_order`, `is_active`) VALUES
-(1, 'Muhammad Ayan Shamim', 'ayan-shamim', 'Founder & Lead Full-Stack Architect', 'Founder of Creatsify. ACCP AI student at Aptech. Specializes in building mission-critical courier platforms, multi-tenant SaaS backends, and full-stack software architectures.', '/assets/brand/creatsify-icon.png', 'PHP, Laravel, Python, React, Next.js, MySQL, Redis, Docker', 'https://github.com/ayan2424', 'https://linkedin.com/in/muhammadayanshamim', 'https://creatsify.tech', 'ayan@creatsify.tech', 1, 1)
+(1, 'Muhammad Ayan Shamim', 'ayan-shamim', 'Founder & Lead Full-Stack Architect', 'Founder of Creatsify. ACCP AI student at Aptech Karachi. Specializes in building mission-critical courier platforms, multi-tenant SaaS backends, and full-stack software architectures.', '/assets/brand/creatsify-icon.png', 'PHP, Laravel, Python, React, Next.js, MySQL, Redis, Docker', 'https://github.com/ayan2424', 'https://linkedin.com/in/muhammadayanshamim', 'https://creatsify.tech', 'ayan@creatsify.tech', 1, 1),
+(2, 'Bilal Ahmed', 'bilal-ahmed', 'Senior UI/UX & Design Systems Lead', 'Creative design architect with 4+ years of experience crafting high-conversion design systems, SaaS dashboards, and immersive micro-interactions.', '/assets/brand/creatsify-icon.png', 'Figma, UI/UX, Design Systems, Tailwind CSS, Interaction Design, Framer', 'https://github.com', 'https://linkedin.com', 'https://dribbble.com', 'bilal@creatsify.tech', 2, 1),
+(3, 'Hamza Malik', 'hamza-malik', 'Mobile Apps & Flutter Specialist', 'Cross-platform mobile developer dedicated to building fluid, 60fps native iOS and Android apps with robust offline sync and clean state architectures.', '/assets/brand/creatsify-icon.png', 'Flutter, Dart, Android, iOS, REST APIs, Firebase, SQLite', 'https://github.com', 'https://linkedin.com', 'https://github.com', 'hamza@creatsify.tech', 3, 1)
 ON DUPLICATE KEY UPDATE `name`=VALUES(`name`);
 
 -- 9. Individual Team Member Portfolio Projects
@@ -100,5 +102,9 @@ INSERT INTO `member_portfolios` (`id`, `member_id`, `title`, `slug`, `category`,
 (1, 1, 'Cheetah Enterprise', 'cheetah-enterprise', 'Courier software', NULL, 'Founder and lead developer', 'Courier, warehouse and multi-branch logistics platform with 7 role portals.', 'Designed and built end to end: branch management, rider assignment, merchant portals, live tracking and proof of delivery.', NULL, 'https://cheetah.ayan24.me', 'PHP, MySQL, JavaScript, Flutter', NULL, 1, 1),
 (2, 1, 'Cheetah Lite', 'cheetah-lite', 'Courier software', NULL, 'Founder and lead developer', 'A lighter, courier-only edition of Cheetah.', 'The smaller Cheetah edition for businesses that only run courier deliveries.', NULL, 'https://cheetah-lite.ayan24.me', 'PHP, MySQL, JavaScript', NULL, 1, 2),
 (3, 1, 'Cheezify', 'cheezify', 'Online store', NULL, 'Founder and lead developer', 'Online cheese store with its own admin panel.', 'A complete online store and admin panel in plain PHP with a hand-built MVC structure.', NULL, 'https://cheezify.ayan24.me', 'PHP, MySQL, JavaScript', NULL, 1, 3),
-(4, 1, 'Sawi Store', 'sawi-store', 'Online store', NULL, 'Designer and developer', 'WordPress and WooCommerce online store built with Elementor.', 'An e-commerce website built on WordPress with Elementor and WooCommerce.', NULL, NULL, 'WordPress, Elementor, WooCommerce', NULL, 0, 4)
+(4, 1, 'Sawi Store', 'sawi-store', 'Online store', NULL, 'Designer and developer', 'WordPress and WooCommerce online store built with Elementor.', 'An e-commerce website built on WordPress with Elementor and WooCommerce.', NULL, NULL, 'WordPress, Elementor, WooCommerce', NULL, 0, 4),
+(5, 2, 'Cheetah Obsidian UI/UX Design System', 'cheetah-design-system', 'Product Design', 'Creatsify Studio', 'Lead UI/UX Designer', 'Crafted a dark-mode obsidian design system with high-contrast accessibility tokens and 3D glass widgets.', 'Constructed 250+ atomic Figma components, telemetry chart layouts, and interactive mobile driver interfaces.', '/assets/images/cheetah-showcase.jpg', 'https://creatsify.tech', 'Figma, Design Tokens, CSS Variables', '2026', 1, 1),
+(6, 2, 'RestroMaster POS & KDS Interface', 'restromaster-kds-interface', 'Interface Design', 'Hospitality Client', 'UI/UX Designer', 'Designed touch-optimized kitchen display system and contactless QR tabletop menu ordering.', 'Reduced order-to-kitchen latency by designing high-visibility order ticket states and ergonomic touch targets.', '/assets/images/restromaster-preview.jpg', 'https://creatsify.tech', 'Figma, Micro-animations, SVG Systems', '2026', 1, 2),
+(7, 3, 'Cheetah Rider & Driver Companion', 'cheetah-rider-companion', 'Mobile Development', 'Courier Fleet', 'Lead Mobile Developer', 'Native Flutter mobile app for delivery couriers featuring offline signature ePOD and background GPS tracking.', 'Implemented background geofencing, thermal Bluetooth barcode scanner integrations, and instantaneous route recalculations.', '/assets/images/cheetah-showcase.jpg', 'https://creatsify.tech', 'Flutter, Dart, SQLite, Google Maps SDK', '2026', 1, 1),
+(8, 3, 'Flavor Fleet Multi-Vendor Food App', 'flavor-fleet-mobile', 'Mobile App', 'Food Startup', 'Flutter Engineer', 'Customer-facing food ordering app with live delivery route animations and payment gateways.', 'Created a seamless multi-restaurant browsing experience with category filters, cart persistence, and order tracking.', '/assets/images/restromaster-preview.jpg', 'https://creatsify.tech', 'Flutter, Dart, Firebase, Stripe SDK', '2026', 1, 2)
 ON DUPLICATE KEY UPDATE `title`=VALUES(`title`), `category`=VALUES(`category`), `role_in_project`=VALUES(`role_in_project`), `summary`=VALUES(`summary`), `description`=VALUES(`description`), `project_url`=VALUES(`project_url`), `tech_stack`=VALUES(`tech_stack`), `is_featured`=VALUES(`is_featured`);

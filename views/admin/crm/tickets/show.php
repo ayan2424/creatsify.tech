@@ -82,7 +82,7 @@ $phoneClean = clean_phone_number($ticket['client_whatsapp'] ?: ($ticket['client_
                 <div class="crm-message-card <?= $isInternal ? 'is-internal' : ($isStaff ? 'is-staff' : '') ?>">
                     <div class="crm-message-header">
                         <div style="display: flex; align-items: center; gap: 8px;">
-                            <div style="width: 30px; height: 30px; border-radius: 50%; background: <?= $isInternal ? 'rgba(245, 158, 11, 0.2)' : ($isStaff ? 'rgba(139, 123, 255, 0.2)' : 'rgba(59, 130, 246, 0.2)') ?>; color: <?= $isInternal ? '#f59e0b' : ($isStaff ? 'var(--adm-accent)' : '#3b82f6') ?>; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">
+                            <div style="width: 30px; height: 30px; border-radius: 50%; background: <?= $isInternal ? 'rgba(245, 158, 11, 0.2)' : ($isStaff ? 'color-mix(in srgb,var(--accent) 20%,transparent)' : 'rgba(59, 130, 246, 0.2)') ?>; color: <?= $isInternal ? '#f59e0b' : ($isStaff ? 'var(--adm-accent)' : '#3b82f6') ?>; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">
                                 <?= strtoupper(substr($r['author_name'], 0, 1)) ?>
                             </div>
                             <strong style="font-size: 13.5px; color: var(--adm-text);"><?= e($r['author_name']) ?></strong>

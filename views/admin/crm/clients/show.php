@@ -8,7 +8,7 @@ $stageColors = [
     'proposal_sent' => ['bg' => 'rgba(245, 158, 11, 0.15)', 'color' => '#fbbf24', 'border' => 'rgba(245, 158, 11, 0.3)'],
     'contract_signed' => ['bg' => 'rgba(16, 185, 129, 0.15)', 'color' => '#34d399', 'border' => 'rgba(16, 185, 129, 0.3)'],
     'active_client' => ['bg' => 'rgba(16, 185, 129, 0.22)', 'color' => '#10b981', 'border' => 'rgba(16, 185, 129, 0.45)'],
-    'retained' => ['bg' => 'rgba(139, 123, 255, 0.2)', 'color' => 'var(--adm-accent)', 'border' => 'rgba(139, 123, 255, 0.4)'],
+    'retained' => ['bg' => 'color-mix(in srgb,var(--accent) 20%,transparent)', 'color' => 'var(--adm-accent)', 'border' => 'color-mix(in srgb,var(--accent) 40%,transparent)'],
     'churned' => ['bg' => 'rgba(239, 68, 68, 0.15)', 'color' => '#f87171', 'border' => 'rgba(239, 68, 68, 0.3)'],
 ];
 $sc = $stageColors[$client['stage']] ?? $stageColors['lead'];
@@ -293,7 +293,7 @@ $phoneClean = clean_phone_number($client['whatsapp'] ?: ($client['phone'] ?? '')
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
                                 <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                                     <?php if ($n['is_pinned']): ?>
-                                        <span style="font-size: 10.5px; font-weight: 700; color: var(--adm-accent); background: rgba(139, 123, 255, 0.15); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(139, 123, 255, 0.3);">
+                                        <span style="font-size: 10.5px; font-weight: 700; color: var(--adm-accent); background: color-mix(in srgb,var(--accent) 15%,transparent); padding: 2px 7px; border-radius: 4px; border: 1px solid color-mix(in srgb,var(--accent) 30%,transparent);">
                                             PINNED
                                         </span>
                                     <?php endif; ?>

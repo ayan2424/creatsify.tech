@@ -110,7 +110,7 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
         </div>
     </a>
     <a class="attn-item<?= count($activeChats ?? []) > 0 ? ' hot-violet' : '' ?>" href="<?= url('/admin/chat') ?>" title="Live Visitor Chats">
-        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(139, 123, 255, 0.12); color: var(--adm-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        <div style="width: 42px; height: 42px; border-radius: 10px; background: color-mix(in srgb,var(--accent) 12%,transparent); color: var(--adm-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
         <div>
@@ -144,12 +144,12 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
             <svg class="metric-sparkline" viewBox="0 0 100 35" fill="none">
                 <defs>
                     <linearGradient id="sgPipeline" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#8b7bff" stop-opacity="0.4"/>
-                        <stop offset="100%" stop-color="#8b7bff" stop-opacity="0"/>
+                        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.4"/>
+                        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
                     </linearGradient>
                 </defs>
                 <path d="M0,30 Q25,12 50,22 T80,8 T100,4 L100,35 L0,35 Z" fill="url(#sgPipeline)"/>
-                <path d="M0,30 Q25,12 50,22 T80,8 T100,4" stroke="#8b7bff" stroke-width="2.5" fill="none" class="sparkline-line"/>
+                <path d="M0,30 Q25,12 50,22 T80,8 T100,4" stroke="var(--accent)" stroke-width="2.5" fill="none" class="sparkline-line"/>
             </svg>
         </div>
         <div class="metric-footer">
@@ -268,22 +268,22 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; padding:16px;">
         <div class="delivery-milestone-box">
             <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Active Projects</span>
-            <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:var(--adm-text);"><?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?></strong>
+            <strong style="display:block; font-size:24px; font-family:Sora,sans-serif; margin-top:4px; color:var(--adm-text);"><?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?></strong>
             <span style="font-size:12px; color:var(--adm-muted);">Under active engineering</span>
         </div>
         <div class="delivery-milestone-box">
             <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">In Planning</span>
-            <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:#f59e0b;"><?= (int)($deliveryMetrics['counts']['planning'] ?? 0) ?></strong>
+            <strong style="display:block; font-size:24px; font-family:Sora,sans-serif; margin-top:4px; color:#f59e0b;"><?= (int)($deliveryMetrics['counts']['planning'] ?? 0) ?></strong>
             <span style="font-size:12px; color:var(--adm-muted);">Ready to scope & assign</span>
         </div>
         <div class="delivery-milestone-box">
             <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Open Deliverables</span>
-            <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:var(--adm-accent);"><?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?></strong>
+            <strong style="display:block; font-size:24px; font-family:Sora,sans-serif; margin-top:4px; color:var(--adm-accent);"><?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?></strong>
             <span style="font-size:12px; color:var(--adm-muted);"><?= (int)($deliveryMetrics['overdue_tasks'] ?? 0) ?> tasks past target date</span>
         </div>
         <div class="delivery-milestone-box">
             <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Delivered Systems</span>
-            <strong style="display:block; font-size:24px; font-family:'Bricolage Grotesque',sans-serif; margin-top:4px; color:#10b981;"><?= (int)($deliveryMetrics['counts']['delivered'] ?? 0) ?></strong>
+            <strong style="display:block; font-size:24px; font-family:Sora,sans-serif; margin-top:4px; color:#10b981;"><?= (int)($deliveryMetrics['counts']['delivered'] ?? 0) ?></strong>
             <span style="font-size:12px; color:var(--adm-muted);">Completed engagements</span>
         </div>
     </div>
@@ -336,15 +336,15 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
                     <defs>
                         <linearGradient id="mainAreaGrad" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="0%" stop-color="#ff5f38" stop-opacity="0.45"/>
-                            <stop offset="35%" stop-color="#ff4fa3" stop-opacity="0.25"/>
-                            <stop offset="70%" stop-color="#8b7bff" stop-opacity="0.10"/>
+                            <stop offset="35%" stop-color="#D4A017" stop-opacity="0.25"/>
+                            <stop offset="70%" stop-color="var(--accent)" stop-opacity="0.10"/>
                             <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
                         </linearGradient>
                         <linearGradient id="trendGrad" x1="0" y1="0" x2="1" y2="0">
                             <stop offset="0%" stop-color="#ff5f38"/>
-                            <stop offset="35%" stop-color="#ff4fa3"/>
-                            <stop offset="70%" stop-color="#a855f7"/>
-                            <stop offset="100%" stop-color="#8b7bff"/>
+                            <stop offset="35%" stop-color="#D4A017"/>
+                            <stop offset="70%" stop-color="#60A5FA"/>
+                            <stop offset="100%" stop-color="var(--accent)"/>
                         </linearGradient>
                     </defs>
                     <!-- Horizontal Grid Lines -->
@@ -360,7 +360,7 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
                     
                     <!-- Data Nodes with Pulsing Glow -->
                     <?php foreach ($chartPoints as $i => $pt): ?>
-                        <circle cx="<?= $pt['x'] ?>" cy="<?= $pt['y'] ?>" r="<?= ($i === count($chartPoints) - 1) ? '6' : '4.5' ?>" fill="<?= ($i === count($chartPoints) - 1) ? '#8b7bff' : '#ff4fa3' ?>" stroke="#fff" stroke-width="2" class="telemetry-node <?= ($i === count($chartPoints) - 1) ? 'active-node' : '' ?>">
+                        <circle cx="<?= $pt['x'] ?>" cy="<?= $pt['y'] ?>" r="<?= ($i === count($chartPoints) - 1) ? '6' : '4.5' ?>" fill="<?= ($i === count($chartPoints) - 1) ? 'var(--accent)' : '#D4A017' ?>" stroke="#fff" stroke-width="2" class="telemetry-node <?= ($i === count($chartPoints) - 1) ? 'active-node' : '' ?>">
                             <title><?= e($pt['day']) ?> (<?= e($pt['date']) ?>): <?= $pt['hits'] ?> visits</title>
                         </circle>
                     <?php endforeach; ?>
@@ -519,8 +519,8 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
                             $badgeStyle = match($st) {
                                 'new' => 'background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight:700;',
                                 'in_discussion' => 'background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight:700;',
-                                'converted' => 'background: rgba(139, 123, 255, 0.15); color: #8b7bff; border: 1px solid rgba(139, 123, 255, 0.3); font-weight:700;',
-                                'closed' => 'background: rgba(163, 167, 187, 0.15); color: #a3a7bb; border: 1px solid var(--adm-line); font-weight:700;',
+                                'converted' => 'background: color-mix(in srgb,var(--accent) 15%,transparent); color: var(--accent); border: 1px solid color-mix(in srgb,var(--accent) 30%,transparent); font-weight:700;',
+                                'closed' => 'background: rgba(163,178,199,0.15); color: #A3B2C7; border: 1px solid var(--adm-line); font-weight:700;',
                                 default => 'background: var(--adm-surface); color: var(--adm-muted); border: 1px solid var(--adm-line);'
                             };
                             ?>

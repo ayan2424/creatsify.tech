@@ -117,7 +117,7 @@
                     playChime();
                     if (data.handoff && statusText) {
                         statusText.textContent = '● Human Agent Alerted & Connecting...';
-                        statusText.style.color = '#ff4fa3';
+                        statusText.style.color = '#D4A017';
                     }
                 }, 400);
             }

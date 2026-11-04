@@ -18,8 +18,8 @@ class TeamController
 
         return view('team/index', [
             'members' => $members,
-            'meta_title' => 'Agency Creators & Engineering Team | Creatsify Studio',
-            'meta_desc' => 'Meet the engineers, architects, and designers behind Creatsify Studio. Explore individual team portfolios, skills, and shipped systems.'
+            'meta_title' => 'Team | Creatsify',
+            'meta_desc' => 'Meet the people who build and support Creatsify software.'
         ]);
     }
 

@@ -17,8 +17,8 @@ class ServicesController
 
         return view('services/index', [
             'services' => $services,
-            'meta_title' => 'Engineering Services | Creatsify',
-            'meta_desc' => 'High-velocity software engineering, cloud SaaS architecture, mobile applications, and AI integrations.'
+            'meta_title' => 'Services | Creatsify',
+            'meta_desc' => 'Custom websites, admin panels, WordPress stores, courier systems and WhatsApp or SMS alerts from Creatsify.'
         ]);
     }
 }

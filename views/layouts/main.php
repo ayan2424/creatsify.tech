@@ -1,7 +1,10 @@
 <?php
 /** @var Core\View $this */
-$accentColor = setting('primary_accent', '#8b7bff');
-$siteTitle = $meta_title ?? setting('site_title', 'Creatsify — Full-stack web, mobile and AI development studio');
+$accentColor = trim((string) setting('primary_accent', ''));
+// The brand colours come from the stylesheet. Only a custom colour chosen in the admin settings overrides them
+// (the old purple default and the brand blues are not treated as custom).
+$accentOverride = $accentColor !== '' && !in_array(strtolower($accentColor), ['#8b7bff', '#2563eb', '#60a5fa', 'var(--accent)'], true);
+$siteTitle = $meta_title ?? setting('site_title', 'Creatsify | Courier and store software, custom websites and admin panels');
 $siteDesc = $meta_desc ?? setting('meta_description', 'Creatsify is a software studio building ready-made courier and store software, plus custom websites, admin panels and apps for clients worldwide.');
 $siteKeywords = setting('meta_keywords', 'Creatsify, Courier software, Cheetah, Cheezify, PHP, Admin panels, Web Development');
 $siteIcon = setting('site_icon', '/assets/brand/favicon.png');
@@ -10,7 +13,7 @@ $headerCode = setting('custom_header_code', '');
 $footerCode = setting('custom_footer_code', '');
 ?>
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -27,31 +30,38 @@ $footerCode = setting('custom_footer_code', '');
     <meta property="og:title" content="<?= e($siteTitle) ?>">
     <meta property="og:description" content="<?= e($siteDesc) ?>">
     <meta property="og:url" content="<?= e(url(request()->getPath())) ?>">
-    <meta property="og:image" content="<?= e(url('/assets/brand/creatsify-wordmark.png')) ?>">
+    <meta property="og:image" content="<?= e(url('/assets/brand/og-image.png')) ?>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:image" content="<?= e(url('/assets/brand/og-image.png')) ?>">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= e($siteTitle) ?>">
     <meta name="twitter:description" content="<?= e($siteDesc) ?>">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?= asset($siteIcon) ?>">
-    <link rel="apple-touch-icon" href="<?= asset($siteIcon) ?>">
+    <!-- Brand icons -->
+    <link rel="icon" href="<?= url('/favicon.ico') ?>" sizes="32x32">
+    <link rel="icon" href="<?= url('/favicon.svg') ?>" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="<?= url('/apple-touch-icon.png') ?>">
+    <link rel="manifest" href="<?= url('/site.webmanifest') ?>">
+    <meta name="theme-color" content="#F6F9FE" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0A1A33" media="(prefers-color-scheme: dark)">
 
-    <!-- Fonts: Bricolage Grotesque & DM Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap" rel="stylesheet">
+    <!-- Brand font: Sora (hosted on this site) -->
+    <link rel="preload" href="<?= asset('fonts/sora-400.woff2') ?>" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="<?= asset('fonts/sora-700.woff2') ?>" as="font" type="font/woff2" crossorigin>
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="<?= asset_v('css/style.css') ?>">
     <link rel="stylesheet" href="<?= asset_v('css/chat.css') ?>">
-    <link rel="stylesheet" href="<?= asset_v('css/cinematic.css') ?>">
 
     <!-- Dynamic Custom Colors & Injected Code -->
     <style>
-        :root {
+        <?php if ($accentOverride): ?>
+        :root, :root[data-theme=light] {
             --accent: <?= e($accentColor) ?>;
             --accent-glow: <?= e($accentColor) ?>33;
         }
+        <?php endif; ?>
         <?= $customCss ?>
     </style>
 
@@ -71,7 +81,6 @@ $footerCode = setting('custom_footer_code', '');
 </head>
 <body>
     <div class="bg" aria-hidden="true"></div>
-    <canvas id="glCanvas" aria-hidden="true"></canvas>
     <div class="vg" aria-hidden="true"></div>
     <div class="prog" id="prog" aria-hidden="true"></div>
     <div class="pre" id="pre" aria-hidden="true">
@@ -81,8 +90,6 @@ $footerCode = setting('custom_footer_code', '');
             <div class="bar2"><i></i></div>
         </div>
     </div>
-    <div id="cr" aria-hidden="true"></div>
-    <div id="cd" aria-hidden="true"></div>
 
     <!-- Header Navigation -->
     <?php $this->partial('partials/header'); ?>
@@ -113,7 +120,6 @@ $footerCode = setting('custom_footer_code', '');
     <!-- Scripts -->
     <script src="<?= asset_v('js/main.js') ?>" defer></script>
     <script src="<?= asset_v('js/chat.js') ?>" defer></script>
-    <script src="<?= asset_v('js/cinematic.js') ?>" defer></script>
 
     <?= $footerCode ?>
 </body>

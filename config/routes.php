@@ -20,6 +20,8 @@ $router->group(['middleware' => ['analytics']], function (Router $r) {
     $r->get('/', [\App\Controllers\HomeController::class, 'index']);
     $r->get('/portfolio', [\App\Controllers\PortfolioController::class, 'index']);
     $r->get('/portfolio/{slug}', [\App\Controllers\PortfolioController::class, 'show']);
+    $r->get('/software', [\App\Controllers\SoftwareController::class, 'index']);
+    $r->get('/privacy', [\App\Controllers\LegalController::class, 'privacy']);
     $r->get('/services', [\App\Controllers\ServicesController::class, 'index']);
     $r->get('/team', [\App\Controllers\TeamController::class, 'index']);
     $r->get('/team/{slug}', [\App\Controllers\TeamController::class, 'show']);

@@ -25,12 +25,14 @@ class SitemapController
 
         $staticPages = [
             ['path' => '/', 'priority' => '1.0', 'changefreq' => 'weekly'],
+            ['path' => '/software', 'priority' => '0.9', 'changefreq' => 'weekly'],
             ['path' => '/portfolio', 'priority' => '0.9', 'changefreq' => 'weekly'],
             ['path' => '/services', 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['path' => '/team', 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['path' => '/about', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['path' => '/blog', 'priority' => '0.8', 'changefreq' => 'daily'],
             ['path' => '/contact', 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['path' => '/privacy', 'priority' => '0.3', 'changefreq' => 'yearly'],
         ];
 
         $urls = [];

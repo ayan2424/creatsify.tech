@@ -78,9 +78,9 @@ $code = $settings['custom_code'] ?? [];
             <div class="form-group">
                 <label for="primary_accent">Primary Accent Color</label>
                 <div style="display: flex; gap: 12px; align-items: center;">
-                    <input type="color" id="primary_accent" name="primary_accent" value="<?= e($app['primary_accent'] ?? '#8b7bff') ?>" style="width: 50px; height: 42px; border-radius: 8px; padding: 2px; border: 1px solid var(--line); cursor: pointer;">
-                    <input type="text" id="primary_accent_hex" class="form-control" value="<?= e($app['primary_accent'] ?? '#8b7bff') ?>" style="font-family: monospace; max-width: 130px;" placeholder="#8b7bff" maxlength="7">
-                    <span id="accentPreviewBadge" style="font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 6px; background: <?= e($app['primary_accent'] ?? '#8b7bff') ?>; color: #fff;">Accent Preview</span>
+                    <input type="color" id="primary_accent" name="primary_accent" value="<?= e(($app['primary_accent'] ?? '') !== '' ? $app['primary_accent'] : '#2563EB') ?>" style="width: 50px; height: 42px; border-radius: 8px; padding: 2px; border: 1px solid var(--line); cursor: pointer;">
+                    <input type="text" id="primary_accent_hex" class="form-control" value="<?= e(($app['primary_accent'] ?? '') !== '' ? $app['primary_accent'] : '#2563EB') ?>" style="font-family: monospace; max-width: 130px;" placeholder="#2563EB" maxlength="7">
+                    <span id="accentPreviewBadge" style="font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 6px; background: <?= e(($app['primary_accent'] ?? '') !== '' ? $app['primary_accent'] : '#2563EB') ?>; color: #fff;">Accent Preview</span>
                 </div>
                 <small style="color:var(--muted); font-size:12px; margin-top:4px; display:block;">Dynamically updates all buttons, glowing effects, and badges across the entire platform.</small>
             </div>
@@ -380,7 +380,7 @@ $code = $settings['custom_code'] ?? [];
             if (!input) return;
             const isPwd = input.type === 'password';
             input.type = isPwd ? 'text' : 'password';
-            this.style.color = isPwd ? 'var(--adm-accent, #8b7bff)' : '';
+            this.style.color = isPwd ? 'var(--adm-accent, var(--accent))' : '';
         });
     });
 </script>

@@ -4,30 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($meta_title ?? 'Sign In | Creatsify Admin Command Desk') ?></title>
-    <link rel="icon" type="image/png" href="<?= asset('brand/favicon.png') ?>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap" rel="stylesheet">
+    <link rel="icon" href="<?= url('/favicon.ico') ?>" sizes="32x32">
+    <link rel="icon" href="<?= url('/favicon.svg') ?>" type="image/svg+xml">
+    <meta name="theme-color" content="#081426">
+    <style>
+        @font-face{font-family:'Sora';font-weight:400;font-display:swap;src:url('<?= asset('fonts/sora-400.woff2') ?>') format('woff2')}
+        @font-face{font-family:'Sora';font-weight:500;font-display:swap;src:url('<?= asset('fonts/sora-500.woff2') ?>') format('woff2')}
+        @font-face{font-family:'Sora';font-weight:600 700;font-display:swap;src:url('<?= asset('fonts/sora-700.woff2') ?>') format('woff2')}
+    </style>
 
     <style>
         :root {
-            --bg: #06070b;
-            --surface: #0f1017;
-            --surface-hover: #161822;
-            --line: #222536;
-            --line-strong: #32364e;
-            --text: #f0f2f9;
-            --muted: #8e93aa;
-            --accent: #8b7bff;
-            --accent-glow: rgba(139, 123, 255, 0.25);
+            --bg: #081426;
+            --surface: #0C1B33;
+            --surface-hover: #11233F;
+            --line: #1B3253;
+            --line-strong: #2A4670;
+            --text: #EEF3FA;
+            --muted: #8FA3BF;
+            --accent: #60A5FA;
+            --accent-glow: rgba(96,165,250,0.25);
             --success: #3ecf8e;
-            --danger: #ff4fa3;
+            --danger: #ef4444;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: Sora, -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
@@ -45,8 +49,8 @@
             inset: 0;
             pointer-events: none;
             background: 
-                radial-gradient(ellipse 600px 500px at 20% 30%, rgba(139, 123, 255, 0.12), transparent 70%),
-                radial-gradient(ellipse 500px 450px at 80% 70%, rgba(255, 79, 163, 0.08), transparent 70%),
+                radial-gradient(ellipse 600px 500px at 20% 30%, color-mix(in srgb,var(--accent) 12%,transparent), transparent 70%),
+                radial-gradient(ellipse 500px 450px at 80% 70%, rgba(212,160,23,0.08), transparent 70%),
                 radial-gradient(circle 800px at 50% 50%, rgba(15, 16, 23, 0.95), #06070b);
             z-index: 0;
         }
@@ -91,7 +95,7 @@
         /* Left Hero / Brand Panel */
         .login-hero-panel {
             padding: 48px;
-            background: linear-gradient(145deg, rgba(139, 123, 255, 0.08) 0%, rgba(18, 19, 27, 0.9) 100%);
+            background: linear-gradient(145deg, color-mix(in srgb,var(--accent) 8%,transparent) 0%, rgba(18, 19, 27, 0.9) 100%);
             border-right: 1px solid var(--line);
             display: flex;
             flex-direction: column;
@@ -113,7 +117,7 @@
         }
 
         .brand-text {
-            font-family: 'Bricolage Grotesque', sans-serif;
+            font-family: Sora, sans-serif;
             font-size: 22px;
             font-weight: 800;
             color: var(--text);
@@ -125,7 +129,7 @@
         }
 
         .hero-panel-headline {
-            font-family: 'Bricolage Grotesque', sans-serif;
+            font-family: Sora, sans-serif;
             font-size: 32px;
             font-weight: 800;
             line-height: 1.15;
@@ -166,7 +170,7 @@
             width: 26px;
             height: 26px;
             border-radius: 6px;
-            background: rgba(139, 123, 255, 0.15);
+            background: color-mix(in srgb,var(--accent) 15%,transparent);
             color: var(--accent);
             flex-shrink: 0;
         }
@@ -235,7 +239,7 @@
         }
 
         .login-form-title {
-            font-family: 'Bricolage Grotesque', sans-serif;
+            font-family: Sora, sans-serif;
             font-size: 26px;
             font-weight: 800;
             color: var(--text);
@@ -293,7 +297,7 @@
 
         .form-control:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(139, 123, 255, 0.25);
+            box-shadow: 0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent);
             background: #0b0c13;
         }
 
@@ -344,7 +348,7 @@
         .btn-submit:hover {
             background: #9d8fff;
             transform: translateY(-1px);
-            box-shadow: 0 8px 24px -6px rgba(139, 123, 255, 0.6);
+            box-shadow: 0 8px 24px -6px color-mix(in srgb,var(--accent) 60%,transparent);
         }
 
         .btn-submit:active {
@@ -372,8 +376,8 @@
             width: 100%;
             padding: 11px 18px;
             border-radius: 10px;
-            background: rgba(139, 123, 255, 0.08);
-            border: 1px solid rgba(139, 123, 255, 0.25);
+            background: color-mix(in srgb,var(--accent) 8%,transparent);
+            border: 1px solid color-mix(in srgb,var(--accent) 25%,transparent);
             color: var(--text);
             font-size: 13px;
             font-weight: 600;
@@ -382,7 +386,7 @@
         }
 
         .btn-demo:hover {
-            background: rgba(139, 123, 255, 0.18);
+            background: color-mix(in srgb,var(--accent) 18%,transparent);
             border-color: var(--accent);
             transform: translateY(-1px);
         }
@@ -398,9 +402,9 @@
         }
 
         .alert-danger {
-            background: rgba(255, 79, 163, 0.12);
-            color: #ff65b2;
-            border: 1px solid rgba(255, 79, 163, 0.3);
+            background: rgba(212,160,23,0.12);
+            color: #E2B42C;
+            border: 1px solid rgba(212,160,23,0.3);
         }
 
         .alert-success {
@@ -453,7 +457,7 @@
                     <span class="live-dot"></span>
                     <span>Production Command Node</span>
                 </div>
-                <div>Karachi, PK (GMT+5)</div>
+                <div>Global Node (UTC 24/7)</div>
             </div>
         </div>
 

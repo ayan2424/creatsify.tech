@@ -58,7 +58,7 @@ $this->layout('layouts/admin', ['page_title' => 'Blog Posts', 'meta_title' => 'P
                         <td>
                             <form action="<?= url('/admin/posts/' . $p['id'] . '/toggle') ?>" method="POST" style="margin: 0;">
                                 <?= csrf_field() ?>
-                                <button type="submit" class="btn btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 12px; <?= $p['is_published'] ? 'background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;' : 'background: rgba(163, 167, 187, 0.12); color: #a3a7bb; border: 1px solid var(--line);' ?>" title="Click to toggle published state">
+                                <button type="submit" class="btn btn-sm" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 10px; border-radius: 12px; <?= $p['is_published'] ? 'background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;' : 'background: rgba(163,178,199,0.12); color: #A3B2C7; border: 1px solid var(--line);' ?>" title="Click to toggle published state">
                                     <?php if ($p['is_published']): ?>
                                         <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
                                         <span>Live</span>
