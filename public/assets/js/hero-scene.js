@@ -93,16 +93,17 @@
     return pts;
   }
 
-  function circle(cx, cy, r, count = 24) {
+  function circle(cx, cy, r, width = 0.016, count = 24) {
     const pts = [];
     for (let i = 0; i <= count; i++) {
       const a = (i / count) * Math.PI * 2 - Math.PI / 2;
       pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
     }
-    return pts;
+    return { pts, width };
   }
 
   function stroke(pts, width = 0.016) {
+    if (pts && pts.pts) return pts;
     return { pts, width };
   }
 
@@ -250,6 +251,13 @@
   const LEAD_DURATION = 0.65;
 
   SCENES.forEach((scene) => {
+    // Defensive normalization: ensure all strokes are { pts: [...], width: number }
+    scene.strokes = scene.strokes.map((s) => {
+      if (Array.isArray(s)) return { pts: s, width: 0.016 };
+      if (s && Array.isArray(s.pts)) return s;
+      return { pts: [], width: 0.016 };
+    });
+
     let totalLen = 0;
     const n = scene.strokes.length;
     scene.strokes.forEach((s) => {
