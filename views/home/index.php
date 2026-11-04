@@ -69,76 +69,182 @@ $projectsJson = array_map(function ($p) use ($imgFor) {
 </script>
 
 <section class="hero" id="hero"><div class="wrap">
-<div>
-    <div class="pill hf"><i></i>Full-stack software studio</div>
-    <h1><span class="ln"><span class="ch" style="--i:0"><?= e($hero['title'] ?? 'We build software') ?></span></span><span class="ln"><span class="ch" style="--i:1">for <span class="rot grad" id="rot"><?= e($rotatingWords[0] ?? 'courier companies') ?></span></span></span></h1>
-    <p class="lead hf" style="--d:.5s"><?= e($hero['content'] ?? 'From idea to a live product. We build courier platforms, online stores, learning tools and apps that real businesses can run on.') ?></p>
-    <div class="row hf" style="--d:.65s">
-        <a class="btn p" href="#work">See our work <span aria-hidden="true">→</span></a>
-        <a class="btn" href="#contact">Get a quote</a>
-    </div>
-    <div class="trust-wrap hf" style="--d:.8s">
-        <span class="trust-label">Every license includes</span>
-        <div class="trust-badges">
-            <div class="trust-badge"><span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span><b>Full source code</b><span class="trust-sub">No locked files</span></div>
-            <div class="trust-badge"><span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span><b>White-label rights</b><span class="trust-sub">Your brand</span></div>
-            <div class="trust-badge"><span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span><b>Live demos</b><span class="trust-sub">Try before you buy</span></div>
-            <div class="trust-badge"><span class="trust-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span><b>Direct support</b><span class="trust-sub">From the builders</span></div>
+    <div class="hero-content hf">
+        <div class="hero-studio-pill">
+            <span class="beacon"></span>
+            <span>Independent Digital Software Studio</span>
+        </div>
+        
+        <h1 class="hero-headline">
+            <span class="hero-line">We Don't Just Code</span>
+            <span class="hero-line"><span class="hero-grad-text">We Ship Software</span></span>
+            <span class="hero-line">You Actually Own.</span>
+        </h1>
+        
+        <p class="hero-subhead">
+            Courier logistics platforms with 7 role portals. Pure PHP 8.4 MVC store engines. Shipped with 100% full source code, white-label rights, and direct co-founder engineering.
+        </p>
+        
+        <div class="hero-cta-group">
+            <a class="btn p hero-btn-gold" href="#products">
+                <span>Explore Software &amp; Demos</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </a>
+            <a class="btn hero-btn-glass" href="#contact">
+                <span>Talk to Co-Founders</span>
+            </a>
+        </div>
+        
+        <div class="hero-proof-bar">
+            <span class="proof-pill"><i class="proof-icon">&#10003;</i> 100% Unlocked Code</span>
+            <span class="proof-pill"><i class="proof-icon">&#10003;</i> Pure PHP 8.4 MVC</span>
+            <span class="proof-pill"><i class="proof-icon">&#10003;</i> 3 Live Demos Online</span>
+            <span class="proof-pill"><i class="proof-icon">&#10003;</i> Direct Co-Founder Setup</span>
         </div>
     </div>
-</div>
-<?php
-// Products for sale = featured projects. Hero showcase = those that have a screenshot.
-$products = array_values(array_filter($projects ?? [], static fn ($pr) => !empty($pr['featured'])));
-$toasts = ['cheetah-enterprise' => 'Shipment CH-000007 is out for delivery', 'cheetah-lite' => 'Courier orders, tracked end to end', 'cheezify' => 'New order from the online store'];
-$kinds = ['cheetah-enterprise' => 'Courier and warehouse software', 'cheetah-lite' => 'Courier software, lite edition', 'cheezify' => 'Online cheese store'];
-$hostOf = static function (array $pr) {
-    $live = $pr['live_url'] ?? '';
-    return ($live && $live !== '#') ? (parse_url($live, PHP_URL_HOST) ?: 'creatsify.tech') : 'creatsify.tech';
-};
-$showcase = [];
-foreach ($products as $pr) {
-    $f = $imgFor($pr['slug']);
-    if ($f) {
-        $showcase[] = ['name' => $pr['title'], 'kind' => $kinds[$pr['slug']] ?? ($pr['status'] ?? ''), 'img' => $f, 'toast' => $toasts[$pr['slug']] ?? ($pr['status'] ?? ''), 'host' => $hostOf($pr), 'href' => url('/portfolio/' . $pr['slug'])];
-    }
-}
-if (!$showcase) {
-    $showcase[] = ['name' => 'Creatsify', 'kind' => 'Software studio', 'img' => 'images/hero-artwork.jpg', 'toast' => 'Software studio', 'host' => 'creatsify.tech', 'href' => url('/portfolio')];
-}
-?>
-<?php
-// What the Creatsify "C." Core Engine constructs, in order. The caption under the stage explains each system.
-$makes = [
-    ['Web Systems & SaaS', 'Fast, custom PHP 8 MVC engines, cloud platforms and SaaS architectures.'],
-    ['Courier Logistics', 'Cheetah Enterprise multi-branch logistics, rider apps, and live tracking.'],
-    ['Admin Dashboards', 'Modern dark glassmorphism consoles to manage orders, stock, and telemetry.'],
-    ['E-Commerce Stores', 'Cheezify and custom WooCommerce stores with cold-chain delivery zones.'],
-    ['Design Systems & UI', 'High-contrast design tokens, Figma component systems, and fluid micro-interactions.'],
-];
-?>
-<div class="fv hf fv-paint" style="--d:.45s">
-    <div class="hp" id="hp">
-        <canvas class="hp-paint" aria-hidden="true"></canvas>
-        <canvas class="hp-trail" aria-hidden="true"></canvas>
-        <canvas class="hp-gl" aria-hidden="true"></canvas>
-    </div>
-    <div class="hp-meta" id="hpMeta">
-        <p class="hp-cap" aria-live="polite"><?= e($makes[0][1]) ?></p>
-        <div class="hp-row">
-            <div class="hp-tabs" role="tablist" aria-label="Systems we architect and build">
-                <?php foreach ($makes as $k => $mk): ?>
-                    <button type="button" class="hp-tab<?= $k === 0 ? ' on' : '' ?>" role="tab" aria-selected="<?= $k === 0 ? 'true' : 'false' ?>" data-cap="<?= e($mk[1]) ?>"><?= e($mk[0]) ?></button>
-                <?php endforeach; ?>
+
+    <!-- Right Side: The 3-Column Floating Mosaic (LogoXoom & Awwwards Pattern) -->
+    <div class="hero-mosaic-wrap hf" style="--d:.35s">
+        <div class="mosaic-stage" id="mosaicStage">
+            <!-- Column 1: Staggered Up -->
+            <div class="mosaic-col col-1">
+                <!-- Card 1: Cheetah Enterprise -->
+                <a href="https://cheetah.ayan24.me" target="_blank" rel="noopener noreferrer" class="mosaic-card card-cheetah" title="Launch Cheetah Enterprise Live Demo">
+                    <div class="card-screen">
+                        <img src="<?= asset('images/cheetah-showcase.jpg') ?>" alt="Cheetah Enterprise Logistics Platform" loading="eager">
+                        <div class="card-glass-tag">
+                            <span class="tag-dot green"></span>
+                            <span class="tag-title">Cheetah Enterprise</span>
+                            <span class="tag-price">$99</span>
+                        </div>
+                    </div>
+                    <div class="card-caption">
+                        <strong>7 Role Logistics Platform</strong>
+                        <span>Live GPS, waybills &amp; ePOD</span>
+                    </div>
+                </a>
+
+                <!-- Card 2: Driver & Rider Mobile App -->
+                <a href="https://cheetah.ayan24.me" target="_blank" rel="noopener noreferrer" class="mosaic-card card-mobile" title="Cheetah Rider App">
+                    <div class="card-mobile-screen">
+                        <div class="mobile-notch"></div>
+                        <div class="mobile-hud">
+                            <span class="hud-rider"><i class="hud-dot"></i> Rider Active</span>
+                            <span class="hud-bat">100%</span>
+                        </div>
+                        <div class="mobile-waybill">
+                            <span class="lbl">DELIVERY ePOD</span>
+                            <b>CH-000007</b>
+                            <span class="route">Hub 01 &rarr; Customer</span>
+                        </div>
+                        <div class="mobile-sign-pad">
+                            <svg viewBox="0 0 120 36" class="sign-svg"><path d="M10,24 Q35,6 60,20 T110,16" fill="none" stroke="#60A5FA" stroke-width="2.5"/></svg>
+                            <span class="sign-verified">&#10003; Customer ePOD Signed</span>
+                        </div>
+                    </div>
+                    <div class="card-caption">
+                        <strong>Cheetah Driver App</strong>
+                        <span>ePOD signature &amp; GPS routing</span>
+                    </div>
+                </a>
             </div>
-            <button type="button" class="hp-pause" aria-pressed="false" aria-label="Pause animation" title="Pause or play">
-                <svg class="i-pause" width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><rect x="2" y="1" width="3" height="10" rx="1"/><rect x="7" y="1" width="3" height="10" rx="1"/></svg>
-                <svg class="i-play" width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.5v9l7.5-4.5z"/></svg>
-            </button>
+
+            <!-- Column 2: Staggered Center -->
+            <div class="mosaic-col col-2">
+                <!-- Card 3: Cheezify E-Commerce -->
+                <a href="https://cheezify.ayan24.me" target="_blank" rel="noopener noreferrer" class="mosaic-card card-cheezify" title="Launch Cheezify Store Demo">
+                    <div class="card-store-screen">
+                        <div class="store-badge-top">
+                            <span class="badge-cold">0&deg;C &ndash; 4&deg;C Cold-Chain</span>
+                            <span class="badge-price">$49</span>
+                        </div>
+                        <div class="store-hero-tile">
+                            <div class="cheese-art-pill">
+                                <span class="cheese-icon">&#129472;</span>
+                                <div class="cheese-meta">
+                                    <b>Artisan Parmigiano</b>
+                                    <span>Multi-Zone Fresh Delivery</span>
+                                </div>
+                            </div>
+                            <div class="store-wa-alert">
+                                <span class="wa-dot"></span>
+                                <span>WhatsApp Order Ping: #CZ-4402</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-caption">
+                        <strong>Cheezify Store Engine</strong>
+                        <span>Perishable logistics &amp; direct cart</span>
+                    </div>
+                </a>
+
+                <!-- Card 4: Cheetah Lite Express -->
+                <a href="https://cheetah-lite.ayan24.me" target="_blank" rel="noopener noreferrer" class="mosaic-card card-lite" title="Launch Cheetah Lite Demo">
+                    <div class="card-dispatch-screen">
+                        <div class="dispatch-header">
+                            <span class="disp-title">EXPRESS DISPATCH</span>
+                            <span class="disp-price">$59</span>
+                        </div>
+                        <div class="disp-metric-row">
+                            <div class="disp-m"><span class="m-val">0.01s</span><span class="m-lbl">Execution</span></div>
+                            <div class="disp-m"><span class="m-val">4x6"</span><span class="m-lbl">PDF Label</span></div>
+                            <div class="disp-m"><span class="m-val">Single</span><span class="m-lbl">Branch</span></div>
+                        </div>
+                        <div class="disp-barcode-preview">
+                            <div class="fake-barcode"></div>
+                            <code>PK-8821 &bull; $4.50 RATE &bull; COD $34</code>
+                        </div>
+                    </div>
+                    <div class="card-caption">
+                        <strong>Cheetah Courier Lite</strong>
+                        <span>Single-branch express operations</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Column 3: Staggered Down -->
+            <div class="mosaic-col col-3">
+                <!-- Card 5: Core Architecture Telemetry -->
+                <div class="mosaic-card card-telemetry">
+                    <div class="telemetry-screen">
+                        <div class="telem-header">
+                            <span class="telem-icon">&lt;/&gt;</span>
+                            <span class="telem-title">CORE PHP 8.4 MVC</span>
+                        </div>
+                        <div class="telem-spark-box">
+                            <div class="spark-val">18ms</div>
+                            <div class="spark-lbl">Average Query Response</div>
+                            <svg viewBox="0 0 140 32" class="spark-svg"><path d="M0,24 Q30,28 50,14 T90,16 T140,6" fill="none" stroke="#2563EB" stroke-width="2.5"/><path d="M0,24 Q30,28 50,14 T90,16 T140,6 L140,32 L0,32 Z" fill="rgba(37,99,235,0.15)"/></svg>
+                        </div>
+                        <div class="telem-stats-grid">
+                            <div class="ts-item"><b>78</b><span>DB Tables</span></div>
+                            <div class="ts-item"><b>0</b><span>Bloat Deps</span></div>
+                        </div>
+                    </div>
+                    <div class="card-caption">
+                        <strong>Zero Framework Bloat</strong>
+                        <span>High-velocity hand-built architecture</span>
+                    </div>
+                </div>
+
+                <!-- Card 6: Studio Leadership -->
+                <a href="<?= url('/team') ?>" class="mosaic-card card-founders" title="Meet the Co-Founders">
+                    <div class="founders-screen">
+                        <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify Studio" class="founders-emblem">
+                        <div class="founders-team-list">
+                            <div class="f-pill">M. Ayan Shamim &bull; Architect</div>
+                            <div class="f-pill">S. Sukaina Batool &bull; Product UX</div>
+                            <div class="f-pill">Abdul Moiz &bull; Tech Ops</div>
+                        </div>
+                    </div>
+                    <div class="card-caption">
+                        <strong>Creatsify Leadership</strong>
+                        <span>Direct engineering &amp; support</span>
+                    </div>
+                </a>
+            </div>
         </div>
-        <a class="hp-more" href="#products">See what we have built &darr;</a>
     </div>
-</div>
 </div><div class="sc" aria-hidden="true"></div></section>
 
 <!-- Technology we actually use -->
@@ -325,8 +431,8 @@ $makes = [
 <section id="about"><div class="wrap split">
     <div>
         <div class="idx rv">Leadership</div>
-        <h2 data-split class="sp"><?= e($about['title'] ?? 'Built by Three Equal Co-Founders') ?></h2>
-        <p class="sub rv" style="--d:.2s"><?= e(setting('founder_bio', 'Creatsify is an independent software studio led equally by three co-founders: Muhammad Ayan Shamim, Syeda Sukaina Batool, and Abdul Moiz. Together, we architect, design, and ship production-grade courier platforms, online store systems, and custom web applications for clients worldwide.')) ?></p>
+        <h2 data-split class="sp"><?= e($about['title'] ?? 'Built by Creatsify Co-Founders') ?></h2>
+        <p class="sub rv" style="--d:.2s"><?= e(setting('founder_bio', 'Creatsify is an independent software studio led by three co-founders: Muhammad Ayan Shamim, Syeda Sukaina Batool, and Abdul Moiz. Together, we architect, design, and ship production-grade courier platforms, online store systems, and custom web applications for clients worldwide.')) ?></p>
         <div class="row rv" style="margin-top:26px;--d:.3s">
             <a class="btn p" href="<?= url('/team') ?>" style="display:inline-flex;align-items:center;gap:6px;">
                 <span>Meet the 3 Co-Founders</span>
@@ -337,7 +443,7 @@ $makes = [
         <div class="bdg rv s" style="--d:.4s">
             <svg viewBox="0 0 200 200" aria-hidden="true">
                 <defs><path id="cp" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
-                <text><textPath href="#cp" textLength="495" lengthAdjust="spacing"><?= e($aboutMeta['badge'] ?? (strtoupper(setting('site_name', 'CREATSIFY')) . ' • EQUAL CO-FOUNDERS • BUILD • SHIP • ')) ?></textPath></text>
+                <text><textPath href="#cp" textLength="495" lengthAdjust="spacing"><?= e($aboutMeta['badge'] ?? (strtoupper(setting('site_name', 'CREATSIFY')) . ' • STUDIO LEADERSHIP • BUILD • SHIP • ')) ?></textPath></text>
             </svg>
             <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify emblem">
         </div>
@@ -346,7 +452,7 @@ $makes = [
         <li class="rv r"><b>Muhammad Ayan Shamim</b><span>Co-Founder & Lead Full-Stack Architect (PHP 8 MVC, MySQL 8, Core Systems)</span></li>
         <li class="rv r" style="--d:.1s"><b>Syeda Sukaina Batool</b><span>Co-Founder & UI/UX Product Design Lead (Design Systems, High-Conversion UX, Figma)</span></li>
         <li class="rv r" style="--d:.2s"><b>Abdul Moiz</b><span>Co-Founder & Technical Operations Lead (Production Linux, aaPanel, Server Ops)</span></li>
-        <li class="rv r" style="--d:.3s"><b>Equal Partnership</b><span>Every product and client engagement is planned, built, and supported directly by our three co-founders</span></li>
+        <li class="rv r" style="--d:.3s"><b>Direct Ownership</b><span>Every product and client engagement is planned, built, and supported directly by our three co-founders</span></li>
     </ul>
 </div></section>
 
@@ -411,4 +517,4 @@ $makes = [
     </form>
 </div></section>
 
-<script src="<?= asset_v('js/hero-scene.js') ?>" defer></script>
+<script src="<?= asset_v('js/hero-mosaic.js') ?>" defer></script>

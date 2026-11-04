@@ -150,17 +150,17 @@ body {
 }
 
 .brand-wordmark-dark {
-  height: 28px;
+  height: 38px;
   width: auto;
-  max-width: 135px;
+  max-width: 175px;
   object-fit: contain;
   display: block;
 }
 
 .brand-wordmark-light {
-  height: 28px;
+  height: 38px;
   width: auto;
-  max-width: 135px;
+  max-width: 175px;
   object-fit: contain;
   display: none;
 }
@@ -175,8 +175,8 @@ body {
 
 .brand-icon-collapsed {
   display: none;
-  height: 30px;
-  width: 30px;
+  height: 36px;
+  width: 36px;
   object-fit: contain;
 }
 
@@ -660,8 +660,8 @@ body.sidebar-locked {
 
 .topbar-mobile-brand .brand-wordmark-dark,
 .topbar-mobile-brand .brand-wordmark-light {
-  height: 22px;
-  max-width: 110px;
+  height: 28px;
+  max-width: 140px;
 }
 
 /* Sidebar Toggle Button (Desktop & Mobile) */

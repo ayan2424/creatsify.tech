@@ -89,12 +89,12 @@ UPDATE `member_portfolios` SET
     `tech_stack` = 'Linux, Nginx, aaPanel, MySQL, Bash'
 WHERE `id` = 6;
 
--- 3. Update Settings Table for Equal Co-Founders
+-- 3. Update Settings Table for 3 Co-Founders
 INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES
 ('founder_name', 'Muhammad Ayan Shamim, Syeda Sukaina Batool & Abdul Moiz', 'founder'),
-('founder_title', 'Equal Co-Founders & Leadership', 'founder'),
-('founder_role', 'Equal Co-Founders & Leadership', 'founder'),
-('founder_bio', 'Creatsify is an independent software studio led equally by three co-founders: Muhammad Ayan Shamim, Syeda Sukaina Batool, and Abdul Moiz. Together, we architect, design, and ship production-grade courier platforms, online store systems, and custom web applications for clients worldwide.', 'founder'),
+('founder_title', 'Co-Founders & Leadership', 'founder'),
+('founder_role', 'Co-Founders & Studio Architecture', 'founder'),
+('founder_bio', 'Creatsify is an independent software studio led by three co-founders: Muhammad Ayan Shamim, Syeda Sukaina Batool, and Abdul Moiz. Together, we architect, design, and ship production-grade courier platforms, online store systems, and custom web applications for clients worldwide.', 'founder'),
 ('founder_github', 'https://github.com/ayan2424/creatsify.tech', 'founder'),
 ('founder_linkedin', 'https://creatsify.tech/team', 'founder'),
 ('site_location', 'Worldwide, remote', 'general')
@@ -102,5 +102,5 @@ ON DUPLICATE KEY UPDATE `value` = VALUES(`value`);
 
 -- 4. Update Sections Table for About Co-Founders
 INSERT INTO `sections` (`section_key`, `title`, `subtitle`, `content`, `metadata`, `is_active`, `sort_order`) VALUES
-('about_founder', 'Built by Three Equal Co-Founders', 'Equal Partnership & Technical Leadership', 'Creatsify is an independent digital software studio founded on an equal partnership between three co-founders: Muhammad Ayan Shamim (Lead Full-Stack Architect), Syeda Sukaina Batool (UI/UX Product Design Lead), and Abdul Moiz (Technical Operations Lead). We design, engineer, and support production-ready software platforms for businesses worldwide.', '{"badge": "CREATSIFY • EQUAL CO-FOUNDERS • BUILD • SHIP • "}', 1, 5)
+('about_founder', 'Built by Creatsify Co-Founders', 'Technical Architecture & Product Leadership', 'Creatsify is an independent digital software studio founded by three co-founders: Muhammad Ayan Shamim (Lead Full-Stack Architect), Syeda Sukaina Batool (UI/UX Product Design Lead), and Abdul Moiz (Technical Operations Lead). We design, engineer, and support production-ready software platforms for businesses worldwide.', '{"badge": "CREATSIFY • STUDIO LEADERSHIP • BUILD • SHIP • "}', 1, 5)
 ON DUPLICATE KEY UPDATE `title`=VALUES(`title`), `subtitle`=VALUES(`subtitle`), `content`=VALUES(`content`), `metadata`=VALUES(`metadata`);

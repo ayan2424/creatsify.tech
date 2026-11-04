@@ -90,7 +90,7 @@ $key = $section['section_key'];
                 <!-- Founder About Elements -->
                 <div class="form-group" style="margin-bottom: 0;">
                     <label for="meta_badge">Rotating Circular SVG Badge Text</label>
-                    <input type="text" id="meta_badge" name="meta[badge]" class="form-control" value="<?= e($meta['badge'] ?? 'CREATSIFY • EQUAL CO-FOUNDERS • BUILD • SHIP • ') ?>">
+                    <input type="text" id="meta_badge" name="meta[badge]" class="form-control" value="<?= e($meta['badge'] ?? 'CREATSIFY • STUDIO LEADERSHIP • BUILD • SHIP • ') ?>">
                     <small style="color:var(--muted); font-size:12px; margin-top:4px; display:block;">Circular SVG text path rotating around the Creatsify studio emblem.</small>
                 </div>
 
