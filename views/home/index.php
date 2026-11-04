@@ -68,190 +68,161 @@ $projectsJson = array_map(function ($p) use ($imgFor) {
     window.CREATSIFY_PROJECTS = <?= json_encode($projectsJson) ?>;
 </script>
 
-<section class="hero" id="hero"><div class="wrap">
-    <div class="hero-content hf">
-        <div class="hero-studio-pill">
-            <span class="beacon"></span>
-            <span>Independent Digital Software Studio</span>
-        </div>
-        
-        <h1 class="hero-headline">
-            <span class="hero-line">We Don't Just Code</span>
-            <span class="hero-line"><span class="hero-grad-text">We Ship Software</span></span>
-            <span class="hero-line">You Actually Own.</span>
-        </h1>
-        
-        <p class="hero-subhead">
-            Courier logistics platforms with 7 role portals. Pure PHP 8.4 MVC store engines. Shipped with 100% full source code, white-label rights, and direct co-founder engineering.
-        </p>
-        
-        <div class="hero-cta-group">
-            <a class="btn p hero-btn-gold" href="#products">
-                <span>Explore Software &amp; Demos</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-            </a>
-            <a class="btn hero-btn-glass" href="#contact">
-                <span>Talk to Co-Founders</span>
-            </a>
-        </div>
-        
-        <div class="hero-proof-bar">
-            <span class="proof-pill"><i class="proof-icon">&#10003;</i> 100% Unlocked Code</span>
-            <span class="proof-pill"><i class="proof-icon">&#10003;</i> Pure PHP 8.4 MVC</span>
-            <span class="proof-pill"><i class="proof-icon">&#10003;</i> 3 Live Demos Online</span>
-            <span class="proof-pill"><i class="proof-icon">&#10003;</i> Direct Co-Founder Setup</span>
-        </div>
-    </div>
-
-    <!-- Right Side: The 3-Column Floating Mosaic (LogoXoom & Awwwards Pattern) -->
-    <div class="hero-mosaic-wrap hf" style="--d:.35s">
-        <div class="mosaic-stage" id="mosaicStage">
-            <!-- Column 1: Staggered Up -->
-            <div class="mosaic-col col-1">
-                <!-- Card 1: Cheetah Enterprise -->
-                <a href="https://cheetah.ayan24.me" target="_blank" rel="noopener noreferrer" class="mosaic-card card-cheetah" title="Launch Cheetah Enterprise Live Demo">
-                    <div class="card-screen">
-                        <img src="<?= asset('images/cheetah-showcase.jpg') ?>" alt="Cheetah Enterprise Logistics Platform" loading="eager">
-                        <div class="card-glass-tag">
-                            <span class="tag-dot green"></span>
-                            <span class="tag-title">Cheetah Enterprise</span>
-                            <span class="tag-price">$99</span>
-                        </div>
-                    </div>
-                    <div class="card-caption">
-                        <strong>7 Role Logistics Platform</strong>
-                        <span>Live GPS, waybills &amp; ePOD</span>
-                    </div>
+<section class="om-hero" id="hero">
+    <div class="wrap om-hero-wrap">
+        <!-- Left Side: Confident, Clean Headline & Pill CTAs (Omoway Layout) -->
+        <div class="om-hero-content hf">
+            <div class="om-hero-tag">
+                <span class="om-tag-beacon"></span>
+                <span>On-demand software &amp; enterprise systems</span>
+            </div>
+            
+            <h1 class="om-hero-headline">
+                <span class="om-head-top">Awesome Software</span>
+                <span class="om-head-bot">For Your Business<span class="om-head-dot">.</span></span>
+            </h1>
+            
+            <p class="om-hero-sub">
+                We engineer and license battle-tested courier logistics backbones, multi-vendor fleet systems, and pure PHP 8.4 MVC store engines with 100% full source code, white-label rights, and direct co-founder architecture.
+            </p>
+            
+            <div class="om-cta-group">
+                <a class="om-btn-gold" href="#products">
+                    <span>Get Started Now</span>
+                    <span class="om-btn-circle-arrow">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </span>
                 </a>
-
-                <!-- Card 2: Driver & Rider Mobile App -->
-                <a href="https://cheetah.ayan24.me" target="_blank" rel="noopener noreferrer" class="mosaic-card card-mobile" title="Cheetah Rider App">
-                    <div class="card-mobile-screen">
-                        <div class="mobile-notch"></div>
-                        <div class="mobile-hud">
-                            <span class="hud-rider"><i class="hud-dot"></i> Rider Active</span>
-                            <span class="hud-bat">100%</span>
-                        </div>
-                        <div class="mobile-waybill">
-                            <span class="lbl">DELIVERY ePOD</span>
-                            <b>CH-000007</b>
-                            <span class="route">Hub 01 &rarr; Customer</span>
-                        </div>
-                        <div class="mobile-sign-pad">
-                            <svg viewBox="0 0 120 36" class="sign-svg"><path d="M10,24 Q35,6 60,20 T110,16" fill="none" stroke="#60A5FA" stroke-width="2.5"/></svg>
-                            <span class="sign-verified">&#10003; Customer ePOD Signed</span>
-                        </div>
-                    </div>
-                    <div class="card-caption">
-                        <strong>Cheetah Driver App</strong>
-                        <span>ePOD signature &amp; GPS routing</span>
-                    </div>
+                <a class="om-btn-glass" href="#about">
+                    <span>Talk to Co-Founders</span>
+                    <span class="om-btn-circle-plus">+</span>
                 </a>
             </div>
-
-            <!-- Column 2: Staggered Center -->
-            <div class="mosaic-col col-2">
-                <!-- Card 3: Cheezify E-Commerce -->
-                <a href="https://cheezify.ayan24.me" target="_blank" rel="noopener noreferrer" class="mosaic-card card-cheezify" title="Launch Cheezify Store Demo">
-                    <div class="card-store-screen">
-                        <div class="store-badge-top">
-                            <span class="badge-cold">0&deg;C &ndash; 4&deg;C Cold-Chain</span>
-                            <span class="badge-price">$49</span>
-                        </div>
-                        <div class="store-hero-tile">
-                            <div class="cheese-art-pill">
-                                <span class="cheese-icon">&#129472;</span>
-                                <div class="cheese-meta">
-                                    <b>Artisan Parmigiano</b>
-                                    <span>Multi-Zone Fresh Delivery</span>
-                                </div>
-                            </div>
-                            <div class="store-wa-alert">
-                                <span class="wa-dot"></span>
-                                <span>WhatsApp Order Ping: #CZ-4402</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-caption">
-                        <strong>Cheezify Store Engine</strong>
-                        <span>Perishable logistics &amp; direct cart</span>
-                    </div>
-                </a>
-
-                <!-- Card 4: Cheetah Lite Express -->
-                <a href="https://cheetah-lite.ayan24.me" target="_blank" rel="noopener noreferrer" class="mosaic-card card-lite" title="Launch Cheetah Lite Demo">
-                    <div class="card-dispatch-screen">
-                        <div class="dispatch-header">
-                            <span class="disp-title">EXPRESS DISPATCH</span>
-                            <span class="disp-price">$59</span>
-                        </div>
-                        <div class="disp-metric-row">
-                            <div class="disp-m"><span class="m-val">0.01s</span><span class="m-lbl">Execution</span></div>
-                            <div class="disp-m"><span class="m-val">4x6"</span><span class="m-lbl">PDF Label</span></div>
-                            <div class="disp-m"><span class="m-val">Single</span><span class="m-lbl">Branch</span></div>
-                        </div>
-                        <div class="disp-barcode-preview">
-                            <div class="fake-barcode"></div>
-                            <code>PK-8821 &bull; $4.50 RATE &bull; COD $34</code>
-                        </div>
-                    </div>
-                    <div class="card-caption">
-                        <strong>Cheetah Courier Lite</strong>
-                        <span>Single-branch express operations</span>
-                    </div>
-                </a>
+            
+            <div class="om-proof-bar">
+                <span class="om-proof-item"><i class="om-proof-check">&#10003;</i> 100% Unlocked Code</span>
+                <span class="om-proof-item"><i class="om-proof-check">&#10003;</i> Pure PHP 8.4 MVC</span>
+                <span class="om-proof-item"><i class="om-proof-check">&#10003;</i> 3 Live Demos Online</span>
+                <span class="om-proof-item"><i class="om-proof-check">&#10003;</i> Direct Co-Founder Setup</span>
             </div>
+        </div>
 
-            <!-- Column 3: Staggered Down -->
-            <div class="mosaic-col col-3">
-                <!-- Card 5: Core Architecture Telemetry -->
-                <div class="mosaic-card card-telemetry">
-                    <div class="telemetry-screen">
-                        <div class="telem-header">
-                            <span class="telem-icon">&lt;/&gt;</span>
-                            <span class="telem-title">CORE PHP 8.4 MVC</span>
-                        </div>
-                        <div class="telem-spark-box">
-                            <div class="spark-val">18ms</div>
-                            <div class="spark-lbl">Average Query Response</div>
-                            <svg viewBox="0 0 140 32" class="spark-svg"><path d="M0,24 Q30,28 50,14 T90,16 T140,6" fill="none" stroke="#2563EB" stroke-width="2.5"/><path d="M0,24 Q30,28 50,14 T90,16 T140,6 L140,32 L0,32 Z" fill="rgba(37,99,235,0.15)"/></svg>
-                        </div>
-                        <div class="telem-stats-grid">
-                            <div class="ts-item"><b>78</b><span>DB Tables</span></div>
-                            <div class="ts-item"><b>0</b><span>Bloat Deps</span></div>
-                        </div>
+        <!-- Right Side: The Omoway Signature Floating Layered Stage -->
+        <div class="om-hero-visual-stage hf" style="--d:.3s" id="omVisualStage">
+            <!-- Ambient Stage Glow -->
+            <div class="om-stage-glow" aria-hidden="true"></div>
+
+            <!-- Centerpiece Card: Cheetah Enterprise Platform -->
+            <div class="om-centerpiece-card">
+                <div class="om-card-browser-bar">
+                    <div class="om-browser-dots">
+                        <span class="dot d-red"></span>
+                        <span class="dot d-yellow"></span>
+                        <span class="dot d-green"></span>
                     </div>
-                    <div class="card-caption">
-                        <strong>Zero Framework Bloat</strong>
-                        <span>High-velocity hand-built architecture</span>
+                    <div class="om-browser-url">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <span>cheetah.ayan24.me</span>
+                    </div>
+                    <span class="om-browser-badge"><i class="om-live-dot"></i> Live v2.4</span>
+                </div>
+                <div class="om-card-media">
+                    <img src="<?= asset('images/cheetah-showcase.jpg') ?>" alt="Cheetah Enterprise Logistics Platform" class="om-showcase-img" loading="eager">
+                    <div class="om-media-overlay">
+                        <div class="om-media-tag">
+                            <span class="om-tag-brand">Cheetah Enterprise</span>
+                            <span class="om-tag-desc">7 Role Portals &bull; Live GPS Tracking</span>
+                        </div>
+                        <div class="om-media-price">$99</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Card 6: Studio Leadership -->
-                <a href="<?= url('/team') ?>" class="mosaic-card card-founders" title="Meet the Co-Founders">
-                    <div class="founders-screen">
-                        <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify Studio" class="founders-emblem">
-                        <div class="founders-team-list">
-                            <div class="f-pill">M. Ayan Shamim &bull; Architect</div>
-                            <div class="f-pill">S. Sukaina Batool &bull; Product UX</div>
-                            <div class="f-pill">Abdul Moiz &bull; Tech Ops</div>
-                        </div>
+            <!-- Floating Card 1: Top Left - Obsidian Metric & Animated Sparkline Bar Chart -->
+            <div class="om-float-card om-float-stats">
+                <div class="om-stat-header">
+                    <div class="om-stat-num">99<span class="om-stat-pct">%</span></div>
+                    <span class="om-stat-pill">Velocity</span>
+                </div>
+                <div class="om-stat-desc">Peak Execution Velocity</div>
+                <div class="om-bar-chart" aria-label="Performance velocity chart">
+                    <div class="om-chart-bar" style="--bh: 42%; --delay: 0.1s;"></div>
+                    <div class="om-chart-bar" style="--bh: 72%; --delay: 0.2s;"></div>
+                    <div class="om-chart-bar" style="--bh: 98%; --delay: 0.3s;"></div>
+                    <div class="om-chart-bar" style="--bh: 64%; --delay: 0.4s;"></div>
+                    <div class="om-chart-bar" style="--bh: 88%; --delay: 0.5s;"></div>
+                    <div class="om-chart-bar" style="--bh: 100%; --delay: 0.6s;"></div>
+                </div>
+            </div>
+
+            <!-- Floating Card 2: Bottom Left - Decided Quality & Full Source Code -->
+            <div class="om-float-card om-float-quality">
+                <div class="om-quality-top">
+                    <span class="om-quality-step">01</span>
+                    <div class="om-quality-check">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
-                    <div class="card-caption">
-                        <strong>Creatsify Leadership</strong>
-                        <span>Direct engineering &amp; support</span>
-                    </div>
-                </a>
+                </div>
+                <strong class="om-quality-heading">100% Source Code</strong>
+                <span class="om-quality-sub">Full White-Label Rights</span>
+            </div>
+
+            <!-- Floating Card 3: Bottom Right - Live Demo Pill -->
+            <a href="https://cheetah.ayan24.me" target="_blank" rel="noopener noreferrer" class="om-float-card om-float-demo" title="Launch Cheetah Enterprise Demo">
+                <span class="om-play-btn">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </span>
+                <span class="om-demo-label">Live Demo ↗</span>
+            </a>
+
+            <!-- Floating Card 4: Top Right - 3 Co-Founders Team Pill -->
+            <div class="om-float-card om-float-founders">
+                <div class="om-founders-avatars">
+                    <span class="om-avatar-chip chip-1" title="Muhammad Ayan Shamim">A</span>
+                    <span class="om-avatar-chip chip-2" title="Syeda Sukaina Batool">S</span>
+                    <span class="om-avatar-chip chip-3" title="Abdul Moiz">M</span>
+                </div>
+                <div class="om-founders-meta">
+                    <strong>3 Co-Founders</strong>
+                    <span>Direct Setup &bull; No Middlemen</span>
+                </div>
             </div>
         </div>
     </div>
-</div><div class="sc" aria-hidden="true"></div></section>
+</section>
 
-<!-- Technology we actually use -->
-<div class="mq-wrapper">
-    <div class="mq" data-dir="1" data-speed="0.9" aria-hidden="true"><div class="mt">
-        <span class="mq-chip"><i class="mq-dot"></i>PHP 8</span><span class="mq-chip"><i class="mq-dot"></i>MySQL</span><span class="mq-chip"><i class="mq-dot"></i>JavaScript</span><span class="mq-chip"><i class="mq-dot"></i>WordPress</span><span class="mq-chip"><i class="mq-dot"></i>Elementor</span><span class="mq-chip"><i class="mq-dot"></i>WooCommerce</span><span class="mq-chip"><i class="mq-dot"></i>Flutter</span><span class="mq-chip"><i class="mq-dot"></i>REST APIs</span><span class="mq-chip"><i class="mq-dot"></i>WhatsApp Cloud API</span><span class="mq-chip"><i class="mq-dot"></i>Linux / Nginx</span>
-    </div></div>
+<!-- Omoway-style Monochromatic Partners & Tech Strip -->
+<div class="om-partners-bar">
+    <div class="wrap om-partners-inner">
+        <div class="om-partner-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <span>PHP 8.4 MVC</span>
+        </div>
+        <div class="om-partner-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            <span>MySQL 8.0</span>
+        </div>
+        <div class="om-partner-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>aaPanel Linux</span>
+        </div>
+        <div class="om-partner-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+            <span>Leaflet GPS</span>
+        </div>
+        <div class="om-partner-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
+            <span>WhatsApp Cloud API</span>
+        </div>
+        <div class="om-partner-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>Vanilla ES6</span>
+        </div>
+        <div class="om-partner-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+            <span>Gumroad Store</span>
+        </div>
+    </div>
 </div>
 
 <!-- Facts -->
@@ -517,4 +488,4 @@ $projectsJson = array_map(function ($p) use ($imgFor) {
     </form>
 </div></section>
 
-<script src="<?= asset_v('js/hero-mosaic.js') ?>" defer></script>
+<script src="<?= asset_v('js/hero-omoway.js') ?>" defer></script>
