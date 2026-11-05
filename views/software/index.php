@@ -6,91 +6,105 @@ $thumb = static function (array $p) use ($assetDir) {
     $file = $p['slug'] === 'cheetah-enterprise' ? 'cheetah-showcase.jpg' : $p['slug'] . '-preview.jpg';
     return is_file($assetDir . $file) ? 'images/' . $file : null;
 };
-$slugs = array_column($products, 'slug');
 ?>
+
 <section class="page-hero">
     <div class="wrap">
-        <span class="section-tag">White-label software</span>
-        <h1 class="page-title">Software you can buy</h1>
-        <p class="page-lead">Ready-made courier and online store software. You get the full source code, white-label rights and help with setup. Open the live demo first, then ask for a quote.</p>
+        <div class="om-sec-tag"><span class="om-sec-dot"></span> Commercial Systems</div>
+        <h1 class="page-title">White-Label Software You Can Buy<span class="om-dot-gold">.</span></h1>
+        <p class="page-lead">Production-ready courier logistics backbones, online store engines, and restaurant POS platforms. You receive the complete 100% unlocked source code, commercial rights, and direct setup support from our three co-founders.</p>
     </div>
 </section>
 
 <section class="section">
     <div class="wrap">
-        <h2 class="sr-only">Software for sale</h2>
-        <div class="projects-grid">
-            <?php foreach ($products as $project):
-                $shot = $thumb($project);
-                $live = $project['live_url'] ?? '';
+        <h2 class="sr-only">Production Software For Sale</h2>
+        <div class="om-prod-grid">
+            <?php foreach ($products as $i => $pr):
+                $shot = $thumb($pr);
+                $tech = array_filter(array_map('trim', explode(',', (string)($pr['tech_stack'] ?? ''))));
+                $live = $pr['live_url'] ?? '';
                 $hasLive = $live && $live !== '#';
             ?>
-                <article class="project-card">
-                    <a class="prod-media" href="<?= url('/portfolio/' . e($project['slug'])) ?>">
-                        <?php if ($shot): ?>
-                            <img src="<?= asset($shot) ?>" width="1376" height="768" loading="lazy" alt="<?= e($project['title']) ?> screenshot">
-                        <?php else: ?>
-                            <div class="prod-cover"><b><?= e($project['title']) ?></b><span><?= e(ucfirst($project['category'])) ?></span></div>
-                        <?php endif; ?>
-                    </a>
-                    <div class="project-card-header">
-                        <div class="project-category-badge"><?= strtoupper(e($project['category'])) ?></div>
-                        <div class="project-status-badge"><?= !empty($project['price']) ? e($project['price']) : 'For sale' ?></div>
-                    </div>
-                    <div class="project-card-body">
-                        <h3 class="project-title"><a href="<?= url('/portfolio/' . e($project['slug'])) ?>"><?= e($project['title']) ?></a></h3>
-                        <p class="project-summary"><?= e($project['summary']) ?></p>
-                        <div class="project-stack">
-                            <?php foreach (array_filter(array_map('trim', explode(',', $project['tech_stack'] ?? ''))) as $stackItem): ?>
-                                <span class="stack-chip"><?= e($stackItem) ?></span>
-                            <?php endforeach; ?>
+                <article class="om-prod-card rv" style="--d:<?= $i * 0.12 ?>s">
+                    <div class="om-prod-media-frame">
+                        <div class="om-prod-bar">
+                            <div class="om-prod-dots">
+                                <span class="dot d-red"></span>
+                                <span class="dot d-yellow"></span>
+                                <span class="dot d-green"></span>
+                            </div>
+                            <span class="om-prod-badge-price"><?= !empty($pr['price']) ? e($pr['price']) : '$99' ?></span>
                         </div>
-                    </div>
-                    <div class="project-card-footer pc-actions">
-                        <a href="<?= url('/portfolio/' . e($project['slug'])) ?>" class="project-btn-case">Details &rarr;</a>
-                        <?php if ($hasLive): ?><a href="<?= e($live) ?>" target="_blank" rel="noopener" class="project-btn-case">Live demo &nearr;</a><?php endif; ?>
-                        <?php if (!empty($project['gumroad_url'])): ?>
-                            <a href="<?= e($project['gumroad_url']) ?>" target="_blank" rel="noopener" class="btn p pc-buy">Buy<?= !empty($project['price']) ? ' (' . e($project['price']) . ')' : '' ?></a>
+                        <?php if ($shot): ?>
+                            <img src="<?= asset($shot) ?>" width="1376" height="768" loading="lazy" alt="<?= e($pr['title']) ?>" class="om-prod-img">
                         <?php else: ?>
-                            <a href="<?= url('/contact?kind=software_presale&offering=' . urlencode($project['title'])) ?>#inquiry-form" class="btn p pc-buy">Get a quote</a>
+                            <div class="om-prod-cover">
+                                <div class="om-prod-cover-icon">
+                                    <?php if ($pr['slug'] === 'cheetah-lite'): ?>
+                                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                                    <?php else: ?>
+                                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                                    <?php endif; ?>
+                                </div>
+                                <b><?= e($pr['title']) ?></b>
+                                <span><?= e($pr['slug'] === 'cheetah-lite' ? 'Courier-Only Dispatch Platform' : 'Multi-Branch Restaurant & Store POS') ?></span>
+                            </div>
                         <?php endif; ?>
+                    </div>
+                    <div class="om-prod-body">
+                        <div class="om-prod-status-row">
+                            <span class="om-prod-pill"><?= e($pr['status'] ?? 'Ready to License') ?></span>
+                            <span class="om-prod-rights">&#10003; 100% Unlocked Code</span>
+                        </div>
+                        <h3 class="om-prod-title"><?= e($pr['title']) ?></h3>
+                        <p class="om-prod-desc"><?= e($pr['summary'] ?? '') ?></p>
+                        <div class="om-prod-chips">
+                            <?php foreach ($tech as $t): ?><span><?= e($t) ?></span><?php endforeach; ?>
+                        </div>
+                        <div class="om-prod-actions">
+                            <?php if (!empty($pr['gumroad_url'])): ?>
+                                <a class="om-btn-gold" href="<?= e($pr['gumroad_url']) ?>" target="_blank" rel="noopener noreferrer">
+                                    <span>Buy License<?= !empty($pr['price']) ? ' (' . e($pr['price']) . ')' : '' ?></span>
+                                    <span class="om-btn-circle-arrow">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                    </span>
+                                </a>
+                            <?php else: ?>
+                                <a class="om-btn-gold" href="<?= url('/contact?kind=software_presale&offering=' . urlencode($pr['title'])) ?>#inquiry-form">
+                                    <span>Get a Quote<?= !empty($pr['price']) ? ' (' . e($pr['price']) . ')' : '' ?></span>
+                                    <span class="om-btn-circle-arrow">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                    </span>
+                                </a>
+                            <?php endif; ?>
+                            <?php if ($hasLive): ?>
+                                <a class="om-btn-glass light" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">
+                                    <span>Live Demo ↗</span>
+                                </a>
+                            <?php endif; ?>
+                            <a class="om-prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">Details &rarr;</a>
+                        </div>
                     </div>
                 </article>
             <?php endforeach; ?>
         </div>
 
-        <?php if (empty($products)): ?>
-            <div class="pg-card"><p>Our software list is being updated. <a href="<?= url('/contact') ?>">Contact us</a> for what is available.</p></div>
-        <?php endif; ?>
-
-        <div class="top" style="margin-top:72px"><div class="idx">Every license includes</div><h2 class="sp">What you get with the software</h2></div>
-        <div class="inc-grid">
-            <div class="pg-card inc"><span class="inc-ico">&lt;/&gt;</span><h3>Full source code</h3><p>Nothing is locked. You own the files and can change them.</p></div>
-            <div class="pg-card inc"><span class="inc-ico">&#9733;</span><h3>White-label rights</h3><p>Run it under your own name and brand.</p></div>
-            <div class="pg-card inc"><span class="inc-ico">&#9654;</span><h3>A live demo first</h3><p>Click through the real admin panel before you decide.</p></div>
-            <div class="pg-card inc"><span class="inc-ico">&#10003;</span><h3>Help with setup</h3><p>We help you install it and go live.</p></div>
-        </div>
-
-        <?php if (in_array('cheetah-enterprise', $slugs, true) && in_array('cheetah-lite', $slugs, true)): ?>
-            <div class="top" style="margin-top:72px"><div class="idx">Cheetah</div><h2 class="sp">Which Cheetah do you need?</h2></div>
-            <div class="pick-grid">
-                <div class="pg-card pick"><h3>Cheetah Enterprise</h3><p>Choose this if you run couriers <strong>and</strong> warehouses, or work across several branches. It includes the warehouse module, the picker role, role portals and the Flutter driver and picker app.</p><a class="btn p" href="<?= url('/portfolio/cheetah-enterprise') ?>">See Enterprise &rarr;</a></div>
-                <div class="pg-card pick"><h3>Cheetah Lite</h3><p>Choose this if you only run courier deliveries. It is the lighter edition, without the warehouse module and without the picker role.</p><a class="btn" href="<?= url('/portfolio/cheetah-lite') ?>">See Lite &rarr;</a></div>
+        <!-- aaPanel Deployment Note Bento Card -->
+        <div class="om-bento-card" style="margin-top:48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
+            <div style="max-width:680px;">
+                <div class="om-sec-tag" style="margin-bottom:8px;"><span class="om-sec-dot"></span> aaPanel Deployment</div>
+                <h3 style="font-family:Sora,sans-serif;font-size:20px;font-weight:800;color:var(--text);margin:0 0 6px;">Need Help Deploying On Your Server?</h3>
+                <p style="font-size:14px;color:var(--muted);line-height:1.6;margin:0;">
+                    We provide direct co-founder assistance setting up your Nginx URL rewrites, PHP 8.4 runtime, and MySQL database tables on aaPanel or any standard Linux VPS.
+                </p>
             </div>
-        <?php endif; ?>
-
-        <div class="top" style="margin-top:72px"><div class="idx">Questions</div><h2 class="sp">Before you buy</h2></div>
-        <div class="faq">
-            <details><summary>What do I get when I buy?</summary><p>The full source code, white-label rights so you can use your own brand, and help with setup.</p></details>
-            <details><summary>Can I try it first?</summary><p>Yes. Every product has a live demo you can open and click through.</p></details>
-            <details><summary>Can you change it for my business?</summary><p>Yes. We can adapt the software to your branches, riders, products or brand. Ask for a quote and tell us what you need.</p></details>
-            <details><summary>Where can I host it?</summary><p>It is plain PHP and MySQL, so it runs on most shared hosts, VPS servers and control panels such as aaPanel.</p></details>
-            <details><summary>What if I need help later?</summary><p>Open a request on the <a href="<?= url('/support') ?>">support page</a>. Every request gets a ticket number.</p></details>
-        </div>
-
-        <div class="pg-cta">
-            <div><h3>Ready to buy, or not sure yet?</h3><p>Tell us which product you are looking at and we reply with the price and the next steps.</p></div>
-            <div class="pg-cta-btns"><a class="btn p" href="<?= url('/contact?kind=software_presale') ?>#inquiry-form">Get a quote</a><a class="btn" href="<?= url('/portfolio') ?>">See our work</a></div>
+            <div>
+                <a class="om-btn-glass" href="<?= url('/support') ?>">
+                    <span>Open Support Desk</span>
+                    <span class="om-btn-circle-arrow">&rarr;</span>
+                </a>
+            </div>
         </div>
     </div>
 </section>

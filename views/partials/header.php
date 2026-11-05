@@ -77,8 +77,11 @@ $navItems = [
     </nav>
 
     <div class="mobile-drawer-bottom">
-        <a class="btn p btn-block" href="<?= url('/software') ?>" style="display:block; text-align:center; padding:13px 20px; font-weight:700;">
-            Browse the software &rarr;
+        <a class="om-btn-gold" href="<?= url('/software') ?>" style="width:100%; justify-content:center;">
+            <span>Browse Software Catalog</span>
+            <span class="om-btn-circle-arrow">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </span>
         </a>
         <div style="margin-top: 14px; text-align:center; font-size: 12px; color: var(--muted);">
             Full-Stack Software Studio

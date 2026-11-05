@@ -1,87 +1,88 @@
 <?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
+
+$waPhone = clean_phone_number(setting('whatsapp_number', setting('site_phone', '923002521199')), false);
+$waMsg = urlencode("Hello! I need technical support for my Creatsify software/service.");
 ?>
+
 <section class="page-hero">
-    <div class="wrap" style="max-width:950px;">
-        <span class="section-tag">Existing Customers</span>
-        <h1 class="page-title">Customer support &amp; delivery desk.</h1>
-        <p class="page-lead">One direct place for active agency work, maintenance, licensed software, deployment, billing, and technical issues. Every request receives a referenceable ticket in our internal CRM.</p>
-        <p class="support-intro-link">Planning a new project or considering a software purchase? <a href="<?= url('/contact') ?>">Start with the contact desk instead.</a></p>
+    <div class="wrap">
+        <div class="om-sec-tag"><span class="om-sec-dot"></span> Customer Support &amp; Delivery Desk</div>
+        <h1 class="page-title">Technical Support &amp; Deployment Desk<span class="om-dot-gold">.</span></h1>
+        <p class="page-lead">One direct place for license assistance, aaPanel/Nginx server rewrites, software deployment, bug reports, and maintenance tickets. Every request receives a referenceable ticket in our agency CRM.</p>
+        <p style="margin-top:14px;font-size:13.5px;color:var(--muted);">Planning a new project or software purchase? <a href="<?= url('/contact') ?>" style="color:var(--accent);font-weight:700;text-decoration:none;">Start with the contact desk instead &rarr;</a></p>
     </div>
 </section>
 
-<section class="section" style="padding-top:0;">
-    <div class="wrap" style="max-width:1180px;">
+<section class="section" style="padding-top:20px;">
+    <div class="wrap">
         <?php if ($isSuccess): ?>
-            <div class="support-success">
-                <span class="section-tag">Ticket created</span>
-                <h2>We received ticket #<?= e($ticketSuccess) ?>.</h2>
-                <p>Our team will review the context and reply by email or WhatsApp. Keep this ticket number for follow-up.</p>
-                <a class="btn p" href="<?= url('/portfolio') ?>">Explore software &rarr;</a>
+            <div style="padding:28px;border-radius:20px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);margin-bottom:32px;">
+                <div class="om-sec-tag" style="background:#10b981;color:#ffffff;"><span class="om-sec-dot" style="background:#ffffff;"></span> Ticket Created</div>
+                <h2 style="font-family:Sora,sans-serif;font-size:24px;font-weight:800;color:var(--text);margin:12px 0 8px;">We Received Ticket #<?= e($ticketSuccess) ?>.</h2>
+                <p style="color:var(--muted);margin:0 0 18px;font-size:14.5px;">Our co-founders will review the context and reply by email or WhatsApp. Keep this ticket number for tracking.</p>
+                <a class="om-btn-gold sm" href="<?= url('/portfolio') ?>"><span>Explore Software</span><span class="om-btn-circle-arrow">&rarr;</span></a>
             </div>
         <?php endif; ?>
+
         <?php if ($msg = flash('success')): ?>
-            <div class="alert alert-success"><?= e($msg) ?></div>
+            <div style="padding:14px 20px;border-radius:14px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#10b981;font-weight:700;margin-bottom:24px;">
+                <?= e($msg) ?>
+            </div>
         <?php endif; ?>
         <?php if ($err = flash('error')): ?>
-            <div class="alert alert-danger"><?= e($err) ?></div>
+            <div style="padding:14px 20px;border-radius:14px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:#ef4444;font-weight:700;margin-bottom:24px;">
+                <?= e($err) ?>
+            </div>
         <?php endif; ?>
 
-        <div class="support-layout-grid">
-            <div class="support-form-card">
-                <div class="support-form-heading">
-                    <span class="section-tag">Open a ticket</span>
-                    <h2>Give us the context we need.</h2>
-                    <p>For software tickets, a receipt, order ID, or license key lets us verify and help faster. For agency delivery, choose the relevant service or project.</p>
-                </div>
+        <div class="om-case-grid">
+            <!-- Ticket Creation Form Card -->
+            <div class="om-bento-card">
+                <div class="om-sec-tag"><span class="om-sec-dot"></span> Open A Ticket</div>
+                <h2 style="font-family:Sora,sans-serif;font-size:22px;font-weight:800;margin:12px 0 8px;color:var(--text);">Give Us The Technical Context</h2>
+                <p style="font-size:13.5px;color:var(--muted);line-height:1.6;margin:0 0 24px;">
+                    For software tickets, an order ID or license key lets us verify and assist immediately. For agency delivery, select the relevant project.
+                </p>
 
-                <form action="<?= url('/support') ?>" method="POST" id="supportForm">
+                <form action="<?= url('/support') ?>" method="POST" id="supportForm" class="om-contact-form" style="background:transparent;border:none;padding:0;box-shadow:none;">
                     <?= csrf_field() ?>
                     <input type="text" name="_hp_check" value="" style="display:none!important;" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-                    <div class="form-row">
-                        <div class="form-group"><label for="sp_name">Your name</label><input type="text" id="sp_name" name="name" required></div>
-                        <div class="form-group"><label for="sp_email">Email used with us</label><input type="email" id="sp_email" name="email" required></div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                        <label>Your Name<input type="text" id="sp_name" name="name" required placeholder="John Doe"></label>
+                        <label>Email Used With Us<input type="email" id="sp_email" name="email" required placeholder="john@example.com"></label>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group"><label for="sp_company">Company / brand</label><input type="text" id="sp_company" name="company" placeholder="Optional"></div>
-                        <div class="form-group"><label for="sp_whatsapp">WhatsApp / phone</label><input type="text" id="sp_whatsapp" name="whatsapp" placeholder="Optional"></div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                        <label>Company / Brand (Optional)<input type="text" id="sp_company" name="company" placeholder="Acme Logistics"></label>
+                        <label>WhatsApp / Phone (Optional)<input type="text" id="sp_whatsapp" name="whatsapp" placeholder="+1 555 123 4567"></label>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="sp_type">How can we help?</label>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                        <label>How can we help?
                             <select id="sp_type" name="support_type" required>
                                 <?php foreach ($supportTypes as $value => $type): ?>
                                     <option value="<?= e($value) ?>" data-reference-required="<?= $type['reference_required'] ? '1' : '0' ?>" <?= $selectedType === $value ? 'selected' : '' ?>><?= e($type['label']) ?></option>
                                 <?php endforeach; ?>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="sp_offering_type">This is about</label>
+                        </label>
+                        <label>This is about
                             <select id="sp_offering_type" name="offering_type" required>
-                                <option value="service">An agency service or delivered project</option>
                                 <option value="software" selected>Ready-made software product</option>
+                                <option value="service">An agency service or delivered project</option>
                                 <option value="other">Something else</option>
                             </select>
-                        </div>
+                        </label>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="sp_offering">Product, service, or project</label>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                        <label>Product, service, or project
                             <select id="sp_offering" name="offering_name" required>
                                 <option value="" disabled <?= $selectedOffering === '' ? 'selected' : '' ?>>Choose what this concerns</option>
                                 <?php if ($selectedOffering !== ''): ?>
                                     <option value="<?= e($selectedOffering) ?>" selected><?= e($selectedOffering) ?></option>
-                                <?php endif; ?>
-                                <?php if (!empty($services)): ?>
-                                    <optgroup label="Agency services">
-                                        <?php foreach ($services as $service): ?>
-                                            <?php if ($selectedOffering !== $service['title']): ?>
-                                                <option value="<?= e($service['title']) ?>"><?= e($service['title']) ?></option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </optgroup>
                                 <?php endif; ?>
                                 <?php if (!empty($projects)): ?>
                                     <optgroup label="Ready-made software">
@@ -92,18 +93,26 @@ $this->layout('layouts/main');
                                         <?php endforeach; ?>
                                     </optgroup>
                                 <?php endif; ?>
+                                <?php if (!empty($services)): ?>
+                                    <optgroup label="Agency services">
+                                        <?php foreach ($services as $service): ?>
+                                            <?php if ($selectedOffering !== $service['title']): ?>
+                                                <option value="<?= e($service['title']) ?>"><?= e($service['title']) ?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </optgroup>
+                                <?php endif; ?>
                                 <option value="Other / not listed">Other / not listed</option>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="sp_reference" id="sp_reference_label">Purchase receipt, order ID, or license key</label>
+                        </label>
+                        <label id="sp_reference_label">Purchase receipt, order ID, or license key
                             <input type="text" id="sp_reference" name="purchase_reference" placeholder="Required for software requests">
-                            <span class="field-hint" id="sp_reference_hint">This is required for software support, deployment, and billing tickets.</span>
-                        </div>
+                            <span style="font-size:11.5px;color:var(--muted);margin-top:4px;display:block;" id="sp_reference_hint">Required for software support and deployment tickets.</span>
+                        </label>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="sp_environment">Hosting / environment</label>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                        <label>Hosting / Environment
                             <select id="sp_environment" name="server_environment">
                                 <option value="">Not applicable / not sure</option>
                                 <option value="aaPanel + Nginx">aaPanel + Nginx</option>
@@ -113,12 +122,14 @@ $this->layout('layouts/main');
                                 <option value="Local development">Local development</option>
                                 <option value="Other hosting">Other hosting</option>
                             </select>
-                        </div>
-                        <div class="form-group"><label for="sp_domain">Related URL or app domain</label><input type="url" id="sp_domain" name="domain_url" placeholder="https://example.com"></div>
+                        </label>
+                        <label>Related URL or app domain
+                            <input type="url" id="sp_domain" name="domain_url" placeholder="https://example.com">
+                        </label>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="sp_category">Issue category</label>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                        <label>Issue category
                             <select id="sp_category" name="issue_category">
                                 <option value="Installation, deployment, or configuration">Installation, deployment, or configuration</option>
                                 <option value="Bug or unexpected behaviour">Bug or unexpected behaviour</option>
@@ -127,51 +138,78 @@ $this->layout('layouts/main');
                                 <option value="Maintenance or change request">Maintenance or change request</option>
                                 <option value="Other customer support">Other customer support</option>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="sp_priority">Priority</label>
+                        </label>
+                        <label>Priority
                             <select id="sp_priority" name="priority">
                                 <option value="low">Low — question or non-blocking</option>
                                 <option value="medium" selected>Medium — normal assistance</option>
                                 <option value="high">High — important functionality blocked</option>
                                 <option value="urgent">Urgent — production outage</option>
                             </select>
-                        </div>
+                        </label>
                     </div>
-                    <div class="form-group"><label for="sp_subject">Ticket subject</label><input type="text" id="sp_subject" name="subject" placeholder="A short summary of the issue" required></div>
-                    <div class="form-group"><label for="sp_message">What happened and what have you tried?</label><textarea id="sp_message" name="message" rows="7" placeholder="Include steps, errors, screenshots or logs, affected users, and the result you expected." required></textarea></div>
-                    <button type="submit" class="btn p" style="width:100%;">Create support ticket &rarr;</button>
+
+                    <label>Ticket Subject
+                        <input type="text" id="sp_subject" name="subject" placeholder="A short summary of the issue" required>
+                    </label>
+
+                    <label>What happened and what have you tried?
+                        <textarea id="sp_message" name="message" rows="5" placeholder="Include steps, errors, screenshots or logs, affected users, and the result you expected." required></textarea>
+                    </label>
+
+                    <button type="submit" class="om-btn-gold" style="width:100%;justify-content:center;margin-top:10px;border:none;cursor:pointer;">
+                        <span>Create Support Ticket</span>
+                        <span class="om-btn-circle-arrow">&rarr;</span>
+                    </button>
                 </form>
             </div>
 
-            <aside class="support-aside">
-                <div class="support-aside-card">
-                    <span class="section-tag">Start in the right place</span>
-                    <h3>New work is not a support ticket.</h3>
-                    <p>Need a new service, a custom build, or a licensing demo? The contact desk routes that to scoping and sales—not the support queue.</p>
-                    <a href="<?= url('/contact') ?>" class="btn">Start a project inquiry &rarr;</a>
+            <!-- Aside Helpdesk & aaPanel Diagnostics -->
+            <aside class="om-case-aside">
+                <div class="om-bento-card">
+                    <div class="om-sec-tag"><span class="om-sec-dot"></span> Fast Triage</div>
+                    <h3 style="font-family:Sora,sans-serif;font-size:17px;font-weight:800;margin:10px 0 8px;color:var(--text);">Start in the Right Place</h3>
+                    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin:0 0 16px;">
+                        Need a new service, custom build, or commercial software license? The contact desk routes directly to co-founder scoping.
+                    </p>
+                    <a href="<?= url('/contact') ?>" class="om-btn-glass sm" style="width:100%;justify-content:center;">
+                        <span>Start A Project Inquiry &rarr;</span>
+                    </a>
                 </div>
-                <div class="support-aside-card">
-                    <h3>aaPanel Nginx quick check</h3>
-                    <p>For internal-route 404s, use only the front-controller rule in aaPanel’s URL rewrite box:</p>
-                    <pre tabindex="0" aria-label="aaPanel rewrite rule"><code>location / {
+
+                <div class="om-bento-card" style="margin-top:20px;">
+                    <div class="om-sec-tag"><span class="om-sec-dot"></span> aaPanel Guide</div>
+                    <h3 style="font-family:Sora,sans-serif;font-size:17px;font-weight:800;margin:10px 0 8px;color:var(--text);">Nginx URL Rewrite Fix</h3>
+                    <p style="font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 12px;">
+                        For internal-route 404s, use only this front-controller rule in aaPanel's URL rewrite box:
+                    </p>
+                    <pre style="background:#071326;color:#60a5fa;padding:12px;border-radius:10px;font-size:12px;overflow-x:auto;margin:0 0 10px;border:1px solid rgba(255,255,255,0.08);"><code>location / {
     try_files $uri $uri/ /index.php?$query_string;
 }</code></pre>
-                    <p class="field-hint">Do not paste a complete <code>server { ... }</code> block or duplicate PHP-FPM rules in the aaPanel rewrite box.</p>
+                    <span style="font-size:11.5px;color:var(--muted);line-height:1.4;display:block;">Do not paste a complete <code>server { ... }</code> block or duplicate PHP-FPM rules.</span>
                 </div>
-                <div class="support-aside-card">
-                    <h3>Need immediate context?</h3>
-                    <p>Send a WhatsApp message with your ticket number or purchase reference. The ticket form remains the best place for logs and a complete technical history.</p>
-                    <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', setting('founder_whatsapp', '923000000000')) ?>?text=<?= urlencode('Hello Creatsify! I need help with an existing service or software product.') ?>" target="_blank" rel="noopener" class="btn support-whatsapp">Message on WhatsApp &rarr;</a>
+
+                <!-- Instant WhatsApp Triage -->
+                <div class="om-whatsapp-card" style="margin-top:20px;">
+                    <div class="om-wa-header">
+                        <span class="om-wa-icon">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
+                        </span>
+                        <div class="om-wa-header-info">
+                            <b>Need Live Context?</b>
+                            <span>Send ticket ID via WhatsApp</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener" class="om-wa-btn">
+                        <span>Message on WhatsApp</span>
+                        <span class="om-wa-circle-arrow">&rarr;</span>
+                    </a>
                 </div>
             </aside>
         </div>
     </div>
 </section>
 
-<style>
-.support-intro-link{margin:18px 0 0;color:var(--muted)}.support-intro-link a,.field-hint a{color:var(--accent)}.support-success{margin:0 0 26px;padding:28px;border-radius:16px;background:rgba(16,185,129,.11);border:1px solid rgba(16,185,129,.45)}.support-success h2{margin:10px 0 8px}.support-success p{color:var(--muted);margin:0 0 20px}.support-layout-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,.9fr);gap:24px;align-items:start}.support-form-card,.support-aside-card{background:var(--surface);border:1px solid var(--line);border-radius:16px}.support-form-card{padding:36px}.support-form-heading{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:24px}.support-form-heading h2{margin:10px 0 8px}.support-form-heading p,.support-aside-card p{color:var(--muted);line-height:1.6}.support-aside{display:flex;flex-direction:column;gap:16px}.support-aside-card{padding:25px}.support-aside-card h3{margin:10px 0}.support-aside-card pre{margin:15px 0;padding:14px;overflow:auto;border-radius:9px;background:#0d1117;color:#a5d6ff;font-size:12px;line-height:1.55}.field-hint{display:block;margin-top:6px;font-size:12px;color:var(--muted);line-height:1.45}.support-whatsapp{background:#25D366!important;border-color:#25D366!important;color:#052e16!important}@media(max-width:900px){.support-layout-grid{grid-template-columns:1fr}.support-form-card{padding:26px 20px}}
-</style>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const type = document.getElementById('sp_type');
