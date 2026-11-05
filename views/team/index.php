@@ -23,9 +23,11 @@ $this->layout('layouts/main');
                     <p class="tm-role"><?= e($m['role_title']) ?></p>
                     <?php if (!empty($m['bio'])): ?><p class="tm-bio"><?= e($m['bio']) ?></p><?php endif; ?>
                     <?php if ($skills): ?><div class="chips"><?php foreach ($skills as $sk): ?><span><?= e($sk) ?></span><?php endforeach; ?></div><?php endif; ?>
-                    <a class="tm-link" href="<?= url('/team/' . e($m['slug'])) ?>" style="display:inline-flex;align-items:center;gap:5px;">
+                    <a class="om-tc-btn" href="<?= url('/team/' . e($m['slug'])) ?>">
                         <span>View profile<?= !empty($m['portfolio_count']) ? ' (' . (int)$m['portfolio_count'] . ' projects)' : '' ?></span>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                        <span class="om-tc-arrow">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                        </span>
                     </a>
                 </article>
             <?php endforeach; ?>
