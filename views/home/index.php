@@ -259,7 +259,7 @@ $projectsJson = array_map(function ($p) use ($imgFor) {
                 </div>
                 <div class="om-agency-card-inner">
                     <div class="om-agency-brand-block">
-                        <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify" class="om-agency-logo">
+                        <img src="<?= asset_v('brand/creatsify-icon.svg') ?>" alt="Creatsify" class="om-agency-logo">
                         <div>
                             <strong>Core Software Architecture</strong>
                             <span>Strict PHP 8.4 MVC &bull; MySQL 8 &bull; aaPanel</span>

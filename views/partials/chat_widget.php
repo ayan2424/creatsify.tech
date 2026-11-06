@@ -21,7 +21,7 @@
         <div class="chat-header">
             <div class="chat-header-info">
                 <div class="chat-avatar">
-                    <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify" width="32" height="32">
+                    <img src="<?= asset_v('brand/creatsify-icon.svg') ?>" alt="Creatsify" width="32" height="32">
                     <span class="status-dot"></span>
                 </div>
                 <div>

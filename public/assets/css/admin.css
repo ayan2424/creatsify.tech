@@ -150,17 +150,17 @@ body {
 }
 
 .brand-wordmark-dark {
-  height: 38px;
+  height: 44px;
   width: auto;
-  max-width: 175px;
+  max-width: 195px;
   object-fit: contain;
   display: block;
 }
 
 .brand-wordmark-light {
-  height: 38px;
+  height: 44px;
   width: auto;
-  max-width: 175px;
+  max-width: 195px;
   object-fit: contain;
   display: none;
 }

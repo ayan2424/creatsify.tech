@@ -85,7 +85,7 @@ $footerCode = setting('custom_footer_code', '');
     <div class="prog" id="prog" aria-hidden="true"></div>
     <div class="pre" id="pre" aria-hidden="true">
         <div class="c">
-            <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify" width="60" height="60" style="border-radius:14px;margin-bottom:12px">
+            <img src="<?= asset_v('brand/creatsify-icon.svg') ?>" alt="Creatsify" width="60" height="60" style="border-radius:14px;margin-bottom:12px">
             <b id="preN">00</b>
             <div class="bar2"><i></i></div>
         </div>

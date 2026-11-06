@@ -1,8 +1,8 @@
 <?php
 /** @var Core\View $this */
-$logoDark = asset(setting('site_logo', 'brand/creatsify-wordmark.png'));
-$logoLight = asset(setting('site_logo_light', 'brand/creatsify-wordmark-light.png'));
-$icon = asset(setting('site_icon', 'brand/creatsify-icon.png'));
+$logoDark = asset_v(setting('site_logo', 'brand/creatsify-logo-dark.svg'));
+$logoLight = asset_v(setting('site_logo_light', 'brand/creatsify-logo-light.svg'));
+$icon = asset_v(setting('site_icon', 'brand/creatsify-icon.svg'));
 
 $waPhone = clean_phone_number(setting('whatsapp_number', setting('site_phone', '923002521199')), false);
 $waMsg = urlencode("Hello, I would like to discuss a project with " . setting('site_name', 'Creatsify Studio'));

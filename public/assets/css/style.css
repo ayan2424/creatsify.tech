@@ -13,15 +13,15 @@
   --line-strong:rgba(148,163,184,0.30);
   --text:#F1F5F9;
   --muted:#A3B2C7;
-  --accent:#60A5FA;
-  --accent-glow:rgba(96,165,250,0.30);
-  --on-accent:#0A1A33;
-  --cta:#D4A017;
-  --cta-hover:#E2B42C;
-  --on-cta:#0A1A33;
-  --brand-grad:linear-gradient(120deg,#2563EB,#60A5FA 55%,#D4A017);
-  --tg-a:#60A5FA;
-  --tg-b:#BFDBFE;
+  --accent:#00D2EE;
+  --accent-glow:rgba(0,210,238,0.30);
+  --on-accent:#041021;
+  --cta:#00D2EE;
+  --cta-hover:#2FE4F7;
+  --on-cta:#041021;
+  --brand-grad:linear-gradient(120deg,#2563EB,#00D2EE 80%);
+  --tg-a:#00D2EE;
+  --tg-b:#60A5FA;
   --grid:rgba(148,163,184,0.05);
   --ease:cubic-bezier(0.16,1,0.3,1);
   box-sizing:border-box;
@@ -36,14 +36,14 @@
   --line-strong:rgba(10,26,51,0.20);
   --text:#0A1A33;
   --muted:#475569;
-  --accent:#2563EB;
-  --accent-glow:rgba(37,99,235,0.22);
-  --tg-a:#1E40AF;
-  --tg-b:#3B82F6;
+  --accent:#0284C7;
+  --accent-glow:rgba(2,132,199,0.22);
+  --tg-a:#0369A1;
+  --tg-b:#0284C7;
   --on-accent:#FFFFFF;
-  --cta:#D4A017;
-  --cta-hover:#C2910F;
-  --on-cta:#0A1A33;
+  --cta:#00D2EE;
+  --cta-hover:#00C2DC;
+  --on-cta:#041021;
   --grid:rgba(10,26,51,0.04);
 }
 html{background:var(--bg);scroll-behavior:smooth;scroll-padding-top:84px}
@@ -2798,14 +2798,14 @@ main{overflow-x:clip}
   margin-bottom: 22px;
 }
 .hero-btn-gold {
-  background: #D4A017 !important;
-  color: #0A1A33 !important;
+  background: linear-gradient(135deg, #00D2EE 0%, #0284C7 100%) !important;
+  color: #041021 !important;
   font-weight: 700 !important;
   border-radius: 999px !important;
   padding: 13px 28px !important;
   font-size: 14.5px !important;
-  border: 1px solid #b8860b !important;
-  box-shadow: 0 12px 30px -8px rgba(212, 160, 23, 0.45) !important;
+  border: 1px solid rgba(0, 210, 238, 0.4) !important;
+  box-shadow: 0 12px 30px -8px rgba(0, 210, 238, 0.45) !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
@@ -2813,9 +2813,9 @@ main{overflow-x:clip}
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 .hero-btn-gold:hover {
-  background: #e2ae26 !important;
+  background: linear-gradient(135deg, #38BDF8 0%, #0369A1 100%) !important;
   transform: translateY(-2px) scale(1.02) !important;
-  box-shadow: 0 16px 36px -8px rgba(212, 160, 23, 0.6) !important;
+  box-shadow: 0 16px 36px -8px rgba(0, 210, 238, 0.65) !important;
 }
 .hero-btn-glass {
   background: color-mix(in srgb, var(--surface) 60%, transparent) !important;
@@ -2951,26 +2951,26 @@ main{overflow-x:clip}
   gap: 12px;
   padding: 13px 26px;
   border-radius: 999px;
-  background: #D4A017;
-  color: #0A1A33;
+  background: linear-gradient(135deg, #00D2EE 0%, #0284C7 100%);
+  color: #041021;
   font-weight: 700;
   font-size: 14.5px;
   text-decoration: none;
-  border: 1px solid #c2910f;
-  box-shadow: 0 12px 28px -8px rgba(212, 160, 23, 0.45);
+  border: 1px solid rgba(0, 210, 238, 0.4);
+  box-shadow: 0 12px 28px -8px rgba(0, 210, 238, 0.45);
   transition: all 0.25s var(--ease);
 }
 .om-btn-gold:hover {
-  background: #e2b42c;
+  background: linear-gradient(135deg, #38BDF8 0%, #0369A1 100%);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 16px 36px -8px rgba(212, 160, 23, 0.6);
+  box-shadow: 0 16px 36px -8px rgba(0, 210, 238, 0.65);
 }
 .om-btn-circle-arrow {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #0A1A33;
-  color: #ffffff;
+  background: #041021;
+  color: #00D2EE;
   display: grid;
   place-items: center;
   transition: transform 0.25s var(--ease);
@@ -4688,10 +4688,10 @@ nav a.nav-hot::before{content:"";display:inline-block;width:6px;height:6px;margi
   box-shadow: 0 8px 20px rgba(10, 26, 51, 0.15);
 }
 [data-theme="dark"] .om-tc-btn:hover {
-  background: #D4A017;
-  color: #0A1A33;
-  border-color: #D4A017;
-  box-shadow: 0 8px 20px rgba(212, 160, 23, 0.3);
+  background: #00D2EE;
+  color: #041021;
+  border-color: #00D2EE;
+  box-shadow: 0 8px 20px rgba(0, 210, 238, 0.4);
 }
 .om-tc-arrow {
   width: 22px;
@@ -5142,9 +5142,9 @@ footer.om-footer,
 .om-ft-price {
   font-size: 11px;
   font-weight: 800;
-  color: #D4A017;
-  background: rgba(212, 160, 23, 0.15);
-  border: 1px solid rgba(212, 160, 23, 0.3);
+  color: #00D2EE;
+  background: rgba(0, 210, 238, 0.15);
+  border: 1px solid rgba(0, 210, 238, 0.35);
   padding: 2px 7px;
   border-radius: 999px;
 }
@@ -5176,9 +5176,9 @@ footer.om-footer,
   transition: all 0.2s;
 }
 .om-ft-top-btn:hover {
-  background: #D4A017;
-  color: #0A1A33;
-  border-color: #D4A017;
+  background: #00D2EE;
+  color: #041021;
+  border-color: #00D2EE;
 }
 .om-ft-watermark {
   font-family: Sora, sans-serif;
@@ -5553,9 +5553,9 @@ footer.om-footer,
   border-color: #0A1A33;
 }
 [data-theme="dark"] .om-filter-pill.active {
-  background: #D4A017;
-  color: #0A1A33;
-  border-color: #D4A017;
+  background: #00D2EE;
+  color: #041021;
+  border-color: #00D2EE;
 }
 
 .om-bento-card {
@@ -5654,4 +5654,47 @@ footer.om-footer,
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   NEW BRAND ACCENT: Electric Cyan (Matching Creatsify Master Logo)
+   ========================================================================== */
+.om-dot-gold {
+  color: #00D2EE !important;
+  text-shadow: 0 0 16px rgba(0, 210, 238, 0.55);
+}
+.om-sec-dot {
+  background: #00D2EE !important;
+  box-shadow: 0 0 10px rgba(0, 210, 238, 0.65) !important;
+}
+.bar .desktop-cta {
+  background: linear-gradient(135deg, #00D2EE 0%, #0284C7 100%) !important;
+  color: #041021 !important;
+  border: 1px solid rgba(0, 210, 238, 0.4) !important;
+  box-shadow: 0 10px 24px -10px rgba(0, 210, 238, 0.5) !important;
+}
+.bar .desktop-cta:hover {
+  background: linear-gradient(135deg, #38BDF8 0%, #0369A1 100%) !important;
+  box-shadow: 0 14px 28px -10px rgba(0, 210, 238, 0.65) !important;
+}
+.bar .desktop-cta .btn-arrow-circle {
+  background: #041021 !important;
+  color: #00D2EE !important;
+}
+.om-prod-badge-price {
+  color: #00D2EE !important;
+  background: rgba(0, 210, 238, 0.12) !important;
+  border-color: rgba(0, 210, 238, 0.35) !important;
+}
+.om-pulse-dot {
+  background: #00D2EE !important;
+  box-shadow: 0 0 10px #00D2EE !important;
+}
+.chat-launcher-btn {
+  background: linear-gradient(135deg, #00D2EE 0%, #2563EB 100%) !important;
+  box-shadow: 0 12px 30px rgba(0, 210, 238, 0.45) !important;
+}
+.chat-launcher-btn .chat-pulse {
+  background: rgba(0, 210, 238, 0.6) !important;
+}
+
 

@@ -423,7 +423,7 @@
         <div class="login-hero-panel">
             <div class="hero-panel-top">
                 <div class="brand-row">
-                    <img class="brand-logo-img" src="<?= asset('brand/favicon.png') ?>" alt="Creatsify" width="38" height="38">
+                    <img class="brand-logo-img" src="<?= asset_v('brand/creatsify-icon.svg') ?>" alt="Creatsify" width="42" height="42">
                     <div class="brand-text">Creatsify<span>.tech</span></div>
                 </div>
 

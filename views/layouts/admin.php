@@ -41,9 +41,9 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
     <aside class="admin-sidebar" id="adminSidebar">
         <div class="sidebar-brand">
             <a href="<?= url('/admin') ?>" class="brand-anchor" title="Creatsify Admin Dashboard">
-                <img src="<?= asset('brand/creatsify-wordmark.png') ?>" alt="Creatsify" class="brand-wordmark-dark">
-                <img src="<?= asset('brand/creatsify-wordmark-light.png') ?>" alt="Creatsify" class="brand-wordmark-light">
-                <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="Creatsify" class="brand-icon-collapsed">
+                <img src="<?= asset_v('brand/creatsify-logo-dark.svg') ?>" alt="Creatsify" class="brand-wordmark-dark">
+                <img src="<?= asset_v('brand/creatsify-logo-light.svg') ?>" alt="Creatsify" class="brand-wordmark-light">
+                <img src="<?= asset_v('brand/creatsify-icon.svg') ?>" alt="Creatsify" class="brand-icon-collapsed">
             </a>
             <div class="sidebar-brand-right">
                 <span class="brand-dot" title="Live Node Online"></span>
@@ -225,8 +225,8 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
 
                 <!-- Mobile Brand Link (Official Logo) -->
                 <a href="<?= url('/admin') ?>" class="topbar-mobile-brand" title="Creatsify Admin">
-                    <img src="<?= asset('brand/creatsify-wordmark.png') ?>" alt="Creatsify" class="brand-wordmark-dark">
-                    <img src="<?= asset('brand/creatsify-wordmark-light.png') ?>" alt="Creatsify" class="brand-wordmark-light">
+                    <img src="<?= asset_v('brand/creatsify-logo-dark.svg') ?>" alt="Creatsify" class="brand-wordmark-dark">
+                    <img src="<?= asset_v('brand/creatsify-logo-light.svg') ?>" alt="Creatsify" class="brand-wordmark-light">
                 </a>
 
                 <!-- Page Title (Clean & Airy) -->

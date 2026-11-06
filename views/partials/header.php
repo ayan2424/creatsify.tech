@@ -1,7 +1,7 @@
 <?php
 /** @var Core\View $this */
-$logoDark = asset(setting('site_logo', 'brand/creatsify-wordmark.png'));
-$logoLight = asset(setting('site_logo_light', 'brand/creatsify-wordmark-light.png'));
+$logoDark = asset_v(setting('site_logo', 'brand/creatsify-logo-dark.svg'));
+$logoLight = asset_v(setting('site_logo_light', 'brand/creatsify-logo-light.svg'));
 $currentPath = request()->getPath();
 // The main links, in order. "hot" marks the page where the white-label software is sold.
 $navItems = [
