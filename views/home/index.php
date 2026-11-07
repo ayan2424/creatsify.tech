@@ -11,8 +11,8 @@ $imgFor = static function (string $slug) use ($assetDir) {
 $waPhone = clean_phone_number(setting('whatsapp_number', setting('site_phone', '923002521199')), false);
 $waMsg = urlencode("Hello! I would like to discuss a project or service package with Creatsify Digital Agency.");
 
-$avgRating = $reviewStats['average'] ?? '4.9';
-$totalReviews = max(8, (int)($reviewStats['total'] ?? 8));
+$avgRating = number_format((float)($reviewStats['avg_rating'] ?? $reviewStats['average'] ?? 4.9), 1);
+$totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 ?>
 
 <!-- JSON-LD Rich Snippet Schema: ProfessionalService + AggregateRating -->
@@ -140,6 +140,22 @@ $totalReviews = max(8, (int)($reviewStats['total'] ?? 8));
                         </div>
                     </div>
 
+                    <!-- Live Agency KPI Strip inside Command Card -->
+                    <div class="ag-command-kpis">
+                        <div class="ag-kpi-box">
+                            <span class="ag-kpi-val">3.8x</span>
+                            <span class="ag-kpi-lbl">Avg. Client ROI</span>
+                        </div>
+                        <div class="ag-kpi-box">
+                            <span class="ag-kpi-val">99/100</span>
+                            <span class="ag-kpi-lbl">Core Web Vitals</span>
+                        </div>
+                        <div class="ag-kpi-box">
+                            <span class="ag-kpi-val"><?= e($avgRating) ?>&#9733;</span>
+                            <span class="ag-kpi-lbl">Verified Rating</span>
+                        </div>
+                    </div>
+
                     <!-- Live Stack & Conversion Telemetry Footer inside Stage -->
                     <div class="ag-stage-footer">
                         <div class="ag-stage-chips">
@@ -150,49 +166,12 @@ $totalReviews = max(8, (int)($reviewStats['total'] ?? 8));
                             <span>Tailwind</span>
                             <span>SEO &amp; Ads</span>
                         </div>
-                        <a href="#work" class="ag-stage-link">Explore Case Studies &rarr;</a>
+                        <a href="#work" class="ag-stage-link">Case Studies &rarr;</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Floating Card 1: Top Left - Client Growth & Velocity -->
-            <div class="om-float-card om-float-stats">
-                <div class="om-stat-header">
-                    <div class="om-stat-num">3.8<span class="om-stat-pct">x</span></div>
-                    <span class="om-stat-pill">Avg. ROI</span>
-                </div>
-                <div class="om-stat-desc">Client Traffic &amp; Conversion Lift</div>
-                <div class="om-bar-chart" aria-label="Growth velocity chart">
-                    <div class="om-chart-bar" style="--bh: 45%; --delay: 0.1s;"></div>
-                    <div class="om-chart-bar" style="--bh: 62%; --delay: 0.2s;"></div>
-                    <div class="om-chart-bar" style="--bh: 78%; --delay: 0.3s;"></div>
-                    <div class="om-chart-bar" style="--bh: 70%; --delay: 0.4s;"></div>
-                    <div class="om-chart-bar" style="--bh: 90%; --delay: 0.5s;"></div>
-                    <div class="om-chart-bar" style="--bh: 100%; --delay: 0.6s;"></div>
-                </div>
-            </div>
-
-            <!-- Floating Card 2: Bottom Left - Verified Star Rating -->
-            <a href="#reviews" class="om-float-card om-float-quality" style="text-decoration:none;">
-                <div class="om-quality-top">
-                    <span class="om-quality-step" style="color:#f59e0b;font-size:13px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-                    <div class="om-quality-check">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                    </div>
-                </div>
-                <strong class="om-quality-heading"><?= e($avgRating) ?> / 5.0 Client Rating</strong>
-                <span class="om-quality-sub">Verified Reviews &rarr;</span>
-            </a>
-
-            <!-- Floating Card 3: Bottom Right - Quick Packages Jump -->
-            <a href="#packages" class="om-float-card om-float-demo" title="View Transparent Packages">
-                <span class="om-play-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                </span>
-                <span class="om-demo-label">View Packages</span>
-            </a>
-
-            <!-- Floating Card 4: Top Right - Unified 4-Division Agency Badge -->
+            <!-- Corner Floating Badge 1: Top Right - Unified 4-Division Agency Pill -->
             <div class="om-float-card om-float-founders">
                 <div class="om-founders-avatars">
                     <span class="om-avatar-chip chip-1" title="Web & SaaS Engineering">W</span>
@@ -204,6 +183,18 @@ $totalReviews = max(8, (int)($reviewStats['total'] ?? 8));
                     <span>Code &bull; Design &bull; SEO &bull; Ads</span>
                 </div>
             </div>
+
+            <!-- Corner Floating Badge 2: Bottom Left - Verified Star Rating Jump -->
+            <a href="#reviews" class="om-float-card om-float-quality" style="text-decoration:none;">
+                <div class="om-quality-top">
+                    <span class="om-quality-step" style="color:#f59e0b;font-size:13px;letter-spacing:1px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                    <div class="om-quality-check">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                </div>
+                <strong class="om-quality-heading"><?= e($avgRating) ?> / 5.0 Client Rating</strong>
+                <span class="om-quality-sub">Read Verified Reviews &rarr;</span>
+            </a>
         </div>
     </div>
 </section>
@@ -734,28 +725,23 @@ $totalReviews = max(8, (int)($reviewStats['total'] ?? 8));
                 <div class="ag-se-options">
                     <label class="ag-se-check">
                         <input type="checkbox" value="Custom Website / Redesign" data-price="350" data-days="7" checked>
-                        <span class="ag-se-box"></span>
-                        <span class="ag-se-label">Custom Web Dev / Redesign <b>(+$350)</b></span>
+                        <span class="ag-se-label"><span>Custom Web Dev / Redesign</span> <b>+$350</b></span>
                     </label>
                     <label class="ag-se-check">
                         <input type="checkbox" value="Flutter Mobile App (iOS & Android)" data-price="750" data-days="14">
-                        <span class="ag-se-box"></span>
-                        <span class="ag-se-label">Flutter Mobile App <b>(+$750)</b></span>
+                        <span class="ag-se-label"><span>Flutter Mobile App</span> <b>+$750</b></span>
                     </label>
                     <label class="ag-se-check">
                         <input type="checkbox" value="Logo & Complete Brand Identity" data-price="150" data-days="3" checked>
-                        <span class="ag-se-box"></span>
-                        <span class="ag-se-label">Logo &amp; Brand Identity <b>(+$150)</b></span>
+                        <span class="ag-se-label"><span>Logo &amp; Brand Identity</span> <b>+$150</b></span>
                     </label>
                     <label class="ag-se-check">
                         <input type="checkbox" value="Technical & On-Page SEO" data-price="220" data-days="5">
-                        <span class="ag-se-box"></span>
-                        <span class="ag-se-label">Technical SEO Setup <b>(+$220)</b></span>
+                        <span class="ag-se-label"><span>Technical SEO Setup</span> <b>+$220</b></span>
                     </label>
                     <label class="ag-se-check">
                         <input type="checkbox" value="Meta & Google Paid Ads Setup" data-price="250" data-days="4">
-                        <span class="ag-se-box"></span>
-                        <span class="ag-se-label">Social Media &amp; Paid Ads <b>(+$250)</b></span>
+                        <span class="ag-se-label"><span>Social Media &amp; Paid Ads</span> <b>+$250</b></span>
                     </label>
                 </div>
             </div>

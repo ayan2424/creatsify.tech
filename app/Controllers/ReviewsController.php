@@ -14,9 +14,8 @@ class ReviewsController
 {
     public function index(Request $request): Response
     {
-        $activeCategory = trim((string)$request->get('cat', 'all'));
-        $allowedCategories = [
-            'all',
+        $activeCategory = trim((string)($request->get('category') ?: $request->get('cat', 'all')));
+        $serviceCategories = [
             'Web Development',
             'Mobile App Development',
             'Website Redesign & UI/UX',
@@ -25,7 +24,7 @@ class ReviewsController
             'Branding & Graphic Design',
             'White-Label Customization',
         ];
-        if (!in_array($activeCategory, $allowedCategories, true)) {
+        if ($activeCategory !== 'all' && !in_array($activeCategory, $serviceCategories, true)) {
             $activeCategory = 'all';
         }
 
@@ -33,12 +32,13 @@ class ReviewsController
         $stats = ClientReview::stats();
 
         return view('reviews/index', [
-            'reviews'        => $reviews,
-            'stats'          => $stats,
-            'activeCategory' => $activeCategory,
-            'categories'     => $allowedCategories,
-            'meta_title'     => 'Client Reviews & Verified Testimonials | ' . setting('site_name', 'Creatsify'),
-            'meta_desc'      => 'Read verified client reviews and star ratings for Creatsify Digital Agency across custom web development, Flutter mobile apps, website redesign, branding, SEO, and social media ads.',
+            'reviews'         => $reviews,
+            'stats'           => $stats,
+            'activeCategory'  => $activeCategory,
+            'currentCategory' => $activeCategory,
+            'categories'      => $serviceCategories,
+            'meta_title'      => 'Client Reviews & Verified Testimonials | ' . setting('site_name', 'Creatsify'),
+            'meta_desc'       => 'Read verified client reviews and star ratings for Creatsify Digital Agency across custom web development, Flutter mobile apps, website redesign, branding, SEO, and social media ads.',
         ]);
     }
 

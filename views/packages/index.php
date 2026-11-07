@@ -82,8 +82,8 @@ $trackMeta    = $packageTracks ?? [
             <div class="ag-pkg-track-header">
                 <div>
                     <div class="om-sec-tag"><span class="om-sec-dot"></span> <?= e($tInfo['tag']) ?></div>
-                    <h2 style="font-size:clamp(22px,3vw,30px);margin:6px 0 8px;color:var(--text-primary);"><?= e($tInfo['title']) ?></h2>
-                    <p style="color:var(--text-secondary);font-size:15px;margin:0;max-width:65ch;"><?= e($tInfo['desc']) ?></p>
+                    <h2 style="font-size:clamp(22px,3vw,30px);margin:6px 0 8px;color:var(--text);"><?= e($tInfo['title']) ?></h2>
+                    <p style="color:var(--muted);font-size:15px;margin:0;max-width:65ch;"><?= e($tInfo['desc']) ?></p>
                 </div>
             </div>
 
@@ -131,28 +131,23 @@ $trackMeta    = $packageTracks ?? [
                 <div class="ag-se-options">
                     <label class="ag-se-check">
                         <input type="checkbox" value="Custom Website / Redesign" data-price="350" data-days="7" checked>
-                        <span class="ag-se-box"></span>
-                        <span class="ag-se-label">Custom Web Dev / Redesign <b>(+$350)</b></span>
+                        <span class="ag-se-label"><span>Custom Web Dev / Redesign</span> <b>+$350</b></span>
                     </label>
                     <label class="ag-se-check">
                         <input type="checkbox" value="Flutter Mobile App (iOS & Android)" data-price="750" data-days="14">
-                        <span class="ag-se-box"></span>
-                        <span class="ag-se-label">Flutter Mobile App <b>(+$750)</b></span>
+                        <span class="ag-se-label"><span>Flutter Mobile App</span> <b>+$750</b></span>
                     </label>
                     <label class="ag-se-check">
                         <input type="checkbox" value="Logo & Complete Brand Identity" data-price="150" data-days="3" checked>
-                        <span class="ag-se-box"></span>
-                        <span class="ag-se-label">Logo &amp; Brand Identity <b>(+$150)</b></span>
+                        <span class="ag-se-label"><span>Logo &amp; Brand Identity</span> <b>+$150</b></span>
                     </label>
                     <label class="ag-se-check">
                         <input type="checkbox" value="Technical & On-Page SEO" data-price="220" data-days="5">
-                        <span class="ag-se-box"></span>
-                        <span class="ag-se-label">Technical SEO Setup <b>(+$220)</b></span>
+                        <span class="ag-se-label"><span>Technical SEO Setup</span> <b>+$220</b></span>
                     </label>
                     <label class="ag-se-check">
                         <input type="checkbox" value="Meta & Google Paid Ads Setup" data-price="250" data-days="4">
-                        <span class="ag-se-box"></span>
-                        <span class="ag-se-label">Social Media &amp; Paid Ads <b>(+$250)</b></span>
+                        <span class="ag-se-label"><span>Social Media &amp; Paid Ads</span> <b>+$250</b></span>
                     </label>
                 </div>
             </div>

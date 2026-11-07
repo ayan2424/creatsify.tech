@@ -78,6 +78,7 @@
             const cat = card.getAttribute('data-svc-cat') || '';
             if (filter === 'all' || cat.includes(filter)) {
               card.style.display = '';
+              card.classList.add('on');
             } else {
               card.style.display = 'none';
             }
@@ -100,6 +101,7 @@
             const cat = card.getAttribute('data-work-cat') || '';
             if (filter === 'all' || cat.includes(filter)) {
               card.style.display = '';
+              card.classList.add('on');
             } else {
               card.style.display = 'none';
             }

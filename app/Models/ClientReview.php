@@ -53,6 +53,8 @@ class ClientReview
             $count = (int)($countRow['cnt'] ?? 0);
             if ($count === 0) {
                 self::seedDefaultReviews();
+            } else {
+                db()->query("UPDATE `client_reviews` SET `client_name` = 'David Kalloway' WHERE `client_name` = 'David K.alloway'");
             }
         } catch (\Throwable $e) {
         }
@@ -78,7 +80,7 @@ class ClientReview
             ],
             [
                 'client_name'      => 'Tariq Al-Mansoor',
-                'client_email'     => 'tariq@ gulfexpressfleet.com',
+                'client_email'     => 'tariq@gulfexpressfleet.com',
                 'client_role'      => 'Operations Director',
                 'company_name'     => 'GulfExpress Logistics',
                 'service_category' => 'White-Label Customization',
@@ -107,7 +109,7 @@ class ClientReview
                 'created_at'       => date('Y-m-d H:i:s', strtotime('-12 days')),
             ],
             [
-                'client_name'      => 'David K.alloway',
+                'client_name'      => 'David Kalloway',
                 'client_email'     => 'david@vanguardlegal.co.uk',
                 'client_role'      => 'Managing Partner',
                 'company_name'     => 'Vanguard Advisory UK',
@@ -254,7 +256,13 @@ class ClientReview
 
         return [
             'average'      => number_format((float)$avg, 1),
+            'avg_rating'   => number_format((float)$avg, 1),
             'total'        => $total,
+            'five_star'    => $counts[5],
+            'four_star'    => $counts[4],
+            'three_star'   => $counts[3],
+            'two_star'     => $counts[2],
+            'one_star'     => $counts[1],
             'distribution' => $distribution,
         ];
     }

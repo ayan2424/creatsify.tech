@@ -14,13 +14,19 @@ class ReviewsController
 {
     public function index(Request $request): Response
     {
-        $reviews = ClientReview::allAdmin();
+        $statusFilter = trim((string)$request->input('status', 'all'));
+        $allReviews = ClientReview::allAdmin();
+        $reviews = $allReviews;
+        if (in_array($statusFilter, ['approved', 'pending', 'rejected'], true)) {
+            $reviews = array_values(array_filter($allReviews, static fn(array $r) => ($r['status'] ?? '') === $statusFilter));
+        }
         $stats = ClientReview::stats();
 
         return view('admin/reviews/index', [
-            'reviews'    => $reviews,
-            'stats'      => $stats,
-            'page_title' => 'Client Reviews & Star Feedback',
+            'reviews'      => $reviews,
+            'statusFilter' => $statusFilter,
+            'stats'        => $stats,
+            'page_title'   => 'Client Reviews & Star Feedback',
         ]);
     }
 

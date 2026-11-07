@@ -35,7 +35,7 @@ const lk=links=>(Array.isArray(links)?links:[]).map(([title,href])=>{
 /* build content */
 // The software that is for sale already has its own section; this stack shows the other work.
 const featuredP = P.filter(p => p[2] !== 'For sale').slice(0, 4);
-if (!featuredP.length) { const w = document.getElementById('work'); if (w) w.remove(); }
+if (!featuredP.length && $('#pjs')) { const w = document.getElementById('work'); if (w) w.remove(); }
 if($('#pjs')) {
   let cardsHtml = featuredP.map((p,i)=>{const tech=Array.isArray(p[4])?p[4]:[];return `<article class="pj" style="--top:${86+i*14}px"><div class="pj-in" data-cur="View"><div class="pjt"><span class="pjn" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="pjw"><div class="st" style="--k:0"><i></i>${escapeHtml(p[2])}</div><h3 style="--k:1">${escapeHtml(p[0])}</h3><p style="--k:2">${escapeHtml(p[3])}</p><div class="chips" style="--k:3">${tech.map(item=>`<span>${escapeHtml(item)}</span>`).join('')}</div><div class="links" style="--k:4">${lk(p[6])}</div></div></div><div class="pjm"><img alt="${escapeHtml(p[0])} preview" loading="lazy"><span class="fch a">${escapeHtml(tech[0])}</span>${tech[1]?`<span class="fch b">${escapeHtml(tech[1])}</span>`:''}</div><div class="ov"></div></div></article>`;}).join('');
   cardsHtml += `<div class="portfolio-gateway-card rv" style="--d:.2s;"><div class="gateway-content"><span class="section-tag" style="margin-bottom:8px;">Portfolio</span><h3>See every project in detail</h3><p>Open any project for screenshots, the tech behind it and a live demo where there is one.</p></div><a href="${escapeHtml(safeHref(baseUrl+'/portfolio'))}" class="btn p" style="padding:13px 28px;font-weight:700;">Open Full Portfolio (${P.length}) &rarr;</a></div>`;
@@ -95,9 +95,9 @@ if(RM || hasEntered || !pre){
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
 $$('.rv,.sp,.pj').forEach(el=>io.observe(el));
 /* count up */
-const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);const el=e.target,n=+el.dataset.n,t0=performance.now();
-const tk=t=>{const k=Math.min(1,(t-t0)/1400);el.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(tk)};requestAnimationFrame(tk)}),{threshold:.6});
-if(!RM)$$('[data-n]').forEach(el=>{el.textContent='0';co.observe(el)});
+const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);const el=e.target,n=+el.dataset.n,sfx=el.dataset.sfx||'',t0=performance.now();
+const tk=t=>{const k=Math.min(1,(t-t0)/1200);el.textContent=Math.round(n*(1-Math.pow(1-k,3)))+sfx;if(k<1)requestAnimationFrame(tk)};requestAnimationFrame(tk)}),{threshold:.25});
+if(!RM)$$('[data-n]').forEach(el=>{el.dataset.sfx=el.textContent.replace(/[0-9.\s]/g,'');co.observe(el)});
 /* tracking demo */
 const tl=$$('#trk li');let tkv=false,tki=0;
 if(RM)tl.forEach(l=>l.classList.add('d'));else if($('#trk')){new IntersectionObserver(es=>es.forEach(e=>tkv=e.isIntersecting),{threshold:.3}).observe($('#trk'));
