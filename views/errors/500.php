@@ -123,7 +123,7 @@
     <div class="om-500-card">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> 500 Server Error</div>
         <h1>Server Encountered An Issue<span class="om-dot-gold">.</span></h1>
-        <p>An unexpected condition was encountered while processing your request. Our technical operations co-founder has been automatically alerted.</p>
+        <p>An unexpected condition was encountered while processing your request. Our technical operations engineering desk has been automatically alerted.</p>
         <div class="om-actions-row">
             <a href="<?= function_exists('url') ? url('/') : '/' ?>" class="om-btn-gold">
                 <span>Return to Homepage</span>

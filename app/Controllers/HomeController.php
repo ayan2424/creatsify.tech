@@ -1,58 +1,61 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Models\ClientReview;
+use App\Models\Post;
 use App\Models\Project;
 use App\Models\Section;
 use App\Models\Service;
-use App\Models\Post;
-use App\Models\TeamMember;
+use App\Models\ServicePackage;
 use Core\Request;
 use Core\Response;
 
 /**
- * Creatsify Studio - Homepage Controller
+ * Creatsify Digital Agency - Homepage Controller
  */
 class HomeController
 {
     public function index(Request $request): Response
     {
-        // Fetch active sections
         $sectionsRaw = Section::allActive();
         $sections = [];
         foreach ($sectionsRaw as $sec) {
             $sections[$sec['section_key']] = $sec;
             if (!empty($sec['metadata']) && is_string($sec['metadata'])) {
                 $sections[$sec['section_key']]['metadata'] = json_decode($sec['metadata'], true) ?: [];
-                if ($sec['section_key'] === 'hero' && !empty($sections[$sec['section_key']]['metadata']['chips'])) {
-                    $sections[$sec['section_key']]['metadata']['chips'] = array_map(
-                        static fn ($chip) => str_contains(strtolower((string)$chip), 'marketplace') ? 'Direct software licensing' : $chip,
-                        $sections[$sec['section_key']]['metadata']['chips']
-                    );
-                }
             }
         }
 
-        // Fetch portfolio projects
+        // Fetch portfolio & software products
         $projects = Project::all();
 
-        // Fetch services
+        // Fetch active agency services (self-healed 8 pillars)
         $services = Service::allActive();
 
-        // Fetch recent posts
+        // Fetch active service packages grouped by track (dev, design, growth)
+        $packagesByTrack = ServicePackage::allActiveGroupedByTrack();
+        $packageTracks   = ServicePackage::tracks();
+
+        // Fetch recent blog posts
         $posts = Post::allPublished();
 
-        // Fetch agency team members
-        $teamMembers = TeamMember::allActive();
+        // Fetch featured verified client reviews & aggregate rating stats
+        $reviews = ClientReview::featured(6);
+        $reviewStats = ClientReview::stats();
 
         return view('home/index', [
-            'sections' => $sections,
-            'projects' => $projects,
-            'services' => $services,
-            'posts' => $posts,
-            'teamMembers' => $teamMembers,
-            'meta_title' => setting('site_title', 'Creatsify — Full-stack web, mobile and AI development studio'),
-            'meta_desc' => setting('meta_description', 'Creatsify builds courier platforms, SaaS, online stores and mobile apps.')
+            'sections'        => $sections,
+            'projects'        => $projects,
+            'services'        => $services,
+            'packagesByTrack' => $packagesByTrack,
+            'packageTracks'   => $packageTracks,
+            'posts'           => $posts,
+            'reviews'         => $reviews,
+            'reviewStats'     => $reviewStats,
+            'meta_title'      => 'Creatsify — Web & App Development, Branding, SEO & Digital Growth Agency',
+            'meta_desc'       => 'Creatsify is a full-service digital engineering, branding, and performance marketing agency building custom web apps, Flutter mobile apps, website redesigns, SaaS, SEO, and paid social ad engines.',
         ]);
     }
 }

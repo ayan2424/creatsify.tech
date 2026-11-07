@@ -10,21 +10,24 @@ $thumb = static function (array $p) use ($assetDir) {
 
 <section class="page-hero">
     <div class="wrap">
-        <div class="om-sec-tag"><span class="om-sec-dot"></span> Commercial Systems</div>
-        <h1 class="page-title">White-Label Software You Can Buy<span class="om-dot-gold">.</span></h1>
-        <p class="page-lead">Production-ready courier logistics backbones, online store engines, and restaurant POS platforms. You receive the complete 100% unlocked source code, commercial rights, and direct setup support from our three co-founders.</p>
+        <div class="om-sec-tag"><span class="om-sec-dot"></span> Ready-To-Launch &amp; Customizable Platforms</div>
+        <h1 class="page-title">Ready-Made Software: Buy Direct Or Customize<span class="om-dot-gold">.</span></h1>
+        <p class="page-lead">
+            Need to launch in days instead of months? Purchase a direct white-label license with 100% unlocked source code, OR ask our engineering team to customize any platform below with your brand identity, custom workflows, and local payment or courier gateways.
+        </p>
     </div>
 </section>
 
 <section class="section">
     <div class="wrap">
-        <h2 class="sr-only">Production Software For Sale</h2>
+        <h2 class="sr-only">Production Software For Sale Or Customization</h2>
         <div class="om-prod-grid">
             <?php foreach ($products as $i => $pr):
                 $shot = $thumb($pr);
                 $tech = array_filter(array_map('trim', explode(',', (string)($pr['tech_stack'] ?? ''))));
                 $live = $pr['live_url'] ?? '';
                 $hasLive = $live && $live !== '#';
+                $priceStr = !empty($pr['price']) ? $pr['price'] : '$99';
             ?>
                 <article class="om-prod-card rv" style="--d:<?= $i * 0.12 ?>s">
                     <div class="om-prod-media-frame">
@@ -34,7 +37,7 @@ $thumb = static function (array $p) use ($assetDir) {
                                 <span class="dot d-yellow"></span>
                                 <span class="dot d-green"></span>
                             </div>
-                            <span class="om-prod-badge-price"><?= !empty($pr['price']) ? e($pr['price']) : '$99' ?></span>
+                            <span class="om-prod-badge-price">Direct: <?= e($priceStr) ?> &bull; Or Customize</span>
                         </div>
                         <?php if ($shot): ?>
                             <img src="<?= asset($shot) ?>" width="1376" height="768" loading="lazy" alt="<?= e($pr['title']) ?>" class="om-prod-img">
@@ -54,8 +57,8 @@ $thumb = static function (array $p) use ($assetDir) {
                     </div>
                     <div class="om-prod-body">
                         <div class="om-prod-status-row">
-                            <span class="om-prod-pill"><?= e($pr['status'] ?? 'Ready to License') ?></span>
-                            <span class="om-prod-rights">&#10003; 100% Unlocked Code</span>
+                            <span class="om-prod-pill">Ready to Ship</span>
+                            <span class="om-prod-rights">&#10003; 100% Unlocked Code + Custom Tailoring</span>
                         </div>
                         <h3 class="om-prod-title"><?= e($pr['title']) ?></h3>
                         <p class="om-prod-desc"><?= e($pr['summary'] ?? '') ?></p>
@@ -65,44 +68,42 @@ $thumb = static function (array $p) use ($assetDir) {
                         <div class="om-prod-actions">
                             <?php if (!empty($pr['gumroad_url'])): ?>
                                 <a class="om-btn-gold" href="<?= e($pr['gumroad_url']) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span>Buy License<?= !empty($pr['price']) ? ' (' . e($pr['price']) . ')' : '' ?></span>
-                                    <span class="om-btn-circle-arrow">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                                    </span>
-                                </a>
-                            <?php else: ?>
-                                <a class="om-btn-gold" href="<?= url('/contact?kind=software_presale&offering=' . urlencode($pr['title'])) ?>#inquiry-form">
-                                    <span>Get a Quote<?= !empty($pr['price']) ? ' (' . e($pr['price']) . ')' : '' ?></span>
+                                    <span>Buy Direct (<?= e($priceStr) ?>)</span>
                                     <span class="om-btn-circle-arrow">
                                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                                     </span>
                                 </a>
                             <?php endif; ?>
+                            <a class="om-btn-glass light" href="<?= url('/contact?kind=software_custom&offering=' . urlencode('Customize ' . $pr['title'])) ?>#inquiry-form">
+                                <span>Customize For Me &#9998;</span>
+                            </a>
                             <?php if ($hasLive): ?>
-                                <a class="om-btn-glass light" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span>Live Demo ↗</span>
-                                </a>
+                                <a class="om-prod-link" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">Live Demo ↗</a>
+                            <?php else: ?>
+                                <a class="om-prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">Details &rarr;</a>
                             <?php endif; ?>
-                            <a class="om-prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">Details &rarr;</a>
                         </div>
                     </div>
                 </article>
             <?php endforeach; ?>
         </div>
 
-        <!-- aaPanel Deployment Note Bento Card -->
+        <!-- Custom Modification & Server Deployment Bento Card -->
         <div class="om-bento-card" style="margin-top:48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
             <div style="max-width:680px;">
-                <div class="om-sec-tag" style="margin-bottom:8px;"><span class="om-sec-dot"></span> aaPanel Deployment</div>
-                <h3 style="font-family:Sora,sans-serif;font-size:20px;font-weight:800;color:var(--text);margin:0 0 6px;">Need Help Deploying On Your Server?</h3>
+                <div class="om-sec-tag" style="margin-bottom:8px;"><span class="om-sec-dot"></span> Custom Tailoring &amp; Deployment</div>
+                <h3 style="font-family:Sora,sans-serif;font-size:20px;font-weight:800;color:var(--text);margin:0 0 6px;">Want Us To Customize &amp; Deploy A System For Your Brand?</h3>
                 <p style="font-size:14px;color:var(--muted);line-height:1.6;margin:0;">
-                    We provide direct co-founder assistance setting up your Nginx URL rewrites, PHP 8.4 runtime, and MySQL database tables on aaPanel or any standard Linux VPS.
+                    Our engineering team can rebrand any ready-made platform above, add custom modules or Flutter mobile apps, integrate your local payment/courier APIs, and deploy it directly on your aaPanel or Linux VPS server.
                 </p>
             </div>
-            <div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <a class="om-btn-gold" href="<?= url('/contact') ?>#inquiry-form">
+                    <span>Request Custom Changes</span>
+                    <span class="om-btn-circle-arrow">&rarr;</span>
+                </a>
                 <a class="om-btn-glass" href="<?= url('/support') ?>">
                     <span>Open Support Desk</span>
-                    <span class="om-btn-circle-arrow">&rarr;</span>
                 </a>
             </div>
         </div>

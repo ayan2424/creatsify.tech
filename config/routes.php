@@ -25,6 +25,9 @@ $router->group(['middleware' => ['analytics']], function (Router $r) {
     $r->get('/software', [\App\Controllers\SoftwareController::class, 'index']);
     $r->get('/privacy', [\App\Controllers\LegalController::class, 'privacy']);
     $r->get('/services', [\App\Controllers\ServicesController::class, 'index']);
+    $r->get('/packages', [\App\Controllers\PackagesController::class, 'index']);
+    $r->get('/reviews', [\App\Controllers\ReviewsController::class, 'index']);
+    $r->post('/reviews', [\App\Controllers\ReviewsController::class, 'store'], ['csrf']);
     $r->get('/team', [\App\Controllers\TeamController::class, 'index']);
     $r->get('/team/{slug}', [\App\Controllers\TeamController::class, 'show']);
     $r->get('/about', [\App\Controllers\AboutController::class, 'index']);
@@ -124,6 +127,22 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']],
     $r->post('/services/{id}', [\App\Controllers\Admin\ServicesController::class, 'update']);
     $r->post('/services/{id}/toggle', [\App\Controllers\Admin\ServicesController::class, 'toggle']);
     $r->post('/services/{id}/delete', [\App\Controllers\Admin\ServicesController::class, 'delete']);
+
+    // Service Packages & Pricing Plans
+    $r->get('/packages', [\App\Controllers\Admin\PackagesController::class, 'index']);
+    $r->get('/packages/create', [\App\Controllers\Admin\PackagesController::class, 'create']);
+    $r->post('/packages', [\App\Controllers\Admin\PackagesController::class, 'store']);
+    $r->get('/packages/{id}/edit', [\App\Controllers\Admin\PackagesController::class, 'edit']);
+    $r->post('/packages/{id}', [\App\Controllers\Admin\PackagesController::class, 'update']);
+    $r->post('/packages/{id}/toggle', [\App\Controllers\Admin\PackagesController::class, 'toggle']);
+    $r->post('/packages/{id}/toggle-popular', [\App\Controllers\Admin\PackagesController::class, 'togglePopular']);
+    $r->post('/packages/{id}/delete', [\App\Controllers\Admin\PackagesController::class, 'delete']);
+
+    // Client Reviews & Star Feedback
+    $r->get('/reviews', [\App\Controllers\Admin\ReviewsController::class, 'index']);
+    $r->post('/reviews/{id}/status', [\App\Controllers\Admin\ReviewsController::class, 'updateStatus']);
+    $r->post('/reviews/{id}/toggle-featured', [\App\Controllers\Admin\ReviewsController::class, 'toggleFeatured']);
+    $r->post('/reviews/{id}/delete', [\App\Controllers\Admin\ReviewsController::class, 'delete']);
 
     // Blog Posts
     $r->get('/posts', [\App\Controllers\Admin\PostsController::class, 'index']);

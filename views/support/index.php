@@ -21,7 +21,7 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
             <div style="padding:28px;border-radius:20px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);margin-bottom:32px;">
                 <div class="om-sec-tag" style="background:#10b981;color:#ffffff;"><span class="om-sec-dot" style="background:#ffffff;"></span> Ticket Created</div>
                 <h2 style="font-family:Sora,sans-serif;font-size:24px;font-weight:800;color:var(--text);margin:12px 0 8px;">We Received Ticket #<?= e($ticketSuccess) ?>.</h2>
-                <p style="color:var(--muted);margin:0 0 18px;font-size:14.5px;">Our co-founders will review the context and reply by email or WhatsApp. Keep this ticket number for tracking.</p>
+                <p style="color:var(--muted);margin:0 0 18px;font-size:14.5px;">Our engineering support team will review the context and reply by email or WhatsApp. Keep this ticket number for tracking.</p>
                 <a class="om-btn-gold sm" href="<?= url('/portfolio') ?>"><span>Explore Software</span><span class="om-btn-circle-arrow">&rarr;</span></a>
             </div>
         <?php endif; ?>
@@ -170,7 +170,7 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                     <div class="om-sec-tag"><span class="om-sec-dot"></span> Fast Triage</div>
                     <h3 style="font-family:Sora,sans-serif;font-size:17px;font-weight:800;margin:10px 0 8px;color:var(--text);">Start in the Right Place</h3>
                     <p style="font-size:13px;color:var(--muted);line-height:1.6;margin:0 0 16px;">
-                        Need a new service, custom build, or commercial software license? The contact desk routes directly to co-founder scoping.
+                        Need a new service, custom build, or commercial software license? The contact desk routes directly to our senior engineering &amp; strategy team.
                     </p>
                     <a href="<?= url('/contact') ?>" class="om-btn-glass sm" style="width:100%;justify-content:center;">
                         <span>Start A Project Inquiry &rarr;</span>

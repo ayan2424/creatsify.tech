@@ -145,10 +145,24 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/services') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/services') ? 'active' : '' ?>" data-title="Studio Services" title="Studio Services">
+            <a href="<?= url('/admin/services') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/services') ? 'active' : '' ?>" data-title="Agency Services" title="Agency Services">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                    <span>Studio Services</span>
+                    <span>Agency Services</span>
+                </span>
+                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+            <a href="<?= url('/admin/packages') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/packages') ? 'active' : '' ?>" data-title="Service Packages" title="Service Packages">
+                <span class="nav-link-content">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <span>Service Packages</span>
+                </span>
+                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+            <a href="<?= url('/admin/reviews') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/reviews') ? 'active' : '' ?>" data-title="Client Reviews" title="Client Reviews">
+                <span class="nav-link-content">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    <span>Client Reviews</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
@@ -475,6 +489,10 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                     'post': '<?= url("/admin/posts") ?>',
                     'blog': '<?= url("/admin/posts") ?>',
                     'service': '<?= url("/admin/services") ?>',
+                    'package': '<?= url("/admin/packages") ?>',
+                    'pric': '<?= url("/admin/packages") ?>',
+                    'review': '<?= url("/admin/reviews") ?>',
+                    'feedback': '<?= url("/admin/reviews") ?>',
                     'team': '<?= url("/admin/team") ?>',
                     'media': '<?= url("/admin/media") ?>',
                     'asset': '<?= url("/admin/media") ?>',

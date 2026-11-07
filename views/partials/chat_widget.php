@@ -1,7 +1,7 @@
 <?php
 /** @var Core\View $this */
 ?>
-<!-- Creatsify Native Live Chat Widget (Cheetah Architecture) -->
+<!-- Creatsify Native Live Chat Widget -->
 <div class="creatsify-chat-container" id="creatsifyChatWidget">
     <!-- Chat Launcher Button -->
     <button type="button" class="chat-launcher-btn" id="chatLauncherBtn" aria-label="Open live chat">
@@ -25,8 +25,8 @@
                     <span class="status-dot"></span>
                 </div>
                 <div>
-                    <p class="chat-title">Creatsify Desk</p>
-                    <p class="chat-status" id="chatStatusText">AI Assistant &bull; Live Support Ready</p>
+                    <p class="chat-title">Creatsify Agency Desk</p>
+                    <p class="chat-status" id="chatStatusText">AI Strategist &bull; Live Specialist Ready</p>
                 </div>
             </div>
             <button type="button" class="chat-close-btn" id="chatCloseBtn" aria-label="Close chat window">&times;</button>
@@ -36,23 +36,23 @@
             <div class="chat-timestamp"><?= date('l, M j') ?></div>
             <div class="chat-msg bot-msg">
                 <div class="msg-bubble">
-                    Hello! Welcome to <strong>Creatsify Studio</strong>. How can we help you today? Ask about our <strong>Cheetah Courier software</strong>, request a custom build, or talk directly with our <strong>Co-Founders</strong>.
+                    Hello! Welcome to <strong>Creatsify Digital Agency</strong>. Whether you need <strong>Web or Flutter App Development</strong>, a <strong>Website Redesign</strong>, <strong>Branding &amp; Logo Design</strong>, <strong>SEO &amp; Social Media Ads</strong>, or our <strong>Ready-to-Launch Software</strong>—how can we help you today?
                 </div>
                 <span class="msg-time"><?= date('H:i') ?></span>
             </div>
 
             <!-- Quick Action Suggestion Chips -->
             <div class="chat-chips" id="chatQuickChips">
-                <button type="button" class="chat-chip" data-query="Tell me about Cheetah courier software">Cheetah Courier</button>
-                <button type="button" class="chat-chip" data-query="What is your tech stack?">Tech Stack</button>
-                <button type="button" class="chat-chip" data-query="How much does a custom SaaS cost?">Pricing & Quotes</button>
-                <button type="button" class="chat-chip" data-query="I want to talk to human agent">Talk to Human &rarr;</button>
+                <button type="button" class="chat-chip" data-query="What are your service packages and pricing?">Packages &amp; Pricing</button>
+                <button type="button" class="chat-chip" data-query="Tell me about SEO and Social Media Ads">SEO &amp; Paid Ads</button>
+                <button type="button" class="chat-chip" data-query="What is your web and mobile app tech stack?">Web &amp; Flutter Stack</button>
+                <button type="button" class="chat-chip" data-query="I want to talk to a human specialist">Talk to Specialist &rarr;</button>
             </div>
         </div>
 
         <!-- Chat Input Form -->
         <form class="chat-footer" id="chatForm">
-            <input type="text" id="chatInput" placeholder="Type a message..." autocomplete="off" required>
+            <input type="text" id="chatInput" placeholder="Ask about web, app, SEO, branding or packages..." autocomplete="off" required>
             <button type="submit" class="chat-send-btn" id="chatSendBtn" aria-label="Send message">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
             </button>

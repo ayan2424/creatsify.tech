@@ -148,9 +148,9 @@ $waMsg = urlencode("Hello! I am interested in licensing or customizing " . ($pro
                 </div>
 
                 <div class="om-bento-card" style="margin-top:20px;background:color-mix(in srgb,var(--surface) 80%,transparent);">
-                    <h3 style="font-family:Sora,sans-serif;font-size:17px;font-weight:800;margin:0 0 10px;color:var(--text);">Need Setup Assistance?</h3>
+                    <h3 style="font-family:Sora,sans-serif;font-size:17px;font-weight:800;margin:0 0 10px;color:var(--text);">Need Custom Tailoring or Setup?</h3>
                     <p style="font-size:13.5px;color:var(--muted);line-height:1.6;margin:0 0 16px;">
-                        Buyers receive direct deployment support on aaPanel or standard Linux VPS servers from our co-founders.
+                        Buyers receive direct deployment support on aaPanel or standard Linux VPS servers, or can hire our agency team to customize features and branding.
                     </p>
                     <a href="<?= url('/support?script=' . urlencode($project['title'])) ?>" class="om-btn-glass" style="width:100%;justify-content:center;">
                         <span>Open Support Request</span>

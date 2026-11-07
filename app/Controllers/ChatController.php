@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -9,14 +10,10 @@ use Core\Request;
 use Core\Response;
 
 /**
- * Creatsify Studio - Native Intelligent Live Chat Engine
- * Modeled directly on Cheetah's live chat architecture (smart context crawler + local rule engine + human handoff).
+ * Creatsify Digital Agency - Native Intelligent Live Chat Engine
  */
 class ChatController
 {
-    /**
-     * Send message from visitor
-     */
     public function send(Request $request): Response
     {
         $token = trim((string)$request->input('token', ''));
@@ -33,7 +30,6 @@ class ChatController
             return Response::json(['success' => false, 'error' => 'Token and message required.'], 422);
         }
 
-        // Enforce 1,000 character length cap
         if (mb_strlen($message) > 1000) {
             return Response::json(['success' => false, 'error' => 'Message exceeds maximum length of 1,000 characters.'], 422);
         }
@@ -51,56 +47,45 @@ class ChatController
             session()->set($rateKey, $history);
         }
 
-        // Get or initialize chat session
         $session = ChatSession::findOrCreate($token, $request->getIp(), $name, $email);
-
-        // Record visitor message
         ChatMessage::add((int)$session['id'], 'visitor', $name, $message);
 
-        // Check if session is already in human handoff mode
         if ((int)$session['is_human_handoff'] === 1) {
-            // Visitor is chatting directly with human admin
             return Response::json([
                 'success' => true,
                 'session' => $session,
                 'handoff' => true,
-                'message' => 'Message delivered to Creatsify live support.'
+                'message' => 'Message delivered to Creatsify live support.',
             ]);
         }
 
-        // Check for human handoff intent
         if ($this->isHumanHandoffRequest($message)) {
             ChatSession::setHandoff((int)$session['id'], true);
 
-            // Dispatch alert to admin
             $dispatcher = new NotificationDispatcher();
             $dispatcher->dispatchChatHandoff($session, $message);
 
-            $siteMail = setting('site_email', 'support@' . ($_SERVER['HTTP_HOST'] ?? 'example.com'));
-            $reply = "I've flagged this conversation directly for our co-founders (**Muhammad Ayan Shamim**, **Syeda Sukaina Batool**, and **Abdul Moiz**) on the Admin Desk. We will respond here shortly. You can also reach us directly at {$siteMail} or submit a quote request on our Contact page.";
+            $siteMail = setting('site_email', 'support@creatsify.tech');
+            $reply = "I've connected this conversation directly with our **Senior Agency Engineering & Strategy Desk**. A specialist will respond here shortly. You can also reach us via WhatsApp, email us at {$siteMail}, or submit your project brief on our Contact page.";
             ChatMessage::add((int)$session['id'], 'bot', 'Assistant', $reply);
 
             return Response::json([
                 'success' => true,
                 'handoff' => true,
-                'reply' => $reply
+                'reply'   => $reply,
             ]);
         }
 
-        // Local Smart Context Rule Engine
         $botReply = $this->getLocalChatResponse($message);
         ChatMessage::add((int)$session['id'], 'bot', 'Assistant', $botReply);
 
         return Response::json([
             'success' => true,
-            'reply' => $botReply,
-            'handoff' => false
+            'reply'   => $botReply,
+            'handoff' => false,
         ]);
     }
 
-    /**
-     * Fetch message history for visitor session
-     */
     public function messages(Request $request): Response
     {
         $token = trim((string)$request->get('token', ''));
@@ -112,15 +97,12 @@ class ChatController
         $messages = ChatMessage::forSession((int)$session['id'], 100);
 
         return Response::json([
-            'success' => true,
-            'session' => $session,
-            'messages' => $messages
+            'success'  => true,
+            'session'  => $session,
+            'messages' => $messages,
         ]);
     }
 
-    /**
-     * Poll for newly arrived admin messages
-     */
     public function poll(Request $request): Response
     {
         $token = trim((string)$request->get('token', ''));
@@ -137,95 +119,68 @@ class ChatController
         );
 
         return Response::json([
-            'success' => true,
-            'messages' => $messages,
-            'is_handoff' => (bool)$session['is_human_handoff']
+            'success'    => true,
+            'messages'   => $messages,
+            'is_handoff' => (bool)$session['is_human_handoff'],
         ]);
     }
 
-    /**
-     * Detects if visitor intends to speak with a real human agent
-     */
     private function isHumanHandoffRequest(string $message): bool
     {
         $m = strtolower($message);
-        return (bool)preg_match('/\b(talk\s+to(\s+a)?\s+human|speak\s+(with|to)(\s+a)?\s+human|real\s+person|live\s+agent|human\s+support|human\s+agent|human\s+please|connect\s+with\s+(a\s+)?human|talk\s+to\s+(founder|founders|team|ayan|sukaina|moiz)|speak\s+with\s+(ayan|sukaina|moiz)|call\s+me|phone\s+number|whatsapp\s+me|operator|support\s+rep)\b/i', $m);
+        return (bool)preg_match('/\b(talk\s+to(\s+a)?\s+human|speak\s+(with|to)(\s+a)?\s+human|real\s+person|live\s+agent|human\s+support|human\s+agent|human\s+please|connect\s+with\s+(a\s+)?human|talk\s+to\s+specialist|call\s+me|phone\s+number|whatsapp\s+me|operator|support\s+rep)\b/i', $m);
     }
 
-    /**
-     * Intelligent First-Party Knowledge Engine for Creatsify Studio
-     */
     private function getLocalChatResponse(string $userMsg): string
     {
         $m = strtolower($userMsg);
 
-        // Greetings
         if (preg_match('/\b(hi|hello|hey|salam|assalam|aoa)\b/', $m)) {
-            return "Hello! Welcome to **Creatsify Studio**. I am your Assistant. We build ready-made courier and e-commerce software (Cheetah Enterprise, Cheetah Lite, Cheezify) and high-velocity custom web applications. How can I help you today?";
+            return "Hello! Welcome to **Creatsify Digital Agency**. We specialize in **Custom Web & App Development** (PHP, Node.js, Next.js, Flutter), **Website Redesign**, **Branding & Logo Design**, **Technical SEO & Paid Social Ads**, and **Customizable Ready-to-Ship Software**. How can we help scale your business today?";
         }
 
-        // Cheetah Courier Software inquiries
-        if (str_contains($m, 'cheetah') || str_contains($m, 'courier') || str_contains($m, 'logistics') || str_contains($m, 'warehouse') || str_contains($m, 'parcel')) {
-            return "Our flagship courier software **Cheetah** is sold with 100% full unencrypted source code and white-label rights via our official Gumroad store:\n\n"
-                 . "1. **Cheetah Enterprise**: Complete logistics & warehouse platform featuring 7 role portals, driver & picker Flutter app, cash-on-delivery reconciliation, live tracking, and merchant portals. Live demo: https://cheetah.ayan24.me\n"
-                 . "2. **Cheetah Lite**: Courier-only operations platform without warehouse overhead. Fast dispatch, live tracking, and rider assignment. Live demo: https://cheetah-lite.ayan24.me\n\n"
-                 . "Would you like a purchase link or direct technical details?";
+        if (str_contains($m, 'seo') || str_contains($m, 'marketing') || str_contains($m, 'ads') || str_contains($m, 'social media') || str_contains($m, 'google') || str_contains($m, 'meta')) {
+            return "Our **Digital Growth & Performance Marketing Division** offers:\n"
+                 . "• **Technical & On-Page SEO**: Core Web Vitals speed optimization, semantic keyword architecture, schema markup, and organic ranking growth.\n"
+                 . "• **Paid Social & Search Ads**: High-ROAS campaigns across Meta (Facebook & Instagram), Google Ads, and TikTok with full pixel/CAPI tracking.\n"
+                 . "• **Social Media Marketing**: Content strategy, custom visual creatives, and audience growth.\n\n"
+                 . "Explore our Growth Packages on the homepage or request a free SEO & Ads teardown!";
         }
 
-        // Cheezify Online Store
-        if (str_contains($m, 'cheezify') || str_contains($m, 'store') || str_contains($m, 'ecommerce') || str_contains($m, 'e-commerce') || str_contains($m, 'shop')) {
-            return "**Cheezify** is our complete online store platform and admin panel written in pure PHP with zero framework bloat. Features cold-chain delivery zones, responsive catalog, cart persistence, and order management. Sold directly on Gumroad with full source code. Live demo: https://cheezify.ayan24.me";
+        if (str_contains($m, 'logo') || str_contains($m, 'brand') || str_contains($m, 'graphic') || str_contains($m, 'redesign') || str_contains($m, 'ui') || str_contains($m, 'ux')) {
+            return "Our **Creative Design & UI/UX Division** handles:\n"
+                 . "• **Custom Logo & Brand Identity**: Master vector logos, color & typography guidelines, and brand books.\n"
+                 . "• **Website Redesign & Modernization**: Transforming slow, outdated websites into fast, mobile-first conversion engines.\n"
+                 . "• **Graphic Design & Ad Kits**: Social media templates, pitch decks, and high-CTR ad creatives.";
         }
 
-        // White-label & Source Code
-        if (str_contains($m, 'white label') || str_contains($m, 'whitelabel') || str_contains($m, 'source code') || str_contains($m, 'license') || str_contains($m, 'gumroad')) {
-            return "All commercial software sold by Creatsify (Cheetah Enterprise, Cheetah Lite, Cheezify) comes with **100% full unencrypted source code** and lifetime white-label rights. You can rebrand it, host it on your own server (aaPanel, cPanel, VPS), and operate it without recurring vendor fees. Licenses are sold directly via our official Gumroad store with instant download and direct in-house technical support.";
+        if (str_contains($m, 'package') || str_contains($m, 'price') || str_contains($m, 'cost') || str_contains($m, 'quote') || str_contains($m, 'rate') || str_contains($m, 'budget')) {
+            return "We offer transparent **Agency Service Packages** across 3 tracks:\n"
+                 . "1. **Web, App & SaaS Development**: From **$299** (Launchpad Website/Redesign) and **$699** (Custom Full-Stack Web App) to **$1,499+** (SaaS & Flutter Mobile Suite).\n"
+                 . "2. **Branding, Logo & UI/UX Redesign**: From **$149** (Logo & Identity Starter) and **$349** (Complete Brand & Social Kit) to **$599** (Full UI/UX Website Redesign).\n"
+                 . "3. **SEO & Social Media Ads**: From **$249/mo** (SEO Foundation) and **$399/mo** (Paid Ads Growth) to **$749/mo** (Omnichannel SEO + Ads).\n"
+                 . "4. **Ready-to-Launch Software**: Instant licenses from **$49–$99** (or custom tailored for your brand).\n\n"
+                 . "Scroll to the **Packages** section on our homepage to configure your scope!";
         }
 
-        // Installation & Server Setup
-        if (str_contains($m, 'install') || str_contains($m, 'setup') || str_contains($m, 'aapanel') || str_contains($m, 'nginx') || str_contains($m, 'cpanel') || str_contains($m, 'server')) {
-            return "Our scripts are engineered for simple, zero-downtime deployment on aaPanel, cPanel, or standard Linux VPS:\n"
-                 . "• **Requirements**: PHP 8.2+ with PDO MySQL and standard extensions\n"
-                 . "• **Web Server**: Nginx or Apache (includes built-in Front Controller URL rewrite rules)\n"
-                 . "• **1-Click Installer**: Every download includes a graphical browser wizard (`install.php`) that checks requirements and imports the database in seconds\n"
-                 . "Our co-founders provide direct in-house support if you need assistance with server setup.";
+        if (str_contains($m, 'stack') || str_contains($m, 'technology') || str_contains($m, 'php') || str_contains($m, 'node') || str_contains($m, 'flutter') || str_contains($m, 'next')) {
+            return "Our engineering & creative stack covers:\n"
+                 . "• **Backend & DB**: PHP 8.4, Node.js, MySQL, PostgreSQL, REST & GraphQL APIs\n"
+                 . "• **Frontend**: Next.js, HTML5/CSS3, JavaScript ES6, Tailwind CSS, Bootstrap, jQuery\n"
+                 . "• **Mobile Apps**: Flutter & Dart (iOS & Android)\n"
+                 . "• **Growth & Design**: Technical SEO, Meta/Google/TikTok Ads, Figma UI/UX, Vector Brand Design.";
         }
 
-        // Pricing and quote inquiries
-        if (str_contains($m, 'price') || str_contains($m, 'cost') || str_contains($m, 'quote') || str_contains($m, 'rate') || str_contains($m, 'budget') || str_contains($m, 'buy')) {
-            return "Our software pricing is transparent and direct:\n"
-                 . "• **Cheetah Enterprise**: Flagship logistics & warehouse suite with 7 portals & driver app (available on Gumroad)\n"
-                 . "• **Cheetah Lite**: Lightweight courier-only operations edition (available on Gumroad)\n"
-                 . "• **Cheezify**: Complete PHP MVC online store & admin system (available on Gumroad)\n"
-                 . "• **Custom Development**: Transparent milestone contracts tailored to your exact specifications.\n\n"
-                 . "You can explore live demos on our Software page or click 'Get a quote' to discuss your requirements.";
+        if (str_contains($m, 'product') || str_contains($m, 'ready') || str_contains($m, 'white label') || str_contains($m, 'cheetah') || str_contains($m, 'cheezify') || str_contains($m, 'software')) {
+            return "In addition to our custom agency services, we offer **Ready-to-Launch Commercial Software** (Courier & Logistics Enterprise, Courier Lite, and Multi-Branch Food/Retail POS). You can either:\n"
+                 . "1. **Buy a Direct License ($49–$99)** with 100% unlocked source code for immediate deployment, OR\n"
+                 . "2. **Customize It For Your Business** — tell us what changes, branding, or features you want, and our team will tailor the entire platform for you!";
         }
 
-        // Tech stack inquiries
-        if (str_contains($m, 'stack') || str_contains($m, 'technology') || str_contains($m, 'php') || str_contains($m, 'laravel') || str_contains($m, 'flutter') || str_contains($m, 'react')) {
-            return "We specialize in high-velocity, robust full-stack engineering:\n"
-                 . "• **Backend**: PHP 8.2+ (Clean MVC & Laravel), Python, Node.js\n"
-                 . "• **Frontend**: Modern ES6, React, Next.js, Tailored Vanilla CSS/JS\n"
-                 . "• **Mobile & Desktop**: Flutter (Android/iOS) and Electron\n"
-                 . "• **Databases**: MySQL, MariaDB, Redis, SQLite\n"
-                 . "• **Integrations**: Meta WhatsApp Cloud API v21.0, Twilio SMS, Stripe, Paymob.";
+        if (str_contains($m, 'review') || str_contains($m, 'feedback') || str_contains($m, 'rating') || str_contains($m, 'testimonial')) {
+            return "Creatsify holds a **4.9 / 5.0 ★ rating** from verified clients across Web Development, Flutter Mobile Apps, Website Redesign, Branding, and SEO/Social Ads. You can read all client reviews or submit your own feedback at **/reviews**!";
         }
 
-        // Founders and studio background
-        if (str_contains($m, 'founder') || str_contains($m, 'ayan') || str_contains($m, 'sukaina') || str_contains($m, 'moiz') || str_contains($m, 'who are you') || str_contains($m, 'about') || str_contains($m, 'team')) {
-            return "**Creatsify** is an independent software studio led by three co-founders:\n"
-                 . "• **Muhammad Ayan Shamim**: Co-Founder & Lead Full-Stack Architect (PHP 8 MVC, MySQL, Systems)\n"
-                 . "• **Syeda Sukaina Batool**: Co-Founder & UI/UX Product Design Lead (Design Systems, Figma)\n"
-                 . "• **Abdul Moiz**: Co-Founder & Technical Operations Lead (aaPanel, Nginx, Deployments)\n\n"
-                 . "Together, we build and license production-grade software and craft high-performance web systems for clients globally.";
-        }
-
-        // Location
-        if (str_contains($m, 'location') || str_contains($m, 'where') || str_contains($m, 'office')) {
-            return "Creatsify Studio is a remote-first software studio, working with clients across North America, the UK, the Middle East and beyond.";
-        }
-
-        // Default intelligent fallback
-        return "Thanks for your message! Creatsify builds high-velocity web platforms, courier platforms like Cheetah, and ready-made store software. Could you tell me a bit more about what you're looking to build? You can also type 'talk to a human' to connect directly with our co-founders.";
+        return "Thanks for reaching out to **Creatsify Digital Agency**! Whether you need a custom Web or Flutter Mobile App, a Website Redesign, Branding & Logo Design, SEO & Social Media Ads, or a customized Ready-to-Launch software platform, we're ready to help. Type **'talk to a human'** to alert our live specialist desk!";
     }
 }

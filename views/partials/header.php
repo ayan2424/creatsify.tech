@@ -3,14 +3,15 @@
 $logoDark = asset_v(setting('site_logo', 'brand/creatsify-logo-dark.svg'));
 $logoLight = asset_v(setting('site_logo_light', 'brand/creatsify-logo-light.svg'));
 $currentPath = request()->getPath();
-// The main links, in order. "hot" marks the page where the white-label software is sold.
+
 $navItems = [
-    ['href' => '/',         'label' => 'Home',     'on' => $currentPath === '/'],
-    ['href' => '/software', 'label' => 'Software', 'on' => str_starts_with($currentPath, '/software'), 'hot' => true],
-    ['href' => '/portfolio','label' => 'Work',     'on' => str_starts_with($currentPath, '/portfolio')],
-    ['href' => '/services', 'label' => 'Services', 'on' => str_starts_with($currentPath, '/services')],
-    ['href' => '/team',     'label' => 'Team',     'on' => str_starts_with($currentPath, '/team')],
-    ['href' => '/support',  'label' => 'Support',  'on' => str_starts_with($currentPath, '/support')],
+    ['href' => '/',          'label' => 'Home',     'on' => $currentPath === '/'],
+    ['href' => '/services',  'label' => 'Services', 'on' => str_starts_with($currentPath, '/services')],
+    ['href' => '/packages',  'label' => 'Packages', 'on' => str_starts_with($currentPath, '/packages')],
+    ['href' => '/portfolio', 'label' => 'Work',     'on' => str_starts_with($currentPath, '/portfolio') || str_starts_with($currentPath, '/work')],
+    ['href' => '/software',  'label' => 'Products', 'on' => str_starts_with($currentPath, '/software'), 'hot' => true],
+    ['href' => '/reviews',   'label' => 'Reviews',  'on' => str_starts_with($currentPath, '/reviews')],
+    ['href' => '/support',   'label' => 'Support',  'on' => str_starts_with($currentPath, '/support')],
 ];
 ?>
 <header>
@@ -66,25 +67,25 @@ $navItems = [
             </a>
         <?php endforeach; ?>
         <a href="<?= url('/contact') ?>" class="mobile-link <?= str_starts_with($currentPath, '/contact') ? 'act' : '' ?>">
-            <span>Contact</span>
+            <span>Contact &amp; Quote</span>
             <span class="mobile-link-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg></span>
         </a>
         <div class="mobile-more">
-            <a href="<?= url('/about') ?>">About</a>
-            <a href="<?= url('/blog') ?>">Blog</a>
+            <a href="<?= url('/about') ?>">About Agency</a>
+            <a href="<?= url('/blog') ?>">Insights</a>
             <a href="<?= url('/privacy') ?>">Privacy</a>
         </div>
     </nav>
 
     <div class="mobile-drawer-bottom">
-        <a class="om-btn-gold" href="<?= url('/software') ?>" style="width:100%; justify-content:center;">
-            <span>Browse Software Catalog</span>
+        <a class="om-btn-gold" href="<?= url('/contact') ?>" style="width:100%; justify-content:center;">
+            <span>Start Your Project</span>
             <span class="om-btn-circle-arrow">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
             </span>
         </a>
         <div style="margin-top: 14px; text-align:center; font-size: 12px; color: var(--muted);">
-            Full-Stack Software Studio
+            Web &bull; Mobile Apps &bull; Branding &bull; SEO &amp; Ads
         </div>
     </div>
 </div>

@@ -1,17 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Models\MemberPortfolio;
 use App\Models\Post;
 use App\Models\Project;
-use App\Models\Service;
-use App\Models\TeamMember;
 use Core\Request;
 use Core\Response;
 
 /**
- * Creatsify Studio - Dynamic XML Sitemap Generator
+ * Creatsify Digital Agency - Dynamic XML Sitemap Generator
  */
 class SitemapController
 {
@@ -24,15 +22,17 @@ class SitemapController
         }
 
         $staticPages = [
-            ['path' => '/', 'priority' => '1.0', 'changefreq' => 'weekly'],
-            ['path' => '/software', 'priority' => '0.9', 'changefreq' => 'weekly'],
+            ['path' => '/',          'priority' => '1.0', 'changefreq' => 'weekly'],
+            ['path' => '/services',  'priority' => '0.9', 'changefreq' => 'weekly'],
+            ['path' => '/packages',  'priority' => '0.9', 'changefreq' => 'weekly'],
             ['path' => '/portfolio', 'priority' => '0.9', 'changefreq' => 'weekly'],
-            ['path' => '/services', 'priority' => '0.8', 'changefreq' => 'monthly'],
-            ['path' => '/team', 'priority' => '0.8', 'changefreq' => 'monthly'],
-            ['path' => '/about', 'priority' => '0.7', 'changefreq' => 'monthly'],
-            ['path' => '/blog', 'priority' => '0.8', 'changefreq' => 'daily'],
-            ['path' => '/contact', 'priority' => '0.7', 'changefreq' => 'monthly'],
-            ['path' => '/privacy', 'priority' => '0.3', 'changefreq' => 'yearly'],
+            ['path' => '/software',  'priority' => '0.9', 'changefreq' => 'weekly'],
+            ['path' => '/reviews',   'priority' => '0.9', 'changefreq' => 'weekly'],
+            ['path' => '/about',     'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['path' => '/blog',      'priority' => '0.8', 'changefreq' => 'daily'],
+            ['path' => '/contact',   'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['path' => '/support',   'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['path' => '/privacy',   'priority' => '0.3', 'changefreq' => 'yearly'],
         ];
 
         $urls = [];
@@ -40,27 +40,28 @@ class SitemapController
 
         foreach ($staticPages as $p) {
             $urls[] = [
-                'loc' => $baseUrl . $p['path'],
-                'lastmod' => $now,
+                'loc'        => $baseUrl . $p['path'],
+                'lastmod'    => $now,
                 'changefreq' => $p['changefreq'],
-                'priority' => $p['priority']
+                'priority'   => $p['priority'],
             ];
         }
 
-        // Dynamic Projects
+        // Dynamic Projects & Case Studies
         try {
             $projects = Project::all();
             foreach ($projects as $proj) {
                 if (!empty($proj['slug'])) {
                     $urls[] = [
-                        'loc' => $baseUrl . '/portfolio/' . urlencode($proj['slug']),
-                        'lastmod' => substr($proj['updated_at'] ?? $now, 0, 10),
+                        'loc'        => $baseUrl . '/portfolio/' . urlencode($proj['slug']),
+                        'lastmod'    => substr($proj['updated_at'] ?? $now, 0, 10),
                         'changefreq' => 'monthly',
-                        'priority' => '0.8'
+                        'priority'   => '0.8',
                     ];
                 }
             }
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
 
         // Dynamic Blog Posts
         try {
@@ -68,29 +69,15 @@ class SitemapController
             foreach ($posts as $post) {
                 if (!empty($post['slug'])) {
                     $urls[] = [
-                        'loc' => $baseUrl . '/blog/' . urlencode($post['slug']),
-                        'lastmod' => substr($post['published_at'] ?? $now, 0, 10),
+                        'loc'        => $baseUrl . '/blog/' . urlencode($post['slug']),
+                        'lastmod'    => substr($post['published_at'] ?? $now, 0, 10),
                         'changefreq' => 'weekly',
-                        'priority' => '0.7'
+                        'priority'   => '0.7',
                     ];
                 }
             }
-        } catch (\Throwable $e) {}
-
-        // Dynamic Team Members
-        try {
-            $members = TeamMember::allActive();
-            foreach ($members as $m) {
-                if (!empty($m['slug'])) {
-                    $urls[] = [
-                        'loc' => $baseUrl . '/team/' . urlencode($m['slug']),
-                        'lastmod' => substr($m['updated_at'] ?? $now, 0, 10),
-                        'changefreq' => 'monthly',
-                        'priority' => '0.6'
-                    ];
-                }
-            }
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
 
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $xml .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";

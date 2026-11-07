@@ -4,9 +4,9 @@ $accentColor = trim((string) setting('primary_accent', ''));
 // The brand colours come from the stylesheet. Only a custom colour chosen in the admin settings overrides them
 // (the old purple default and the brand blues are not treated as custom).
 $accentOverride = $accentColor !== '' && !in_array(strtolower($accentColor), ['#8b7bff', '#2563eb', '#60a5fa', 'var(--accent)'], true);
-$siteTitle = $meta_title ?? setting('site_title', 'Creatsify | Courier and store software, custom websites and admin panels');
-$siteDesc = $meta_desc ?? setting('meta_description', 'Creatsify is a software studio building ready-made courier and store software, plus custom websites, admin panels and apps for clients worldwide.');
-$siteKeywords = setting('meta_keywords', 'Creatsify, Courier software, Cheetah, Cheezify, PHP, Admin panels, Web Development');
+$siteTitle = $meta_title ?? setting('site_title', 'Creatsify — Web & App Development, Branding, SEO & Digital Growth Agency');
+$siteDesc = $meta_desc ?? setting('meta_description', 'Creatsify is a full-service software engineering, branding, and performance marketing agency building custom web apps, Flutter mobile apps, website redesigns, SaaS, SEO, and paid social ad campaigns.');
+$siteKeywords = setting('meta_keywords', 'Creatsify, Web Development, Flutter App Development, Website Redesign, SEO, Social Media Ads, Branding, Logo Design, SaaS');
 $siteIcon = setting('site_icon', '/assets/brand/favicon.png');
 $customCss = setting('custom_css', '');
 $headerCode = setting('custom_header_code', '');
@@ -20,7 +20,7 @@ $footerCode = setting('custom_footer_code', '');
     <title><?= e($siteTitle) ?></title>
     <meta name="description" content="<?= e($siteDesc) ?>">
     <meta name="keywords" content="<?= e($siteKeywords) ?>">
-    <meta name="author" content="<?= e(setting('founder_name', 'Creatsify Studio')) ?>">
+    <meta name="author" content="Creatsify Digital Agency">
     <meta name="robots" content="index, follow">
     <meta name="csrf-token" content="<?= csrf_token() ?>">
     <link rel="canonical" href="<?= e(url(request()->getPath())) ?>">
