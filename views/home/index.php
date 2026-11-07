@@ -172,15 +172,21 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
             </div>
 
             <!-- Corner Floating Badge 1: Top Right - Unified 4-Division Agency Pill -->
-            <div class="om-float-card om-float-founders">
-                <div class="om-founders-avatars">
-                    <span class="om-avatar-chip chip-1" title="Web & SaaS Engineering">W</span>
-                    <span class="om-avatar-chip chip-2" title="Flutter Mobile Apps">A</span>
-                    <span class="om-avatar-chip chip-3" title="Branding, SEO & Ads">G</span>
+            <div class="om-float-card om-float-divisions">
+                <div class="ag-division-icons">
+                    <span class="ag-div-icon code" title="Web & SaaS Engineering">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    </span>
+                    <span class="ag-div-icon design" title="UI/UX & Branding">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </span>
+                    <span class="ag-div-icon growth" title="SEO & Paid Social Ads">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                    </span>
                 </div>
                 <div class="om-founders-meta">
-                    <strong>4 Core Divisions</strong>
-                    <span>Code &bull; Design &bull; SEO &bull; Ads</span>
+                    <strong>4 Senior Divisions</strong>
+                    <span>Code &bull; Mobile &bull; UI/UX &bull; Ads</span>
                 </div>
             </div>
 
@@ -657,7 +663,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     <div class="wrap">
         <div class="om-sec-center">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Radical Pricing Transparency</div>
-            <h2 class="om-sec-heading">Tailored Agency Packages For Every Stage<span class="om-dot-gold">.</span></h2>
+            <h2 class="om-sec-heading">Tailored Agency Packages For Every Stage<span class="om-head-dot">.</span></h2>
             <p class="om-sec-sub">Choose a proven package below to get started immediately, or use our interactive Custom Scope Estimator to bundle multiple services for your exact goals.</p>
 
             <!-- Interactive Package Track Switcher Tabs -->
@@ -686,14 +692,15 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     <div class="ag-pkg-pop-ribbon"><?= e(strtoupper($pkg['tier_badge'] ?: 'MOST POPULAR')) ?></div>
                 <?php endif; ?>
                 <div class="ag-pkg-head">
-                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
-                        <span class="ag-pkg-tier"><?= e($pkg['title']) ?></span>
+                    <div class="ag-pkg-top-meta">
+                        <span class="ag-pkg-tier-cat"><?= e(strtoupper($trackKey)) ?> SPRINT</span>
                         <?php if (!empty($pkg['delivery_time'])): ?>
-                            <span class="ag-pkg-delivery-pill"><?= e($pkg['delivery_time']) ?></span>
+                            <span class="ag-pkg-delivery-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px;vertical-align:-1px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><?= e($pkg['delivery_time']) ?></span>
                         <?php endif; ?>
                     </div>
+                    <h3 class="ag-pkg-tier"><?= e($pkg['title']) ?></h3>
                     <div class="ag-pkg-price"><?= e($pkg['price_label']) ?><span><?= e($pkg['billing_cycle'] ? '/' . ltrim($pkg['billing_cycle'], '/') : '') ?></span></div>
-                    <p><?= e($pkg['subtitle']) ?></p>
+                    <p class="ag-pkg-sub"><?= e($pkg['subtitle']) ?></p>
                 </div>
                 <ul class="ag-pkg-list">
                     <?php foreach ($featList as $fItem): ?>
@@ -766,7 +773,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     <div class="wrap">
         <div class="om-showcase-header">
             <div class="om-sec-tag dark"><span class="om-sec-dot"></span> Ready-To-Ship &amp; Customizable Systems</div>
-            <h2 class="om-sec-heading light">Want To Launch In Days? Pick A Ready-Made Platform<span class="om-dot-gold">.</span></h2>
+            <h2 class="om-sec-heading light">Want To Launch In Days? Pick A Ready-Made Platform<span class="om-head-dot">.</span></h2>
             <p class="om-sec-sub light">
                 In addition to custom agency builds, we engineer battle-tested commercial software. <b>Buy a direct white-label license</b> to deploy immediately, OR <b>ask our team to customize any product below</b> with your branding, custom features, and local payment/shipping gateways.
             </p>
@@ -774,7 +781,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div class="om-prod-grid">
             <?php
-            $prodList = $projects ?? [];
+            $prodList = array_slice($projects ?? [], 0, 3);
             foreach ($prodList as $i => $pr):
                 $shot = $imgFor($pr['slug']);
                 $tech = array_filter(array_map('trim', explode(',', (string)($pr['tech_stack'] ?? ''))));
@@ -798,20 +805,22 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                             <div class="om-prod-cover">
                                 <div class="om-prod-cover-icon">
                                     <?php if ($pr['slug'] === 'cheetah-lite'): ?>
-                                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
                                     <?php else: ?>
-                                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                                     <?php endif; ?>
                                 </div>
-                                <b><?= e($pr['title']) ?></b>
-                                <span><?= e($pr['slug'] === 'cheetah-lite' ? 'Express Courier & Rider Dispatch System' : 'Multi-Branch Restaurant, Store & POS Engine') ?></span>
+                                <div class="om-prod-cover-meta">
+                                    <span class="om-prod-cover-badge">Ready-to-Deploy Codebase</span>
+                                    <b><?= e($pr['title']) ?> Architecture</b>
+                                </div>
                             </div>
                         <?php endif; ?>
                     </div>
                     <div class="om-prod-body">
                         <div class="om-prod-status-row">
                             <span class="om-prod-pill">Ready to Ship</span>
-                            <span class="om-prod-rights">&#10003; 100% Source Code + Custom Tailoring Available</span>
+                            <span class="om-prod-rights">&#10003; 100% Unlocked Source Code</span>
                         </div>
                         <h3 class="om-prod-title"><?= e($pr['title']) ?></h3>
                         <p class="om-prod-desc"><?= e($pr['summary'] ?? '') ?></p>
@@ -839,6 +848,12 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                 </article>
             <?php endforeach; ?>
+        </div>
+
+        <div style="text-align:center;margin-top:40px;">
+            <a href="<?= url('/software') ?>" class="om-btn-glass light" style="display:inline-flex;padding:12px 28px;">
+                <span>Browse All Ready-Made Products &amp; White-Label Platforms &rarr;</span>
+            </a>
         </div>
     </div>
 </section>
@@ -883,15 +898,14 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
      ====================================================================== -->
 <section id="reviews" class="ag-reviews-sec">
     <div class="wrap">
-        <div class="ag-reviews-header">
-            <div>
-                <div class="om-sec-tag"><span class="om-sec-dot"></span> Verified Client Feedback</div>
-                <h2 class="om-sec-heading">Trusted By Ambitious Brands Worldwide<span class="om-dot-gold">.</span></h2>
-                <p class="om-sec-sub">Real feedback and verified project outcomes from clients who hired Creatsify for web &amp; mobile engineering, website redesigns, branding, SEO, and paid social ads.</p>
-            </div>
-            <div class="ag-rating-summary-pill">
+        <div class="om-sec-center">
+            <div class="om-sec-tag"><span class="om-sec-dot"></span> Verified Client Feedback</div>
+            <h2 class="om-sec-heading">Trusted By Ambitious Brands Worldwide<span class="om-dot-gold">.</span></h2>
+            <p class="om-sec-sub">Real feedback and verified project outcomes from clients who hired Creatsify for web &amp; mobile engineering, website redesigns, branding, SEO, and paid social ads.</p>
+            
+            <div class="ag-rating-summary-pill" style="margin:20px auto 36px;display:inline-flex;">
                 <div class="ag-rsp-score"><?= e($avgRating) ?></div>
-                <div class="ag-rsp-meta">
+                <div class="ag-rsp-meta" style="text-align:left;">
                     <div class="ag-rsp-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <span>Based on <?= (int)$totalReviews ?>+ Verified Reviews</span>
                 </div>

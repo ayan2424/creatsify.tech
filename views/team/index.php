@@ -21,7 +21,7 @@ $this->layout('layouts/main');
             ?>
                 <article class="om-bento-card rv" style="--d:<?= $i * 0.1 ?>s;display:flex;flex-direction:column;position:relative;">
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-                        <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:12px;background:#0A1A33;color:#D4A017;font-family:Sora,sans-serif;font-size:13px;font-weight:800;border:1px solid rgba(212,160,23,0.3);"><?= $stepNum ?></span>
+                        <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:12px;background:#0A1A33;color:#00D2EE;font-family:Sora,sans-serif;font-size:13px;font-weight:800;border:1px solid rgba(212,160,23,0.3);"><?= $stepNum ?></span>
                         <span class="om-sec-tag" style="margin:0;"><span class="om-sec-dot"></span> Co-Founder</span>
                     </div>
 

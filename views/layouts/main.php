@@ -46,7 +46,12 @@ $footerCode = setting('custom_footer_code', '');
     <meta name="theme-color" content="#F6F9FE" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#0A1A33" media="(prefers-color-scheme: dark)">
 
-    <!-- Brand font: Sora (hosted on this site) -->
+    <!-- Google Fonts: Plus Jakarta Sans & Sora for crisp cross-platform typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Brand font: Sora (local fallback) -->
     <link rel="preload" href="<?= asset('fonts/sora-400.woff2') ?>" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="<?= asset('fonts/sora-700.woff2') ?>" as="font" type="font/woff2" crossorigin>
 

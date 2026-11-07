@@ -25,7 +25,7 @@ $trackMeta    = $packageTracks ?? [
                 <span>Transparent Agency Packages &bull; Fixed Milestones &bull; 100% Ownership</span>
             </div>
             <h1 class="om-sec-heading" style="font-size:clamp(34px,5vw,56px);max-width:18ch;margin-inline:auto;">
-                Clear Packages Built To Scale Your Brand<span class="om-dot-gold">.</span>
+                Clear Packages Built To Scale Your Brand<span class="om-head-dot">.</span>
             </h1>
             <p class="om-sec-sub" style="max-width:66ch;margin-inline:auto;">
                 Whether you need a custom PHP/Node.js/Next.js web platform, a cross-platform Flutter mobile app, a high-converting website redesign, a master brand identity, or an ROI-driven SEO &amp; paid social ad engine—pick a transparent package below or build your own custom bundle.
@@ -98,14 +98,15 @@ $trackMeta    = $packageTracks ?? [
                         <div class="ag-pkg-pop-ribbon"><?= e(strtoupper($pkg['tier_badge'] ?: 'MOST POPULAR')) ?></div>
                     <?php endif; ?>
                     <div class="ag-pkg-head">
-                        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
-                            <span class="ag-pkg-tier"><?= e($pkg['title']) ?></span>
+                        <div class="ag-pkg-top-meta">
+                            <span class="ag-pkg-tier-cat"><?= e(strtoupper($trackKey)) ?> SPRINT</span>
                             <?php if (!empty($pkg['delivery_time'])): ?>
-                                <span class="ag-pkg-delivery-pill"><?= e($pkg['delivery_time']) ?></span>
+                                <span class="ag-pkg-delivery-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px;vertical-align:-1px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><?= e($pkg['delivery_time']) ?></span>
                             <?php endif; ?>
                         </div>
+                        <h3 class="ag-pkg-tier"><?= e($pkg['title']) ?></h3>
                         <div class="ag-pkg-price"><?= e($pkg['price_label']) ?><span><?= e($pkg['billing_cycle'] ? '/' . ltrim($pkg['billing_cycle'], '/') : '') ?></span></div>
-                        <p><?= e($pkg['subtitle']) ?></p>
+                        <p class="ag-pkg-sub"><?= e($pkg['subtitle']) ?></p>
                     </div>
                     <ul class="ag-pkg-list">
                         <?php foreach ($featList as $fItem): ?>
@@ -172,7 +173,7 @@ $trackMeta    = $packageTracks ?? [
     <div class="wrap om-contact-wrap">
         <div class="om-contact-left">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Fast-Track Kickoff</div>
-            <h2 class="om-sec-heading">Lock In Your Package Or Request A Custom Scope<span class="om-dot-gold">.</span></h2>
+            <h2 class="om-sec-heading">Lock In Your Package Or Request A Custom Scope<span class="om-head-dot">.</span></h2>
             <p class="om-sec-sub">Select any package on this page or describe your project requirements below. Our senior engineering and growth team will respond within 2 hours with a clear milestone plan.</p>
 
             <div class="om-whatsapp-card">

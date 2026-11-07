@@ -137,7 +137,7 @@ $waMsg = urlencode("Hello! I am interested in licensing or customizing " . ($pro
                         <?php if (!empty($project['price'])): ?>
                             <div style="display:flex;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--line);font-size:13.5px;">
                                 <span style="color:var(--muted);">License Price</span>
-                                <span style="font-weight:800;color:#D4A017;font-size:16px;"><?= e($project['price']) ?></span>
+                                <span style="font-weight:800;color:#00D2EE;font-size:16px;"><?= e($project['price']) ?></span>
                             </div>
                         <?php endif; ?>
                         <div style="display:flex;justify-content:space-between;font-size:13.5px;">

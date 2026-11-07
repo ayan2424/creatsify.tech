@@ -15,7 +15,7 @@ $waMsg = urlencode("Hello! I would like to discuss a project or package with Cre
         <div class="om-ft-cta-box rv s">
             <div class="om-ft-cta-left">
                 <div class="om-sec-tag dark"><span class="om-sec-dot"></span> Ready To Build, Redesign Or Scale?</div>
-                <h2 class="om-ft-cta-title">Let’s Engineer, Brand &amp; Grow Your Next Digital Winner<span class="om-dot-gold">.</span></h2>
+                <h2 class="om-ft-cta-title">Let’s Engineer, Brand &amp; Grow Your Next Digital Winner<span class="om-head-dot">.</span></h2>
                 <p class="om-ft-cta-desc">Whether you need a custom PHP, Node.js, or Next.js web platform, a cross-platform Flutter mobile app, a high-converting website redesign, memorable brand identity, or high-ROAS SEO &amp; paid social ads—our senior agency divisions deliver end-to-end.</p>
                 <div class="om-ft-proof-pills">
                     <span>&#10003; Full-Stack Web &amp; Flutter Apps</span>
@@ -117,9 +117,9 @@ $waMsg = urlencode("Hello! I would like to discuss a project or package with Cre
             </div>
         </div>
 
-        <!-- Big Display Signature Watermark -->
+        <!-- Big Display Signature Watermark (Authentic Brand Identity, No Trailing Dot) -->
         <div class="om-ft-watermark" aria-hidden="true">
-            <span>Creatsify.</span>
+            <span>Creatsify</span>
         </div>
     </div>
 </footer>

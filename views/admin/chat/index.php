@@ -27,7 +27,7 @@ $this->layout('layouts/admin');
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                             <strong style="color: var(--text); font-size: 13px; font-weight: 600;"><?= e($s['visitor_name']) ?></strong>
                             <?php if ($s['is_human_handoff']): ?>
-                                <span style="font-size: 9.5px; padding: 2px 6px; border-radius: 4px; background: rgba(212,160,23,0.2); color: #D4A017; font-weight: 700;">HANDOFF</span>
+                                <span style="font-size: 9.5px; padding: 2px 6px; border-radius: 4px; background: rgba(212,160,23,0.2); color: #00D2EE; font-weight: 700;">HANDOFF</span>
                             <?php else: ?>
                                 <span style="font-size: 9.5px; padding: 2px 6px; border-radius: 4px; background: rgba(0,200,83,0.15); color: #00c853; font-weight: 700;">BOT</span>
                             <?php endif; ?>
@@ -61,14 +61,14 @@ $this->layout('layouts/admin');
             <!-- Room Header -->
             <div style="padding: 14px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; background: var(--surface);">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #D4A017); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 15px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #00D2EE); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 15px;">
                         <?= strtoupper(substr($activeSession['visitor_name'], 0, 1)) ?>
                     </div>
                     <div>
                         <h3 style="font-size: 15px; font-weight: 700; color: var(--text); margin: 0; display: flex; align-items: center; gap: 8px;">
                             <?= e($activeSession['visitor_name']) ?>
                             <?php if ($activeSession['is_human_handoff']): ?>
-                                <span style="font-size: 10px; padding: 2px 7px; border-radius: 999px; background: rgba(212,160,23,0.2); color: #D4A017; font-weight: 700;">Human Support Mode</span>
+                                <span style="font-size: 10px; padding: 2px 7px; border-radius: 999px; background: rgba(212,160,23,0.2); color: #00D2EE; font-weight: 700;">Human Support Mode</span>
                             <?php endif; ?>
                         </h3>
                         <div style="font-size: 11.5px; color: var(--muted); margin-top: 2px;">
@@ -143,7 +143,7 @@ $this->layout('layouts/admin');
     <?php if ($activeSession): ?>
         <div class="card chat-desk-pane chat-desk-context-pane" style="padding: 20px; overflow-y: auto; background: var(--surface);">
             <div style="text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
-                <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #D4A017); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; font-weight: 700; margin: 0 auto 10px auto;">
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #00D2EE); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; font-weight: 700; margin: 0 auto 10px auto;">
                     <?= strtoupper(substr($activeSession['visitor_name'], 0, 1)) ?>
                 </div>
                 <h4 style="margin: 0; font-size: 15px; color: var(--text);"><?= e($activeSession['visitor_name']) ?></h4>
@@ -154,7 +154,7 @@ $this->layout('layouts/admin');
                 <div>
                     <span style="color: var(--muted); text-transform: uppercase; font-size: 10.5px; font-weight: 700; display: block; margin-bottom: 2px;">Session Mode</span>
                     <?php if ($activeSession['is_human_handoff']): ?>
-                        <span style="color: #D4A017; font-weight: 700;">Human Agent Handoff</span>
+                        <span style="color: #00D2EE; font-weight: 700;">Human Agent Handoff</span>
                     <?php else: ?>
                         <span style="color: #00c853; font-weight: 700;">AI Auto-Pilot</span>
                     <?php endif; ?>

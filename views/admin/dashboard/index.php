@@ -336,13 +336,13 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
                     <defs>
                         <linearGradient id="mainAreaGrad" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="0%" stop-color="#ff5f38" stop-opacity="0.45"/>
-                            <stop offset="35%" stop-color="#D4A017" stop-opacity="0.25"/>
+                            <stop offset="35%" stop-color="#00D2EE" stop-opacity="0.25"/>
                             <stop offset="70%" stop-color="var(--accent)" stop-opacity="0.10"/>
                             <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
                         </linearGradient>
                         <linearGradient id="trendGrad" x1="0" y1="0" x2="1" y2="0">
                             <stop offset="0%" stop-color="#ff5f38"/>
-                            <stop offset="35%" stop-color="#D4A017"/>
+                            <stop offset="35%" stop-color="#00D2EE"/>
                             <stop offset="70%" stop-color="#60A5FA"/>
                             <stop offset="100%" stop-color="var(--accent)"/>
                         </linearGradient>
@@ -360,7 +360,7 @@ $dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))
                     
                     <!-- Data Nodes with Pulsing Glow -->
                     <?php foreach ($chartPoints as $i => $pt): ?>
-                        <circle cx="<?= $pt['x'] ?>" cy="<?= $pt['y'] ?>" r="<?= ($i === count($chartPoints) - 1) ? '6' : '4.5' ?>" fill="<?= ($i === count($chartPoints) - 1) ? 'var(--accent)' : '#D4A017' ?>" stroke="#fff" stroke-width="2" class="telemetry-node <?= ($i === count($chartPoints) - 1) ? 'active-node' : '' ?>">
+                        <circle cx="<?= $pt['x'] ?>" cy="<?= $pt['y'] ?>" r="<?= ($i === count($chartPoints) - 1) ? '6' : '4.5' ?>" fill="<?= ($i === count($chartPoints) - 1) ? 'var(--accent)' : '#00D2EE' ?>" stroke="#fff" stroke-width="2" class="telemetry-node <?= ($i === count($chartPoints) - 1) ? 'active-node' : '' ?>">
                             <title><?= e($pt['day']) ?> (<?= e($pt['date']) ?>): <?= $pt['hits'] ?> visits</title>
                         </circle>
                     <?php endforeach; ?>

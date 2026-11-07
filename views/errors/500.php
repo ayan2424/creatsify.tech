@@ -73,7 +73,7 @@
             letter-spacing: -0.5px;
         }
         .om-dot-gold {
-            color: #D4A017;
+            color: #00D2EE;
         }
         p {
             color: #94A3B8;
@@ -93,7 +93,7 @@
             gap: 10px;
             padding: 12px 24px;
             border-radius: 9999px;
-            background: #D4A017;
+            background: #00D2EE;
             color: #0A1A33;
             text-decoration: none;
             font-weight: 700;
@@ -110,7 +110,7 @@
             height: 22px;
             border-radius: 50%;
             background: #0A1A33;
-            color: #D4A017;
+            color: #00D2EE;
             display: grid;
             place-items: center;
             font-size: 11px;
