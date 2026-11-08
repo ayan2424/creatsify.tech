@@ -3,7 +3,18 @@
 $this->layout('layouts/main');
 $assetDir = dirname(__DIR__, 2) . '/public/assets/images/';
 $thumb = static function (array $p) use ($assetDir) {
-    $file = $p['slug'] === 'cheetah-enterprise' ? 'cheetah-showcase.jpg' : $p['slug'] . '-preview.jpg';
+    $slug = $p['slug'] ?? '';
+    $map = [
+        'cheetah-enterprise'         => 'images/cheetah-showcase.jpg',
+        'cheetah-lite'               => 'images/cheetah-lite-preview.jpg',
+        'cheezify'                   => 'images/cheezify-preview.jpg',
+        'restromaster-kds-interface' => 'images/restromaster-preview.jpg',
+        'viddmate-video-suite'       => 'images/viddmate-preview.jpg',
+    ];
+    if (isset($map[$slug]) && is_file($assetDir . basename($map[$slug]))) {
+        return $map[$slug];
+    }
+    $file = $slug . '-preview.jpg';
     return is_file($assetDir . $file) ? 'images/' . $file : null;
 };
 ?>
@@ -68,30 +79,22 @@ $thumb = static function (array $p) use ($assetDir) {
                         <div class="om-prod-actions">
                             <?php if (!empty($pr['gumroad_url'])): ?>
                                 <a class="om-btn-gold" href="<?= e($pr['gumroad_url']) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span class="om-btn-icon-circle">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                                    </span>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                                     <span>Buy License (<?= e($priceStr) ?>)</span>
                                 </a>
                             <?php endif; ?>
                             <a class="om-btn-glass light" href="<?= url('/contact?kind=software_custom&offering=' . urlencode('Customize ' . $pr['title'])) ?>#inquiry-form">
-                                <span class="om-btn-icon-circle">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                                </span>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                                 <span>Customize For Me</span>
                             </a>
                             <?php if ($hasLive): ?>
                                 <a class="om-btn-glass light" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span class="om-btn-icon-circle">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                                    </span>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                                     <span>Live Demo</span>
                                 </a>
                             <?php else: ?>
                                 <a class="om-btn-glass light" href="<?= url('/portfolio/' . $pr['slug']) ?>">
-                                    <span class="om-btn-icon-circle">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                                    </span>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                                     <span>View Specs</span>
                                 </a>
                             <?php endif; ?>
@@ -112,10 +115,11 @@ $thumb = static function (array $p) use ($assetDir) {
             </div>
             <div style="display:flex;gap:12px;flex-wrap:wrap;">
                 <a class="om-btn-gold" href="<?= url('/contact') ?>#inquiry-form">
-                    <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     <span>Request Custom Changes</span>
                 </a>
                 <a class="om-btn-glass" href="<?= url('/support') ?>">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                     <span>Open Support Desk</span>
                 </a>
             </div>

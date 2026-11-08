@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 $skills = array_filter(array_map('trim', explode(',', (string)($member['skills'] ?? ''))));
@@ -80,10 +80,8 @@ $firstName = explode(' ', trim($member['name']))[0];
                         Have a new platform idea, courier logistics project, or need custom web architecture? Partner directly with our co-founders without agency overhead.
                     </p>
                     <a href="<?= url('/contact') ?>" class="om-btn-gold" style="width:100%;justify-content:center;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                         <span>Start A Project Brief</span>
-                        <span class="om-btn-circle-arrow">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                        </span>
                     </a>
                 </div>
             </aside>
@@ -114,8 +112,8 @@ $firstName = explode(' ', trim($member['name']))[0];
                             <?php if (!empty($w['project_url']) && $w['project_url'] !== '#'): ?>
                                 <div class="project-card-footer">
                                     <a class="om-btn-glass sm" href="<?= e($w['project_url']) ?>" target="_blank" rel="noopener">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                                         <span>Open Project</span>
-                                        <span class="om-btn-circle-arrow">&nearr;</span>
                                     </a>
                                 </div>
                             <?php endif; ?>

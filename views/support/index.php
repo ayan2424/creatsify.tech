@@ -22,8 +22,8 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                 <div class="om-sec-tag" style="background:#10b981;color:#ffffff;"><span class="om-sec-dot" style="background:#ffffff;"></span> Ticket Created</div>
                 <h2 style="font-family:Sora,sans-serif;font-size:24px;font-weight:800;color:var(--text);margin:12px 0 8px;">We Received Ticket #<?= e($ticketSuccess) ?>.</h2>
                 <p style="color:var(--muted);margin:0 0 18px;font-size:14.5px;">Our engineering support team will review the context and reply by email or WhatsApp. Keep this ticket number for tracking.</p>
-                <a class="om-btn-gold sm" href="<?= url('/portfolio') ?>">
-                    <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
+                <a class="om-btn-gold sm" href="<?= url('/software') ?>">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
                     <span>Explore Software</span>
                 </a>
             </div>
@@ -161,7 +161,7 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                     </label>
 
                     <button type="submit" class="om-btn-gold" style="width:100%;justify-content:center;margin-top:10px;border:none;cursor:pointer;">
-                        <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                         <span>Create Support Ticket</span>
                     </button>
                 </form>

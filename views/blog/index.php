@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 ?>
@@ -29,7 +29,7 @@ $this->layout('layouts/main');
                     </div>
                     <div class="project-card-footer">
                         <a href="<?= url('/blog/' . e($post['slug'])) ?>" class="om-btn-glass sm" style="margin-left:auto;">
-                            <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                             <span>Read Article</span>
                         </a>
                     </div>

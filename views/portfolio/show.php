@@ -8,6 +8,9 @@ if (!empty($img) && !str_contains($img, 'creatsify-icon.png')) {
 } else {
     $slug = $project['slug'] ?? '';
     $candidateMap = [
+        'apex-retail-redesign'       => 'images/apex-preview.jpg',
+        'lumina-fleet-app'           => 'images/lumina-preview.jpg',
+        'kinetix-brand-system'       => 'images/kinetix-preview.jpg',
         'cheetah-enterprise'         => 'images/cheetah-showcase.jpg',
         'cheetah-lite'               => 'images/cheetah-lite-preview.jpg',
         'cheezify'                   => 'images/cheezify-preview.jpg',
@@ -47,33 +50,25 @@ $waMsg = urlencode("Hello! I am interested in licensing or customizing " . ($pro
             <div class="om-case-actions">
                 <?php if ($hasLive): ?>
                     <a class="om-btn-gold" href="<?= e($live) ?>" target="_blank" rel="noopener">
-                        <span class="om-btn-circle-arrow">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                        </span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         <span>Open Live Demo</span>
                     </a>
                 <?php endif; ?>
 
                 <?php if (!empty($project['gumroad_url'])): ?>
                     <a class="om-btn-gold" href="<?= e($project['gumroad_url']) ?>" target="_blank" rel="noopener">
-                        <span class="om-btn-circle-arrow">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                        </span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                         <span>Buy White-Label License<?= !empty($project['price']) ? ' (' . e($project['price']) . ')' : '' ?></span>
                     </a>
                 <?php elseif ($forSale): ?>
                     <a class="om-btn-gold" href="<?= url('/contact?kind=software_presale&offering=' . urlencode($project['title'])) . '#inquiry-form' ?>">
-                        <span class="om-btn-circle-arrow">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                        </span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                         <span>Request License Quote<?= !empty($project['price']) ? ' (' . e($project['price']) . ')' : '' ?></span>
                     </a>
                 <?php endif; ?>
 
                 <a class="om-btn-glass" href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener">
-                    <span class="om-wa-icon-sm">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
-                    </span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
                     <span>Chat on WhatsApp</span>
                 </a>
             </div>
@@ -194,7 +189,7 @@ $waMsg = urlencode("Hello! I am interested in licensing or customizing " . ($pro
                         Buyers receive direct deployment support on cloud hosting or standard Linux VPS servers, or can hire our agency team to customize features and branding.
                     </p>
                     <a href="<?= url('/support?script=' . urlencode($project['title'])) ?>" class="om-btn-glass" style="width:100%;justify-content:center;">
-                        <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                         <span>Open Support Request</span>
                     </a>
                 </div>

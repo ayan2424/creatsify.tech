@@ -209,12 +209,14 @@ class ClientReview
     {
         self::ensureTableExists();
         $slugMap = [
+            'apex-retail-redesign'       => 'Apex Retail Group',
+            'lumina-fleet-app'           => 'Lumina Health Tech',
+            'kinetix-brand-system'       => 'Kinetix Cloud',
             'cheetah-enterprise'         => 'GulfExpress Logistics',
             'cheetah-lite'               => 'GulfExpress Logistics',
             'cheezify'                   => 'Apex Retail Group',
             'restromaster-kds-interface' => 'Zenith Hospitality Group',
             'viddmate-video-suite'       => 'Kinetix Cloud',
-            'sawi-store'                 => 'Nordic Decor Studio',
         ];
 
         if (isset($slugMap[$slug])) {

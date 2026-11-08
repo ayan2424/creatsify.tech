@@ -13,12 +13,12 @@ class SoftwareController
 {
     public function index(Request $request): Response
     {
-        $products = array_values(array_filter(Project::all(), static fn ($p) => ($p['status'] ?? '') === 'For sale'));
+        $products = Project::readyMadeProducts();
 
         return view('software/index', [
             'products' => $products,
-            'meta_title' => 'White-label Software for Sale | Creatsify',
-            'meta_desc' => 'Ready-made courier and online store software with full source code, white-label rights and help with setup. Try the live demos first.',
+            'meta_title' => 'Ready-Made Software & Codebase Licenses | Creatsify',
+            'meta_desc' => 'Production-ready software platforms sold directly via Gumroad with 100% unlocked source code, white-label rights, and custom tailoring support. Explore live demos.',
         ]);
     }
 }

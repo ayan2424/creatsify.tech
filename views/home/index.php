@@ -4,14 +4,18 @@ $this->layout('layouts/main');
 
 $assetDir = dirname(__DIR__, 2) . '/public/assets/images/';
 $imgFor = static function (string $slug) use ($assetDir) {
-    if ($slug === 'cheetah-enterprise' && is_file($assetDir . 'cheetah-showcase.jpg')) {
-        return 'images/cheetah-showcase.jpg';
-    }
-    if (str_starts_with($slug, 'restromaster') && is_file($assetDir . 'restromaster-preview.jpg')) {
-        return 'images/restromaster-preview.jpg';
-    }
-    if (str_starts_with($slug, 'viddmate') && is_file($assetDir . 'viddmate-preview.jpg')) {
-        return 'images/viddmate-preview.jpg';
+    $map = [
+        'cheetah-enterprise'         => 'images/cheetah-showcase.jpg',
+        'cheetah-lite'               => 'images/cheetah-lite-preview.jpg',
+        'cheezify'                   => 'images/cheezify-preview.jpg',
+        'restromaster-kds-interface' => 'images/restromaster-preview.jpg',
+        'viddmate-video-suite'       => 'images/viddmate-preview.jpg',
+        'apex-retail-redesign'       => 'images/apex-preview.jpg',
+        'lumina-fleet-app'           => 'images/lumina-preview.jpg',
+        'kinetix-brand-system'       => 'images/kinetix-preview.jpg',
+    ];
+    if (isset($map[$slug]) && is_file($assetDir . basename($map[$slug]))) {
+        return $map[$slug];
     }
     $file = $slug . '-preview.jpg';
     if (is_file($assetDir . $file)) {
@@ -19,6 +23,17 @@ $imgFor = static function (string $slug) use ($assetDir) {
     }
     return null;
 };
+
+$outcomeMap = [
+    'apex-retail-redesign'       => '+184% Conversion Lift',
+    'lumina-fleet-app'           => '4.9★ App Store Rating',
+    'kinetix-brand-system'       => '3.8x Meta & Google ROAS',
+    'cheetah-enterprise'         => '120k+ Parcels/Mo SLA',
+    'cheetah-lite'               => '12-Day Custom Launch',
+    'cheezify'                   => '+92% Repeat Order Rate',
+    'restromaster-kds-interface' => '0.8s Kitchen Order Sync',
+    'viddmate-video-suite'       => '4.2x Faster Encoding',
+];
 
 $waPhone = clean_phone_number(setting('whatsapp_number', setting('site_phone', '923002521199')), false);
 $waMsg = urlencode("Hello! I would like to discuss a project or service package with Creatsify Digital Agency.");
@@ -70,22 +85,16 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
             <div class="om-cta-group">
                 <a class="om-btn-gold" href="#contact">
-                    <span class="om-btn-circle-arrow">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                    </span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     <span>Start Your Project</span>
                 </a>
                 <a class="om-btn-glass" href="#work">
-                    <span class="om-btn-circle-arrow">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                    </span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                     <span>Explore Case Studies</span>
                 </a>
                 <a class="om-hero-wa-link" href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener">
-                    <span class="om-wa-icon-sm">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
-                    </span>
-                    <span>Chat On WhatsApp (Instant)</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
+                    <span>Chat On WhatsApp</span>
                 </a>
             </div>
 
@@ -482,9 +491,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 <p>Explore our battle-tested courier, logistics, and POS platforms with 100% unlocked source code, or let our team customize them for you.</p>
             </div>
             <a href="#products" class="om-btn-gold">
-                <span class="om-btn-circle-arrow">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                </span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
                 <span>View Ready-Made Platforms</span>
             </a>
         </div>
@@ -497,22 +504,23 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 <section id="work" class="ag-work-sec">
     <div class="wrap">
         <div class="om-sec-center">
-            <div class="om-sec-tag"><span class="om-sec-dot"></span> Proven Execution</div>
-            <h2 class="om-sec-heading">Selected Work &amp; Measurable Client Impact</h2>
-            <p class="om-sec-sub">Every project we ship is engineered for speed, visual authority, and measurable revenue growth across web, mobile, brand, and paid acquisition.</p>
+            <div class="om-sec-tag"><span class="om-sec-dot"></span> Agency Portfolio &bull; Verified Client Case Studies</div>
+            <h2 class="om-sec-heading">Our Featured Work &amp; Delivered Case Studies</h2>
+            <p class="om-sec-sub">A curated selection of bespoke web applications, cross-platform Flutter mobile apps, high-converting redesigns, and high-ROAS marketing campaigns delivered by Creatsify.</p>
 
             <!-- Interactive Work Filter Pills -->
             <div class="om-filter-bar ag-work-filter" style="margin-top:24px;" role="tablist" aria-label="Filter case studies">
-                <button type="button" class="om-filter-pill active" data-work-filter="all">All Projects</button>
+                <button type="button" class="om-filter-pill active" data-work-filter="all">All Work</button>
                 <button type="button" class="om-filter-pill" data-work-filter="web-saas">Web &amp; SaaS</button>
                 <button type="button" class="om-filter-pill" data-work-filter="mobile">Flutter Apps</button>
-                <button type="button" class="om-filter-pill" data-work-filter="stores">E-Commerce Stores</button>
+                <button type="button" class="om-filter-pill" data-work-filter="redesign">Website Redesign &amp; CRO</button>
+                <button type="button" class="om-filter-pill" data-work-filter="growth">Brand Identity &amp; Ads</button>
             </div>
         </div>
 
         <div class="ag-case-grid" style="margin-top:40px;">
             <?php
-            $caseProjects = $projects ?? [];
+            $caseProjects = !empty($portfolioWorks) ? $portfolioWorks : ($projects ?? []);
             foreach ($caseProjects as $idx => $pr):
                 $slug = $pr['slug'];
                 $shot = $imgFor($slug);
@@ -520,13 +528,27 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 $live = $pr['live_url'] ?? '';
                 $hasLive = !empty($live) && $live !== '#';
                 $cat = $pr['category'] ?? 'saas';
-                $workFilterCat = ($cat === 'stores' ? 'stores' : ($cat === 'apps' || in_array('Flutter', $tech) ? 'mobile web-saas' : 'web-saas'));
                 
-                $catLabel = match($cat) {
-                    'apps' => 'Mobile & Flutter App',
-                    'stores' => 'E-Commerce & Storefront',
-                    default => 'Web & SaaS Platform',
+                $workFilterCat = match($slug) {
+                    'apex-retail-redesign' => 'redesign web-saas',
+                    'lumina-fleet-app'     => 'mobile',
+                    'kinetix-brand-system' => 'growth',
+                    default                => ($cat === 'apps' || in_array('Flutter', $tech) ? 'mobile' : ($cat === 'growth' ? 'growth' : 'web-saas')),
                 };
+
+                $catLabel = match($slug) {
+                    'apex-retail-redesign' => 'Storefront Redesign & CRO',
+                    'lumina-fleet-app'     => 'Flutter Mobile Companion',
+                    'kinetix-brand-system' => 'Brand Identity & Performance Ads',
+                    default                => (match($cat) {
+                        'apps' => 'Mobile & Flutter App',
+                        'stores' => 'E-Commerce Storefront',
+                        default => 'Web & SaaS Platform',
+                    }),
+                };
+
+                $outcome = $outcomeMap[$slug] ?? '+184% Growth Lift';
+                $client = !empty($pr['client']) ? $pr['client'] : 'Creatsify Enterprise';
             ?>
                 <article class="ag-case-card rv" data-work-cat="<?= e($workFilterCat) ?>" style="--d:<?= ($idx * 0.08) ?>s">
                     <div class="ag-case-media-frame">
@@ -537,7 +559,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                                 <span class="dot d-green"></span>
                             </div>
                             <span class="ag-case-browser-url">creatsify.tech / showcase / <?= e($slug) ?></span>
-                            <span class="ag-case-badge-pill"><?= e($catLabel) ?></span>
+                            <span class="ag-case-badge-pill"><?= e($outcome) ?></span>
                         </div>
                         <a href="<?= url('/portfolio/' . $slug) ?>" class="ag-case-img-link" aria-label="View case study for <?= e($pr['title']) ?>">
                             <?php if ($shot): ?>
@@ -550,16 +572,16 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                             <?php endif; ?>
                             <div class="ag-case-overlay">
                                 <span class="ag-case-overlay-btn">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    <span>View Case Study</span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    <span>Explore Case Study</span>
                                 </span>
                             </div>
                         </a>
                     </div>
                     <div class="ag-case-body">
                         <div class="ag-case-meta-top">
-                            <span class="ag-case-client-tag">&#10003; <?= e(!empty($pr['client']) ? $pr['client'] : 'Creatsify Enterprise') ?></span>
-                            <span class="ag-case-status-tag">Shipped &amp; Verified</span>
+                            <span class="ag-case-client-tag">&#10003; <?= e($client) ?></span>
+                            <span class="ag-case-status-tag"><?= e($catLabel) ?></span>
                         </div>
                         <h3 class="ag-case-title"><a href="<?= url('/portfolio/' . $slug) ?>"><?= e($pr['title']) ?></a></h3>
                         <p class="ag-case-desc"><?= e($pr['summary'] ?: $pr['description']) ?></p>
@@ -568,15 +590,13 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         </div>
                         <div class="ag-case-actions">
                             <a href="<?= url('/portfolio/' . $slug) ?>" class="ag-case-btn-primary">
-                                <span class="ag-case-btn-icon">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                </span>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                                 <span>Explore Case Study</span>
                             </a>
                             <?php if ($hasLive): ?>
                                 <a href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer" class="ag-case-btn-secondary">
-                                    <span>Live Demo</span>
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    <span>Live Preview</span>
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -587,10 +607,8 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div style="text-align:center;margin-top:36px;">
             <a class="om-btn-glass" href="<?= url('/portfolio') ?>">
-                <span class="om-btn-circle-arrow">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                </span>
-                <span>View All Case Studies &amp; Software Systems</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>View All Client Case Studies</span>
             </a>
         </div>
     </div>
@@ -738,8 +756,8 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     <?php endforeach; ?>
                 </ul>
                 <a href="#contact" data-select-package="<?= e($pkgSelectVal) ?>" class="<?= $isPop ? 'om-btn-gold' : 'om-btn-glass' ?>" style="width:100%;justify-content:center;margin-top:auto;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                     <span><?= e($pkg['cta_text'] ?: 'Select Package') ?></span>
-                    <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
                 </a>
             </article>
             <?php endforeach; ?>
@@ -748,7 +766,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div style="text-align:center;margin-top:28px;">
             <a href="<?= url('/packages') ?>" class="om-btn-glass">
-                <span class="om-btn-circle-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
                 <span>View Complete Package Specs &amp; Deliverables</span>
             </a>
         </div>
@@ -788,7 +806,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 <div class="ag-se-total-price" id="seTotalPrice">$425</div>
                 <div class="ag-se-timeline" id="seTimeline">Est. Delivery: ~10 Days</div>
                 <button type="button" class="om-btn-gold" id="seLockBtn" style="width:100%;justify-content:center;border:none;cursor:pointer;margin-top:14px;">
-                    <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     <span>Lock In This Custom Bundle</span>
                 </button>
             </div>
@@ -811,7 +829,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div class="om-prod-grid">
             <?php
-            $prodList = array_slice($projects ?? [], 0, 3);
+            $prodList = !empty($readyMadeProducts) ? $readyMadeProducts : array_slice($projects ?? [], 0, 5);
             foreach ($prodList as $i => $pr):
                 $shot = $imgFor($pr['slug']);
                 $tech = array_filter(array_map('trim', explode(',', (string)($pr['tech_stack'] ?? ''))));
@@ -860,30 +878,22 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         <div class="om-prod-actions">
                             <?php if (!empty($pr['gumroad_url'])): ?>
                                 <a class="om-btn-gold" href="<?= e($pr['gumroad_url']) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span class="om-btn-icon-circle">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                                    </span>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                                     <span>Buy License (<?= e($priceStr) ?>)</span>
                                 </a>
                             <?php endif; ?>
                             <a class="om-btn-glass light" href="#contact" data-select-package="Customize <?= e($pr['title']) ?> For My Business">
-                                <span class="om-btn-icon-circle">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                                </span>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                                 <span>Customize For Me</span>
                             </a>
                             <?php if ($hasLive): ?>
                                 <a class="om-btn-glass light" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span class="om-btn-icon-circle">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                                    </span>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                                     <span>Live Demo</span>
                                 </a>
                             <?php else: ?>
                                 <a class="om-btn-glass light" href="<?= url('/portfolio/' . $pr['slug']) ?>">
-                                    <span class="om-btn-icon-circle">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                                    </span>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                                     <span>View Specs</span>
                                 </a>
                             <?php endif; ?>
@@ -895,7 +905,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div style="text-align:center;margin-top:40px;">
             <a href="<?= url('/software') ?>" class="om-btn-glass light" style="display:inline-flex;padding:12px 28px;">
-                <span class="om-btn-circle-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
                 <span>Browse All Ready-Made Products &amp; Platforms</span>
             </a>
         </div>
@@ -1011,11 +1021,11 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div style="text-align:center;margin-top:36px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;">
             <a class="om-btn-gold" href="<?= url('/reviews') ?>">
-                <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 <span>Read All <?= (int)$totalReviews ?>+ Verified Reviews</span>
             </a>
             <a class="om-btn-glass" href="<?= url('/reviews#submit-review') ?>">
-                <span class="om-btn-circle-plus">&#9733;</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                 <span>Worked With Us? Submit Your Review</span>
             </a>
         </div>
@@ -1114,7 +1124,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
             </label>
             <label>Project Details &amp; Goals<textarea name="message" id="homeProjectMessage" rows="4" required placeholder="Tell us about your project, goals, target timeline, or any specific requirements..."></textarea></label>
             <button class="om-btn-gold" type="submit" style="width:100%;justify-content:center;">
-                <span class="om-btn-circle-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 <span>Send Project Brief</span>
             </button>
         </form>

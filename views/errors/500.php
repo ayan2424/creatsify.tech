@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Standalone production 500 error page
 ?>
 <!DOCTYPE html>
@@ -105,16 +105,8 @@
             transform: translateY(-2px);
             box-shadow: 0 12px 30px rgba(212, 160, 23, 0.45);
         }
-        .om-btn-circle-arrow {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: #0A1A33;
-            color: #00D2EE;
-            display: grid;
-            place-items: center;
-            font-size: 11px;
-            font-weight: 800;
+        .om-btn-gold svg {
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -126,7 +118,7 @@
         <p>An unexpected condition was encountered while processing your request. Our technical operations engineering desk has been automatically alerted.</p>
         <div class="om-actions-row">
             <a href="<?= function_exists('url') ? url('/') : '/' ?>" class="om-btn-gold">
-                <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                 <span>Return to Homepage</span>
             </a>
         </div>

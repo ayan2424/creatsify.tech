@@ -31,10 +31,8 @@ $navItems = [
                 <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
             </button>
             <a class="btn p desktop-cta<?= str_starts_with($currentPath, '/contact') ? ' act' : '' ?>" href="<?= url('/contact') ?>">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="btn-lead-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 <span>Free Consultation</span>
-                <span class="btn-arrow-circle">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                </span>
             </a>
 
             <!-- Mobile Navigation Hamburger Toggle Button -->
@@ -79,9 +77,7 @@ $navItems = [
 
     <div class="mobile-drawer-bottom">
         <a class="om-btn-gold" href="<?= url('/contact') ?>" style="width:100%; justify-content:center;">
-            <span class="om-btn-circle-arrow">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            </span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             <span>Start Your Project</span>
         </a>
         <div style="margin-top: 14px; text-align:center; font-size: 12px; color: var(--muted);">

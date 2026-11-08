@@ -28,8 +28,10 @@ class HomeController
             }
         }
 
-        // Fetch portfolio & software products
-        $projects = Project::all();
+        // Fetch agency client portfolio case studies & ready-made software products separately
+        $portfolioWorks    = Project::portfolioWorks();
+        $readyMadeProducts = Project::readyMadeProducts();
+        $projects          = Project::all();
 
         // Fetch active agency services (self-healed 8 pillars)
         $services = Service::allActive();
@@ -46,16 +48,18 @@ class HomeController
         $reviewStats = ClientReview::stats();
 
         return view('home/index', [
-            'sections'        => $sections,
-            'projects'        => $projects,
-            'services'        => $services,
-            'packagesByTrack' => $packagesByTrack,
-            'packageTracks'   => $packageTracks,
-            'posts'           => $posts,
-            'reviews'         => $reviews,
-            'reviewStats'     => $reviewStats,
-            'meta_title'      => 'Creatsify — Web & App Development, Branding, SEO & Digital Growth Agency',
-            'meta_desc'       => 'Creatsify is a full-service digital engineering, branding, and performance marketing agency building custom web apps, Flutter mobile apps, website redesigns, SaaS, SEO, and paid social ad engines.',
+            'sections'          => $sections,
+            'projects'          => $projects,
+            'portfolioWorks'    => $portfolioWorks,
+            'readyMadeProducts' => $readyMadeProducts,
+            'services'          => $services,
+            'packagesByTrack'   => $packagesByTrack,
+            'packageTracks'     => $packageTracks,
+            'posts'             => $posts,
+            'reviews'           => $reviews,
+            'reviewStats'       => $reviewStats,
+            'meta_title'        => 'Creatsify — Web & App Development, Branding, SEO & Digital Growth Agency',
+            'meta_desc'         => 'Creatsify is a full-service digital engineering, branding, and performance marketing agency building custom web apps, Flutter mobile apps, website redesigns, SaaS, SEO, and paid social ad engines.',
         ]);
     }
 }

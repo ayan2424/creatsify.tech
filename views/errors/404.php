@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 ?>
@@ -11,12 +11,12 @@ $this->layout('layouts/main');
         </p>
         <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;">
             <a href="<?= url('/') ?>" class="om-btn-gold">
-                <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                 <span>Return to Homepage</span>
             </a>
             <a href="<?= url('/software') ?>" class="om-btn-glass">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
                 <span>Browse Software</span>
-                <span class="om-btn-circle-plus">+</span>
             </a>
         </div>
     </div>

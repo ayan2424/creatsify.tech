@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 
@@ -40,8 +40,8 @@ $pct3 = round(($threeCount / $totalReviews) * 100);
                 <div class="ag-sb-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                 <div class="ag-sb-count">Based on <?= (int)$totalReviews ?> Verified Client Reviews</div>
                 <a href="#submit-review" class="om-btn-gold" style="margin-top:16px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     <span>Write a Client Review</span>
-                    <span class="om-btn-circle-arrow">&#9733;</span>
                 </a>
             </div>
 
@@ -215,8 +215,8 @@ $pct3 = round(($threeCount / $totalReviews) * 100);
             </label>
 
             <button class="om-btn-gold" type="submit" style="width:100%;justify-content:center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 <span>Submit Verified Review</span>
-                <span class="om-btn-circle-arrow">&#9733;</span>
             </button>
         </form>
     </div>

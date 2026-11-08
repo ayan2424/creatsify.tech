@@ -15,20 +15,13 @@ class PortfolioController
     public function index(Request $request): Response
     {
         $category = $request->get('cat', 'all');
-        $allProjects = Project::all();
-
-        $filtered = array_filter($allProjects, function ($p) use ($category) {
-            if ($category === 'all') {
-                return true;
-            }
-            return ($p['category'] === $category);
-        });
+        $portfolioWorks = Project::portfolioWorks($category);
 
         return view('portfolio/index', [
-            'projects' => $filtered,
+            'projects'       => $portfolioWorks,
             'activeCategory' => $category,
-            'meta_title' => 'Our Work | Creatsify',
-            'meta_desc' => 'Courier software, an online store with its own admin panel, and a WordPress store built by Creatsify.'
+            'meta_title'     => 'Our Work & Delivered Client Case Studies | Creatsify Digital Agency',
+            'meta_desc'      => 'Explore our portfolio of delivered full-stack web platforms, Flutter mobile apps, high-converting website redesigns, and high-ROAS marketing campaigns.',
         ]);
     }
 

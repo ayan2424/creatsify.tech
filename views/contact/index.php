@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 
@@ -135,9 +135,7 @@ $preSelectedOffering = trim((string)($_GET['offering'] ?? ''));
                 </label>
 
                 <button type="submit" class="om-btn-gold" style="width:100%;justify-content:center;margin-top:12px;border:none;cursor:pointer;">
-                    <span class="om-btn-circle-arrow">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                    </span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     <span>Send Project Inquiry</span>
                 </button>
             </form>
