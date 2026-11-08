@@ -33,9 +33,8 @@ const lk=links=>(Array.isArray(links)?links:[]).map(([title,href])=>{
   return `<a class="more" href="${escapeHtml(safeUrl)}"${safeUrl.startsWith('http')?' target="_blank" rel="noopener noreferrer"':''}>${escapeHtml(title)} <span aria-hidden="true">→</span></a>`;
 }).join('');
 /* build content */
-// The software that is for sale already has its own section; this stack shows the other work.
+// The software that is for sale already has its own section; this stack shows the other work if #pjs exists.
 const featuredP = P.filter(p => p[2] !== 'For sale').slice(0, 4);
-if (!featuredP.length && $('#pjs')) { const w = document.getElementById('work'); if (w) w.remove(); }
 if($('#pjs')) {
   let cardsHtml = featuredP.map((p,i)=>{const tech=Array.isArray(p[4])?p[4]:[];return `<article class="pj" style="--top:${86+i*14}px"><div class="pj-in" data-cur="View"><div class="pjt"><span class="pjn" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="pjw"><div class="st" style="--k:0"><i></i>${escapeHtml(p[2])}</div><h3 style="--k:1">${escapeHtml(p[0])}</h3><p style="--k:2">${escapeHtml(p[3])}</p><div class="chips" style="--k:3">${tech.map(item=>`<span>${escapeHtml(item)}</span>`).join('')}</div><div class="links" style="--k:4">${lk(p[6])}</div></div></div><div class="pjm"><img alt="${escapeHtml(p[0])} preview" loading="lazy"><span class="fch a">${escapeHtml(tech[0])}</span>${tech[1]?`<span class="fch b">${escapeHtml(tech[1])}</span>`:''}</div><div class="ov"></div></div></article>`;}).join('');
   cardsHtml += `<div class="portfolio-gateway-card rv" style="--d:.2s;"><div class="gateway-content"><span class="section-tag" style="margin-bottom:8px;">Portfolio</span><h3>See every project in detail</h3><p>Open any project for screenshots, the tech behind it and a live demo where there is one.</p></div><a href="${escapeHtml(safeHref(baseUrl+'/portfolio'))}" class="btn p" style="padding:13px 28px;font-weight:700;">Open Full Portfolio (${P.length}) &rarr;</a></div>`;
@@ -239,10 +238,10 @@ const handleFormSubmit=async(e)=>{
     console.warn('API error, falling back to mailto:',err);
     const sub=encodeURIComponent('Project Inquiry: '+payload.project_type);
     const body=encodeURIComponent(payload.message+'\n\nFrom: '+payload.name+' ('+payload.email+')'+(payload.company?'\nCompany: '+payload.company:'')+(payload.phone?'\nPhone: '+payload.phone:'')+(payload.timeline?'\nTimeline: '+payload.timeline:''));
-    location.href='mailto:ayan@creatsify.tech?subject='+sub+'&body='+body;
+    location.href='mailto:hello@creatsify.tech?subject='+sub+'&body='+body;
     notice.className='form-notice info';
     notice.style.display='block';
-    notice.textContent='Opening your email client to send message to ayan@creatsify.tech...';
+    notice.textContent='Opening your email client to send message to hello@creatsify.tech...';
   }finally{
     if(btn){
       btn.disabled=false;

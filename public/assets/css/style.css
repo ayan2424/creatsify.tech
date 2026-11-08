@@ -275,17 +275,8 @@ nav a:hover::after,nav a.act::after{transform:scaleX(1)}
 }
 @keyframes sh{to{background-position:200% 0}}
 h2{font-size:clamp(28px,3.8vw,42px);font-weight:700}
-h2::after{
-  content:"";
-  display:block;
-  height:2.5px;
-  width:56px;
-  margin-top:14px;
-  border-radius:2px;
-  background:linear-gradient(90deg,var(--accent),#00D2EE);
-  transition:width 0.9s 0.25s var(--ease);
-}
-.js h2::after{width:0}.js h2.on::after{width:56px}
+/* Global heading underline disabled for clean agency typography */
+h2::after{display:none !important;content:none !important;}
 .sub{color:var(--muted);font-size:16px;max-width:58ch;margin:14px 0 0}
 
 /* ==========================================================================
@@ -885,7 +876,7 @@ main{overflow-x:clip}
 }
 .brand-link:hover { opacity: 0.88; }
 .brand-logo {
-  height: 46px;
+  height: 40px;
   width: auto;
   max-width: 220px;
   object-fit: contain;
@@ -893,7 +884,7 @@ main{overflow-x:clip}
   transition: height 0.3s var(--ease);
 }
 .scrolled .brand-logo {
-  height: 38px;
+  height: 36px;
 }
 
 /* Dark and Light mode logo switching */
@@ -1098,7 +1089,7 @@ main{overflow-x:clip}
   text-decoration: none;
 }
 .brand-logo {
-  height: 46px;
+  height: 40px;
   width: auto;
   max-width: 220px;
   object-fit: contain;
@@ -6052,26 +6043,27 @@ header nav#nav a {
   flex-shrink: 0;
 }
 
-/* 2. 8-Pillar Agency Services Bento Grid (#services) */
+/* 2. 6-Pillar Agency Services Bento Grid (#services) */
 .ag-services-bento {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
-@media (max-width: 1180px) {
+@media (max-width: 1040px) {
   .ag-services-bento {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media (max-width: 640px) {
+@media (max-width: 680px) {
   .ag-services-bento {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 .ag-svc-bento-card {
-  padding: 26px 22px;
-  border-radius: 22px;
-  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  padding: 28px 24px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
   border: 1px solid var(--line);
   display: flex;
   flex-direction: column;
@@ -6109,23 +6101,21 @@ header nav#nav a {
 }
 .ag-svc-bento-card h3 {
   font-family: Sora, sans-serif;
-  font-size: 17.5px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--text);
   margin: 0 0 10px;
-  line-height: 1.3;
-  min-height: 46px;
+  line-height: 1.35;
 }
 .ag-svc-bento-card p {
   font-size: 13.5px;
   line-height: 1.6;
   color: var(--muted);
   margin: 0 0 16px;
-  min-height: 66px;
+  flex: 1 0 auto;
 }
 .ag-svc-bento-card .om-sc-chips {
   margin-bottom: 18px;
-  min-height: 56px;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
@@ -6148,10 +6138,46 @@ header nav#nav a {
   font-weight: 800;
   color: var(--accent);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 .ag-svc-cta:hover {
   color: #00D2EE;
+  transform: translateX(2px);
+}
+
+/* Services Footer Banner */
+.ag-services-footer-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 32px;
+  border-radius: 20px;
+  background: radial-gradient(circle at 90% 20%, rgba(37, 99, 235, 0.22), transparent 60%), #0A1A33;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+.ag-services-footer-banner .ag-sfb-content strong {
+  font-family: Sora, sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  display: block;
+  margin-bottom: 4px;
+  color: #ffffff;
+}
+.ag-services-footer-banner .ag-sfb-content p {
+  font-size: 13.5px;
+  color: #cbd5e1;
+  margin: 0;
+  max-width: 68ch;
+  line-height: 1.5;
+}
+@media (max-width: 820px) {
+  .ag-services-footer-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 22px 20px;
+  }
 }
 
 /* 3. Featured Agency Work & Case Studies (#work) */
@@ -6291,6 +6317,73 @@ header nav#nav a {
   background: #F1F5F9;
   border-color: rgba(10, 26, 51, 0.1);
   color: #0A1A33;
+}
+
+.ag-case-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.ag-case-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.ag-case-btn-primary:hover {
+  color: #00D2EE;
+  transform: translateX(2px);
+}
+.ag-case-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  transition: all 0.2s ease;
+}
+.ag-case-btn-secondary:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.om-hero-wa-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  text-decoration: none;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.om-hero-wa-link:hover {
+  background: rgba(16, 185, 129, 0.16);
+  border-color: rgba(16, 185, 129, 0.4);
+  transform: translateY(-2px);
+  color: #059669;
+}
+.om-wa-icon-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 4. Why Creatsify Is #1 — Strength Cards & Comparison Matrix (#why-us) */

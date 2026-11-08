@@ -22,8 +22,8 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     '@type' => 'ProfessionalService',
     'name' => setting('site_name', 'Creatsify') . ' Digital Agency',
     'url' => url('/'),
-    'logo' => asset('brand/creatsify-wordmark.png'),
-    'description' => 'Full-service Web & Mobile App Development, Website Redesign, SaaS Engineering, Branding & Logo Design, Technical SEO, and Social Media Marketing Agency.',
+    'logo' => asset('brand/creatsify-logo-dark.png'),
+    'description' => 'Full-service Web & Mobile App Development, Website Redesign, SaaS Engineering, Branding & Logo Design, Technical SEO, and Performance Marketing Agency.',
     'priceRange' => '$$',
     'aggregateRating' => [
         '@type' => 'AggregateRating',
@@ -44,36 +44,42 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
         <div class="om-hero-content hf">
             <div class="om-hero-tag">
                 <span class="om-tag-beacon"></span>
-                <span>Full-Service Web, App, Branding &amp; Growth Agency</span>
+                <span>Full-Spectrum Digital Agency &bull; Worldwide Desk</span>
             </div>
 
             <h1 class="om-hero-headline">
-                <span class="om-head-top">We Build, Brand &amp; Scale</span>
-                <span class="om-head-bot">Digital Businesses<span class="om-head-dot">.</span></span>
+                <span class="om-head-top">High-Velocity Engineering,</span>
+                <span class="om-head-bot">Distinctive Brands &amp; Scaled Growth<span class="om-head-dot">.</span></span>
             </h1>
 
             <p class="om-hero-sub">
-                From high-velocity custom Web &amp; Flutter Mobile Apps (<b>PHP, Node.js, Next.js, Tailwind, MySQL</b>) and conversion-driven <b>Website Redesigns</b> to iconic <b>Logo &amp; Brand Identities</b>, <b>Technical SEO</b>, and high-ROAS <b>Social Media Ads</b>—we engineer everything your brand needs to dominate online.
+                We craft high-performance web platforms, cross-platform Flutter mobile apps, conversion-engineered website redesigns, and profitable SEO &amp; paid acquisition engines for ambitious businesses worldwide.
             </p>
 
             <div class="om-cta-group">
-                <a class="om-btn-gold" href="#packages">
-                    <span>Explore Service Packages</span>
+                <a class="om-btn-gold" href="#contact">
+                    <span>Start Your Project</span>
                     <span class="om-btn-circle-arrow">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                     </span>
                 </a>
-                <a class="om-btn-glass" href="#contact" data-select-package="Free Website, UX & SEO Teardown Audit">
-                    <span>Get Free Website &amp; SEO Audit</span>
-                    <span class="om-btn-circle-plus">+</span>
+                <a class="om-btn-glass" href="#work">
+                    <span>Explore Case Studies</span>
+                    <span class="om-btn-circle-arrow">&rarr;</span>
+                </a>
+                <a class="om-hero-wa-link" href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener">
+                    <span class="om-wa-icon-sm">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
+                    </span>
+                    <span>Chat On WhatsApp &rarr;</span>
                 </a>
             </div>
 
             <div class="om-proof-bar">
-                <span class="om-proof-item"><i class="om-proof-check">&#10003;</i> Web, Flutter Apps &amp; SaaS</span>
-                <span class="om-proof-item"><i class="om-proof-check">&#10003;</i> Logo, Branding &amp; Redesign</span>
-                <span class="om-proof-item"><i class="om-proof-check">&#10003;</i> SEO &amp; Paid Social Ads</span>
-                <span class="om-proof-item"><i class="om-proof-check">&#9733;</i> <?= e($avgRating) ?>/5 Verified Client Rating</span>
+                <span class="om-proof-item"><i class="om-proof-check">&#9733;</i> <?= e($avgRating) ?>/5.0 Client Rating</span>
+                <span class="om-proof-item"><i class="om-proof-check">&#10003;</i> 100% Source Code &amp; IP Ownership</span>
+                <span class="om-proof-item"><i class="om-proof-check">&#10003;</i> Fixed Milestones &amp; Rapid Sprints</span>
+                <span class="om-proof-item"><i class="om-proof-check">&#10003;</i> Direct Senior Technical Access</span>
             </div>
         </div>
 
@@ -91,12 +97,12 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                     <div class="om-browser-url">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                        <span>creatsify.tech / agency-engine</span>
+                        <span>creatsify.tech / studio</span>
                     </div>
-                    <span class="om-browser-badge"><i class="om-live-dot"></i> All-In-One Studio</span>
+                    <span class="om-browser-badge"><i class="om-live-dot"></i> Unified Studio</span>
                 </div>
 
-                <!-- 3-Division Live Interactive Agency Showcase -->
+                <!-- 3-Division Live Showcase -->
                 <div class="ag-stage-body">
                     <!-- Division 1: Full-Stack Web & Mobile Apps -->
                     <div class="ag-pillar-row">
@@ -105,10 +111,10 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         </div>
                         <div class="ag-pillar-info">
                             <div class="ag-pillar-top">
-                                <strong>Web, SaaS &amp; Flutter App Engineering</strong>
+                                <strong>Web &amp; Mobile App Engineering</strong>
                                 <span class="ag-metric-pill emerald">99/100 Speed</span>
                             </div>
-                            <p>PHP 8.4 &bull; Node.js &bull; Next.js &bull; Flutter &amp; Dart &bull; Tailwind &bull; MySQL</p>
+                            <p>PHP 8.4 &bull; Node.js &bull; Next.js &bull; Flutter &amp; Dart &bull; MySQL</p>
                         </div>
                     </div>
 
@@ -119,10 +125,10 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         </div>
                         <div class="ag-pillar-info">
                             <div class="ag-pillar-top">
-                                <strong>Brand Identity, Logo &amp; UI/UX Redesign</strong>
-                                <span class="ag-metric-pill cyan">+184% Conv. Lift</span>
+                                <strong>Brand Identity &amp; UI/UX Redesign</strong>
+                                <span class="ag-metric-pill cyan">+184% Lift</span>
                             </div>
-                            <p>3D &amp; Vector Logos &bull; Brand Guidelines &bull; Figma UI Systems &bull; Ad Kits</p>
+                            <p>3D &amp; Vector Logos &bull; Brand Guidelines &bull; Figma Design Systems</p>
                         </div>
                     </div>
 
@@ -133,10 +139,10 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         </div>
                         <div class="ag-pillar-info">
                             <div class="ag-pillar-top">
-                                <strong>Technical SEO &amp; Paid Social Media Ads</strong>
-                                <span class="ag-metric-pill gold">3.8x Avg. ROAS</span>
+                                <strong>Technical SEO &amp; Paid Social Ads</strong>
+                                <span class="ag-metric-pill gold">3.8x Avg ROAS</span>
                             </div>
-                            <p>Google Top-3 SEO &bull; Meta (FB/IG) Ads &bull; Google PPC &bull; TikTok Funnels</p>
+                            <p>Google Top-3 SEO &bull; Meta FB/IG Ads &bull; Google PPC &bull; Funnels</p>
                         </div>
                     </div>
 
@@ -144,7 +150,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     <div class="ag-command-kpis">
                         <div class="ag-kpi-box">
                             <span class="ag-kpi-val">3.8x</span>
-                            <span class="ag-kpi-lbl">Avg. Client ROI</span>
+                            <span class="ag-kpi-lbl">Avg. Client ROAS</span>
                         </div>
                         <div class="ag-kpi-box">
                             <span class="ag-kpi-val">99/100</span>
@@ -161,7 +167,6 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         <div class="ag-stage-chips">
                             <span>Next.js</span>
                             <span>PHP 8.4</span>
-                            <span>Node.js</span>
                             <span>Flutter</span>
                             <span>Tailwind</span>
                             <span>SEO &amp; Ads</span>
@@ -171,7 +176,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </div>
             </div>
 
-            <!-- Corner Floating Badge 1: Top Right - Unified 4-Division Agency Pill -->
+            <!-- Corner Floating Badge 1: Top Right - 4 Specialized Divisions -->
             <div class="om-float-card om-float-divisions">
                 <div class="ag-division-icons">
                     <span class="ag-div-icon code" title="Web & SaaS Engineering">
@@ -186,11 +191,11 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </div>
                 <div class="om-founders-meta">
                     <strong>4 Senior Divisions</strong>
-                    <span>Code &bull; Mobile &bull; UI/UX &bull; Ads</span>
+                    <span>Code &bull; Mobile &bull; Brand &bull; Ads</span>
                 </div>
             </div>
 
-            <!-- Corner Floating Badge 2: Bottom Left - Verified Star Rating Jump -->
+            <!-- Corner Floating Badge 2: Bottom Left - Verified Star Rating -->
             <a href="#reviews" class="om-float-card om-float-quality" style="text-decoration:none;">
                 <div class="om-quality-top">
                     <span class="om-quality-step" style="color:#f59e0b;font-size:13px;letter-spacing:1px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
@@ -198,15 +203,15 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
                 </div>
-                <strong class="om-quality-heading"><?= e($avgRating) ?> / 5.0 Client Rating</strong>
-                <span class="om-quality-sub">Read Verified Reviews &rarr;</span>
+                <strong class="om-quality-heading"><?= e($avgRating) ?> / 5.0 Rating</strong>
+                <span class="om-quality-sub">Verified Reviews &rarr;</span>
             </a>
         </div>
     </div>
 </section>
 
 <!-- ======================================================================
-     STAGE 2: COMPLETE TECH, CREATIVE & MARKETING ARSENAL + IMPACT BAR
+     STAGE 2: COMPLETE TECH, DESIGN & MARKETING ARSENAL TICKER
      ====================================================================== -->
 <div class="om-partners-bar">
     <div class="wrap">
@@ -214,11 +219,11 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
         <div class="om-partners-inner ag-arsenal-strip">
             <div class="om-partner-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                <span>PHP 8.4 &amp; MVC</span>
+                <span>PHP 8.4 MVC</span>
             </div>
             <div class="om-partner-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                <span>Node.js &amp; Next.js</span>
+                <span>Next.js &amp; Node.js</span>
             </div>
             <div class="om-partner-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
@@ -226,15 +231,11 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
             </div>
             <div class="om-partner-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M9 9h6v6H9z"/></svg>
-                <span>Tailwind &amp; Bootstrap</span>
-            </div>
-            <div class="om-partner-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                <span>HTML5 / CSS3 / JS / jQuery</span>
+                <span>Tailwind CSS</span>
             </div>
             <div class="om-partner-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-                <span>MySQL &amp; Cloud DBs</span>
+                <span>MySQL 8 &amp; Redis</span>
             </div>
             <div class="om-partner-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -246,18 +247,18 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
             </div>
             <div class="om-partner-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
-                <span>Logo &amp; Brand Design</span>
+                <span>Logo &amp; Brand Identity</span>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Facts Bar -->
+<!-- Facts & Proof Bar -->
 <div class="wrap om-facts-wrap">
     <div class="om-facts-bar rv s">
         <div class="om-fact-item">
             <b data-n="50">50+</b>
-            <span>Projects &amp; Campaigns Delivered</span>
+            <span>Projects &amp; Campaigns Shipped</span>
         </div>
         <div class="om-fact-item">
             <b><?= e($avgRating) ?>&#9733;</b>
@@ -275,26 +276,26 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 </div>
 
 <!-- ======================================================================
-     STAGE 3: THE 8 CORE AGENCY SERVICES BENTO GRID (#services)
+     STAGE 3: THE 6 CORE AGENCY SERVICES BENTO GRID (#services)
      ====================================================================== -->
 <section id="services" class="om-services-sec">
     <div class="wrap">
         <div class="om-sec-center">
-            <div class="om-sec-tag"><span class="om-sec-dot"></span> What We Do For Your Business</div>
+            <div class="om-sec-tag"><span class="om-sec-dot"></span> What We Build &amp; Scale</div>
             <h2 class="om-sec-heading">End-To-End Digital Engineering, Design &amp; Growth<span class="om-dot-gold">.</span></h2>
-            <p class="om-sec-sub">Stop juggling disconnected freelancers for code, design, and marketing. Our specialized divisions handle your entire digital ecosystem under one roof.</p>
+            <p class="om-sec-sub">Stop juggling disconnected contractors. Our specialized divisions handle your entire digital ecosystem under one roof with zero handoff friction.</p>
 
             <!-- Interactive Service Category Filter Pills -->
             <div class="om-filter-bar ag-svc-filter" style="margin-top:24px;" role="tablist" aria-label="Filter agency services">
-                <button type="button" class="om-filter-pill active" data-svc-filter="all">All Capabilities (8)</button>
-                <button type="button" class="om-filter-pill" data-svc-filter="engineering">Web, Mobile App &amp; SaaS</button>
-                <button type="button" class="om-filter-pill" data-svc-filter="creative">Branding, Logo &amp; Redesign</button>
-                <button type="button" class="om-filter-pill" data-svc-filter="growth">SEO &amp; Social Media Ads</button>
+                <button type="button" class="om-filter-pill active" data-svc-filter="all">All Capabilities</button>
+                <button type="button" class="om-filter-pill" data-svc-filter="engineering">Web &amp; Mobile Apps</button>
+                <button type="button" class="om-filter-pill" data-svc-filter="creative">Branding &amp; Redesign</button>
+                <button type="button" class="om-filter-pill" data-svc-filter="growth">SEO &amp; Paid Social Ads</button>
             </div>
         </div>
 
         <div class="ag-services-bento" style="margin-top:40px;">
-            <!-- 1. Custom Web Development -->
+            <!-- 1. Custom Web & SaaS Development -->
             <article class="ag-svc-bento-card rv" data-svc-cat="engineering" style="--d:0.05s">
                 <div class="ag-svc-top">
                     <div class="om-sc-icon">
@@ -302,13 +303,13 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                     <span class="ag-svc-badge">Full-Stack Web</span>
                 </div>
-                <h3>Custom Web Development</h3>
-                <p>High-velocity business websites, custom admin panels, and scalable web apps built with clean architecture and sub-second response times.</p>
+                <h3>Custom Web &amp; SaaS Development</h3>
+                <p>High-velocity business platforms, custom admin panels, and multi-tenant web applications engineered for sub-second response times and complete security.</p>
                 <div class="om-sc-chips">
-                    <span>PHP 8.4</span><span>Node.js</span><span>Next.js</span><span>Tailwind</span><span>Bootstrap</span><span>jQuery</span><span>MySQL</span>
+                    <span>PHP 8.4</span><span>Node.js</span><span>Next.js</span><span>Tailwind</span><span>MySQL 8</span><span>REST APIs</span>
                 </div>
                 <a href="#contact" data-select-package="Custom Web Development" class="ag-svc-cta">
-                    <span>Start Web Project</span>
+                    <span>Scope Web Project</span>
                     <span>&rarr;</span>
                 </a>
             </article>
@@ -321,10 +322,10 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                     <span class="ag-svc-badge">iOS &amp; Android</span>
                 </div>
-                <h3>Mobile App Development</h3>
-                <p>Silky-smooth 60fps cross-platform mobile applications engineered in Flutter and Dart with real-time GPS, push notifications, and cloud APIs.</p>
+                <h3>Cross-Platform Mobile Apps</h3>
+                <p>Silky-smooth 60fps native-speed iOS and Android mobile apps engineered in Flutter &amp; Dart with real-time GPS tracking, push alerts, and offline-first sync.</p>
                 <div class="om-sc-chips">
-                    <span>Flutter</span><span>Dart</span><span>iOS &amp; Android</span><span>REST APIs</span><span>Push Alerts</span>
+                    <span>Flutter</span><span>Dart</span><span>iOS + Android</span><span>REST APIs</span><span>Push Alerts</span>
                 </div>
                 <a href="#contact" data-select-package="Mobile App Development (Flutter & Dart)" class="ag-svc-cta">
                     <span>Build Your App</span>
@@ -338,12 +339,12 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     <div class="om-sc-icon">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
                     </div>
-                    <span class="ag-svc-badge">UI/UX &amp; Speed</span>
+                    <span class="ag-svc-badge">UI/UX &amp; CRO</span>
                 </div>
-                <h3>Website Redesign &amp; Modernization</h3>
-                <p>Turn an outdated, slow, or low-converting site into a modern, mobile-first conversion powerhouse that passes Google Core Web Vitals.</p>
+                <h3>Website Redesign &amp; CRO Overhaul</h3>
+                <p>Transform slow, outdated, or low-converting websites into mobile-first conversion machines with 95+ Core Web Vitals and frictionless conversion flows.</p>
                 <div class="om-sc-chips">
-                    <span>UI/UX Overhaul</span><span>Speed 95+</span><span>Mobile-First</span><span>CRO Funnels</span>
+                    <span>UI/UX Overhaul</span><span>95+ Speed</span><span>Mobile-First</span><span>Figma Systems</span>
                 </div>
                 <a href="#contact" data-select-package="Website Redesign & Modernization" class="ag-svc-cta">
                     <span>Redesign My Site</span>
@@ -351,21 +352,21 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </a>
             </article>
 
-            <!-- 4. SaaS Product Engineering -->
-            <article class="ag-svc-bento-card rv" data-svc-cat="engineering" style="--d:0.2s">
+            <!-- 4. Branding, Logo & Graphic Design -->
+            <article class="ag-svc-bento-card rv" data-svc-cat="creative" style="--d:0.2s">
                 <div class="ag-svc-top">
                     <div class="om-sc-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
                     </div>
-                    <span class="ag-svc-badge">Multi-Tenant SaaS</span>
+                    <span class="ag-svc-badge">Brand Identity</span>
                 </div>
-                <h3>SaaS Products &amp; Custom Portals</h3>
-                <p>Complete SaaS architecture with multi-role portals, subscription billing, CRM/ERP workflows, and automated WhatsApp/email webhooks.</p>
+                <h3>Brand Identity &amp; Logo Design</h3>
+                <p>Memorable 3D &amp; vector logos, comprehensive brand guideline books, design tokens, presentation pitch decks, and high-CTR marketing creative assets.</p>
                 <div class="om-sc-chips">
-                    <span>Multi-Tenant DB</span><span>Role Portals</span><span>Subscription Billing</span><span>Cloud VPS</span>
+                    <span>Master Logo</span><span>Brand Guidelines</span><span>3D Marks</span><span>Figma Tokens</span>
                 </div>
-                <a href="#contact" data-select-package="SaaS Product Engineering" class="ag-svc-cta">
-                    <span>Scope Your SaaS</span>
+                <a href="#contact" data-select-package="Branding, Logo & Graphic Design" class="ag-svc-cta">
+                    <span>Craft Your Brand</span>
                     <span>&rarr;</span>
                 </a>
             </article>
@@ -378,10 +379,10 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                     <span class="ag-svc-badge">Organic Ranking</span>
                 </div>
-                <h3>Search Engine Optimization (SEO)</h3>
-                <p>Technical SEO audits, schema markup, keyword-driven content silos, and authority link building that put your brand in Google’s Top 3.</p>
+                <h3>Technical SEO &amp; Authority Silos</h3>
+                <p>Technical schema architecture, site speed optimization, keyword content silos, and authority link strategies engineered to put your brand in Google Top 3.</p>
                 <div class="om-sc-chips">
-                    <span>Technical SEO</span><span>On-Page &amp; Schema</span><span>Keyword Strategy</span><span>Local &amp; Global Ranking</span>
+                    <span>Technical Schema</span><span>Keyword Silos</span><span>Speed 99</span><span>Local &amp; Global SEO</span>
                 </div>
                 <a href="#contact" data-select-package="Search Engine Optimization (SEO)" class="ag-svc-cta">
                     <span>Boost Search Rankings</span>
@@ -397,54 +398,28 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                     <span class="ag-svc-badge">High-ROAS Ads</span>
                 </div>
-                <h3>Social Media Marketing &amp; Paid Ads</h3>
-                <p>Data-backed paid acquisition across Meta (Facebook &amp; Instagram), Google Ads, and TikTok with scroll-stopping creatives and pixel tracking.</p>
+                <h3>Paid Social Ads &amp; Performance Funnels</h3>
+                <p>Data-driven paid customer acquisition across Meta (Facebook &amp; Instagram), Google Ads, and TikTok with high-CTR creative testing and conversion tracking.</p>
                 <div class="om-sc-chips">
-                    <span>Meta FB/IG Ads</span><span>Google PPC</span><span>TikTok Ads</span><span>Social Management</span>
+                    <span>Meta FB/IG Ads</span><span>Google PPC</span><span>TikTok Ads</span><span>ROAS Scaling</span>
                 </div>
                 <a href="#contact" data-select-package="Social Media Marketing & Paid Ads" class="ag-svc-cta">
                     <span>Scale Ad Campaigns</span>
                     <span>&rarr;</span>
                 </a>
             </article>
+        </div>
 
-            <!-- 7. Branding, Logo & Graphic Design -->
-            <article class="ag-svc-bento-card rv" data-svc-cat="creative" style="--d:0.35s">
-                <div class="ag-svc-top">
-                    <div class="om-sc-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
-                    </div>
-                    <span class="ag-svc-badge">Brand Identity</span>
-                </div>
-                <h3>Branding, Logo &amp; Graphic Design</h3>
-                <p>Distinctive custom logos, brand style books, Figma design systems, social media visual kits, pitch decks, and high-CTR ad graphics.</p>
-                <div class="om-sc-chips">
-                    <span>Master Logo Design</span><span>Brand Guidelines</span><span>Social Media Kits</span><span>Figma UI/UX</span>
-                </div>
-                <a href="#contact" data-select-package="Branding, Logo & Graphic Design" class="ag-svc-cta">
-                    <span>Craft Your Brand</span>
-                    <span>&rarr;</span>
-                </a>
-            </article>
-
-            <!-- 8. E-Commerce & Custom Store Systems -->
-            <article class="ag-svc-bento-card rv" data-svc-cat="engineering" style="--d:0.4s">
-                <div class="ag-svc-top">
-                    <div class="om-sc-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
-                    </div>
-                    <span class="ag-svc-badge">Online Stores</span>
-                </div>
-                <h3>E-Commerce &amp; Store Systems</h3>
-                <p>High-converting online stores in custom PHP/Next.js, WooCommerce, or Shopify with fast carts, POS sync, and WhatsApp order automation.</p>
-                <div class="om-sc-chips">
-                    <span>Custom Storefronts</span><span>WooCommerce</span><span>Multi-Branch POS</span><span>WhatsApp Alerts</span>
-                </div>
-                <a href="#contact" data-select-package="E-Commerce & Online Store Build" class="ag-svc-cta">
-                    <span>Launch Your Store</span>
-                    <span>&rarr;</span>
-                </a>
-            </article>
+        <!-- Highlight Banner: Ready-Made Software Integration -->
+        <div class="ag-services-footer-banner rv s" style="margin-top:36px;">
+            <div class="ag-sfb-content">
+                <div class="om-sec-tag dark" style="margin-bottom:6px;"><span class="om-sec-dot"></span> Ready-To-Ship Solutions</div>
+                <strong>Need A Proven Platform Ready In Days?</strong>
+                <p>Explore our battle-tested courier, logistics, and POS platforms with 100% unlocked source code, or let our team customize them for you.</p>
+            </div>
+            <a href="#products" class="om-btn-gold">
+                <span>View Ready-Made Platforms &rarr;</span>
+            </a>
         </div>
     </div>
 </section>
@@ -455,105 +430,132 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 <section id="work" class="ag-work-sec">
     <div class="wrap">
         <div class="om-sec-center">
-            <div class="om-sec-tag"><span class="om-sec-dot"></span> Proven Execution &amp; Case Studies</div>
+            <div class="om-sec-tag"><span class="om-sec-dot"></span> Proven Execution</div>
             <h2 class="om-sec-heading">Selected Work &amp; Measurable Client Impact<span class="om-dot-gold">.</span></h2>
-            <p class="om-sec-sub">Every project we ship is engineered for speed, visual distinction, and measurable business growth across web, mobile, brand identity, and search/social acquisition.</p>
+            <p class="om-sec-sub">Every project we ship is engineered for speed, visual authority, and measurable revenue growth across web, mobile, brand, and paid acquisition.</p>
 
             <!-- Interactive Work Filter Pills -->
             <div class="om-filter-bar ag-work-filter" style="margin-top:24px;" role="tablist" aria-label="Filter case studies">
                 <button type="button" class="om-filter-pill active" data-work-filter="all">All Case Studies</button>
                 <button type="button" class="om-filter-pill" data-work-filter="web-saas">Web &amp; SaaS</button>
-                <button type="button" class="om-filter-pill" data-work-filter="mobile">Flutter Mobile Apps</button>
-                <button type="button" class="om-filter-pill" data-work-filter="branding">Redesign &amp; Branding</button>
-                <button type="button" class="om-filter-pill" data-work-filter="growth">SEO &amp; Paid Ads</button>
+                <button type="button" class="om-filter-pill" data-work-filter="mobile">Flutter Apps</button>
+                <button type="button" class="om-filter-pill" data-work-filter="branding">Redesign &amp; Brand</button>
+                <button type="button" class="om-filter-pill" data-work-filter="growth">SEO &amp; Ads</button>
             </div>
         </div>
 
         <div class="ag-case-grid" style="margin-top:40px;">
-            <!-- Case Study 1: E-Commerce Website Redesign & Next.js Build -->
-            <article class="ag-case-card rv" data-work-cat="branding web-saas" style="--d:0.05s">
+            <!-- Case Study 1: Cheetah Courier & Logistics Ecosystem -->
+            <article class="ag-case-card rv" data-work-cat="web-saas mobile" style="--d:0.05s">
                 <div class="ag-case-visual grad-cyan">
                     <div class="ag-case-top-badges">
-                        <span class="ag-case-cat">Website Redesign &amp; CRO</span>
-                        <span class="ag-case-receipt">+184% Checkout Conversion</span>
+                        <span class="ag-case-cat">SaaS &amp; Flutter Mobile Apps</span>
+                        <span class="ag-case-receipt">300+ Couriers Powered</span>
                     </div>
                     <div class="ag-case-preview-box">
-                        <div class="ag-cp-metric">0.8s<span>Page Load Time</span></div>
-                        <div class="ag-cp-metric">99<span>Lighthouse Perf.</span></div>
-                        <div class="ag-cp-metric">2.8x<span>Mobile Revenue</span></div>
+                        <div class="ag-cp-metric">99.98%<span>Uptime SLA</span></div>
+                        <div class="ag-cp-metric">45k+<span>Daily Parcels</span></div>
+                        <div class="ag-cp-metric">60fps<span>Flutter Speed</span></div>
                     </div>
                 </div>
                 <div class="ag-case-body">
-                    <h3>Apex Retail — Full UI/UX Website Redesign &amp; High-Speed Storefront</h3>
-                    <p>Re-architected a slow legacy e-commerce store into a mobile-first, conversion-optimized storefront with streamlined 1-step checkout and automated WhatsApp order confirmations.</p>
+                    <h3>Cheetah Courier &amp; Multi-Branch Logistics Ecosystem</h3>
+                    <p>Enterprise logistics backbone with 7 role portals, driver &amp; picker Flutter mobile apps, real-time rider GPS tracking, and automated thermal barcode printing.</p>
                     <div class="om-prod-chips">
-                        <span>Next.js</span><span>Tailwind CSS</span><span>UI/UX Redesign</span><span>Technical SEO</span>
+                        <span>PHP 8.4</span><span>Flutter</span><span>MySQL 8</span><span>REST API</span>
+                    </div>
+                    <div class="ag-case-actions">
+                        <a href="<?= url('/portfolio/cheetah-enterprise') ?>" class="ag-case-btn-primary">
+                            <span>Explore Case Study</span>
+                            <span>&rarr;</span>
+                        </a>
+                        <a href="https://cheetah.ayan24.me" target="_blank" rel="noopener noreferrer" class="ag-case-btn-secondary">
+                            <span>Live Demo ↗</span>
+                        </a>
                     </div>
                 </div>
             </article>
 
-            <!-- Case Study 2: Cross-Platform Flutter Mobile App & Node.js API -->
-            <article class="ag-case-card rv" data-work-cat="mobile web-saas" style="--d:0.1s">
+            <!-- Case Study 2: Apex Retail Storefront Redesign -->
+            <article class="ag-case-card rv" data-work-cat="branding web-saas" style="--d:0.1s">
                 <div class="ag-case-visual grad-cobalt">
+                    <div class="ag-case-top-badges">
+                        <span class="ag-case-cat">Website Redesign &amp; CRO</span>
+                        <span class="ag-case-receipt">+184% Conversion Lift</span>
+                    </div>
+                    <div class="ag-case-preview-box">
+                        <div class="ag-cp-metric">0.8s<span>Page Load</span></div>
+                        <div class="ag-cp-metric">99<span>Lighthouse Score</span></div>
+                        <div class="ag-cp-metric">2.8x<span>Mobile Revenue</span></div>
+                    </div>
+                </div>
+                <div class="ag-case-body">
+                    <h3>Apex Retail — High-Speed Storefront Redesign</h3>
+                    <p>Re-engineered a slow legacy e-commerce site into a mobile-first, conversion-optimized experience with streamlined 1-step checkout and sub-second load times.</p>
+                    <div class="om-prod-chips">
+                        <span>Next.js</span><span>Tailwind CSS</span><span>UI/UX Redesign</span><span>CRO Silos</span>
+                    </div>
+                    <div class="ag-case-actions">
+                        <a href="<?= url('/contact?package=Website+Redesign#inquiry-form') ?>" class="ag-case-btn-primary">
+                            <span>Request Similar Redesign</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Case Study 3: Cross-Platform Flutter Mobile Apps -->
+            <article class="ag-case-card rv" data-work-cat="mobile web-saas" style="--d:0.15s">
+                <div class="ag-case-visual grad-emerald">
                     <div class="ag-case-top-badges">
                         <span class="ag-case-cat">Flutter Mobile App</span>
                         <span class="ag-case-receipt">4.9&#9733; App Store Rating</span>
                     </div>
                     <div class="ag-case-preview-box">
-                        <div class="ag-cp-metric">60fps<span>Native-Speed UI</span></div>
+                        <div class="ag-cp-metric">60fps<span>Fluid Performance</span></div>
                         <div class="ag-cp-metric">iOS+Android<span>Single Codebase</span></div>
-                        <div class="ag-cp-metric">Real-Time<span>GPS &amp; Push Sync</span></div>
+                        <div class="ag-cp-metric">Offline-First<span>State Sync</span></div>
                     </div>
                 </div>
                 <div class="ag-case-body">
-                    <h3>Lumina &amp; Fleet Companion — Cross-Platform Flutter &amp; Dart Apps</h3>
-                    <p>Engineered native-feel iOS and Android applications in Flutter &amp; Dart featuring offline-first state sync, live map tracking, digital signature capture, and REST API backends.</p>
+                    <h3>Lumina Fleet Companion — Cross-Platform Mobile Suite</h3>
+                    <p>Engineered native-speed iOS and Android mobile applications featuring offline-first state synchronization, digital signature capture, and cloud API integration.</p>
                     <div class="om-prod-chips">
-                        <span>Flutter</span><span>Dart</span><span>Node.js / PHP API</span><span>MySQL 8</span>
+                        <span>Flutter</span><span>Dart</span><span>Node.js API</span><span>Cloud Sync</span>
+                    </div>
+                    <div class="ag-case-actions">
+                        <a href="<?= url('/contact?package=Mobile+App+Development#inquiry-form') ?>" class="ag-case-btn-primary">
+                            <span>Build An App Like This</span>
+                            <span>&rarr;</span>
+                        </a>
                     </div>
                 </div>
             </article>
 
-            <!-- Case Study 3: Technical SEO & Paid Social Ads Scaling -->
-            <article class="ag-case-card rv" data-work-cat="growth" style="--d:0.15s">
-                <div class="ag-case-visual grad-emerald">
+            <!-- Case Study 4: 3D Brand System & Omnichannel Paid Ads -->
+            <article class="ag-case-card rv" data-work-cat="branding growth" style="--d:0.2s">
+                <div class="ag-case-visual grad-purple">
                     <div class="ag-case-top-badges">
-                        <span class="ag-case-cat">SEO &amp; Paid Social Ads</span>
+                        <span class="ag-case-cat">Brand Identity &amp; Paid Ads</span>
                         <span class="ag-case-receipt">3.8x Meta &amp; Google ROAS</span>
                     </div>
                     <div class="ag-case-preview-box">
-                        <div class="ag-cp-metric">+215%<span>Organic Traffic</span></div>
-                        <div class="ag-cp-metric">Top 3<span>30+ Keywords</span></div>
+                        <div class="ag-cp-metric">3D + Vector<span>Brand Suite</span></div>
+                        <div class="ag-cp-metric">+215%<span>Organic Search</span></div>
                         <div class="ag-cp-metric">-42%<span>Cost Per Lead</span></div>
                     </div>
                 </div>
                 <div class="ag-case-body">
-                    <h3>Vanguard &amp; Nordic Studio — Omnichannel SEO + Meta/Google Ad Engine</h3>
-                    <p>Executed complete technical SEO schema restructuring alongside high-CTR Meta (Facebook/Instagram) and Google search ad funnels to scale qualified inbound leads.</p>
+                    <h3>Kinetix Cloud — Complete Brand Identity &amp; Performance Ad Funnel</h3>
+                    <p>Designed a distinctive 3D &amp; vector logo system, dark/light UI tokens, and executed high-CTR Meta and Google PPC ad campaigns to scale qualified inbound leads.</p>
                     <div class="om-prod-chips">
-                        <span>Technical SEO</span><span>Meta Ads</span><span>Google PPC</span><span>Conversion API</span>
+                        <span>Logo Design</span><span>Brand Book</span><span>Meta Ads</span><span>Google PPC</span>
                     </div>
-                </div>
-            </article>
-
-            <!-- Case Study 4: Complete Brand Identity, Logo & Design System -->
-            <article class="ag-case-card rv" data-work-cat="branding" style="--d:0.2s">
-                <div class="ag-case-visual grad-purple">
-                    <div class="ag-case-top-badges">
-                        <span class="ag-case-cat">Branding &amp; Logo Design</span>
-                        <span class="ag-case-receipt">+140% Ad Click-Through</span>
-                    </div>
-                    <div class="ag-case-preview-box">
-                        <div class="ag-cp-metric">3D + Vector<span>Master Logo Suite</span></div>
-                        <div class="ag-cp-metric">40+<span>UI &amp; Social Assets</span></div>
-                        <div class="ag-cp-metric">100%<span>Brand Consistency</span></div>
-                    </div>
-                </div>
-                <div class="ag-case-body">
-                    <h3>Kinetix Cloud — Master 3D Brand Identity, Logo &amp; Social Ad Kit</h3>
-                    <p>Designed a distinctive 3D &amp; vector logo system, dark/light mode design tokens, investor pitch deck, and scroll-stopping social media ad creatives.</p>
-                    <div class="om-prod-chips">
-                        <span>Logo Design</span><span>Brand Guidelines</span><span>Figma UI Kit</span><span>Social Creatives</span>
+                    <div class="ag-case-actions">
+                        <a href="<?= url('/contact?package=Branding+And+Growth#inquiry-form') ?>" class="ag-case-btn-primary">
+                            <span>Build Brand &amp; Ad Engine</span>
+                            <span>&rarr;</span>
+                        </a>
                     </div>
                 </div>
             </article>
@@ -561,45 +563,44 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div style="text-align:center;margin-top:36px;">
             <a class="om-btn-glass" href="<?= url('/portfolio') ?>">
-                <span>Explore Full Portfolio &amp; Live Systems</span>
-                <span class="om-btn-circle-arrow">&rarr;</span>
+                <span>View All Case Studies &amp; Software Systems &rarr;</span>
             </a>
         </div>
     </div>
 </section>
 
 <!-- ======================================================================
-     STAGE 5: WHY CREATSIFY IS #1 — STRENGTH & COMPARISON MATRIX (#why-us)
+     STAGE 5: WHY CREATSIFY — THE UNFAIR ADVANTAGE (#why-us)
      ====================================================================== -->
 <section id="why-us" class="om-agency-sec">
     <div class="wrap">
         <div class="om-sec-center">
-            <div class="om-sec-tag"><span class="om-sec-dot"></span> Why Smart Brands Choose Creatsify</div>
+            <div class="om-sec-tag"><span class="om-sec-dot"></span> The Creatsify Difference</div>
             <h2 class="om-sec-heading">The Unfair Advantage Of One Unified Powerhouse<span class="om-dot-gold">.</span></h2>
-            <p class="om-sec-sub">Most businesses waste months coordinating a separate web developer, a graphic designer, and an SEO/ads marketer who never align. At Creatsify, all four divisions engineer your growth together.</p>
+            <p class="om-sec-sub">Why waste months juggling disconnected freelancers when your developers, designers, and growth marketers can engineer your success together.</p>
         </div>
 
-        <!-- 4 Unfair Advantages Cards -->
+        <!-- 4 Core Advantages Cards -->
         <div class="ag-strength-grid" style="margin-top:40px;">
             <div class="ag-strength-card rv" style="--d:0.05s">
                 <span class="ag-str-num">01</span>
-                <h3>Code + Design + Growth Under 1 Roof</h3>
-                <p>Your PHP/Node.js/Next.js developers, Flutter app engineers, brand designers, and SEO/Ad strategists work as one cohesive unit—so your code, design, and marketing amplify each other.</p>
+                <h3>Code + Design + Ads Under One Roof</h3>
+                <p>Your PHP/Next.js engineers, Flutter developers, brand designers, and SEO/ad strategists work as one unified team—so your code, design, and marketing amplify each other.</p>
             </div>
             <div class="ag-strength-card rv" style="--d:0.1s">
                 <span class="ag-str-num">02</span>
-                <h3>Zero Bloated Templates — Pure Speed</h3>
-                <p>We don’t slap your logo on a sluggish theme. Every website, mobile app, and SaaS portal is handcrafted for sub-second speed, clean security, and 95+ Core Web Vitals scores.</p>
+                <h3>Pure Handcrafted Speed &bull; Zero Bloat</h3>
+                <p>No sluggish WordPress templates or bloated themes. Every web platform, mobile app, and portal is engineered for sub-second speed, clean architecture, and 95+ Core Web Vitals.</p>
             </div>
             <div class="ag-strength-card rv" style="--d:0.15s">
                 <span class="ag-str-num">03</span>
-                <h3>Conversion &amp; ROI Obsessed</h3>
-                <p>A pretty website that doesn’t sell is a liability. We engineer every headline, UI flow, SEO silo, and social ad creative around one metric: turning visitors into paying customers.</p>
+                <h3>Direct Senior Technical Access</h3>
+                <p>No non-technical account managers playing telephone. You communicate directly with senior developers and creative strategists who actually build your product.</p>
             </div>
             <div class="ag-strength-card rv" style="--d:0.2s">
                 <span class="ag-str-num">04</span>
-                <h3>100% Ownership &amp; Fixed Milestones</h3>
-                <p>No hostage retainers or hidden fees. You get transparent package pricing, weekly live staging previews, and 100% ownership of your source code, design files, and ad accounts.</p>
+                <h3>100% IP &amp; Codebase Ownership</h3>
+                <p>Zero vendor lock-in. You receive 100% unlocked source code, complete commercial IP rights, transparent milestone pricing, and live weekly staging previews.</p>
             </div>
         </div>
 
@@ -611,7 +612,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         <tr>
                             <th>Comparison Factor</th>
                             <th class="highlight-col">
-                                <span class="ag-cmp-badge">BEST VALUE &amp; SPEED</span>
+                                <span class="ag-cmp-badge">UNIFIED POWERHOUSE</span>
                                 Creatsify Digital Agency
                             </th>
                             <th>Traditional Big Agencies</th>
@@ -620,33 +621,33 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </thead>
                     <tbody>
                         <tr>
-                            <td><b>Capabilities Covered</b></td>
-                            <td class="highlight-col">&#10003; <b>Web + Mobile App + Branding + SEO &amp; Ads</b></td>
-                            <td>Fragmented departments, slow handoffs</td>
+                            <td><b>Scope of Execution</b></td>
+                            <td class="highlight-col">&#10003; <b>Web + Mobile + Brand + SEO &amp; Ads</b></td>
+                            <td>Isolated departments, slow handoffs</td>
                             <td>&#10007; Single skill only (you manage 4 people)</td>
                         </tr>
                         <tr>
-                            <td><b>Code &amp; Design Craft</b></td>
+                            <td><b>Engineering Craft</b></td>
                             <td class="highlight-col">&#10003; <b>100% Custom, 95+ Speed &amp; CRO Focused</b></td>
-                            <td>Often outsourced to junior contractors</td>
-                            <td>&#10007; Bloated page-builders &amp; generic templates</td>
+                            <td>Frequently outsourced to juniors</td>
+                            <td>&#10007; Bloated templates &amp; builder plugins</td>
                         </tr>
                         <tr>
-                            <td><b>Turnaround &amp; Delivery</b></td>
-                            <td class="highlight-col">&#10003; <b>Rapid Sprints (Days to Weeks)</b></td>
+                            <td><b>Sprint Delivery</b></td>
+                            <td class="highlight-col">&#10003; <b>Rapid Agile Sprints (Days to Weeks)</b></td>
                             <td>&#10007; 3 to 6 months of endless meetings</td>
                             <td>&#10007; Unpredictable delays &amp; ghosting risk</td>
                         </tr>
                         <tr>
-                            <td><b>Pricing &amp; Packages</b></td>
+                            <td><b>Pricing Transparency</b></td>
                             <td class="highlight-col">&#10003; <b>Transparent Packages &amp; Fixed Milestones</b></td>
-                            <td>&#10007; $15,000–$50,000+ bloated retainers</td>
-                            <td>Hidden add-on costs for basic fixes</td>
+                            <td>&#10007; $15k–$50k bloated monthly retainers</td>
+                            <td>Hidden fees and scope creep charges</td>
                         </tr>
                         <tr>
-                            <td><b>Source Code &amp; IP Rights</b></td>
-                            <td class="highlight-col">&#10003; <b>100% Full Source Code &amp; Brand Ownership</b></td>
-                            <td>Locked into proprietary agency CMS</td>
+                            <td><b>Code &amp; IP Rights</b></td>
+                            <td class="highlight-col">&#10003; <b>100% Full Unlocked Source Code Ownership</b></td>
+                            <td>Proprietary agency lock-in</td>
                             <td>Inconsistent documentation &amp; handoff</td>
                         </tr>
                     </tbody>
@@ -657,20 +658,20 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 </section>
 
 <!-- ======================================================================
-     STAGE 6: TRANSPARENT SERVICE PACKAGES + INTERACTIVE SCOPE BUILDER (#packages)
+     STAGE 6: TRANSPARENT SERVICE PACKAGES + INTERACTIVE SCOPE ESTIMATOR (#packages)
      ====================================================================== -->
 <section id="packages" class="ag-packages-sec">
     <div class="wrap">
         <div class="om-sec-center">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Radical Pricing Transparency</div>
             <h2 class="om-sec-heading">Tailored Agency Packages For Every Stage<span class="om-head-dot">.</span></h2>
-            <p class="om-sec-sub">Choose a proven package below to get started immediately, or use our interactive Custom Scope Estimator to bundle multiple services for your exact goals.</p>
+            <p class="om-sec-sub">Choose a proven sprint package below to kickoff immediately, or use our interactive Scope Estimator to calculate an instant custom bundle.</p>
 
-            <!-- Interactive Package Track Switcher Tabs -->
+            <!-- Package Track Switcher Tabs -->
             <div class="om-filter-bar ag-pkg-tabs" style="margin-top:26px;" role="tablist" aria-label="Service Package Tracks">
                 <button type="button" class="om-filter-pill active" data-pkg-tab="dev">01. Web, App &amp; SaaS Dev</button>
                 <button type="button" class="om-filter-pill" data-pkg-tab="design">02. Branding, Logo &amp; Redesign</button>
-                <button type="button" class="om-filter-pill" data-pkg-tab="growth">03. SEO &amp; Social Media Ads</button>
+                <button type="button" class="om-filter-pill" data-pkg-tab="growth">03. SEO &amp; Paid Social Ads</button>
             </div>
         </div>
 
@@ -695,7 +696,9 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     <div class="ag-pkg-top-meta">
                         <span class="ag-pkg-tier-cat"><?= e(strtoupper($trackKey)) ?> SPRINT</span>
                         <?php if (!empty($pkg['delivery_time'])): ?>
-                            <span class="ag-pkg-delivery-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px;vertical-align:-1px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><?= e($pkg['delivery_time']) ?></span>
+                            <span class="ag-pkg-delivery-pill">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px;vertical-align:-1px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><?= e($pkg['delivery_time']) ?>
+                            </span>
                         <?php endif; ?>
                     </div>
                     <h3 class="ag-pkg-tier"><?= e($pkg['title']) ?></h3>
@@ -718,17 +721,16 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div style="text-align:center;margin-top:28px;">
             <a href="<?= url('/packages') ?>" class="om-btn-glass">
-                <span>View Full Packages Page &amp; Detailed Deliverables</span>
-                <span class="om-btn-circle-arrow">&rarr;</span>
+                <span>View Complete Package Specs &amp; Deliverables &rarr;</span>
             </a>
         </div>
 
-        <!-- Interactive Custom Scope & Bundle Estimator Micro-Tool -->
+        <!-- Interactive Custom Scope & Bundle Estimator -->
         <div class="ag-scope-estimator rv s" id="scopeEstimator">
             <div class="ag-se-left">
                 <div class="om-sec-tag" style="margin-bottom:8px;"><span class="om-sec-dot"></span> Interactive Custom Bundle Builder</div>
-                <h3>Need A Custom Combination Of Services?</h3>
-                <p>Toggle the services you need below to calculate an instant multi-service bundle estimate (includes a <b>15% Multi-Service Agency Bundle Discount</b>).</p>
+                <h3>Need A Custom Multi-Service Bundle?</h3>
+                <p>Select the services you need below to calculate an instant project estimate with an automatic <b>15% Multi-Service Agency Bundle Discount</b>.</p>
                 <div class="ag-se-options">
                     <label class="ag-se-check">
                         <input type="checkbox" value="Custom Website / Redesign" data-price="350" data-days="7" checked>
@@ -754,9 +756,9 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
             </div>
             <div class="ag-se-right">
                 <span class="ag-se-badge">15% BUNDLE SAVING APPLIED</span>
-                <div class="ag-se-total-label">Estimated Bundle Investment</div>
+                <div class="ag-se-total-label">Estimated Investment</div>
                 <div class="ag-se-total-price" id="seTotalPrice">$425</div>
-                <div class="ag-se-timeline" id="seTimeline">Est. Kickoff &amp; Delivery: ~10 Days</div>
+                <div class="ag-se-timeline" id="seTimeline">Est. Delivery: ~10 Days</div>
                 <button type="button" class="om-btn-gold" id="seLockBtn" style="width:100%;justify-content:center;border:none;cursor:pointer;margin-top:14px;">
                     <span>Lock In This Custom Bundle</span>
                     <span class="om-btn-circle-arrow">&rarr;</span>
@@ -767,15 +769,15 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 </section>
 
 <!-- ======================================================================
-     STAGE 7: SINGLE DEDICATED READY-TO-LAUNCH & CUSTOMIZABLE PRODUCTS (#products)
+     STAGE 7: READY-TO-LAUNCH COMMERCIAL SOFTWARE PLATFORMS (#products)
      ====================================================================== -->
 <section id="products" class="om-dark-showcase">
     <div class="wrap">
         <div class="om-showcase-header">
-            <div class="om-sec-tag dark"><span class="om-sec-dot"></span> Ready-To-Ship &amp; Customizable Systems</div>
+            <div class="om-sec-tag dark"><span class="om-sec-dot"></span> Ready-To-Ship Platforms</div>
             <h2 class="om-sec-heading light">Want To Launch In Days? Pick A Ready-Made Platform<span class="om-head-dot">.</span></h2>
             <p class="om-sec-sub light">
-                In addition to custom agency builds, we engineer battle-tested commercial software. <b>Buy a direct white-label license</b> to deploy immediately, OR <b>ask our team to customize any product below</b> with your branding, custom features, and local payment/shipping gateways.
+                In addition to custom agency builds, we engineer battle-tested commercial software. <b>Buy a direct white-label license on Gumroad</b> with 100% unlocked source code, OR <b>hire our team to customize it</b> for your business.
             </p>
         </div>
 
@@ -805,7 +807,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                             <div class="om-prod-cover">
                                 <div class="om-prod-cover-icon">
                                     <?php if ($pr['slug'] === 'cheetah-lite'): ?>
-                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
                                     <?php else: ?>
                                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                                     <?php endif; ?>
@@ -830,7 +832,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         <div class="om-prod-actions">
                             <?php if (!empty($pr['gumroad_url'])): ?>
                                 <a class="om-btn-gold" href="<?= e($pr['gumroad_url']) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span>Buy Direct (<?= e($priceStr) ?>)</span>
+                                    <span>Buy On Gumroad (<?= e($priceStr) ?>)</span>
                                     <span class="om-btn-circle-arrow">
                                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                                     </span>
@@ -859,49 +861,49 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 </section>
 
 <!-- ======================================================================
-     STAGE 8: HOW WE EXECUTE — 4-STEP AGENCY WORKFLOW (#how)
+     STAGE 8: 4-STEP AGENCY WORKFLOW (#how)
      ====================================================================== -->
 <section id="how" class="om-how-sec">
     <div class="wrap">
         <div class="om-sec-center">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Frictionless Execution</div>
             <h2 class="om-sec-heading">From Concept To Market Dominance In 4 Steps<span class="om-dot-gold">.</span></h2>
-            <p class="om-sec-sub">Clear milestones, transparent staging links, and zero guesswork from day one.</p>
+            <p class="om-sec-sub">Clear sprint milestones, transparent staging links, and zero guesswork from day one.</p>
         </div>
         <div class="ag-workflow-4grid">
             <div class="om-how-card rv" style="--d:0s">
                 <span class="om-how-step-num">01</span>
                 <h3>Strategy &amp; Fixed Scope</h3>
-                <p>We audit your current site or brief, define exact technical &amp; marketing KPIs, and lock in a fixed package timeline.</p>
+                <p>We audit your project requirements, establish concrete technical and CRO targets, and lock in a fixed milestone sprint timeline.</p>
             </div>
             <div class="om-how-card rv" style="--d:0.08s">
                 <span class="om-how-step-num">02</span>
                 <h3>Brand &amp; UI/UX Craft</h3>
-                <p>Our creative division designs your logo, brand tokens, and interactive conversion layouts before heavy coding begins.</p>
+                <p>Our creative division engineers your logo, design tokens, and interactive conversion layouts in Figma before heavy coding starts.</p>
             </div>
             <div class="om-how-card rv" style="--d:0.16s">
                 <span class="om-how-step-num">03</span>
-                <h3>Clean Full-Stack Build</h3>
-                <p>We engineer your web app, Flutter mobile app, or store on a live staging server so you can test progress in real time.</p>
+                <h3>High-Velocity Engineering</h3>
+                <p>We build your web app, Flutter mobile app, or portal on a private staging server so you can test live progress each week.</p>
             </div>
             <div class="om-how-card rv" style="--d:0.24s">
                 <span class="om-how-step-num">04</span>
                 <h3>Launch, SEO &amp; Ad Scale</h3>
-                <p>We deploy to production, submit technical SEO schemas to Google, and launch high-ROAS social ad campaigns.</p>
+                <p>We deploy to your production server, submit technical schema to Google, and launch profitable search and social ad campaigns.</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- ======================================================================
-     STAGE 9: VERIFIED CLIENT REVIEWS & STAR FEEDBACK (#reviews)
+     STAGE 9: VERIFIED CLIENT REVIEWS (#reviews)
      ====================================================================== -->
 <section id="reviews" class="ag-reviews-sec">
     <div class="wrap">
         <div class="om-sec-center">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Verified Client Feedback</div>
             <h2 class="om-sec-heading">Trusted By Ambitious Brands Worldwide<span class="om-dot-gold">.</span></h2>
-            <p class="om-sec-sub">Real feedback and verified project outcomes from clients who hired Creatsify for web &amp; mobile engineering, website redesigns, branding, SEO, and paid social ads.</p>
+            <p class="om-sec-sub">Real feedback and verified outcomes from founders and teams who partnered with Creatsify for engineering, branding, SEO, and paid social ads.</p>
             
             <div class="ag-rating-summary-pill" style="margin:20px auto 36px;display:inline-flex;">
                 <div class="ag-rsp-score"><?= e($avgRating) ?></div>
@@ -962,14 +964,14 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 </section>
 
 <!-- ======================================================================
-     STAGE 10: FAQ + DIRECT CONSULTATION & WHATSAPP HUB (#contact)
+     STAGE 10: DIRECT CONSULTATION & WHATSAPP HUB (#contact)
      ====================================================================== -->
 <section id="contact" class="om-contact-sec">
     <div class="wrap om-contact-wrap">
         <div class="om-contact-left rv l">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Start Your Project Or Package</div>
             <h2 class="om-sec-heading">Tell Us What You Want To Build Or Scale<span class="om-dot-gold">.</span></h2>
-            <p class="om-sec-sub">Select a service package, request custom modifications to one of our ready-made platforms, or claim a free 15-minute website &amp; SEO teardown. For instant responses, message our agency desk on WhatsApp.</p>
+            <p class="om-sec-sub">Select an agency sprint package, request custom tailoring for our ready-made platforms, or claim a free website &amp; SEO teardown audit. For instant communication, reach our senior team directly on WhatsApp.</p>
 
             <div class="om-whatsapp-card">
                 <div class="om-wa-header">
@@ -977,15 +979,15 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
                     </span>
                     <div class="om-wa-header-info">
-                        <b>Instant WhatsApp Strategy Desk</b>
-                        <span>Chat directly with our Senior Engineering &amp; Growth Team</span>
+                        <b>Direct WhatsApp Strategy Desk</b>
+                        <span>Instant response from our Senior Engineering &amp; Growth Leads</span>
                     </div>
                     <span class="om-wa-active-pill"><i class="om-pulse-dot"></i> Online Now</span>
                 </div>
                 <a href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener" class="om-wa-btn" id="homeWaDynamicLink">
                     <span class="om-wa-btn-lead">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
-                        <span>Message Our Agency On WhatsApp</span>
+                        <span>Message Our Agency Desk On WhatsApp</span>
                     </span>
                     <span class="om-wa-circle-arrow">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -993,19 +995,19 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </a>
             </div>
 
-            <!-- Buyer Risk-Reversal FAQ Accordion -->
+            <!-- Client FAQ Accordion -->
             <div class="ag-faq-mini">
                 <details class="ag-faq-item" open>
                     <summary>Do I get 100% ownership of the source code and brand files?</summary>
-                    <p>Yes. Every custom website, Flutter mobile app, logo/brand kit, and white-label license comes with 100% unlocked source code and full commercial IP ownership.</p>
+                    <p>Yes. Every custom website, Flutter mobile app, design system, and white-label license comes with 100% unlocked source code and full commercial IP rights.</p>
                 </details>
                 <details class="ag-faq-item">
-                    <summary>Can you customize your ready-made software for my business?</summary>
-                    <p>Absolutely. You can either buy a direct license ($49–$99) as-is, or tell us what custom features, branding, or payment/shipping integrations you need and our team will tailor it for you.</p>
+                    <summary>Can you customize your ready-made software for our business?</summary>
+                    <p>Absolutely. You can buy a direct Gumroad license ($49–$99), or our engineering team can rebrand, add custom features, and integrate your local payment &amp; shipping APIs.</p>
                 </details>
                 <details class="ag-faq-item">
-                    <summary>How do payments work for custom web, app, or redesign projects?</summary>
-                    <p>We work on transparent, milestone-based payments—you review live progress on our staging server at each milestone before moving to the next phase.</p>
+                    <summary>How do payments work for custom agency builds?</summary>
+                    <p>We operate on milestone-based payments. You review and approve live progress on our staging server at each sprint before releasing the milestone payment.</p>
                 </details>
             </div>
         </div>
@@ -1054,7 +1056,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </optgroup>
                 </select>
             </label>
-            <label>Project Details &amp; Goals<textarea name="message" id="homeProjectMessage" rows="4" required placeholder="Tell us about your project, goals, target timeline, or any specific features you want..."></textarea></label>
+            <label>Project Details &amp; Goals<textarea name="message" id="homeProjectMessage" rows="4" required placeholder="Tell us about your project, goals, target timeline, or any specific requirements..."></textarea></label>
             <button class="om-btn-gold" type="submit" style="width:100%;justify-content:center;">
                 <span>Send Project Brief</span>
                 <span class="om-btn-circle-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>

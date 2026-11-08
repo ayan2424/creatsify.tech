@@ -17,8 +17,8 @@ $navItems = [
 <header>
     <div class="wrap bar">
         <a href="<?= url('/') ?>" class="brand-link" aria-label="Creatsify Home">
-            <img class="brand-logo logo-dark" src="<?= e($logoDark) ?>" alt="Creatsify" height="46">
-            <img class="brand-logo logo-light" src="<?= e($logoLight) ?>" alt="Creatsify" height="46">
+            <img class="brand-logo logo-dark" src="<?= e($logoDark) ?>" alt="<?= e(setting('site_name', 'Creatsify')) ?>" height="40">
+            <img class="brand-logo logo-light" src="<?= e($logoLight) ?>" alt="<?= e(setting('site_name', 'Creatsify')) ?>" height="40">
         </a>
         <nav id="nav" aria-label="Main">
             <?php foreach ($navItems as $item): ?>
@@ -50,9 +50,9 @@ $navItems = [
 <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop"></div>
 <div class="mobile-drawer-sheet" id="mobileDrawer" aria-hidden="true" inert>
     <div class="mobile-drawer-top">
-        <a href="<?= url('/') ?>" class="brand-link" aria-label="Creatsify Home">
-            <img class="brand-logo logo-dark" src="<?= e($logoDark) ?>" alt="Creatsify" height="38">
-            <img class="brand-logo logo-light" src="<?= e($logoLight) ?>" alt="Creatsify" height="38">
+        <a href="<?= url('/') ?>" class="brand-link" aria-label="<?= e(setting('site_name', 'Creatsify')) ?> Home">
+            <img class="brand-logo logo-dark" src="<?= e($logoDark) ?>" alt="<?= e(setting('site_name', 'Creatsify')) ?>" height="36">
+            <img class="brand-logo logo-light" src="<?= e($logoLight) ?>" alt="<?= e(setting('site_name', 'Creatsify')) ?>" height="36">
         </a>
         <button type="button" class="btn icon mobile-drawer-close-btn" id="mobileDrawerClose" aria-label="Close navigation menu">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>

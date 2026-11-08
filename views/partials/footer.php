@@ -47,9 +47,9 @@ $waMsg = urlencode("Hello! I would like to discuss a project or package with Cre
         <div class="om-ft-main-grid">
             <!-- Col 1: Agency Brand & Rating -->
             <div class="om-ft-col brand-col">
-                <div class="om-ft-brand-head">
-                    <img src="<?= e($logoDark) ?>" height="42" alt="<?= e(setting('site_name', 'Creatsify')) ?>" style="height:40px;width:auto;display:block;">
-                </div>
+                <a href="<?= url('/') ?>" class="om-ft-brand-head" aria-label="<?= e(setting('site_name', 'Creatsify')) ?> Home" style="display:inline-block;text-decoration:none;">
+                    <img src="<?= e($logoDark) ?>" height="40" alt="<?= e(setting('site_name', 'Creatsify')) ?>" style="height:40px;width:auto;display:block;">
+                </a>
                 <p class="om-ft-brand-desc">
                     Full-spectrum digital engineering, creative design, and performance marketing agency. We build high-velocity web &amp; mobile applications, craft iconic brands, and scale revenue through SEO and paid social ads.
                 </p>
@@ -107,19 +107,14 @@ $waMsg = urlencode("Hello! I would like to discuss a project or package with Cre
         <!-- Sub-Footer Bottom Bar -->
         <div class="om-ft-bottom-bar">
             <div class="om-ft-copyright">
-                &copy; <?= date('Y') ?> <b><?= e(setting('site_name', 'Creatsify')) ?> Digital Agency</b>. Web &amp; App Engineering, Branding, UI/UX, SEO &amp; Performance Marketing. Serving clients worldwide.
+                &copy; <?= date('Y') ?> <b><?= e(setting('site_name', 'Creatsify')) ?> Digital Agency</b>. Full-Spectrum Engineering, Brand Identity, UI/UX, SEO &amp; Performance Marketing. All rights reserved.
             </div>
             <div class="om-ft-bottom-right">
-                <a class="om-ft-top-btn" href="#top">
+                <a class="om-ft-top-btn" href="#top" aria-label="Back to top">
                     <span>Back to top</span>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
                 </a>
             </div>
-        </div>
-
-        <!-- Big Display Signature Watermark (Authentic Brand Identity, No Trailing Dot) -->
-        <div class="om-ft-watermark" aria-hidden="true">
-            <span>Creatsify</span>
         </div>
     </div>
 </footer>
