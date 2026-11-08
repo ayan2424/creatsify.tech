@@ -68,24 +68,31 @@ $thumb = static function (array $p) use ($assetDir) {
                         <div class="om-prod-actions">
                             <?php if (!empty($pr['gumroad_url'])): ?>
                                 <a class="om-btn-gold" href="<?= e($pr['gumroad_url']) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span class="om-btn-circle-arrow">
+                                    <span class="om-btn-icon-circle">
                                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                                     </span>
-                                    <span>Buy Direct (<?= e($priceStr) ?>)</span>
+                                    <span>Buy License (<?= e($priceStr) ?>)</span>
                                 </a>
                             <?php endif; ?>
                             <a class="om-btn-glass light" href="<?= url('/contact?kind=software_custom&offering=' . urlencode('Customize ' . $pr['title'])) ?>#inquiry-form">
-                                <span>Customize For Me &#9998;</span>
+                                <span class="om-btn-icon-circle">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                </span>
+                                <span>Customize For Me</span>
                             </a>
                             <?php if ($hasLive): ?>
-                                <a class="om-prod-link" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">
+                                <a class="om-btn-glass light" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">
+                                    <span class="om-btn-icon-circle">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                    </span>
                                     <span>Live Demo</span>
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                                 </a>
                             <?php else: ?>
-                                <a class="om-prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">
-                                    <span>Details</span>
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <a class="om-btn-glass light" href="<?= url('/portfolio/' . $pr['slug']) ?>">
+                                    <span class="om-btn-icon-circle">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                    </span>
+                                    <span>View Specs</span>
                                 </a>
                             <?php endif; ?>
                         </div>

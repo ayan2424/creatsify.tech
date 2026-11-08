@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\ClientReview;
 use App\Models\Project;
 use Core\Request;
 use Core\Response;
@@ -38,10 +39,13 @@ class PortfolioController
             return view('errors/404', ['message' => 'Project not found'])->setStatusCode(404);
         }
 
+        $clientReview = ClientReview::forProject($slug, (string)($project['category'] ?? ''));
+
         return view('portfolio/show', [
-            'project' => $project,
-            'meta_title' => "{$project['title']} | Creatsify Case Study",
-            'meta_desc' => $project['summary']
+            'project'      => $project,
+            'clientReview' => $clientReview,
+            'meta_title'   => "{$project['title']} | Creatsify Case Study",
+            'meta_desc'    => $project['summary']
         ]);
     }
 }

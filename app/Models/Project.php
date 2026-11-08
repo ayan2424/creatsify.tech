@@ -25,6 +25,31 @@ class Project
                     ADD COLUMN `price` VARCHAR(50) NULL DEFAULT '$99' AFTER `gumroad_url`");
             } catch (\Throwable $e2) {}
         }
+
+        // Ensure RestroMaster and ViddMate projects exist for real showcase
+        try {
+            $restro = db()->fetchOne("SELECT `id` FROM `projects` WHERE `slug` = 'restromaster-kds-interface' LIMIT 1");
+            if (!$restro) {
+                db()->query("INSERT INTO `projects` 
+                    (`title`, `slug`, `category`, `client`, `featured`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
+                    VALUES 
+                    ('RestroMaster POS & KDS Interface', 'restromaster-kds-interface', 'saas', 'Zenith Hospitality Group', 1, 
+                     'Touch-optimized kitchen display system, contactless QR tabletop ordering, and real-time order routing for high-volume venues.',
+                     'Complete restaurant management ecosystem featuring low-latency kitchen order tickets (KOT), multi-station display routing, QR digital menu with real-time bill settlement, and thermal printer integration.',
+                     '/assets/images/restromaster-preview.jpg', '', '', '$79', 'PHP 8.4, Vue.js, Tailwind CSS, WebSocket, MySQL 8', 'Shipped', 4)");
+            }
+
+            $viddmate = db()->fetchOne("SELECT `id` FROM `projects` WHERE `slug` = 'viddmate-video-suite' LIMIT 1");
+            if (!$viddmate) {
+                db()->query("INSERT INTO `projects` 
+                    (`title`, `slug`, `category`, `client`, `featured`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
+                    VALUES 
+                    ('ViddMate 4K Video Transcoding Suite', 'viddmate-video-suite', 'saas', 'Kinetix Cloud', 1, 
+                     'High-throughput cloud media encoding and transcoding web platform with GPU acceleration and automated storage delivery.',
+                     'Scalable video processing infrastructure engineered for automated 4K H.265/AV1 transcoding, audio waveform extraction, watermarking, and instant cloud CDN distribution with webhooks.',
+                     '/assets/images/viddmate-preview.jpg', '', '', '$89', 'PHP 8.4, Node.js, FFmpeg, Redis, Tailwind CSS', 'Shipped', 5)");
+            }
+        } catch (\Throwable $e) {}
     }
 
     public static function all(): array

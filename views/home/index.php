@@ -4,8 +4,20 @@ $this->layout('layouts/main');
 
 $assetDir = dirname(__DIR__, 2) . '/public/assets/images/';
 $imgFor = static function (string $slug) use ($assetDir) {
-    $file = $slug === 'cheetah-enterprise' ? 'cheetah-showcase.jpg' : $slug . '-preview.jpg';
-    return is_file($assetDir . $file) ? 'images/' . $file : null;
+    if ($slug === 'cheetah-enterprise' && is_file($assetDir . 'cheetah-showcase.jpg')) {
+        return 'images/cheetah-showcase.jpg';
+    }
+    if (str_starts_with($slug, 'restromaster') && is_file($assetDir . 'restromaster-preview.jpg')) {
+        return 'images/restromaster-preview.jpg';
+    }
+    if (str_starts_with($slug, 'viddmate') && is_file($assetDir . 'viddmate-preview.jpg')) {
+        return 'images/viddmate-preview.jpg';
+    }
+    $file = $slug . '-preview.jpg';
+    if (is_file($assetDir . $file)) {
+        return 'images/' . $file;
+    }
+    return null;
 };
 
 $waPhone = clean_phone_number(setting('whatsapp_number', setting('site_phone', '923002521199')), false);
@@ -491,130 +503,86 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
             <!-- Interactive Work Filter Pills -->
             <div class="om-filter-bar ag-work-filter" style="margin-top:24px;" role="tablist" aria-label="Filter case studies">
-                <button type="button" class="om-filter-pill active" data-work-filter="all">All Case Studies</button>
+                <button type="button" class="om-filter-pill active" data-work-filter="all">All Projects</button>
                 <button type="button" class="om-filter-pill" data-work-filter="web-saas">Web &amp; SaaS</button>
                 <button type="button" class="om-filter-pill" data-work-filter="mobile">Flutter Apps</button>
-                <button type="button" class="om-filter-pill" data-work-filter="branding">Redesign &amp; Brand</button>
-                <button type="button" class="om-filter-pill" data-work-filter="growth">SEO &amp; Ads</button>
+                <button type="button" class="om-filter-pill" data-work-filter="stores">E-Commerce Stores</button>
             </div>
         </div>
 
         <div class="ag-case-grid" style="margin-top:40px;">
-            <!-- Case Study 1: Cheetah Courier & Logistics Ecosystem -->
-            <article class="ag-case-card rv" data-work-cat="web-saas mobile" style="--d:0.05s">
-                <div class="ag-case-visual grad-cyan">
-                    <div class="ag-case-top-badges">
-                        <span class="ag-case-cat">SaaS &amp; Flutter Mobile Apps</span>
-                        <span class="ag-case-receipt">300+ Couriers Powered</span>
-                    </div>
-                    <div class="ag-case-preview-box">
-                        <div class="ag-cp-metric">99.98%<span>Uptime SLA</span></div>
-                        <div class="ag-cp-metric">45k+<span>Daily Parcels</span></div>
-                        <div class="ag-cp-metric">60fps<span>Flutter Speed</span></div>
-                    </div>
-                </div>
-                <div class="ag-case-body">
-                    <h3>Cheetah Courier &amp; Multi-Branch Logistics Ecosystem</h3>
-                    <p>Enterprise logistics backbone with 7 role portals, driver &amp; picker Flutter mobile apps, real-time rider GPS tracking, and automated thermal barcode printing.</p>
-                    <div class="om-prod-chips">
-                        <span>PHP 8.4</span><span>Flutter</span><span>MySQL 8</span><span>REST API</span>
-                    </div>
-                    <div class="ag-case-actions">
-                        <a href="<?= url('/portfolio/cheetah-enterprise') ?>" class="ag-case-btn-primary">
-                            <span class="ag-case-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
-                            <span>Explore Case Study</span>
-                        </a>
-                        <a href="https://cheetah.ayan24.me" target="_blank" rel="noopener noreferrer" class="ag-case-btn-secondary">
-                            <span>Live Demo</span>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Case Study 2: Apex Retail Storefront Redesign -->
-            <article class="ag-case-card rv" data-work-cat="branding web-saas" style="--d:0.1s">
-                <div class="ag-case-visual grad-cobalt">
-                    <div class="ag-case-top-badges">
-                        <span class="ag-case-cat">Website Redesign &amp; CRO</span>
-                        <span class="ag-case-receipt">+184% Conversion Lift</span>
-                    </div>
-                    <div class="ag-case-preview-box">
-                        <div class="ag-cp-metric">0.8s<span>Page Load</span></div>
-                        <div class="ag-cp-metric">99<span>Lighthouse Score</span></div>
-                        <div class="ag-cp-metric">2.8x<span>Mobile Revenue</span></div>
-                    </div>
-                </div>
-                <div class="ag-case-body">
-                    <h3>Apex Retail — High-Speed Storefront Redesign</h3>
-                    <p>Re-engineered a slow legacy e-commerce site into a mobile-first, conversion-optimized experience with streamlined 1-step checkout and sub-second load times.</p>
-                    <div class="om-prod-chips">
-                        <span>Next.js</span><span>Tailwind CSS</span><span>UI/UX Redesign</span><span>CRO Silos</span>
-                    </div>
-                    <div class="ag-case-actions">
-                        <a href="<?= url('/contact?package=Website+Redesign#inquiry-form') ?>" class="ag-case-btn-primary">
-                            <span class="ag-case-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
-                            <span>Request Similar Redesign</span>
+            <?php
+            $caseProjects = $projects ?? [];
+            foreach ($caseProjects as $idx => $pr):
+                $slug = $pr['slug'];
+                $shot = $imgFor($slug);
+                $tech = array_filter(array_map('trim', explode(',', (string)($pr['tech_stack'] ?? ''))));
+                $live = $pr['live_url'] ?? '';
+                $hasLive = !empty($live) && $live !== '#';
+                $cat = $pr['category'] ?? 'saas';
+                $workFilterCat = ($cat === 'stores' ? 'stores' : ($cat === 'apps' || in_array('Flutter', $tech) ? 'mobile web-saas' : 'web-saas'));
+                
+                $catLabel = match($cat) {
+                    'apps' => 'Mobile & Flutter App',
+                    'stores' => 'E-Commerce & Storefront',
+                    default => 'Web & SaaS Platform',
+                };
+            ?>
+                <article class="ag-case-card rv" data-work-cat="<?= e($workFilterCat) ?>" style="--d:<?= ($idx * 0.08) ?>s">
+                    <div class="ag-case-media-frame">
+                        <div class="ag-case-browser-bar">
+                            <div class="om-browser-dots">
+                                <span class="dot d-red"></span>
+                                <span class="dot d-yellow"></span>
+                                <span class="dot d-green"></span>
+                            </div>
+                            <span class="ag-case-browser-url">creatsify.tech / showcase / <?= e($slug) ?></span>
+                            <span class="ag-case-badge-pill"><?= e($catLabel) ?></span>
+                        </div>
+                        <a href="<?= url('/portfolio/' . $slug) ?>" class="ag-case-img-link" aria-label="View case study for <?= e($pr['title']) ?>">
+                            <?php if ($shot): ?>
+                                <img src="<?= asset($shot) ?>" width="1376" height="768" loading="lazy" alt="<?= e($pr['title']) ?>" class="ag-case-img">
+                            <?php else: ?>
+                                <div class="ag-case-img-fallback">
+                                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                    <span><?= e($pr['title']) ?></span>
+                                </div>
+                            <?php endif; ?>
+                            <div class="ag-case-overlay">
+                                <span class="ag-case-overlay-btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    <span>View Case Study</span>
+                                </span>
+                            </div>
                         </a>
                     </div>
-                </div>
-            </article>
-
-            <!-- Case Study 3: Cross-Platform Flutter Mobile Apps -->
-            <article class="ag-case-card rv" data-work-cat="mobile web-saas" style="--d:0.15s">
-                <div class="ag-case-visual grad-emerald">
-                    <div class="ag-case-top-badges">
-                        <span class="ag-case-cat">Flutter Mobile App</span>
-                        <span class="ag-case-receipt">4.9&#9733; App Store Rating</span>
+                    <div class="ag-case-body">
+                        <div class="ag-case-meta-top">
+                            <span class="ag-case-client-tag">&#10003; <?= e(!empty($pr['client']) ? $pr['client'] : 'Creatsify Enterprise') ?></span>
+                            <span class="ag-case-status-tag">Shipped &amp; Verified</span>
+                        </div>
+                        <h3 class="ag-case-title"><a href="<?= url('/portfolio/' . $slug) ?>"><?= e($pr['title']) ?></a></h3>
+                        <p class="ag-case-desc"><?= e($pr['summary'] ?: $pr['description']) ?></p>
+                        <div class="om-prod-chips">
+                            <?php foreach ($tech as $t): ?><span><?= e($t) ?></span><?php endforeach; ?>
+                        </div>
+                        <div class="ag-case-actions">
+                            <a href="<?= url('/portfolio/' . $slug) ?>" class="ag-case-btn-primary">
+                                <span class="ag-case-btn-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </span>
+                                <span>Explore Case Study</span>
+                            </a>
+                            <?php if ($hasLive): ?>
+                                <a href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer" class="ag-case-btn-secondary">
+                                    <span>Live Demo</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                    <div class="ag-case-preview-box">
-                        <div class="ag-cp-metric">60fps<span>Fluid Performance</span></div>
-                        <div class="ag-cp-metric">iOS+Android<span>Single Codebase</span></div>
-                        <div class="ag-cp-metric">Offline-First<span>State Sync</span></div>
-                    </div>
-                </div>
-                <div class="ag-case-body">
-                    <h3>Lumina Fleet Companion — Cross-Platform Mobile Suite</h3>
-                    <p>Engineered native-speed iOS and Android mobile applications featuring offline-first state synchronization, digital signature capture, and cloud API integration.</p>
-                    <div class="om-prod-chips">
-                        <span>Flutter</span><span>Dart</span><span>Node.js API</span><span>Cloud Sync</span>
-                    </div>
-                    <div class="ag-case-actions">
-                        <a href="<?= url('/contact?package=Mobile+App+Development#inquiry-form') ?>" class="ag-case-btn-primary">
-                            <span class="ag-case-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span>
-                            <span>Build An App Like This</span>
-                        </a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Case Study 4: 3D Brand System & Omnichannel Paid Ads -->
-            <article class="ag-case-card rv" data-work-cat="branding growth" style="--d:0.2s">
-                <div class="ag-case-visual grad-purple">
-                    <div class="ag-case-top-badges">
-                        <span class="ag-case-cat">Brand Identity &amp; Paid Ads</span>
-                        <span class="ag-case-receipt">3.8x Meta &amp; Google ROAS</span>
-                    </div>
-                    <div class="ag-case-preview-box">
-                        <div class="ag-cp-metric">3D + Vector<span>Brand Suite</span></div>
-                        <div class="ag-cp-metric">+215%<span>Organic Search</span></div>
-                        <div class="ag-cp-metric">-42%<span>Cost Per Lead</span></div>
-                    </div>
-                </div>
-                <div class="ag-case-body">
-                    <h3>Kinetix Cloud — Complete Brand Identity &amp; Performance Ad Funnel</h3>
-                    <p>Designed a distinctive 3D &amp; vector logo system, dark/light UI tokens, and executed high-CTR Meta and Google PPC ad campaigns to scale qualified inbound leads.</p>
-                    <div class="om-prod-chips">
-                        <span>Logo Design</span><span>Brand Book</span><span>Meta Ads</span><span>Google PPC</span>
-                    </div>
-                    <div class="ag-case-actions">
-                        <a href="<?= url('/contact?package=Branding+And+Growth#inquiry-form') ?>" class="ag-case-btn-primary">
-                            <span class="ag-case-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
-                            <span>Build Brand &amp; Ad Engine</span>
-                        </a>
-                    </div>
-                </div>
-            </article>
+                </article>
+            <?php endforeach; ?>
         </div>
 
         <div style="text-align:center;margin-top:36px;">
@@ -892,24 +860,31 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         <div class="om-prod-actions">
                             <?php if (!empty($pr['gumroad_url'])): ?>
                                 <a class="om-btn-gold" href="<?= e($pr['gumroad_url']) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span class="om-btn-circle-arrow">
+                                    <span class="om-btn-icon-circle">
                                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                                     </span>
-                                    <span>Buy On Gumroad (<?= e($priceStr) ?>)</span>
+                                    <span>Buy License (<?= e($priceStr) ?>)</span>
                                 </a>
                             <?php endif; ?>
                             <a class="om-btn-glass light" href="#contact" data-select-package="Customize <?= e($pr['title']) ?> For My Business">
-                                <span>Customize For Me &#9998;</span>
+                                <span class="om-btn-icon-circle">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                </span>
+                                <span>Customize For Me</span>
                             </a>
                             <?php if ($hasLive): ?>
-                                <a class="om-prod-link" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">
+                                <a class="om-btn-glass light" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">
+                                    <span class="om-btn-icon-circle">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                    </span>
                                     <span>Live Demo</span>
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                                 </a>
                             <?php else: ?>
-                                <a class="om-prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">
-                                    <span>Specs</span>
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <a class="om-btn-glass light" href="<?= url('/portfolio/' . $pr['slug']) ?>">
+                                    <span class="om-btn-icon-circle">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                    </span>
+                                    <span>View Specs</span>
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -989,32 +964,49 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
             </div>
         </div>
 
-        <div class="ag-reviews-grid">
-            <?php foreach (($reviews ?? []) as $idx => $rev):
-                $stars = max(1, min(5, (int)($rev['rating'] ?? 5)));
-                $initials = strtoupper(substr(trim((string)($rev['client_name'] ?? 'C')), 0, 1));
-            ?>
-                <article class="ag-review-card rv" style="--d:<?= ($idx % 3) * 0.08 ?>s">
-                    <div class="ag-rc-top">
-                        <div class="ag-rc-stars" aria-label="<?= $stars ?> out of 5 stars">
-                            <?= str_repeat('&#9733;', $stars) ?><?= str_repeat('&#9734;', 5 - $stars) ?>
+        <!-- Interactive Responsive Carousel Slider -->
+        <div class="ag-reviews-carousel-wrap" id="revCarouselWrap">
+            <button type="button" class="ag-carousel-btn prev" id="revPrevBtn" aria-label="Previous Reviews">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button type="button" class="ag-carousel-btn next" id="revNextBtn" aria-label="Next Reviews">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+
+            <div class="ag-reviews-viewport" id="revViewport">
+                <div class="ag-reviews-track" id="revTrack">
+                    <?php foreach (($reviews ?? []) as $idx => $rev):
+                        $stars = max(1, min(5, (int)($rev['rating'] ?? 5)));
+                        $initials = strtoupper(substr(trim((string)($rev['client_name'] ?? 'C')), 0, 1));
+                    ?>
+                        <div class="ag-review-slide">
+                            <article class="ag-review-card">
+                                <div class="ag-rc-top">
+                                    <div class="ag-rc-stars" aria-label="<?= $stars ?> out of 5 stars">
+                                        <?= str_repeat('&#9733;', $stars) ?><?= str_repeat('&#9734;', 5 - $stars) ?>
+                                    </div>
+                                    <?php if (!empty($rev['outcome_metric'])): ?>
+                                        <span class="ag-rc-outcome"><?= e($rev['outcome_metric']) ?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <h3 class="ag-rc-title">“<?= e($rev['review_title']) ?>”</h3>
+                                <p class="ag-rc-text"><?= e($rev['review_text']) ?></p>
+                                <div class="ag-rc-footer">
+                                    <div class="ag-rc-avatar"><?= e($initials) ?></div>
+                                    <div class="ag-rc-author">
+                                        <strong><?= e($rev['client_name']) ?></strong>
+                                        <span><?= e($rev['client_role'] ?: 'Client') ?><?= !empty($rev['company_name']) ? ' &bull; ' . e($rev['company_name']) : '' ?></span>
+                                    </div>
+                                    <span class="ag-rc-service-tag"><?= e($rev['service_category']) ?></span>
+                                </div>
+                            </article>
                         </div>
-                        <?php if (!empty($rev['outcome_metric'])): ?>
-                            <span class="ag-rc-outcome"><?= e($rev['outcome_metric']) ?></span>
-                        <?php endif; ?>
-                    </div>
-                    <h3 class="ag-rc-title">“<?= e($rev['review_title']) ?>”</h3>
-                    <p class="ag-rc-text"><?= e($rev['review_text']) ?></p>
-                    <div class="ag-rc-footer">
-                        <div class="ag-rc-avatar"><?= e($initials) ?></div>
-                        <div class="ag-rc-author">
-                            <strong><?= e($rev['client_name']) ?></strong>
-                            <span><?= e($rev['client_role'] ?: 'Client') ?><?= !empty($rev['company_name']) ? ' &bull; ' . e($rev['company_name']) : '' ?></span>
-                        </div>
-                        <span class="ag-rc-service-tag"><?= e($rev['service_category']) ?></span>
-                    </div>
-                </article>
-            <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- Dots Pagination -->
+            <div class="ag-carousel-dots" id="revDots" role="tablist" aria-label="Reviews pagination"></div>
         </div>
 
         <div style="text-align:center;margin-top:36px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;">

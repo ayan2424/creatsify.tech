@@ -42,7 +42,7 @@ class HomeController
         $posts = Post::allPublished();
 
         // Fetch featured verified client reviews & aggregate rating stats
-        $reviews = ClientReview::featured(6);
+        $reviews = ClientReview::allApproved();
         $reviewStats = ClientReview::stats();
 
         return view('home/index', [

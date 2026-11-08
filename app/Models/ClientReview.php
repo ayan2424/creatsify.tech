@@ -205,6 +205,37 @@ class ClientReview
         return db()->fetchAll("SELECT * FROM `client_reviews` WHERE `status` = 'approved' ORDER BY `is_featured` DESC, `id` DESC");
     }
 
+    public static function forProject(string $slug, string $category = ''): ?array
+    {
+        self::ensureTableExists();
+        $slugMap = [
+            'cheetah-enterprise'         => 'GulfExpress Logistics',
+            'cheetah-lite'               => 'GulfExpress Logistics',
+            'cheezify'                   => 'Apex Retail Group',
+            'restromaster-kds-interface' => 'Zenith Hospitality Group',
+            'viddmate-video-suite'       => 'Kinetix Cloud',
+            'sawi-store'                 => 'Nordic Decor Studio',
+        ];
+
+        if (isset($slugMap[$slug])) {
+            $company = $slugMap[$slug];
+            $match = db()->fetchOne("SELECT * FROM `client_reviews` WHERE `company_name` = :company AND `status` = 'approved' LIMIT 1", ['company' => $company]);
+            if ($match) {
+                return $match;
+            }
+        }
+
+        // Fallback: match by service category
+        if ($category !== '') {
+            $match = db()->fetchOne("SELECT * FROM `client_reviews` WHERE `service_category` LIKE :cat AND `status` = 'approved' ORDER BY `rating` DESC, `id` DESC LIMIT 1", ['cat' => "%{$category}%"]);
+            if ($match) {
+                return $match;
+            }
+        }
+
+        return db()->fetchOne("SELECT * FROM `client_reviews` WHERE `status` = 'approved' ORDER BY `is_featured` DESC, `rating` DESC LIMIT 1");
+    }
+
     public static function featured(int $limit = 6): array
     {
         self::ensureTableExists();

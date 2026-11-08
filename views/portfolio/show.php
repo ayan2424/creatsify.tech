@@ -1,13 +1,20 @@
-﻿<?php
+<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 $assetDir = dirname(__DIR__, 2) . '/public/assets/images/';
 $img = $project['image_url'] ?? '';
-if (empty($img) || str_contains($img, 'creatsify-icon.png')) {
-    $file = $project['slug'] === 'cheetah-enterprise' ? 'cheetah-showcase.jpg' : $project['slug'] . '-preview.jpg';
-    $img = is_file($assetDir . $file) ? asset('images/' . $file) : '';
+if (!empty($img) && !str_contains($img, 'creatsify-icon.png')) {
+    $img = asset(ltrim($img, '/'));
 } else {
-    $img = asset($img);
+    $slug = $project['slug'] ?? '';
+    $candidateMap = [
+        'cheetah-enterprise'         => 'images/cheetah-showcase.jpg',
+        'cheetah-lite'               => 'images/cheetah-lite-preview.jpg',
+        'cheezify'                   => 'images/cheezify-preview.jpg',
+        'restromaster-kds-interface' => 'images/restromaster-preview.jpg',
+        'viddmate-video-suite'       => 'images/viddmate-preview.jpg',
+    ];
+    $img = isset($candidateMap[$slug]) ? asset($candidateMap[$slug]) : (is_file($assetDir . $slug . '-preview.jpg') ? asset('images/' . $slug . '-preview.jpg') : '');
 }
 $live = $project['live_url'] ?? '';
 $hasLive = $live && $live !== '#';
@@ -119,6 +126,38 @@ $waMsg = urlencode("Hello! I am interested in licensing or customizing " . ($pro
                             <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text);"><i style="color:#10b981;font-weight:800;font-style:normal;">&#10003;</i> Full White-Label Rights</div>
                             <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text);"><i style="color:#10b981;font-weight:800;font-style:normal;">&#10003;</i> Active Live Interactive Demo</div>
                             <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text);"><i style="color:#10b981;font-weight:800;font-style:normal;">&#10003;</i> Direct Setup &amp; Deployment Help</div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($clientReview)): ?>
+                    <div class="om-bento-card ag-case-verified-review" style="margin-top:28px;background:linear-gradient(145deg,rgba(13,34,68,0.7) 0%,rgba(7,19,38,0.85) 100%);border:1px solid rgba(0,210,238,0.28);border-radius:22px;padding:28px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+                            <div class="om-sec-tag" style="background:rgba(34,197,94,0.14);border-color:rgba(34,197,94,0.35);color:#22c55e;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Verified Client Review</span>
+                            </div>
+                            <?php if (!empty($clientReview['outcome_metric'])): ?>
+                                <span style="font-size:12px;font-weight:700;padding:5px 14px;border-radius:999px;background:rgba(0,210,238,0.12);color:#00D2EE;border:1px solid rgba(0,210,238,0.3);">
+                                    <?= e($clientReview['outcome_metric']) ?>
+                                </span>
+                            <?php endif; ?>
+                        </div>
+                        <div style="color:#f59e0b;font-size:16px;letter-spacing:3px;margin-bottom:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <h3 style="font-family:Sora,sans-serif;font-size:18px;font-weight:800;color:#ffffff;margin:0 0 10px;line-height:1.35;">
+                            “<?= e($clientReview['review_title']) ?>”
+                        </h3>
+                        <p style="font-size:14.5px;line-height:1.7;color:#94a3b8;margin:0 0 20px;">
+                            <?= e($clientReview['review_text']) ?>
+                        </p>
+                        <div style="display:flex;align-items:center;gap:14px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);">
+                            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#00D2EE,#0284C7);color:#041021;display:grid;place-items:center;font-weight:800;font-size:14px;flex-shrink:0;">
+                                <?= strtoupper(substr((string)$clientReview['client_name'], 0, 1)) ?>
+                            </div>
+                            <div>
+                                <strong style="display:block;font-size:14px;color:#ffffff;"><?= e($clientReview['client_name']) ?></strong>
+                                <span style="font-size:12px;color:#94a3b8;"><?= e($clientReview['client_role']) ?><?= !empty($clientReview['company_name']) ? ' &bull; ' . e($clientReview['company_name']) : '' ?></span>
+                            </div>
                         </div>
                     </div>
                 <?php endif; ?>
