@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 
@@ -26,7 +26,7 @@ $pct3 = round(($threeCount / $totalReviews) * 100);
                 <span>100% Verified Client Feedback &bull; Real Project Outcomes</span>
             </div>
             <h1 class="om-sec-heading" style="font-size:clamp(34px,5vw,56px);max-width:18ch;margin-inline:auto;">
-                Client Reviews &amp; Proven Results<span class="om-dot-gold">.</span>
+                Client Reviews &amp; Proven Results
             </h1>
             <p class="om-sec-sub" style="max-width:64ch;margin-inline:auto;">
                 Read verified feedback from founders, marketing directors, and enterprise teams who partnered with Creatsify for web &amp; mobile app development, website redesigns, branding, SEO, and paid social ad campaigns.
@@ -154,7 +154,7 @@ $pct3 = round(($threeCount / $totalReviews) * 100);
     <div class="wrap om-contact-wrap">
         <div class="om-contact-left">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Share Your Experience</div>
-            <h2 class="om-sec-heading">Worked With Creatsify? Leave Your Review<span class="om-dot-gold">.</span></h2>
+            <h2 class="om-sec-heading">Worked With Creatsify? Leave Your Review</h2>
             <p class="om-sec-sub">
                 Your feedback helps us continuously raise the bar across our web engineering, mobile app, branding, and digital growth divisions—and helps future clients make confident decisions.
             </p>

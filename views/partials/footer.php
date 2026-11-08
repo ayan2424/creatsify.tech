@@ -15,7 +15,7 @@ $waMsg = urlencode("Hello! I would like to discuss a project or package with Cre
         <div class="om-ft-cta-box rv s">
             <div class="om-ft-cta-left">
                 <div class="om-sec-tag dark"><span class="om-sec-dot"></span> Ready To Build, Redesign Or Scale?</div>
-                <h2 class="om-ft-cta-title">Let’s Engineer, Brand &amp; Grow Your Next Digital Winner<span class="om-head-dot">.</span></h2>
+                <h2 class="om-ft-cta-title">Let’s Engineer, Brand &amp; Grow Your Next Digital Winner</h2>
                 <p class="om-ft-cta-desc">Whether you need a custom PHP, Node.js, or Next.js web platform, a cross-platform Flutter mobile app, a high-converting website redesign, memorable brand identity, or high-ROAS SEO &amp; paid social ads—our senior agency divisions deliver end-to-end.</p>
                 <div class="om-ft-proof-pills">
                     <span>&#10003; Full-Stack Web &amp; Flutter Apps</span>
@@ -26,19 +26,16 @@ $waMsg = urlencode("Hello! I would like to discuss a project or package with Cre
             </div>
             <div class="om-ft-cta-right">
                 <a class="om-btn-gold" href="<?= url('/contact') ?>">
-                    <span>Start Your Project</span>
                     <span class="om-btn-circle-arrow">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </span>
+                    <span>Start Your Project</span>
                 </a>
                 <a class="om-ft-wa-btn" href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener">
                     <span class="om-ft-wa-icon">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
                     </span>
-                    <span>Chat With Our Agency Desk</span>
-                    <span class="om-ft-wa-arrow">
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                    </span>
+                    <span>Chat On WhatsApp (Instant)</span>
                 </a>
             </div>
         </div>
@@ -55,7 +52,7 @@ $waMsg = urlencode("Hello! I would like to discuss a project or package with Cre
                 </p>
                 <a href="<?= url('/reviews') ?>" class="om-ft-leadership-badge" style="text-decoration:none;">
                     <span class="om-pulse-dot"></span>
-                    <span><b>4.9 / 5.0 &#9733;</b> Verified Client Rating &rarr;</span>
+                    <span><b>4.9 / 5.0 &#9733;</b> Verified Client Reviews</span>
                 </a>
                 <div class="om-ft-location-pill">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
@@ -84,8 +81,8 @@ $waMsg = urlencode("Hello! I would like to discuss a project or package with Cre
                     <li><a href="<?= url('/portfolio/cheetah-enterprise') ?>">Cheetah Enterprise <span class="om-ft-price">$99</span></a></li>
                     <li><a href="<?= url('/portfolio/cheetah-lite') ?>">Cheetah Lite Courier <span class="om-ft-price">$49</span></a></li>
                     <li><a href="<?= url('/portfolio/cheezify') ?>">Cheezify Food &amp; POS <span class="om-ft-price">$59</span></a></li>
-                    <li><a href="<?= url('/contact?kind=custom_tailoring&offering=Customize+Ready-Made+Software#inquiry-form') ?>">Request Custom Tailoring &rarr;</a></li>
-                    <li><a href="<?= url('/software') ?>">Browse All Products &rarr;</a></li>
+                    <li><a href="<?= url('/contact?kind=custom_tailoring&offering=Customize+Ready-Made+Software#inquiry-form') ?>">Request Custom Tailoring</a></li>
+                    <li><a href="<?= url('/software') ?>">Browse All Software Products</a></li>
                 </ul>
             </div>
 
@@ -106,8 +103,11 @@ $waMsg = urlencode("Hello! I would like to discuss a project or package with Cre
 
         <!-- Sub-Footer Bottom Bar -->
         <div class="om-ft-bottom-bar">
-            <div class="om-ft-copyright">
-                &copy; <?= date('Y') ?> <b><?= e(setting('site_name', 'Creatsify')) ?> Digital Agency</b>. Full-Spectrum Engineering, Brand Identity, UI/UX, SEO &amp; Performance Marketing. All rights reserved.
+            <div class="om-ft-copyright" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                <a href="<?= url('/') ?>" aria-label="<?= e(setting('site_name', 'Creatsify')) ?> Home" style="display:inline-flex;align-items:center;text-decoration:none;">
+                    <img src="<?= e($logoDark) ?>" height="26" alt="<?= e(setting('site_name', 'Creatsify')) ?>" style="height:26px;width:auto;display:block;">
+                </a>
+                <span>&copy; <?= date('Y') ?> All rights reserved &bull; Full-Spectrum Engineering, Brand Identity, UI/UX, SEO &amp; Performance Marketing.</span>
             </div>
             <div class="om-ft-bottom-right">
                 <a class="om-ft-top-btn" href="#top" aria-label="Back to top">

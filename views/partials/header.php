@@ -33,7 +33,7 @@ $navItems = [
             <a class="btn p desktop-cta<?= str_starts_with($currentPath, '/contact') ? ' act' : '' ?>" href="<?= url('/contact') ?>">
                 <span>Free Consultation</span>
                 <span class="btn-arrow-circle">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 </span>
             </a>
 
@@ -79,10 +79,10 @@ $navItems = [
 
     <div class="mobile-drawer-bottom">
         <a class="om-btn-gold" href="<?= url('/contact') ?>" style="width:100%; justify-content:center;">
-            <span>Start Your Project</span>
             <span class="om-btn-circle-arrow">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </span>
+            <span>Start Your Project</span>
         </a>
         <div style="margin-top: 14px; text-align:center; font-size: 12px; color: var(--muted);">
             Web &bull; Mobile Apps &bull; Branding &bull; SEO &amp; Ads

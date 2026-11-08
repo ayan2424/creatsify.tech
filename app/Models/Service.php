@@ -54,7 +54,7 @@ class Service
                 'icon'              => 'layers',
                 'short_description' => 'End-to-end SaaS product architecture featuring multi-tenant databases, role-based access control, subscription billing, and automated customer onboarding.',
                 'full_description'  => 'Turn your software vision into a commercial SaaS product. We architect multi-tenant web platforms with role-specific portals, Stripe/Paymob billing workflows, automated webhooks, live analytics, and cloud VPS deployment.',
-                'deliverables'      => 'Multi-Tenant SaaS Architecture, Role-Based Portals & Permissions, Subscription & Payment Gateway Integration, Cloud VPS / aaPanel Production Deployment',
+                'deliverables'      => 'Multi-Tenant SaaS Architecture, Role-Based Portals & Permissions, Subscription & Payment Gateway Integration, Cloud VPS / Linux Production Deployment',
                 'sort_order'        => 4,
                 'is_active'         => 1,
             ],

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 
@@ -25,7 +25,7 @@ $trackMeta    = $packageTracks ?? [
                 <span>Transparent Agency Packages &bull; Fixed Milestones &bull; 100% Ownership</span>
             </div>
             <h1 class="om-sec-heading" style="font-size:clamp(34px,5vw,56px);max-width:18ch;margin-inline:auto;">
-                Clear Packages Built To Scale Your Brand<span class="om-head-dot">.</span>
+                Clear Packages Built To Scale Your Brand
             </h1>
             <p class="om-sec-sub" style="max-width:66ch;margin-inline:auto;">
                 Whether you need a custom PHP/Node.js/Next.js web platform, a cross-platform Flutter mobile app, a high-converting website redesign, a master brand identity, or an ROI-driven SEO &amp; paid social ad engine—pick a transparent package below or build your own custom bundle.
@@ -115,7 +115,7 @@ $trackMeta    = $packageTracks ?? [
                     </ul>
                     <a href="#package-booking" data-select-package="<?= e($pkgSelectVal) ?>" class="<?= $isPop ? 'om-btn-gold' : 'om-btn-glass' ?>" style="width:100%;justify-content:center;margin-top:auto;">
                         <span><?= e($pkg['cta_text'] ?: 'Select Package') ?></span>
-                        <span class="om-btn-circle-arrow">&rarr;</span>
+                        <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
                     </a>
                 </article>
                 <?php endforeach; ?>
@@ -158,8 +158,8 @@ $trackMeta    = $packageTracks ?? [
                 <div class="ag-se-total-price" id="seTotalPrice">$425</div>
                 <div class="ag-se-timeline" id="seTimeline">Est. Kickoff &amp; Delivery: ~10 Days</div>
                 <button type="button" class="om-btn-gold" id="seLockBtn" style="width:100%;justify-content:center;border:none;cursor:pointer;margin-top:14px;">
+                    <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
                     <span>Lock In This Custom Bundle</span>
-                    <span class="om-btn-circle-arrow">&rarr;</span>
                 </button>
             </div>
         </div>
@@ -173,7 +173,7 @@ $trackMeta    = $packageTracks ?? [
     <div class="wrap om-contact-wrap">
         <div class="om-contact-left">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Fast-Track Kickoff</div>
-            <h2 class="om-sec-heading">Lock In Your Package Or Request A Custom Scope<span class="om-head-dot">.</span></h2>
+            <h2 class="om-sec-heading">Lock In Your Package Or Request A Custom Scope</h2>
             <p class="om-sec-sub">Select any package on this page or describe your project requirements below. Our senior engineering and growth team will respond within 2 hours with a clear milestone plan.</p>
 
             <div class="om-whatsapp-card">
@@ -192,7 +192,6 @@ $trackMeta    = $packageTracks ?? [
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
                         <span>Chat About Packages On WhatsApp</span>
                     </span>
-                    <span class="om-wa-circle-arrow">&rarr;</span>
                 </a>
             </div>
         </div>
@@ -228,8 +227,8 @@ $trackMeta    = $packageTracks ?? [
             </label>
             <label>Project Details &amp; Goals<textarea name="message" id="homeProjectMessage" rows="4" required placeholder="Tell us about your business, goals, and target launch timeline..."></textarea></label>
             <button class="om-btn-gold" type="submit" style="width:100%;justify-content:center;">
+                <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
                 <span>Confirm &amp; Request Kickoff</span>
-                <span class="om-btn-circle-arrow">&rarr;</span>
             </button>
         </form>
     </div>

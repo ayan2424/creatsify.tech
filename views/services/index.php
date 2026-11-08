@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 ?>
@@ -6,14 +6,14 @@ $this->layout('layouts/main');
 <section class="page-hero">
     <div class="wrap">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> Full-Spectrum Agency Capabilities</div>
-        <h1 class="page-title">Web, Mobile Apps, Branding, SEO &amp; Paid Ads<span class="om-dot-gold">.</span></h1>
+        <h1 class="page-title">Web, Mobile Apps, Branding, SEO &amp; Paid Ads</h1>
         <p class="page-lead">
             From custom full-stack web applications (`PHP`, `Node.js`, `Next.js`, `Tailwind`, `MySQL`) and cross-platform `Flutter & Dart` mobile apps to conversion-focused website redesigns, brand identity systems, technical SEO, and high-ROAS social media ad campaigns.
         </p>
         <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
             <a href="<?= url('/packages') ?>" class="om-btn-gold">
+                <span class="om-btn-circle-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
                 <span>View Transparent Service Packages</span>
-                <span class="om-btn-circle-arrow">&rarr;</span>
             </a>
             <a href="<?= url('/reviews') ?>" class="om-btn-glass">
                 <span>Read Verified Client Reviews &#9733;</span>
@@ -47,8 +47,8 @@ $this->layout('layouts/main');
 
                     <div style="display:flex;gap:10px;margin-top:auto;flex-wrap:wrap;">
                         <a href="<?= url('/contact?kind=custom_service&offering=' . urlencode($service['title'])) . '#inquiry-form' ?>" class="om-btn-gold sm" style="flex:1;justify-content:center;">
+                            <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
                             <span>Start Project</span>
-                            <span class="om-btn-circle-arrow">&rarr;</span>
                         </a>
                         <a href="<?= url('/packages') ?>" class="om-btn-glass sm">
                             <span>Packages</span>
@@ -62,7 +62,7 @@ $this->layout('layouts/main');
         <div style="margin-top:72px;">
             <div class="om-sec-center">
                 <div class="om-sec-tag"><span class="om-sec-dot"></span> How We Execute</div>
-                <h2 class="om-sec-heading">From Initial Scope To Market Dominance<span class="om-dot-gold">.</span></h2>
+                <h2 class="om-sec-heading">From Initial Scope To Market Dominance</h2>
                 <p class="om-sec-sub">Senior engineering, creative design, and growth marketing aligned on fixed milestones with zero bureaucracy.</p>
             </div>
 

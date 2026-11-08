@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 $assetDir = dirname(__DIR__, 2) . '/public/assets/images/';
@@ -11,7 +11,7 @@ $thumb = static function (array $p) use ($assetDir) {
 <section class="page-hero">
     <div class="wrap">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> Studio Portfolio</div>
-        <h1 class="page-title">Work &amp; Commercial Software<span class="om-dot-gold">.</span></h1>
+        <h1 class="page-title">Work &amp; Commercial Software</h1>
         <p class="page-lead">Courier platforms, multi-branch online stores, and custom client web applications. Test the live demos, inspect the architecture, or purchase instant white-label licenses.</p>
 
         <!-- Omoway Floating Pill Filter Bar -->
@@ -66,19 +66,23 @@ $thumb = static function (array $p) use ($assetDir) {
                         </div>
                     </div>
                     <div class="project-card-footer pc-actions">
-                        <a href="<?= url('/portfolio/' . e($project['slug'])) ?>" class="project-btn-case">Details &rarr;</a>
+                        <a href="<?= url('/portfolio/' . e($project['slug'])) ?>" class="project-btn-case">Details</a>
                         <?php if ($hasLive): ?>
-                            <a href="<?= e($live) ?>" target="_blank" rel="noopener" class="project-btn-case">Live Demo ↗</a>
+                            <a href="<?= e($live) ?>" target="_blank" rel="noopener" class="project-btn-case">Live Demo</a>
                         <?php endif; ?>
                         <?php if (!empty($project['gumroad_url'])): ?>
                             <a href="<?= e($project['gumroad_url']) ?>" target="_blank" rel="noopener" class="om-btn-gold sm pc-buy">
+                                <span class="om-btn-circle-arrow">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                                </span>
                                 <span>Buy License<?= !empty($project['price']) ? ' (' . e($project['price']) . ')' : '' ?></span>
-                                <span class="om-btn-circle-arrow">&rarr;</span>
                             </a>
                         <?php elseif ($isForSale): ?>
                             <a href="<?= url('/contact?kind=software_presale&offering=' . urlencode($project['title'])) . '#inquiry-form' ?>" class="om-btn-gold sm pc-buy">
+                                <span class="om-btn-circle-arrow">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                </span>
                                 <span>Get a Quote</span>
-                                <span class="om-btn-circle-arrow">&rarr;</span>
                             </a>
                         <?php endif; ?>
                     </div>
@@ -97,8 +101,8 @@ $thumb = static function (array $p) use ($assetDir) {
             </div>
             <div>
                 <a href="<?= url('/support') ?>" class="om-btn-glass">
+                    <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
                     <span>Open Customer Ticket</span>
-                    <span class="om-btn-circle-arrow">&rarr;</span>
                 </a>
             </div>
         </div>

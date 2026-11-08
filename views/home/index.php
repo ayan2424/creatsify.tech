@@ -49,7 +49,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
             <h1 class="om-hero-headline">
                 <span class="om-head-top">High-Velocity Engineering,</span>
-                <span class="om-head-bot">Distinctive Brands &amp; Scaled Growth<span class="om-head-dot">.</span></span>
+                <span class="om-head-bot">Distinctive Brands &amp; Scaled Growth</span>
             </h1>
 
             <p class="om-hero-sub">
@@ -58,20 +58,22 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
             <div class="om-cta-group">
                 <a class="om-btn-gold" href="#contact">
-                    <span>Start Your Project</span>
                     <span class="om-btn-circle-arrow">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </span>
+                    <span>Start Your Project</span>
                 </a>
                 <a class="om-btn-glass" href="#work">
+                    <span class="om-btn-circle-arrow">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </span>
                     <span>Explore Case Studies</span>
-                    <span class="om-btn-circle-arrow">&rarr;</span>
                 </a>
                 <a class="om-hero-wa-link" href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener">
                     <span class="om-wa-icon-sm">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
                     </span>
-                    <span>Chat On WhatsApp &rarr;</span>
+                    <span>Chat On WhatsApp (Instant)</span>
                 </a>
             </div>
 
@@ -171,7 +173,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                             <span>Tailwind</span>
                             <span>SEO &amp; Ads</span>
                         </div>
-                        <a href="#work" class="ag-stage-link">Case Studies &rarr;</a>
+                        <a href="#work" class="ag-stage-link">Case Studies</a>
                     </div>
                 </div>
             </div>
@@ -204,19 +206,19 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                 </div>
                 <strong class="om-quality-heading"><?= e($avgRating) ?> / 5.0 Rating</strong>
-                <span class="om-quality-sub">Verified Reviews &rarr;</span>
+                <span class="om-quality-sub">Verified Reviews</span>
             </a>
         </div>
     </div>
 </section>
 
 <!-- ======================================================================
-     STAGE 2: COMPLETE TECH, DESIGN & MARKETING ARSENAL TICKER
+     STAGE 2: COMPLETE TECH, DESIGN & MARKETING ARSENAL CAROUSEL
      ====================================================================== -->
-<div class="om-partners-bar">
-    <div class="wrap">
-        <div class="ag-stack-caption">OUR FULL-STACK ENGINEERING, DESIGN &amp; GROWTH ARSENAL</div>
-        <div class="om-partners-inner ag-arsenal-strip">
+<div class="om-partners-bar ag-arsenal-section">
+    <div class="ag-arsenal-marquee" aria-label="Core Technology & Marketing Stack">
+        <div class="ag-arsenal-track">
+            <!-- Set 1: Full-Stack Tech & Creative Arsenal -->
             <div class="om-partner-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                 <span>PHP 8.4 MVC</span>
@@ -248,6 +250,56 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
             <div class="om-partner-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
                 <span>Logo &amp; Brand Identity</span>
+            </div>
+            <div class="om-partner-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                <span>Figma Systems</span>
+            </div>
+            <div class="om-partner-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                <span>REST &amp; Webhooks</span>
+            </div>
+
+            <!-- Set 2: Duplicate for Seamless Continuous Loop -->
+            <div class="om-partner-item" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <span>PHP 8.4 MVC</span>
+            </div>
+            <div class="om-partner-item" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>Next.js &amp; Node.js</span>
+            </div>
+            <div class="om-partner-item" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                <span>Flutter &amp; Dart</span>
+            </div>
+            <div class="om-partner-item" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M9 9h6v6H9z"/></svg>
+                <span>Tailwind CSS</span>
+            </div>
+            <div class="om-partner-item" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                <span>MySQL 8 &amp; Redis</span>
+            </div>
+            <div class="om-partner-item" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>Technical &amp; Local SEO</span>
+            </div>
+            <div class="om-partner-item" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                <span>Meta, Google &amp; TikTok Ads</span>
+            </div>
+            <div class="om-partner-item" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
+                <span>Logo &amp; Brand Identity</span>
+            </div>
+            <div class="om-partner-item" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                <span>Figma Systems</span>
+            </div>
+            <div class="om-partner-item" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                <span>REST &amp; Webhooks</span>
             </div>
         </div>
     </div>
@@ -282,7 +334,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     <div class="wrap">
         <div class="om-sec-center">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> What We Build &amp; Scale</div>
-            <h2 class="om-sec-heading">End-To-End Digital Engineering, Design &amp; Growth<span class="om-dot-gold">.</span></h2>
+            <h2 class="om-sec-heading">End-To-End Digital Engineering, Design &amp; Growth</h2>
             <p class="om-sec-sub">Stop juggling disconnected contractors. Our specialized divisions handle your entire digital ecosystem under one roof with zero handoff friction.</p>
 
             <!-- Interactive Service Category Filter Pills -->
@@ -310,7 +362,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </div>
                 <a href="#contact" data-select-package="Custom Web Development" class="ag-svc-cta">
                     <span>Scope Web Project</span>
-                    <span>&rarr;</span>
+                    <span class="ag-svc-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
                 </a>
             </article>
 
@@ -329,7 +381,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </div>
                 <a href="#contact" data-select-package="Mobile App Development (Flutter & Dart)" class="ag-svc-cta">
                     <span>Build Your App</span>
-                    <span>&rarr;</span>
+                    <span class="ag-svc-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span>
                 </a>
             </article>
 
@@ -348,7 +400,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </div>
                 <a href="#contact" data-select-package="Website Redesign & Modernization" class="ag-svc-cta">
                     <span>Redesign My Site</span>
-                    <span>&rarr;</span>
+                    <span class="ag-svc-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
                 </a>
             </article>
 
@@ -367,7 +419,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </div>
                 <a href="#contact" data-select-package="Branding, Logo & Graphic Design" class="ag-svc-cta">
                     <span>Craft Your Brand</span>
-                    <span>&rarr;</span>
+                    <span class="ag-svc-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
                 </a>
             </article>
 
@@ -386,7 +438,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </div>
                 <a href="#contact" data-select-package="Search Engine Optimization (SEO)" class="ag-svc-cta">
                     <span>Boost Search Rankings</span>
-                    <span>&rarr;</span>
+                    <span class="ag-svc-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
                 </a>
             </article>
 
@@ -405,7 +457,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </div>
                 <a href="#contact" data-select-package="Social Media Marketing & Paid Ads" class="ag-svc-cta">
                     <span>Scale Ad Campaigns</span>
-                    <span>&rarr;</span>
+                    <span class="ag-svc-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
                 </a>
             </article>
         </div>
@@ -418,7 +470,10 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 <p>Explore our battle-tested courier, logistics, and POS platforms with 100% unlocked source code, or let our team customize them for you.</p>
             </div>
             <a href="#products" class="om-btn-gold">
-                <span>View Ready-Made Platforms &rarr;</span>
+                <span class="om-btn-circle-arrow">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </span>
+                <span>View Ready-Made Platforms</span>
             </a>
         </div>
     </div>
@@ -431,7 +486,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     <div class="wrap">
         <div class="om-sec-center">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Proven Execution</div>
-            <h2 class="om-sec-heading">Selected Work &amp; Measurable Client Impact<span class="om-dot-gold">.</span></h2>
+            <h2 class="om-sec-heading">Selected Work &amp; Measurable Client Impact</h2>
             <p class="om-sec-sub">Every project we ship is engineered for speed, visual authority, and measurable revenue growth across web, mobile, brand, and paid acquisition.</p>
 
             <!-- Interactive Work Filter Pills -->
@@ -466,11 +521,12 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                     <div class="ag-case-actions">
                         <a href="<?= url('/portfolio/cheetah-enterprise') ?>" class="ag-case-btn-primary">
+                            <span class="ag-case-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
                             <span>Explore Case Study</span>
-                            <span>&rarr;</span>
                         </a>
                         <a href="https://cheetah.ayan24.me" target="_blank" rel="noopener noreferrer" class="ag-case-btn-secondary">
-                            <span>Live Demo ↗</span>
+                            <span>Live Demo</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         </a>
                     </div>
                 </div>
@@ -497,8 +553,8 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                     <div class="ag-case-actions">
                         <a href="<?= url('/contact?package=Website+Redesign#inquiry-form') ?>" class="ag-case-btn-primary">
+                            <span class="ag-case-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
                             <span>Request Similar Redesign</span>
-                            <span>&rarr;</span>
                         </a>
                     </div>
                 </div>
@@ -525,8 +581,8 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                     <div class="ag-case-actions">
                         <a href="<?= url('/contact?package=Mobile+App+Development#inquiry-form') ?>" class="ag-case-btn-primary">
+                            <span class="ag-case-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span>
                             <span>Build An App Like This</span>
-                            <span>&rarr;</span>
                         </a>
                     </div>
                 </div>
@@ -553,8 +609,8 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     </div>
                     <div class="ag-case-actions">
                         <a href="<?= url('/contact?package=Branding+And+Growth#inquiry-form') ?>" class="ag-case-btn-primary">
+                            <span class="ag-case-btn-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
                             <span>Build Brand &amp; Ad Engine</span>
-                            <span>&rarr;</span>
                         </a>
                     </div>
                 </div>
@@ -563,7 +619,10 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div style="text-align:center;margin-top:36px;">
             <a class="om-btn-glass" href="<?= url('/portfolio') ?>">
-                <span>View All Case Studies &amp; Software Systems &rarr;</span>
+                <span class="om-btn-circle-arrow">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </span>
+                <span>View All Case Studies &amp; Software Systems</span>
             </a>
         </div>
     </div>
@@ -576,7 +635,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     <div class="wrap">
         <div class="om-sec-center">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> The Creatsify Difference</div>
-            <h2 class="om-sec-heading">The Unfair Advantage Of One Unified Powerhouse<span class="om-dot-gold">.</span></h2>
+            <h2 class="om-sec-heading">The Unfair Advantage Of One Unified Powerhouse</h2>
             <p class="om-sec-sub">Why waste months juggling disconnected freelancers when your developers, designers, and growth marketers can engineer your success together.</p>
         </div>
 
@@ -664,7 +723,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     <div class="wrap">
         <div class="om-sec-center">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Radical Pricing Transparency</div>
-            <h2 class="om-sec-heading">Tailored Agency Packages For Every Stage<span class="om-head-dot">.</span></h2>
+            <h2 class="om-sec-heading">Tailored Agency Packages For Every Stage</h2>
             <p class="om-sec-sub">Choose a proven sprint package below to kickoff immediately, or use our interactive Scope Estimator to calculate an instant custom bundle.</p>
 
             <!-- Package Track Switcher Tabs -->
@@ -712,7 +771,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </ul>
                 <a href="#contact" data-select-package="<?= e($pkgSelectVal) ?>" class="<?= $isPop ? 'om-btn-gold' : 'om-btn-glass' ?>" style="width:100%;justify-content:center;margin-top:auto;">
                     <span><?= e($pkg['cta_text'] ?: 'Select Package') ?></span>
-                    <span class="om-btn-circle-arrow">&rarr;</span>
+                    <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
                 </a>
             </article>
             <?php endforeach; ?>
@@ -721,7 +780,8 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div style="text-align:center;margin-top:28px;">
             <a href="<?= url('/packages') ?>" class="om-btn-glass">
-                <span>View Complete Package Specs &amp; Deliverables &rarr;</span>
+                <span class="om-btn-circle-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
+                <span>View Complete Package Specs &amp; Deliverables</span>
             </a>
         </div>
 
@@ -760,8 +820,8 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 <div class="ag-se-total-price" id="seTotalPrice">$425</div>
                 <div class="ag-se-timeline" id="seTimeline">Est. Delivery: ~10 Days</div>
                 <button type="button" class="om-btn-gold" id="seLockBtn" style="width:100%;justify-content:center;border:none;cursor:pointer;margin-top:14px;">
+                    <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
                     <span>Lock In This Custom Bundle</span>
-                    <span class="om-btn-circle-arrow">&rarr;</span>
                 </button>
             </div>
         </div>
@@ -775,7 +835,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     <div class="wrap">
         <div class="om-showcase-header">
             <div class="om-sec-tag dark"><span class="om-sec-dot"></span> Ready-To-Ship Platforms</div>
-            <h2 class="om-sec-heading light">Want To Launch In Days? Pick A Ready-Made Platform<span class="om-head-dot">.</span></h2>
+            <h2 class="om-sec-heading light">Want To Launch In Days? Pick A Ready-Made Platform</h2>
             <p class="om-sec-sub light">
                 In addition to custom agency builds, we engineer battle-tested commercial software. <b>Buy a direct white-label license on Gumroad</b> with 100% unlocked source code, OR <b>hire our team to customize it</b> for your business.
             </p>
@@ -832,19 +892,25 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         <div class="om-prod-actions">
                             <?php if (!empty($pr['gumroad_url'])): ?>
                                 <a class="om-btn-gold" href="<?= e($pr['gumroad_url']) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span>Buy On Gumroad (<?= e($priceStr) ?>)</span>
                                     <span class="om-btn-circle-arrow">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                                     </span>
+                                    <span>Buy On Gumroad (<?= e($priceStr) ?>)</span>
                                 </a>
                             <?php endif; ?>
                             <a class="om-btn-glass light" href="#contact" data-select-package="Customize <?= e($pr['title']) ?> For My Business">
                                 <span>Customize For Me &#9998;</span>
                             </a>
                             <?php if ($hasLive): ?>
-                                <a class="om-prod-link" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">Live Demo ↗</a>
+                                <a class="om-prod-link" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">
+                                    <span>Live Demo</span>
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                </a>
                             <?php else: ?>
-                                <a class="om-prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">Specs &rarr;</a>
+                                <a class="om-prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">
+                                    <span>Specs</span>
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -854,7 +920,8 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div style="text-align:center;margin-top:40px;">
             <a href="<?= url('/software') ?>" class="om-btn-glass light" style="display:inline-flex;padding:12px 28px;">
-                <span>Browse All Ready-Made Products &amp; White-Label Platforms &rarr;</span>
+                <span class="om-btn-circle-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
+                <span>Browse All Ready-Made Products &amp; Platforms</span>
             </a>
         </div>
     </div>
@@ -867,7 +934,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     <div class="wrap">
         <div class="om-sec-center">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Frictionless Execution</div>
-            <h2 class="om-sec-heading">From Concept To Market Dominance In 4 Steps<span class="om-dot-gold">.</span></h2>
+            <h2 class="om-sec-heading">From Concept To Market Dominance In 4 Steps</h2>
             <p class="om-sec-sub">Clear sprint milestones, transparent staging links, and zero guesswork from day one.</p>
         </div>
         <div class="ag-workflow-4grid">
@@ -902,7 +969,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     <div class="wrap">
         <div class="om-sec-center">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Verified Client Feedback</div>
-            <h2 class="om-sec-heading">Trusted By Ambitious Brands Worldwide<span class="om-dot-gold">.</span></h2>
+            <h2 class="om-sec-heading">Trusted By Ambitious Brands Worldwide</h2>
             <p class="om-sec-sub">Real feedback and verified outcomes from founders and teams who partnered with Creatsify for engineering, branding, SEO, and paid social ads.</p>
             
             <div class="ag-rating-summary-pill" style="margin:20px auto 36px;display:inline-flex;">
@@ -916,7 +983,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         <span>Leave a Review &#9733;</span>
                     </a>
                     <a href="<?= url('/reviews') ?>" class="om-btn-glass sm">
-                        <span>All Reviews &rarr;</span>
+                        <span>All Reviews</span>
                     </a>
                 </div>
             </div>
@@ -952,12 +1019,12 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
 
         <div style="text-align:center;margin-top:36px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;">
             <a class="om-btn-gold" href="<?= url('/reviews') ?>">
+                <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
                 <span>Read All <?= (int)$totalReviews ?>+ Verified Reviews</span>
-                <span class="om-btn-circle-arrow">&rarr;</span>
             </a>
             <a class="om-btn-glass" href="<?= url('/reviews#submit-review') ?>">
-                <span>Worked With Us? Submit Your Review</span>
                 <span class="om-btn-circle-plus">&#9733;</span>
+                <span>Worked With Us? Submit Your Review</span>
             </a>
         </div>
     </div>
@@ -970,7 +1037,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     <div class="wrap om-contact-wrap">
         <div class="om-contact-left rv l">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> Start Your Project Or Package</div>
-            <h2 class="om-sec-heading">Tell Us What You Want To Build Or Scale<span class="om-dot-gold">.</span></h2>
+            <h2 class="om-sec-heading">Tell Us What You Want To Build Or Scale</h2>
             <p class="om-sec-sub">Select an agency sprint package, request custom tailoring for our ready-made platforms, or claim a free website &amp; SEO teardown audit. For instant communication, reach our senior team directly on WhatsApp.</p>
 
             <div class="om-whatsapp-card">
@@ -988,9 +1055,6 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                     <span class="om-wa-btn-lead">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
                         <span>Message Our Agency Desk On WhatsApp</span>
-                    </span>
-                    <span class="om-wa-circle-arrow">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                     </span>
                 </a>
             </div>
@@ -1058,8 +1122,8 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
             </label>
             <label>Project Details &amp; Goals<textarea name="message" id="homeProjectMessage" rows="4" required placeholder="Tell us about your project, goals, target timeline, or any specific requirements..."></textarea></label>
             <button class="om-btn-gold" type="submit" style="width:100%;justify-content:center;">
+                <span class="om-btn-circle-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
                 <span>Send Project Brief</span>
-                <span class="om-btn-circle-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
             </button>
         </form>
     </div>

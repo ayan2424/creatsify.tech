@@ -9,9 +9,9 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
 <section class="page-hero">
     <div class="wrap">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> Customer Support &amp; Delivery Desk</div>
-        <h1 class="page-title">Technical Support &amp; Deployment Desk<span class="om-dot-gold">.</span></h1>
-        <p class="page-lead">One direct place for license assistance, aaPanel/Nginx server rewrites, software deployment, bug reports, and maintenance tickets. Every request receives a referenceable ticket in our agency CRM.</p>
-        <p style="margin-top:14px;font-size:13.5px;color:var(--muted);">Planning a new project or software purchase? <a href="<?= url('/contact') ?>" style="color:var(--accent);font-weight:700;text-decoration:none;">Start with the contact desk instead &rarr;</a></p>
+        <h1 class="page-title">Technical Support &amp; Deployment Desk</h1>
+        <p class="page-lead">One direct place for license assistance, server configuration, software deployment, bug reports, and maintenance tickets. Every request receives a referenceable ticket in our agency CRM.</p>
+        <p style="margin-top:14px;font-size:13.5px;color:var(--muted);">Planning a new project or software purchase? <a href="<?= url('/contact') ?>" style="color:var(--accent);font-weight:700;text-decoration:none;">Start with the contact desk instead</a></p>
     </div>
 </section>
 
@@ -22,7 +22,10 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                 <div class="om-sec-tag" style="background:#10b981;color:#ffffff;"><span class="om-sec-dot" style="background:#ffffff;"></span> Ticket Created</div>
                 <h2 style="font-family:Sora,sans-serif;font-size:24px;font-weight:800;color:var(--text);margin:12px 0 8px;">We Received Ticket #<?= e($ticketSuccess) ?>.</h2>
                 <p style="color:var(--muted);margin:0 0 18px;font-size:14.5px;">Our engineering support team will review the context and reply by email or WhatsApp. Keep this ticket number for tracking.</p>
-                <a class="om-btn-gold sm" href="<?= url('/portfolio') ?>"><span>Explore Software</span><span class="om-btn-circle-arrow">&rarr;</span></a>
+                <a class="om-btn-gold sm" href="<?= url('/portfolio') ?>">
+                    <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
+                    <span>Explore Software</span>
+                </a>
             </div>
         <?php endif; ?>
 
@@ -115,7 +118,7 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                         <label>Hosting / Environment
                             <select id="sp_environment" name="server_environment">
                                 <option value="">Not applicable / not sure</option>
-                                <option value="aaPanel + Nginx">aaPanel + Nginx</option>
+                                <option value="Linux VPS (Nginx / Apache)">Linux VPS (Nginx / Apache)</option>
                                 <option value="cPanel + Apache">cPanel + Apache</option>
                                 <option value="Linux VPS + Nginx/PHP-FPM">Linux VPS + Nginx/PHP-FPM</option>
                                 <option value="Docker / cloud environment">Docker / cloud environment</option>
@@ -158,13 +161,13 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                     </label>
 
                     <button type="submit" class="om-btn-gold" style="width:100%;justify-content:center;margin-top:10px;border:none;cursor:pointer;">
+                        <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
                         <span>Create Support Ticket</span>
-                        <span class="om-btn-circle-arrow">&rarr;</span>
                     </button>
                 </form>
             </div>
 
-            <!-- Aside Helpdesk & aaPanel Diagnostics -->
+            <!-- Aside Helpdesk & SLA Overview -->
             <aside class="om-case-aside">
                 <div class="om-bento-card">
                     <div class="om-sec-tag"><span class="om-sec-dot"></span> Fast Triage</div>
@@ -173,20 +176,17 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                         Need a new service, custom build, or commercial software license? The contact desk routes directly to our senior engineering &amp; strategy team.
                     </p>
                     <a href="<?= url('/contact') ?>" class="om-btn-glass sm" style="width:100%;justify-content:center;">
-                        <span>Start A Project Inquiry &rarr;</span>
+                        <span>Start A Project Inquiry</span>
                     </a>
                 </div>
 
                 <div class="om-bento-card" style="margin-top:20px;">
-                    <div class="om-sec-tag"><span class="om-sec-dot"></span> aaPanel Guide</div>
-                    <h3 style="font-family:Sora,sans-serif;font-size:17px;font-weight:800;margin:10px 0 8px;color:var(--text);">Nginx URL Rewrite Fix</h3>
+                    <div class="om-sec-tag"><span class="om-sec-dot"></span> Guaranteed SLA</div>
+                    <h3 style="font-family:Sora,sans-serif;font-size:17px;font-weight:800;margin:10px 0 8px;color:var(--text);">Rapid Engineering Response</h3>
                     <p style="font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 12px;">
-                        For internal-route 404s, use only this front-controller rule in aaPanel's URL rewrite box:
+                        Critical deployment and production issues are triaged within 2–4 business hours by our senior engineering leads.
                     </p>
-                    <pre style="background:#071326;color:#60a5fa;padding:12px;border-radius:10px;font-size:12px;overflow-x:auto;margin:0 0 10px;border:1px solid rgba(255,255,255,0.08);"><code>location / {
-    try_files $uri $uri/ /index.php?$query_string;
-}</code></pre>
-                    <span style="font-size:11.5px;color:var(--muted);line-height:1.4;display:block;">Do not paste a complete <code>server { ... }</code> block or duplicate PHP-FPM rules.</span>
+                    <span style="font-size:11.5px;color:var(--muted);line-height:1.4;display:block;">&bull; Direct 1-on-1 Senior Engineering Support</span>
                 </div>
 
                 <!-- Instant WhatsApp Triage -->
@@ -202,7 +202,6 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                     </div>
                     <a href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener" class="om-wa-btn">
                         <span>Message on WhatsApp</span>
-                        <span class="om-wa-circle-arrow">&rarr;</span>
                     </a>
                 </div>
             </aside>

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Standalone production 500 error page
 ?>
 <!DOCTYPE html>
@@ -122,12 +122,12 @@
     <div class="om-500-bg-glow"></div>
     <div class="om-500-card">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> 500 Server Error</div>
-        <h1>Server Encountered An Issue<span class="om-dot-gold">.</span></h1>
+        <h1>Server Encountered An Issue</h1>
         <p>An unexpected condition was encountered while processing your request. Our technical operations engineering desk has been automatically alerted.</p>
         <div class="om-actions-row">
             <a href="<?= function_exists('url') ? url('/') : '/' ?>" class="om-btn-gold">
+                <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
                 <span>Return to Homepage</span>
-                <span class="om-btn-circle-arrow">&rarr;</span>
             </a>
         </div>
     </div>

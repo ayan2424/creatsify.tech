@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 $assetDir = dirname(__DIR__, 2) . '/public/assets/images/';
@@ -28,7 +28,7 @@ $waMsg = urlencode("Hello! I am interested in licensing or customizing " . ($pro
 
         <div style="margin-top:20px;">
             <div class="om-sec-tag"><span class="om-sec-dot"></span> <?= e(ucfirst($project['category'])) ?> &bull; <?= e($project['status']) ?></div>
-            <h1 class="page-title"><?= e($project['title']) ?><span class="om-dot-gold">.</span></h1>
+            <h1 class="page-title"><?= e($project['title']) ?></h1>
             <p class="page-lead"><?= e($project['summary']) ?></p>
 
             <div class="om-prod-chips" style="margin:20px 0 28px;">
@@ -40,32 +40,34 @@ $waMsg = urlencode("Hello! I am interested in licensing or customizing " . ($pro
             <div class="om-case-actions">
                 <?php if ($hasLive): ?>
                     <a class="om-btn-gold" href="<?= e($live) ?>" target="_blank" rel="noopener">
-                        <span>Open Live Demo</span>
                         <span class="om-btn-circle-arrow">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         </span>
+                        <span>Open Live Demo</span>
                     </a>
                 <?php endif; ?>
 
                 <?php if (!empty($project['gumroad_url'])): ?>
                     <a class="om-btn-gold" href="<?= e($project['gumroad_url']) ?>" target="_blank" rel="noopener">
-                        <span>Buy White-Label License<?= !empty($project['price']) ? ' (' . e($project['price']) . ')' : '' ?></span>
                         <span class="om-btn-circle-arrow">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                         </span>
+                        <span>Buy White-Label License<?= !empty($project['price']) ? ' (' . e($project['price']) . ')' : '' ?></span>
                     </a>
                 <?php elseif ($forSale): ?>
                     <a class="om-btn-gold" href="<?= url('/contact?kind=software_presale&offering=' . urlencode($project['title'])) . '#inquiry-form' ?>">
-                        <span>Request License Quote<?= !empty($project['price']) ? ' (' . e($project['price']) . ')' : '' ?></span>
                         <span class="om-btn-circle-arrow">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                         </span>
+                        <span>Request License Quote<?= !empty($project['price']) ? ' (' . e($project['price']) . ')' : '' ?></span>
                     </a>
                 <?php endif; ?>
 
                 <a class="om-btn-glass" href="https://wa.me/<?= e($waPhone) ?>?text=<?= $waMsg ?>" target="_blank" rel="noopener">
+                    <span class="om-wa-icon-sm">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
+                    </span>
                     <span>Chat on WhatsApp</span>
-                    <span class="om-btn-circle-plus">+</span>
                 </a>
             </div>
         </div>
@@ -150,11 +152,11 @@ $waMsg = urlencode("Hello! I am interested in licensing or customizing " . ($pro
                 <div class="om-bento-card" style="margin-top:20px;background:color-mix(in srgb,var(--surface) 80%,transparent);">
                     <h3 style="font-family:Sora,sans-serif;font-size:17px;font-weight:800;margin:0 0 10px;color:var(--text);">Need Custom Tailoring or Setup?</h3>
                     <p style="font-size:13.5px;color:var(--muted);line-height:1.6;margin:0 0 16px;">
-                        Buyers receive direct deployment support on aaPanel or standard Linux VPS servers, or can hire our agency team to customize features and branding.
+                        Buyers receive direct deployment support on cloud hosting or standard Linux VPS servers, or can hire our agency team to customize features and branding.
                     </p>
                     <a href="<?= url('/support?script=' . urlencode($project['title'])) ?>" class="om-btn-glass" style="width:100%;justify-content:center;">
+                        <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
                         <span>Open Support Request</span>
-                        <span class="om-btn-circle-arrow">&rarr;</span>
                     </a>
                 </div>
             </aside>

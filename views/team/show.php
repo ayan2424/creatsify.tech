@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 $skills = array_filter(array_map('trim', explode(',', (string)($member['skills'] ?? ''))));
@@ -18,7 +18,7 @@ $firstName = explode(' ', trim($member['name']))[0];
             </div>
             <div class="om-profile-info">
                 <div class="om-sec-tag"><span class="om-sec-dot"></span> Studio Leadership</div>
-                <h1 class="page-title" style="margin:8px 0 6px;"><?= e($member['name']) ?><span class="om-dot-gold">.</span></h1>
+                <h1 class="page-title" style="margin:8px 0 6px;"><?= e($member['name']) ?></h1>
                 <p class="om-profile-role-title"><?= e($member['role_title']) ?></p>
 
                 <div class="om-profile-socials">
@@ -92,7 +92,7 @@ $firstName = explode(' ', trim($member['name']))[0];
         <?php if (!empty($portfolios)): ?>
             <div style="margin-top:64px;">
                 <div class="om-sec-tag"><span class="om-sec-dot"></span> Track Record</div>
-                <h2 class="om-sec-heading">Selected Work &amp; Shipments<span class="om-dot-gold">.</span></h2>
+                <h2 class="om-sec-heading">Selected Work &amp; Shipments</h2>
                 <div class="projects-grid" style="margin-top:24px;">
                     <?php foreach ($portfolios as $w): ?>
                         <article class="project-card">

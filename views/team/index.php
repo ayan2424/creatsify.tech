@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 ?>
@@ -6,7 +6,7 @@ $this->layout('layouts/main');
 <section class="page-hero">
     <div class="wrap">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> Studio Leadership &amp; Core Team</div>
-        <h1 class="page-title">The Engineering &amp; Design Team<span class="om-dot-gold">.</span></h1>
+        <h1 class="page-title">The Engineering &amp; Design Team</h1>
         <p class="page-lead">Three dedicated co-founders leading software architecture, product design systems, and client deployment operations. No account managers or outsourced layers—you collaborate directly with the engineers who build your software.</p>
     </div>
 </section>

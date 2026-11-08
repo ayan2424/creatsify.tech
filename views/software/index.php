@@ -11,7 +11,7 @@ $thumb = static function (array $p) use ($assetDir) {
 <section class="page-hero">
     <div class="wrap">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> Ready-To-Launch &amp; Customizable Platforms</div>
-        <h1 class="page-title">Ready-Made Software: Buy Direct Or Customize<span class="om-dot-gold">.</span></h1>
+        <h1 class="page-title">Ready-Made Software: Buy Direct Or Customize</h1>
         <p class="page-lead">
             Need to launch in days instead of months? Purchase a direct white-label license with 100% unlocked source code, OR ask our engineering team to customize any platform below with your brand identity, custom workflows, and local payment or courier gateways.
         </p>
@@ -68,19 +68,25 @@ $thumb = static function (array $p) use ($assetDir) {
                         <div class="om-prod-actions">
                             <?php if (!empty($pr['gumroad_url'])): ?>
                                 <a class="om-btn-gold" href="<?= e($pr['gumroad_url']) ?>" target="_blank" rel="noopener noreferrer">
-                                    <span>Buy Direct (<?= e($priceStr) ?>)</span>
                                     <span class="om-btn-circle-arrow">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                                     </span>
+                                    <span>Buy Direct (<?= e($priceStr) ?>)</span>
                                 </a>
                             <?php endif; ?>
                             <a class="om-btn-glass light" href="<?= url('/contact?kind=software_custom&offering=' . urlencode('Customize ' . $pr['title'])) ?>#inquiry-form">
                                 <span>Customize For Me &#9998;</span>
                             </a>
                             <?php if ($hasLive): ?>
-                                <a class="om-prod-link" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">Live Demo ↗</a>
+                                <a class="om-prod-link" href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer">
+                                    <span>Live Demo</span>
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                </a>
                             <?php else: ?>
-                                <a class="om-prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">Details &rarr;</a>
+                                <a class="om-prod-link" href="<?= url('/portfolio/' . $pr['slug']) ?>">
+                                    <span>Details</span>
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -94,13 +100,13 @@ $thumb = static function (array $p) use ($assetDir) {
                 <div class="om-sec-tag" style="margin-bottom:8px;"><span class="om-sec-dot"></span> Custom Tailoring &amp; Deployment</div>
                 <h3 style="font-family:Sora,sans-serif;font-size:20px;font-weight:800;color:var(--text);margin:0 0 6px;">Want Us To Customize &amp; Deploy A System For Your Brand?</h3>
                 <p style="font-size:14px;color:var(--muted);line-height:1.6;margin:0;">
-                    Our engineering team can rebrand any ready-made platform above, add custom modules or Flutter mobile apps, integrate your local payment/courier APIs, and deploy it directly on your aaPanel or Linux VPS server.
+                    Our engineering team can rebrand any ready-made platform above, add custom modules or Flutter mobile apps, integrate your local payment/courier APIs, and deploy it directly on your cloud VPS or hosting infrastructure.
                 </p>
             </div>
             <div style="display:flex;gap:12px;flex-wrap:wrap;">
                 <a class="om-btn-gold" href="<?= url('/contact') ?>#inquiry-form">
+                    <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
                     <span>Request Custom Changes</span>
-                    <span class="om-btn-circle-arrow">&rarr;</span>
                 </a>
                 <a class="om-btn-glass" href="<?= url('/support') ?>">
                     <span>Open Support Desk</span>

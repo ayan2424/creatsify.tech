@@ -46,7 +46,7 @@
                 <button type="button" class="chat-chip" data-query="What are your service packages and pricing?">Packages &amp; Pricing</button>
                 <button type="button" class="chat-chip" data-query="Tell me about SEO and Social Media Ads">SEO &amp; Paid Ads</button>
                 <button type="button" class="chat-chip" data-query="What is your web and mobile app tech stack?">Web &amp; Flutter Stack</button>
-                <button type="button" class="chat-chip" data-query="I want to talk to a human specialist">Talk to Specialist &rarr;</button>
+                <button type="button" class="chat-chip" data-query="I want to talk to a human specialist">Talk to Human Specialist</button>
             </div>
         </div>
 

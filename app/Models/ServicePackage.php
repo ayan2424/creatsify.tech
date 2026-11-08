@@ -103,7 +103,7 @@ class ServicePackage
                 'badge_text'     => 'MOST POPULAR',
                 'is_popular'     => 1,
                 'summary'        => 'Full-stack custom web application, client portal, or high-speed e-commerce store with admin dashboard.',
-                'features'       => "Custom Full-Stack Build (PHP 8.4, Node.js, or Next.js)\nNormalized MySQL Database & Role Admin Panel\nE-Commerce Cart, Payment Gateways & Invoicing\nOfficial WhatsApp Cloud API / Email Notifications\nComplete Custom UI/UX + Technical SEO Architecture\nLinux VPS / aaPanel Deployment + 30 Days Support",
+                'features'       => "Custom Full-Stack Build (PHP 8.4, Node.js, or Next.js)\nNormalized MySQL Database & Role Admin Panel\nE-Commerce Cart, Payment Gateways & Invoicing\nOfficial WhatsApp Cloud API / Email Notifications\nComplete Custom UI/UX + Technical SEO Architecture\nLinux VPS / Cloud Server Deployment + 30 Days Support",
                 'cta_label'      => 'Select Growth Web App',
                 'sort_order'     => 2,
                 'is_active'      => 1,

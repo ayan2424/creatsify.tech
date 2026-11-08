@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 
@@ -10,7 +10,7 @@ $preSelectedOffering = trim((string)($_GET['offering'] ?? ''));
 <section class="page-hero">
     <div class="wrap">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> Start Your Project Or Package</div>
-        <h1 class="page-title">Let’s Build &amp; Scale Your Brand<span class="om-dot-gold">.</span></h1>
+        <h1 class="page-title">Let’s Build &amp; Scale Your Brand</h1>
         <p class="page-lead">
             Start a custom web or Flutter mobile app build, request a website redesign, launch an SEO &amp; paid social ad campaign, or ask us to customize one of our ready-made software platforms for your business.
         </p>
@@ -26,7 +26,7 @@ $preSelectedOffering = trim((string)($_GET['offering'] ?? ''));
                 <h3>Custom Agency Services</h3>
                 <p>Web &amp; Mobile App Development, Website Redesign, Branding &amp; Logo Design, Technical SEO, and Social Media Paid Ads.</p>
                 <div style="margin-top:16px;">
-                    <a href="<?= url('/packages') ?>" class="om-btn-glass sm"><span>Compare Packages &rarr;</span></a>
+                    <a href="<?= url('/packages') ?>" class="om-btn-glass sm"><span>Compare Packages</span></a>
                 </div>
             </div>
             <div class="om-how-card rv" style="--d:0.16s">
@@ -34,7 +34,7 @@ $preSelectedOffering = trim((string)($_GET['offering'] ?? ''));
                 <h3>Ready-Made Software</h3>
                 <p>Buy a direct white-label license ($49–$99) or ask our engineering team to customize any platform for your workflows.</p>
                 <div style="margin-top:16px;">
-                    <a href="<?= url('/software') ?>" class="om-btn-glass sm"><span>Browse Products &rarr;</span></a>
+                    <a href="<?= url('/software') ?>" class="om-btn-glass sm"><span>Browse Products</span></a>
                 </div>
             </div>
             <div class="om-how-card rv" style="--d:0.24s">
@@ -42,7 +42,7 @@ $preSelectedOffering = trim((string)($_GET['offering'] ?? ''));
                 <h3>Customer Support Desk</h3>
                 <p>For existing clients and software license holders needing deployment guidance, server setup, or ticket tracking.</p>
                 <div style="margin-top:16px;">
-                    <a href="<?= url('/support') ?>" class="om-btn-glass sm"><span>Open Support &rarr;</span></a>
+                    <a href="<?= url('/support') ?>" class="om-btn-glass sm"><span>Open Support</span></a>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@ $preSelectedOffering = trim((string)($_GET['offering'] ?? ''));
         <div class="om-contact-wrap" id="inquiry-form">
             <div class="om-contact-left rv l">
                 <div class="om-sec-tag"><span class="om-sec-dot"></span> Direct Consultation</div>
-                <h2 class="om-sec-heading">Tell Us What You Want To Achieve<span class="om-dot-gold">.</span></h2>
+                <h2 class="om-sec-heading">Tell Us What You Want To Achieve</h2>
                 <p class="om-sec-sub">Share your goals, target timeline, or desired package. For the fastest response, message our senior engineering &amp; growth team directly on WhatsApp.</p>
 
                 <div class="om-whatsapp-card">
@@ -69,9 +69,6 @@ $preSelectedOffering = trim((string)($_GET['offering'] ?? ''));
                         <span class="om-wa-btn-lead">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z"/></svg>
                             <span>Message Our Agency On WhatsApp</span>
-                        </span>
-                        <span class="om-wa-circle-arrow">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                         </span>
                     </a>
                 </div>
@@ -138,10 +135,10 @@ $preSelectedOffering = trim((string)($_GET['offering'] ?? ''));
                 </label>
 
                 <button type="submit" class="om-btn-gold" style="width:100%;justify-content:center;margin-top:12px;border:none;cursor:pointer;">
-                    <span>Send Project Inquiry</span>
                     <span class="om-btn-circle-arrow">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </span>
+                    <span>Send Project Inquiry</span>
                 </button>
             </form>
         </div>

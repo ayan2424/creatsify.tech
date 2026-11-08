@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 $avgRating    = number_format((float)($reviewStats['avg_rating'] ?? 4.9), 1);
@@ -8,7 +8,7 @@ $totalReviews = (int)($reviewStats['total'] ?? 48);
 <section class="page-hero">
     <div class="wrap">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> Full-Spectrum Digital Agency</div>
-        <h1 class="page-title">About Creatsify Digital Agency<span class="om-dot-gold">.</span></h1>
+        <h1 class="page-title">About Creatsify Digital Agency</h1>
         <p class="page-lead">
             Creatsify is a full-service software engineering, brand design, and digital growth agency. We help ambitious businesses build high-speed web platforms, cross-platform Flutter mobile apps, distinctive brand identities, and high-ROAS search &amp; social acquisition engines under one roof.
         </p>
@@ -92,8 +92,8 @@ $totalReviews = (int)($reviewStats['total'] ?? 48);
 
                     <div style="display:flex;flex-direction:column;gap:10px;">
                         <a href="<?= url('/packages') ?>" class="om-btn-gold" style="width:100%;justify-content:center;">
+                            <span class="om-btn-circle-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
                             <span>Explore Service Packages</span>
-                            <span class="om-btn-circle-arrow">&rarr;</span>
                         </a>
                         <a href="<?= url('/reviews') ?>" class="om-btn-glass" style="width:100%;justify-content:center;">
                             <span>&#9733; <?= e($avgRating) ?>/5 Client Reviews (<?= $totalReviews ?>+)</span>

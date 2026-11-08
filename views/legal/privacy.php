@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** @var Core\View $this */
 $this->layout('layouts/main');
 $siteName = setting('site_name', 'Creatsify');
@@ -8,7 +8,7 @@ $email = setting('site_email', 'ayan@creatsify.tech');
 <section class="page-hero">
     <div class="wrap">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> Legal Notice</div>
-        <h1 class="page-title">Privacy Policy &amp; Terms<span class="om-dot-gold">.</span></h1>
+        <h1 class="page-title">Privacy Policy &amp; Terms</h1>
         <p class="page-lead">What information this website collects, why, and the choices you have. We respect user privacy and keep terms concise and transparent.</p>
     </div>
 </section>
