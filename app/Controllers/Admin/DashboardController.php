@@ -68,6 +68,7 @@ class DashboardController
         $recentTickets = db()->fetchAll("SELECT t.*, c.company as client_company FROM `crm_tickets` t LEFT JOIN `crm_clients` c ON c.id = t.client_id ORDER BY t.id DESC LIMIT 4");
         $pendingFollowUps = CrmNote::pendingFollowUps();
         $deliveryMetrics = AgencyProject::metrics();
+        $readyMadeProducts = Project::readyMadeProducts();
 
         return view('admin/dashboard/index', [
             'stats' => $stats,
@@ -75,6 +76,7 @@ class DashboardController
             'activeChats' => array_slice($activeChats, 0, 5),
             'unreadCount' => $unreadCount,
             'totalProjects' => $totalProjects,
+            'readyMadeProducts' => $readyMadeProducts,
             'dbLatencyMs' => $dbLatencyMs,
             'tableCount' => $tableCount,
             'memoryUsageMb' => $memoryUsageMb,

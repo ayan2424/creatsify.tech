@@ -6,6 +6,8 @@ $currentPath = request()->getPath();
 $topbarUnreadInquiries = \App\Models\Inquiry::countByStatus('new');
 $topbarUnreadNotifs = \App\Models\Notification::countUnread();
 $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
+$userName = $user['name'] ?? 'Admin User';
+$firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
 ?>
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
@@ -17,10 +19,10 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
     <link rel="icon" href="<?= url('/favicon.ico') ?>" sizes="32x32">
     <link rel="icon" href="<?= url('/favicon.svg') ?>" type="image/svg+xml">
     <link rel="apple-touch-icon" href="<?= url('/apple-touch-icon.png') ?>">
-    <meta name="theme-color" content="#081426">
+    <meta name="theme-color" content="#090A0C">
     <link rel="preload" href="<?= asset('fonts/sora-400.woff2') ?>" as="font" type="font/woff2" crossorigin>
 
-    <!-- Lumix AI Command Center Stylesheet -->
+    <!-- Ultra-Luxury Executive Command Center Stylesheet -->
     <link rel="stylesheet" href="<?= asset_v('css/admin.css') ?>">
 
     <!-- Theme & Sidebar State Initializer -->
@@ -36,8 +38,8 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
         })();
     </script>
 </head>
-<body>
-    <!-- 1. Lumix AI Rail Sidebar -->
+<body class="adm-app-shell">
+    <!-- 1. Connected Ultra-Luxury Sidebar -->
     <aside class="admin-sidebar" id="adminSidebar">
         <div class="sidebar-brand">
             <a href="<?= url('/admin') ?>" class="brand-anchor" title="Creatsify Admin Dashboard">
@@ -53,11 +55,26 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
             </div>
         </div>
 
+        <!-- Distinctive Welcome Greeting Block (Reference Design) -->
+        <div class="adm-sidebar-welcome">
+            <h1 class="adm-welcome-title">Welcome<br>Back, <?= e($firstName) ?>!</h1>
+            <p class="adm-welcome-sub">Current summary of your agency portfolio</p>
+        </div>
+
         <nav class="sidebar-menu">
+            <div class="adm-category-label">HOME</div>
+
             <a href="<?= url('/admin') ?>" class="nav-link <?= $currentPath === '/admin' ? 'active' : '' ?>" data-title="Overview" title="Overview">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     <span>Overview</span>
+                </span>
+                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </a>
+            <a href="<?= url('/admin/inquiries') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/inquiries') ? 'active' : '' ?>" data-title="Client Inquiries" title="Client Inquiries">
+                <span class="nav-link-content">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    <span>Client Inquiries</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
@@ -67,13 +84,6 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                     <span>Live Chat Desk</span>
                 </span>
                 <span class="nav-badge danger" id="sideLiveChatBadge" style="display:none;">Live</span>
-                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </a>
-            <a href="<?= url('/admin/inquiries') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/inquiries') ? 'active' : '' ?>" data-title="Client Inquiries" title="Client Inquiries">
-                <span class="nav-link-content">
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                    <span>Client Inquiries</span>
-                </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
             <a href="<?= url('/admin/whatsapp') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/whatsapp') ? 'active' : '' ?>" data-title="WhatsApp API" title="WhatsApp API">
@@ -91,7 +101,10 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
 
-            <div class="menu-divider"></div>
+            <div class="adm-category-label">
+                <span>AGENCY CRM</span>
+                <span class="adm-cat-plus">+</span>
+            </div>
 
             <a href="<?= url('/admin/crm/clients') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/clients') ? 'active' : '' ?>" data-title="Clients & Deals" title="Clients & Deals">
                 <span class="nav-link-content">
@@ -122,19 +135,15 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
 
-            <div class="menu-divider"></div>
+            <div class="adm-category-label">
+                <span>PORTFOLIO & PRODUCTS</span>
+                <span class="adm-cat-plus">+</span>
+            </div>
 
-            <a href="<?= url('/admin/sections') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/sections') ? 'active' : '' ?>" data-title="Section Builder" title="Section Builder">
-                <span class="nav-link-content">
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                    <span>Section Builder</span>
-                </span>
-                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </a>
-            <a href="<?= url('/admin/projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>" data-title="Agency Products" title="Agency Products">
+            <a href="<?= url('/admin/projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>" data-title="Ready-Made Software" title="Ready-Made Software">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                    <span>Agency Products</span>
+                    <span>Ready-Made Software</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
@@ -180,8 +189,15 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
+            <a href="<?= url('/admin/sections') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/sections') ? 'active' : '' ?>" data-title="Section Builder" title="Section Builder">
+                <span class="nav-link-content">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                    <span>Section Builder</span>
+                </span>
+                <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
 
-            <div class="menu-divider"></div>
+            <div class="adm-category-label">SYSTEM</div>
 
             <a href="<?= url('/admin/users') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/users') ? 'active' : '' ?>" data-title="Users & RBAC" title="Users & RBAC">
                 <span class="nav-link-content">
@@ -206,7 +222,7 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
             </a>
         </nav>
 
-        <!-- Sidebar User Footer Card (Analytics Style) -->
+        <!-- Sidebar User Footer Card (Connected Reference Style) -->
         <div class="sidebar-user-footer">
             <div class="sidebar-user-info" title="<?= e($user['name']) ?> (<?= e($user['role']) ?>)">
                 <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="<?= e($user['name']) ?>" class="sidebar-user-avatar">
@@ -237,16 +253,18 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                     <span class="hamburger-line"></span>
                 </button>
 
-                <!-- Mobile Brand Link (Official Logo) -->
-                <a href="<?= url('/admin') ?>" class="topbar-mobile-brand" title="Creatsify Admin">
-                    <img src="<?= asset_v('brand/creatsify-logo-dark.svg') ?>" alt="Creatsify" class="brand-wordmark-dark">
-                    <img src="<?= asset_v('brand/creatsify-logo-light.svg') ?>" alt="Creatsify" class="brand-wordmark-light">
-                </a>
-
-                <!-- Page Title (Clean & Airy) -->
-                <div class="topbar-heading-group">
-                    <h2 class="topbar-page-heading"><?= e($page_title ?? 'Dashboard Overview') ?></h2>
-                </div>
+                <!-- Connected Horizontal Navigation Pills (Reference Design) -->
+                <nav class="adm-top-pills" role="tablist" aria-label="Operations Quick Links">
+                    <a href="<?= url('/admin') ?>" class="adm-top-pill <?= $currentPath === '/admin' ? 'active' : '' ?>">Overview</a>
+                    <a href="<?= url('/admin/inquiries') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/inquiries') ? 'active' : '' ?>">Inquiries</a>
+                    <a href="<?= url('/admin/projects') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>">Software Store</a>
+                    <a href="<?= url('/admin/crm/tickets') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/crm/tickets') ? 'active' : '' ?>">Tickets</a>
+                    <a href="<?= url('/admin/crm/clients') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/crm/clients') ? 'active' : '' ?>">Clients</a>
+                    <a href="<?= url('/admin/chat') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/chat') ? 'active' : '' ?>">
+                        <span class="adm-live-dot"></span>
+                        <span>Live Chat</span>
+                    </a>
+                </nav>
             </div>
 
             <div class="topbar-right">
@@ -257,40 +275,25 @@ $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
                     <span class="command-kbd">⌘K</span>
                 </div>
 
-                <!-- Mobile Search Toggle Button -->
-                <button type="button" class="topbar-icon-btn mobile-search-toggle" id="mobileSearchToggle" title="Search desk">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </button>
-
-                <!-- Primary Action Button (Panze / Analytics Capsule CTA) -->
-                <a href="<?= url('/admin/projects/create') ?>" class="btn-top-action" title="Create a new system or post">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span class="btn-top-action-text">New Project</span>
+                <!-- Settings Gear Icon Circle Button -->
+                <a href="<?= url('/admin/settings') ?>" class="adm-action-circle" title="White-Label Settings">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </a>
 
-                <!-- Notification Bell with Alert Badge (Analytics Style) -->
-                <a href="<?= url('/admin/inquiries') ?>" class="topbar-icon-btn topbar-bell-btn" title="Client Inquiries & Notifications">
+                <!-- Notification Bell with Alert Badge -->
+                <a href="<?= url('/admin/inquiries') ?>" class="adm-action-circle adm-bell-btn" title="Client Inquiries & Notifications">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    <span class="topbar-bell-badge" id="topbarBellBadge" style="<?= $topbarTotalAlerts > 0 ? '' : 'display:none;' ?>"><?= $topbarTotalAlerts ?></span>
+                    <?php if ($topbarTotalAlerts > 0): ?>
+                        <span class="adm-red-dot-badge"><?= $topbarTotalAlerts ?></span>
+                    <?php endif; ?>
                 </a>
 
-                <!-- Live Frontend Site Link -->
-                <a href="<?= url('/') ?>" target="_blank" class="topbar-icon-btn topbar-public-link" title="View Public Website">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>
-
-                <!-- Day / Night Theme Toggle Button -->
-                <button type="button" class="topbar-icon-btn" id="adminThemeToggle" title="Switch Theme (Lumix Dark / Panze Light)">
-                    <svg class="adm-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                </button>
-
-                <!-- User Profile Pill (Sleek Avatar Only) -->
-                <div class="user-profile-pill" title="<?= e($user['name']) ?> (<?= e($user['role']) ?>)">
-                    <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="<?= e($user['name']) ?>" class="user-avatar-img">
+                <!-- User Profile Pill (Sleek Avatar Only with Online Indicator) -->
+                <div class="adm-user-profile-circle" title="<?= e($user['name']) ?> (<?= e($user['role']) ?>)">
+                    <img src="<?= asset('brand/creatsify-icon.png') ?>" alt="<?= e($user['name']) ?>" class="adm-user-avatar">
+                    <span class="adm-online-status-dot"></span>
                 </div>
             </div>
-            <!-- Seamless Junction Fillet Curve between Sidebar & Topbar -->
-            <div class="topbar-junction-curve" aria-hidden="true"></div>
         </header>
 
         <!-- Mobile Search Dropdown Bar -->

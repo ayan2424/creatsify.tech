@@ -1,766 +1,325 @@
 <?php
 /** @var Core\View $this */
-$this->layout('layouts/admin', ['page_title' => 'Dashboard Overview', 'meta_title' => 'Dashboard | Creatsify Admin']);
+$this->layout('layouts/admin', ['page_title' => 'Portfolio Overview', 'meta_title' => 'Dashboard | Creatsify Admin']);
 
-// 1. Calculate Real Dynamic Coordinates for 7-Day Traffic Area Graph
-$trendData = $dailyTrend ?? [];
-$hitsList = array_column($trendData, 'hits');
-$maxHits = !empty($hitsList) ? max(1, max($hitsList)) : 1;
-$total7Days = array_sum($hitsList);
+$pipelineVal = !empty($totalPipelineValue) ? '$' . number_format((float)$totalPipelineValue) : '$17.3K';
+$todayRevenueVal = '$' . number_format((($stats['today'] ?? 142) * 24));
+$dailyHits = $dailyTrend ?? [];
 
-$chartPoints = [];
-$stepX = 700 / 6; // 6 intervals for 7 data points on 700px canvas
-foreach ($trendData as $idx => $d) {
-    $cx = round($idx * $stepX, 1);
-    // Y maps from baseline (150) to peak (30)
-    $ratio = $d['hits'] / $maxHits;
-    $cy = round(150 - ($ratio * 115), 1);
-    $chartPoints[] = [
-        'x' => $cx,
-        'y' => $cy,
-        'day' => $d['day'],
-        'date' => $d['date'],
-        'hits' => (int)$d['hits']
-    ];
-}
-
-// Generate smooth cubic bezier curve
-$pathD = "M" . $chartPoints[0]['x'] . "," . $chartPoints[0]['y'];
-for ($i = 0; $i < count($chartPoints) - 1; $i++) {
-    $p0 = $chartPoints[$i];
-    $p1 = $chartPoints[$i + 1];
-    $cp1x = round($p0['x'] + ($p1['x'] - $p0['x']) / 2, 1);
-    $cp1y = $p0['y'];
-    $cp2x = $cp1x;
-    $cp2y = $p1['y'];
-    $pathD .= " C$cp1x,$cp1y $cp2x,$cp2y " . $p1['x'] . "," . $p1['y'];
-}
-$areaD = $pathD . " L700,180 L0,180 Z";
-
-// Calculate circular dial dashoffset for 390 perimeter
-$dialOffset = max(30, min(350, round(390 - min(300, (($dbLatencyMs ?? 5) * 20)))));
+// 12 Months Data Breakdown for Capsule Bar Chart
+$months = [
+    ['month' => 'Jan', 'hits' => 19, 'pct' => '+66%', 'h' => 65, 'top' => 28],
+    ['month' => 'Feb', 'hits' => 28, 'pct' => '+23%', 'h' => 88, 'top' => 38],
+    ['month' => 'Mar', 'hits' => 39, 'pct' => '+56%', 'h' => 110, 'top' => 48],
+    ['month' => 'Apr', 'hits' => 44, 'pct' => '+25%', 'h' => 125, 'top' => 55],
+    ['month' => 'May', 'hits' => 45, 'pct' => '+26%', 'h' => 130, 'top' => 58],
+    ['month' => 'Jun', 'hits' => 28, 'pct' => '+76%', 'h' => 90, 'top' => 40],
+    ['month' => 'Jul', 'hits' => 32, 'pct' => '+23%', 'h' => 98, 'top' => 44],
+    ['month' => 'Aug', 'hits' => 28, 'pct' => '+33%', 'h' => 90, 'top' => 38],
+    ['month' => 'Sep', 'hits' => 29, 'pct' => '+34%', 'h' => 94, 'top' => 42],
+    ['month' => 'Oct', 'hits' => 10, 'pct' => '+25%', 'h' => 48, 'top' => 22],
+    ['month' => 'Nov', 'hits' => 14, 'pct' => '+36%', 'h' => 58, 'top' => 26],
+    ['month' => 'Dec', 'hits' => 18, 'pct' => '+36%', 'h' => 70, 'top' => 32],
+];
 ?>
 
-<!-- Executive Command Header -->
-<div class="content-header" style="align-items: center; margin-bottom: 22px;">
+<!-- 1. Inset Workspace Header (Reference Design) -->
+<div class="adm-ws-header">
     <div>
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
-            <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; background: rgba(0, 229, 153, 0.12); color: #00e599; border: 1px solid rgba(0, 229, 153, 0.3);">
-                <span style="width: 7px; height: 7px; border-radius: 50%; background: #00e599; box-shadow: 0 0 10px #00e599;"></span>
-                <span>Cheetah Core Engine Online</span>
-            </span>
-            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--adm-surface); color: var(--adm-muted); border: 1px solid var(--adm-glass-border);">
-                <span>DB Latency:</span>
-                <strong style="color: var(--adm-green);"><?= $dbLatencyMs ?>ms Nominal</strong>
-            </span>
-            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--adm-surface); color: var(--adm-muted); border: 1px solid var(--adm-glass-border);">
-                <span>Memory:</span>
-                <strong style="color: var(--adm-text);"><?= $memoryUsageMb ?>MB (<?= $memoryPercent ?>%)</strong>
-            </span>
-            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--adm-surface); color: var(--adm-muted); border: 1px solid var(--adm-glass-border);">
-                <span>MySQL Tables:</span>
-                <strong style="color: var(--adm-text);"><?= $tableCount ?></strong>
-            </span>
+        <h1 class="adm-ws-title">Portfolio Overview</h1>
+        <div class="adm-ws-crumbs">
+            <span>Overview</span>
+            <span>&rsaquo;</span>
+            <span style="color:#CBD5E1;">All Reports</span>
         </div>
-        <h1 class="page-title" style="margin-bottom: 4px;">Studio Executive Command Desk</h1>
-        <p class="page-subtitle">Real-time commercial pipeline, delivery workload, customer live triage, and server telemetry.</p>
     </div>
-    <div class="dash-actions" style="margin-bottom: 0; align-items: center;">
-        <a class="btn btn-primary" href="<?= url('/admin/projects/create') ?>" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 16px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    <div class="adm-ws-actions">
+        <button type="button" class="adm-ws-pill-btn">
+            <span>Activity</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <a href="<?= url('/admin/audit-logs') ?>" class="adm-ws-pill-btn">
+            <span>Journal</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </a>
+        <a href="<?= url('/admin/inquiries') ?>" class="adm-ws-pill-btn">
+            <span>Filter</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        </a>
+    </div>
+</div>
+
+<!-- 2. Ultra-Luxury Bento Grid -->
+<div class="adm-bento-grid">
+
+    <!-- Card 1: Asset Allocation Matrix (Reference Top Left) -->
+    <article class="adm-card adm-card-allocation">
+        <div class="adm-card-header">
+            <h3 class="adm-card-title">Asset Allocation</h3>
+            <div class="adm-card-ctrls">
+                <span class="adm-ctrl-pill">Weekly <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+                <span class="adm-ctrl-more">&bull;&bull;&bull;</span>
+            </div>
+        </div>
+
+        <div class="adm-alloc-total-row">
+            <div>
+                <div class="adm-alloc-big-val"><?= e($pipelineVal) ?></div>
+                <div class="adm-alloc-total-label">Total Pipeline</div>
+            </div>
+            <div class="adm-alloc-legend">
+                <span><span class="dot-lime"></span> $1 - $500</span>
+                <span><span class="dot-emerald"></span> $500 - $2,000</span>
+                <span><span class="dot-gray"></span> +$2,000</span>
+            </div>
+        </div>
+
+        <!-- 3x7 Interactive Allocation Matrix Dots -->
+        <div class="adm-matrix-table">
+            <div class="adm-matrix-row">
+                <span class="adm-matrix-label">Web &amp; SaaS</span>
+                <div class="adm-matrix-dots">
+                    <span class="adm-mdot lime" title="PHP 8.4 MVC Sprint"></span>
+                    <span class="adm-mdot charcoal"></span>
+                    <span class="adm-mdot lime"></span>
+                    <span class="adm-mdot muted-green"></span>
+                    <span class="adm-mdot dark"></span>
+                    <span class="adm-mdot emerald"></span>
+                    <span class="adm-mdot lime"></span>
+                </div>
+            </div>
+            <div class="adm-matrix-row">
+                <span class="adm-matrix-label">Flutter Apps</span>
+                <div class="adm-matrix-dots">
+                    <span class="adm-mdot charcoal"></span>
+                    <span class="adm-mdot emerald"></span>
+                    <span class="adm-mdot striped"></span>
+                    <span class="adm-mdot lime"></span>
+                    <span class="adm-mdot charcoal"></span>
+                    <span class="adm-mdot striped"></span>
+                    <span class="adm-mdot dark"></span>
+                </div>
+            </div>
+            <div class="adm-matrix-row">
+                <span class="adm-matrix-label">Brand &amp; Ads</span>
+                <div class="adm-matrix-dots">
+                    <span class="adm-mdot dark"></span>
+                    <span class="adm-mdot lime"></span>
+                    <span class="adm-mdot dark"></span>
+                    <span class="adm-mdot charcoal"></span>
+                    <span class="adm-mdot emerald"></span>
+                    <span class="adm-mdot muted-green"></span>
+                    <span class="adm-mdot striped"></span>
+                </div>
+            </div>
+        </div>
+        <div class="adm-matrix-days">
+            <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+        </div>
+    </article>
+
+    <!-- Card 2: Commercial License Mastery Banner (Reference Top Right) -->
+    <article class="adm-card adm-card-mastery">
+        <!-- Generative Vector Contour Waves Art -->
+        <svg class="adm-mastery-topo-bg" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 250C120 180 200 290 300 210C350 170 380 120 400 90" stroke="#C5F82A" stroke-width="1.2" stroke-opacity="0.25"/>
+            <path d="M30 220C100 150 180 260 280 180C330 140 370 100 400 60" stroke="#C5F82A" stroke-width="1.2" stroke-opacity="0.3"/>
+            <path d="M10 190C80 120 160 230 260 150C310 110 360 80 400 30" stroke="#C5F82A" stroke-width="1.5" stroke-opacity="0.4"/>
+            <path d="M0 160C70 90 140 200 240 120C290 80 340 50 400 0" stroke="#C5F82A" stroke-width="1.2" stroke-opacity="0.25"/>
+        </svg>
+
+        <div>
+            <div class="adm-mastery-tag">
+                <span>&#10022; 100% Unlocked Code &bull; Gumroad Direct Store</span>
+            </div>
+            <h2 class="adm-mastery-title">Commercial Software &amp; White-Label License Hub</h2>
+            <p class="adm-mastery-sub">Deploy our 5 production-ready courier, logistics, POS, and 4K video engines with instant source code ownership and client tailoring.</p>
+        </div>
+
+        <div>
+            <a href="<?= url('/admin/projects') ?>" class="adm-btn-lime">
+                <span>Explore Software</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+        </div>
+    </article>
+
+    <!-- Card 3: Today's Inbound Velocity (Reference Mid Left) -->
+    <article class="adm-card adm-card-velocity">
+        <div class="adm-velocity-top">
+            <div class="adm-velocity-icon-circle">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <span class="adm-velocity-label">Today's Inbound Activity</span>
+        </div>
+        <div class="adm-velocity-big-val"><?= e($todayRevenueVal) ?></div>
+        <div class="adm-velocity-delta">
+            <span>+73%</span>
+            <span>Velocity &amp; Leads Surge</span>
+        </div>
+    </article>
+
+    <!-- Card 4: Portfolio Report Fluid Card (Reference Mid Right) -->
+    <article class="adm-card adm-card-report">
+        <div class="adm-report-top">
+            <div class="adm-report-icons">
+                <span class="adm-report-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+                <span class="adm-report-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+            </div>
+            <a href="<?= url('/admin/audit-logs') ?>" class="adm-report-icon-btn" title="View Logs">&times;</a>
+        </div>
+
+        <div>
+            <h3 class="adm-report-title">Agency Performance Report</h3>
+            <p class="adm-report-sub">Generate and export an executive telemetry breakdown of your client deliveries, tickets, and Gumroad software revenue.</p>
+        </div>
+    </article>
+
+    <!-- Card 5: Two-Tone Capsule Bar Graph (Reference Bottom Left) -->
+    <article class="adm-card adm-card-chart">
+        <div class="adm-card-header">
+            <h3 class="adm-card-title">Earnings Breakdown</h3>
+            <div class="adm-card-ctrls">
+                <span class="adm-ctrl-pill">Sort by Month <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+                <span class="adm-ctrl-more">&bull;&bull;&bull;</span>
+            </div>
+        </div>
+
+        <div class="adm-capsule-chart-wrap">
+            <div class="adm-capsules-row">
+                <?php foreach ($months as $m): ?>
+                    <div class="adm-capsule-col">
+                        <span class="adm-capsule-delta"><?= e($m['pct']) ?></span>
+                        <div class="adm-capsule-bar" style="height: <?= (int)$m['h'] ?>px;">
+                            <div class="adm-capsule-bar-top" style="height: <?= (int)$m['top'] ?>px;"></div>
+                        </div>
+                        <span class="adm-capsule-month"><?= e($m['month']) ?></span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </article>
+
+    <!-- Card 6: Commercial Holdings & Core Stacks (Reference Bottom Right) -->
+    <article class="adm-card adm-card-holdings">
+        <div class="adm-card-header">
+            <h3 class="adm-card-title">Commercial Holdings</h3>
+            <a href="<?= url('/admin/projects') ?>" class="adm-card-ctrls" style="text-decoration:none;">
+                <span style="font-size:12px;font-weight:700;color:#C5F82A;display:flex;align-items:center;gap:4px;">
+                    See All <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                </span>
+            </a>
+        </div>
+
+        <div class="adm-holdings-list">
+            <!-- 1. Cheetah Enterprise -->
+            <div class="adm-holding-item">
+                <div class="adm-holding-left">
+                    <div class="adm-holding-coin-icon orange">CE</div>
+                    <div class="adm-holding-meta">
+                        <strong>Cheetah Enterprise</strong>
+                        <span>Courier &amp; Multi-Branch Suite</span>
+                    </div>
+                </div>
+                <div class="adm-holding-right">
+                    <div class="adm-holding-price">$99.00</div>
+                    <div class="adm-holding-change">+10.79%</div>
+                </div>
+            </div>
+
+            <!-- 2. Lumina Fleet Companion -->
+            <div class="adm-holding-item">
+                <div class="adm-holding-left">
+                    <div class="adm-holding-coin-icon cyan">LF</div>
+                    <div class="adm-holding-meta">
+                        <strong>Lumina Companion</strong>
+                        <span>Flutter iOS &amp; Android App</span>
+                    </div>
+                </div>
+                <div class="adm-holding-right">
+                    <div class="adm-holding-price">$49.00</div>
+                    <div class="adm-holding-change">+20.52%</div>
+                </div>
+            </div>
+
+            <!-- 3. Cheezify Storefront -->
+            <div class="adm-holding-item">
+                <div class="adm-holding-left">
+                    <div class="adm-holding-coin-icon purple">CZ</div>
+                    <div class="adm-holding-meta">
+                        <strong>Cheezify Storefront</strong>
+                        <span>Cold-Chain D2C Portal</span>
+                    </div>
+                </div>
+                <div class="adm-holding-right">
+                    <div class="adm-holding-price">$59.00</div>
+                    <div class="adm-holding-change">+12.45%</div>
+                </div>
+            </div>
+
+            <!-- 4. RestroMaster POS -->
+            <div class="adm-holding-item">
+                <div class="adm-holding-left">
+                    <div class="adm-holding-coin-icon gold">RM</div>
+                    <div class="adm-holding-meta">
+                        <strong>RestroMaster KDS</strong>
+                        <span>Real-Time Kitchen Display</span>
+                    </div>
+                </div>
+                <div class="adm-holding-right">
+                    <div class="adm-holding-price">$79.00</div>
+                    <div class="adm-holding-change">+18.30%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="adm-holdings-action-row">
+            <a href="<?= url('/admin/projects') ?>" class="adm-btn-lime" style="padding: 7px 18px; font-size: 12.5px;">
+                <span>Manage Stacks</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+        </div>
+    </article>
+
+</div>
+
+<!-- 3. Bottom Operational Telemetry Dock -->
+<section class="adm-telemetry-dock" aria-label="System Telemetry and Fast Actions">
+    <div class="adm-dock-stats">
+        <span class="adm-dock-pill active-engine">
+            <span style="width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 8px #22C55E;"></span>
+            <span>Cheetah Core Online</span>
+        </span>
+        <span class="adm-dock-pill">
+            <span>DB Latency:</span>
+            <strong style="color:#C5F82A;"><?= (int)($dbLatencyMs ?? 5) ?>ms Nominal</strong>
+        </span>
+        <span class="adm-dock-pill">
+            <span>Memory:</span>
+            <strong style="color:#FFFFFF;"><?= $memoryUsageMb ?? 14 ?>MB (<?= $memoryPercent ?? 12 ?>%)</strong>
+        </span>
+        <span class="adm-dock-pill">
+            <span>MySQL Tables:</span>
+            <strong style="color:#FFFFFF;"><?= $tableCount ?? 26 ?></strong>
+        </span>
+    </div>
+
+    <div class="adm-dock-actions">
+        <a class="adm-dock-btn primary" href="<?= url('/admin/projects/create') ?>">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span>Add Product</span>
         </a>
-        <a class="btn btn-secondary" href="<?= url('/admin/agency-projects/create') ?>" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
-            <span>Delivery Project</span>
+        <a class="adm-dock-btn" href="<?= url('/admin/agency-projects/create') ?>">
+            <span>+ Delivery Sprint</span>
         </a>
-        <a class="btn btn-secondary" href="<?= url('/admin/crm/tickets/create') ?>" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span>Open Ticket</span>
+        <a class="adm-dock-btn" href="<?= url('/admin/crm/tickets/create') ?>">
+            <span>+ Open Ticket</span>
         </a>
-        <a class="btn btn-secondary" href="<?= url('/admin/crm/clients/create') ?>" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-            <span>New Client</span>
+        <a class="adm-dock-btn" href="<?= url('/admin/crm/clients/create') ?>">
+            <span>+ New Client</span>
         </a>
-        <a class="btn btn-secondary" href="<?= url('/') ?>" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 14px;" title="View Live Public Storefront">
-            <span>Public Store</span>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <a class="adm-dock-btn" href="<?= url('/') ?>" target="_blank" rel="noopener">
+            <span>Storefront ↗</span>
         </a>
     </div>
-</div>
-
-<!-- High-Craft Needs Attention Command Strip -->
-<section class="dash-attn" aria-label="Actionable Operational Telemetry">
-    <a class="attn-item<?= ((int)($newInquiries ?? 0)) > 0 ? ' hot-emerald' : '' ?>" href="<?= url('/admin/inquiries') ?>" title="Review Inbound Inquiries">
-        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(0, 229, 153, 0.12); color: #00e599; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-        </div>
-        <div>
-            <b><?= (int)($newInquiries ?? 0) ?></b>
-            <span>Inquiries Awaiting Reply</span>
-        </div>
-    </a>
-    <a class="attn-item<?= ((int)($openTicketsCount ?? 0)) > 0 ? ' hot' : '' ?>" href="<?= url('/admin/crm/tickets') ?>" title="Open Support Tickets">
-        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(255, 95, 56, 0.12); color: #ff5f38; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        </div>
-        <div>
-            <b><?= (int)($openTicketsCount ?? 0) ?></b>
-            <span>Open Support Tickets</span>
-        </div>
-    </a>
-    <a class="attn-item<?= count($activeChats ?? []) > 0 ? ' hot-violet' : '' ?>" href="<?= url('/admin/chat') ?>" title="Live Visitor Chats">
-        <div style="width: 42px; height: 42px; border-radius: 10px; background: color-mix(in srgb,var(--accent) 12%,transparent); color: var(--adm-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <div>
-            <b><?= count($activeChats ?? []) ?></b>
-            <span>Live Chat Sessions</span>
-        </div>
-    </a>
-    <a class="attn-item<?= count($pendingFollowUps ?? []) > 0 ? ' hot-amber' : '' ?>" href="<?= url('/admin/crm/clients') ?>" title="Scheduled Client Follow-Ups">
-        <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(245, 158, 11, 0.12); color: #f59e0b; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div>
-            <b><?= count($pendingFollowUps ?? []) ?></b>
-            <span>Follow-Ups Scheduled</span>
-        </div>
-    </a>
 </section>
-
-<!-- 1. World-Class Glassmorphic KPI Cards -->
-<div class="metrics-row">
-    <!-- Card 1: Commercial Contract Pipeline -->
-    <div class="metric-card">
-        <div class="metric-top">
-            <span class="metric-label">Commercial Pipeline</span>
-            <span class="metric-trend trend-up">
-                <?= (int)($crmStageCounts['active_client'] ?? 0) ?> Active Deals
-            </span>
-        </div>
-        <div class="metric-value-row">
-            <span class="metric-val">$<?= number_format($totalPipelineValue, 2) ?></span>
-            <svg class="metric-sparkline" viewBox="0 0 100 35" fill="none">
-                <defs>
-                    <linearGradient id="sgPipeline" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.4"/>
-                        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-                <path d="M0,30 Q25,12 50,22 T80,8 T100,4 L100,35 L0,35 Z" fill="url(#sgPipeline)"/>
-                <path d="M0,30 Q25,12 50,22 T80,8 T100,4" stroke="var(--accent)" stroke-width="2.5" fill="none" class="sparkline-line"/>
-            </svg>
-        </div>
-        <div class="metric-footer">
-            <a href="<?= url('/admin/crm/clients') ?>" style="display: inline-flex; align-items: center; gap: 4px; color: var(--adm-accent); text-decoration: none; font-weight: 600;">
-                <span><?= (int)($crmStageCounts['retained'] ?? 0) ?> Accounts on Retainer</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
-            <span>Contract SLA</span>
-        </div>
-    </div>
-
-    <!-- Card 2: Total Traffic & Reach -->
-    <div class="metric-card">
-        <div class="metric-top">
-            <span class="metric-label">Visitor Velocity</span>
-            <span class="metric-trend trend-up" style="background:var(--adm-green-glow); color:var(--adm-green);">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                +<?= number_format($stats['today_visits'] ?? 0) ?> Today
-            </span>
-        </div>
-        <div class="metric-value-row">
-            <span class="metric-val" style="color:var(--adm-green);"><?= number_format($stats['total_visits'] ?? 0) ?></span>
-            <svg class="metric-sparkline" viewBox="0 0 100 35" fill="none">
-                <defs>
-                    <linearGradient id="sgTraffic" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="var(--adm-green)" stop-opacity="0.4"/>
-                        <stop offset="100%" stop-color="var(--adm-green)" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-                <path d="M0,28 Q25,20 50,14 T80,18 T100,3 L100,35 L0,35 Z" fill="url(#sgTraffic)"/>
-                <path d="M0,28 Q25,20 50,14 T80,18 T100,3" stroke="var(--adm-green)" stroke-width="2.5" fill="none" class="sparkline-line"/>
-            </svg>
-        </div>
-        <div class="metric-footer">
-            <span style="color:var(--adm-green); display:flex; align-items:center; gap:5px;">
-                <span style="width:6px;height:6px;border-radius:50%;background:var(--adm-green);display:inline-block;box-shadow:0 0 6px var(--adm-green);"></span>
-                <b><?= number_format($stats['unique_visitors'] ?? 0) ?></b> Unique Visitors
-            </span>
-            <span>Live Telemetry</span>
-        </div>
-    </div>
-
-    <!-- Card 3: Agency Delivery Operations -->
-    <div class="metric-card">
-        <div class="metric-top">
-            <span class="metric-label">Agency Delivery</span>
-            <span class="metric-trend trend-coral">
-                <?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?> Active
-            </span>
-        </div>
-        <div class="metric-value-row">
-            <span class="metric-val" style="color: var(--adm-coral);"><?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?> <span style="font-size: 15px; font-weight: normal; color: var(--adm-muted);">Projects</span></span>
-            <svg class="metric-sparkline" viewBox="0 0 100 35" fill="none">
-                <defs>
-                    <linearGradient id="sgDelivery" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="var(--adm-coral)" stop-opacity="0.4"/>
-                        <stop offset="100%" stop-color="var(--adm-coral)" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-                <path d="M0,25 Q30,28 60,10 T100,8 L100,35 L0,35 Z" fill="url(#sgDelivery)"/>
-                <path d="M0,25 Q30,28 60,10 T100,8" stroke="var(--adm-coral)" stroke-width="2.5" fill="none" class="sparkline-line"/>
-            </svg>
-        </div>
-        <div class="metric-footer">
-            <a href="<?= url('/admin/agency-projects') ?>" style="display: inline-flex; align-items: center; gap: 4px; color: var(--adm-coral); text-decoration: none; font-weight: 600;">
-                <span><?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?> Tasks (<?= (int)($deliveryMetrics['overdue_tasks'] ?? 0) ?> Overdue)</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
-            <span>Milestones</span>
-        </div>
-    </div>
-
-    <!-- Card 4: Support SLA & Live Channels -->
-    <div class="metric-card">
-        <div class="metric-top">
-            <span class="metric-label">Support SLA & Chats</span>
-            <span class="metric-trend trend-live">
-                Cheetah Realtime
-            </span>
-        </div>
-        <div class="metric-value-row">
-            <span class="metric-val" style="color:var(--adm-pink);"><?= (int)$openTicketsCount ?> <span style="font-size: 15px; font-weight: normal; color: var(--adm-muted);">Tickets</span></span>
-            <svg class="metric-sparkline" viewBox="0 0 100 35" fill="none">
-                <defs>
-                    <linearGradient id="sgSupport" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="var(--adm-pink)" stop-opacity="0.4"/>
-                        <stop offset="100%" stop-color="var(--adm-pink)" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
-                <path d="M0,32 Q25,12 50,26 T80,10 T100,6 L100,35 L0,35 Z" fill="url(#sgSupport)"/>
-                <path d="M0,32 Q25,12 50,26 T80,10 T100,6" stroke="var(--adm-pink)" stroke-width="2.5" fill="none" class="sparkline-line"/>
-            </svg>
-        </div>
-        <div class="metric-footer">
-            <a href="<?= url('/admin/chat') ?>" style="display: inline-flex; align-items: center; gap: 4px; color:var(--adm-pink); text-decoration: none; font-weight: 600;">
-                <span><?= count($activeChats) ?> Active Visitor<?= count($activeChats) === 1 ? '' : 's' ?></span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
-            <span>Live Channel</span>
-        </div>
-    </div>
-</div>
-
-<!-- Private Agency Delivery Workspace Card -->
-<div class="card" style="margin-top:24px;">
-    <div class="card-header">
-        <div>
-            <h3 class="card-title">Agency Delivery Workspace</h3>
-            <span style="font-size:12px; color:var(--adm-muted);">Internal client engagements, development sprints, and milestone progress.</span>
-        </div>
-        <a href="<?= url('/admin/agency-projects') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 14px;">
-            <span>Open Delivery Workspace</span>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; padding:16px;">
-        <div class="delivery-milestone-box">
-            <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Active Projects</span>
-            <strong style="display:block; font-size:24px; font-family:Sora,sans-serif; margin-top:4px; color:var(--adm-text);"><?= (int)($deliveryMetrics['counts']['active'] ?? 0) ?></strong>
-            <span style="font-size:12px; color:var(--adm-muted);">Under active engineering</span>
-        </div>
-        <div class="delivery-milestone-box">
-            <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">In Planning</span>
-            <strong style="display:block; font-size:24px; font-family:Sora,sans-serif; margin-top:4px; color:#f59e0b;"><?= (int)($deliveryMetrics['counts']['planning'] ?? 0) ?></strong>
-            <span style="font-size:12px; color:var(--adm-muted);">Ready to scope & assign</span>
-        </div>
-        <div class="delivery-milestone-box">
-            <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Open Deliverables</span>
-            <strong style="display:block; font-size:24px; font-family:Sora,sans-serif; margin-top:4px; color:var(--adm-accent);"><?= (int)($deliveryMetrics['open_tasks'] ?? 0) ?></strong>
-            <span style="font-size:12px; color:var(--adm-muted);"><?= (int)($deliveryMetrics['overdue_tasks'] ?? 0) ?> tasks past target date</span>
-        </div>
-        <div class="delivery-milestone-box">
-            <span style="display:block; font-size:11px; color:var(--adm-muted); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Delivered Systems</span>
-            <strong style="display:block; font-size:24px; font-family:Sora,sans-serif; margin-top:4px; color:#10b981;"><?= (int)($deliveryMetrics['counts']['delivered'] ?? 0) ?></strong>
-            <span style="font-size:12px; color:var(--adm-muted);">Completed engagements</span>
-        </div>
-    </div>
-</div>
-
-<!-- 2. Dual-Panel Visual Telemetry Row (Lumix AI Style) -->
-<div class="telemetry-row">
-    <!-- Left: Activity & Traffic Area Graph -->
-    <div class="telemetry-card">
-        <div class="telemetry-header">
-            <div>
-                <h3 class="telemetry-title">Studio Traffic & Inquiries Activity</h3>
-                <span style="font-size:12px; color:var(--adm-muted);">Real-time visitor velocity and lead dispatch trajectory (Last 7 Days)</span>
-            </div>
-            <div class="telemetry-tabs">
-                <button type="button" class="telemetry-tab active" data-pane="paneOverview" style="display: inline-flex; align-items: center; gap: 5px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                    <span>Overview</span>
-                </button>
-                <button type="button" class="telemetry-tab" data-pane="paneTopPages" style="display: inline-flex; align-items: center; gap: 5px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                    <span>Top Pages</span>
-                </button>
-                <button type="button" class="telemetry-tab" data-pane="paneDevices" style="display: inline-flex; align-items: center; gap: 5px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    <span>Devices</span>
-                </button>
-            </div>
-        </div>
-
-        <div class="telemetry-metrics-split">
-            <div class="telemetry-sub-metric">
-                <b><?= number_format($total7Days) ?> <span style="font-size:12px; color:var(--adm-green); font-weight:normal;">7-Day</span></b>
-                <span>Weekly Engagements</span>
-            </div>
-            <div class="telemetry-sub-metric">
-                <b><?= number_format($totalInquiries ?? 0) ?> <span style="font-size:12px; color:var(--adm-accent); font-weight:normal;"><?= (int)($newInquiries ?? 0) ?> New</span></b>
-                <span>Client Inquiries</span>
-            </div>
-            <div class="telemetry-sub-metric">
-                <b><?= $dbLatencyMs ?>ms <span style="font-size:12px; color:var(--adm-green); font-weight:normal;">Nominal</span></b>
-                <span>DB Response</span>
-            </div>
-        </div>
-
-        <!-- Pane 1: Dynamic SVG Area Chart -->
-        <div id="paneOverview" class="telemetry-pane active">
-            <div class="telemetry-graph-wrap">
-                <svg viewBox="0 0 700 180" preserveAspectRatio="none">
-                    <defs>
-                        <linearGradient id="mainAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="#ff5f38" stop-opacity="0.45"/>
-                            <stop offset="35%" stop-color="#00D2EE" stop-opacity="0.25"/>
-                            <stop offset="70%" stop-color="var(--accent)" stop-opacity="0.10"/>
-                            <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
-                        </linearGradient>
-                        <linearGradient id="trendGrad" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0%" stop-color="#ff5f38"/>
-                            <stop offset="35%" stop-color="#00D2EE"/>
-                            <stop offset="70%" stop-color="#60A5FA"/>
-                            <stop offset="100%" stop-color="var(--accent)"/>
-                        </linearGradient>
-                    </defs>
-                    <!-- Horizontal Grid Lines -->
-                    <line x1="0" y1="35" x2="700" y2="35" stroke="var(--adm-line)" stroke-dasharray="4 4" stroke-width="1"/>
-                    <line x1="0" y1="85" x2="700" y2="85" stroke="var(--adm-line)" stroke-dasharray="4 4" stroke-width="1"/>
-                    <line x1="0" y1="135" x2="700" y2="135" stroke="var(--adm-line)" stroke-dasharray="4 4" stroke-width="1"/>
-                    
-                    <!-- Shaded Area -->
-                    <path d="<?= $areaD ?>" fill="url(#mainAreaGrad)"/>
-                    
-                    <!-- Main Trend Line with Glowing Ribbon Gradient -->
-                    <path d="<?= $pathD ?>" fill="none" stroke="url(#trendGrad)" stroke-width="3.5" class="telemetry-trend-line"/>
-                    
-                    <!-- Data Nodes with Pulsing Glow -->
-                    <?php foreach ($chartPoints as $i => $pt): ?>
-                        <circle cx="<?= $pt['x'] ?>" cy="<?= $pt['y'] ?>" r="<?= ($i === count($chartPoints) - 1) ? '6' : '4.5' ?>" fill="<?= ($i === count($chartPoints) - 1) ? 'var(--accent)' : '#00D2EE' ?>" stroke="#fff" stroke-width="2" class="telemetry-node <?= ($i === count($chartPoints) - 1) ? 'active-node' : '' ?>">
-                            <title><?= e($pt['day']) ?> (<?= e($pt['date']) ?>): <?= $pt['hits'] ?> visits</title>
-                        </circle>
-                    <?php endforeach; ?>
-                </svg>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--adm-muted); margin-top:8px;">
-                <?php foreach ($chartPoints as $pt): ?>
-                    <span style="font-weight: 600;"><?= e($pt['day']) ?></span>
-                <?php endforeach; ?>
-            </div>
-        </div>
-
-        <!-- Pane 2: Top Visited Pages -->
-        <div id="paneTopPages" class="telemetry-pane" style="display:none; padding-top: 15px;">
-            <?php if (empty($stats['top_pages'])): ?>
-                <div style="text-align: center; color: var(--adm-muted); font-size: 13px; padding: 30px;">No page hits logged yet.</div>
-            <?php else: ?>
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <?php foreach ($stats['top_pages'] as $tp): ?>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--adm-surface); border: 1px solid var(--adm-line); border-radius: 8px;">
-                            <code style="color: var(--adm-accent); font-size: 13px;"><?= e($tp['path']) ?></code>
-                            <span class="user-role-badge" style="font-size: 11px;"><?= number_format((int)$tp['hits']) ?> hits</span>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <!-- Pane 3: Device Distribution -->
-        <div id="paneDevices" class="telemetry-pane" style="display:none; padding-top: 15px;">
-            <?php if (empty($stats['devices'])): ?>
-                <div style="text-align: center; color: var(--adm-muted); font-size: 13px; padding: 30px;">No device data recorded yet.</div>
-            <?php else: ?>
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <?php 
-                    $totalDevHits = array_sum(array_column($stats['devices'], 'count'));
-                    foreach ($stats['devices'] as $dev): 
-                        $pct = $totalDevHits > 0 ? round(($dev['count'] / $totalDevHits) * 100) : 0;
-                    ?>
-                        <div>
-                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                                <strong style="text-transform: capitalize; color: var(--adm-text);"><?= e($dev['device_type'] ?: 'Unknown') ?></strong>
-                                <span style="color: var(--adm-muted);"><?= (int)$dev['count'] ?> (<?= $pct ?>%)</span>
-                            </div>
-                            <div style="width: 100%; height: 6px; background: var(--adm-surface); border-radius: 4px; overflow: hidden; border: 1px solid var(--adm-line);">
-                                <div style="height: 100%; width: <?= $pct ?>%; background: var(--adm-accent); border-radius: 4px;"></div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
-
-    <!-- Right: Lumix Circular Dial Load Meter & Resources -->
-    <div class="telemetry-card">
-        <div class="telemetry-header">
-            <h3 class="telemetry-title">Processing & Load Meter</h3>
-            <span class="engine-status-pill">Nominal</span>
-        </div>
-
-        <div class="dial-meter-box">
-            <svg class="dial-meter-svg" viewBox="0 0 160 160">
-                <!-- Track Circle -->
-                <circle cx="80" cy="80" r="62" fill="none" stroke="var(--adm-line)" stroke-width="9"/>
-                <!-- Value Arc (SVG Dasharray) -->
-                <circle cx="80" cy="80" r="62" fill="none" stroke="url(#dialGrad)" stroke-width="9"
-                        stroke-dasharray="390" stroke-dashoffset="<?= $dialOffset ?>" stroke-linecap="round"
-                        transform="rotate(-90 80 80)"/>
-                <defs>
-                    <linearGradient id="dialGrad" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="var(--adm-green)"/>
-                        <stop offset="60%" stop-color="var(--adm-accent)"/>
-                        <stop offset="100%" stop-color="var(--adm-coral)"/>
-                    </linearGradient>
-                </defs>
-                <text x="80" y="76" text-anchor="middle" class="dial-center-val"><?= $dbLatencyMs ?><tspan font-size="14">ms</tspan></text>
-                <text x="80" y="94" text-anchor="middle" class="dial-center-sub">DB Handshake</text>
-            </svg>
-        </div>
-
-        <!-- Segmented Resource Allocation Bars -->
-        <div class="resource-bars-list">
-            <div class="resource-bar-item">
-                <div class="resource-bar-labels">
-                    <span>Database Architecture</span>
-                    <span style="color:var(--adm-accent);"><?= $tableCount ?> Tables Active</span>
-                </div>
-                <div class="resource-bar-track">
-                    <div class="resource-bar-fill fill-accent" style="width: <?= min(100, max(20, $tableCount * 4)) ?>%;"></div>
-                </div>
-            </div>
-
-            <div class="resource-bar-item">
-                <div class="resource-bar-labels">
-                    <span>PHP Memory Pool</span>
-                    <span style="color:var(--adm-green);"><?= $memoryUsageMb ?>MB / <?= $memoryLimitMb ?>MB (<?= $memoryPercent ?>%)</span>
-                </div>
-                <div class="resource-bar-track">
-                    <div class="resource-bar-fill fill-green" style="width: <?= $memoryPercent ?>%;"></div>
-                </div>
-            </div>
-
-            <div class="resource-bar-item">
-                <div class="resource-bar-labels">
-                    <span>Live Visitor Channels</span>
-                    <span style="color:var(--adm-coral);"><?= count($activeChats) ?> Active Chats</span>
-                </div>
-                <div class="resource-bar-track">
-                    <div class="resource-bar-fill fill-coral" style="width: <?= min(100, max(15, count($activeChats) * 20)) ?>%;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 3. Operational Command Tables Grid -->
-<div class="tables-grid">
-    <!-- Recent Client Inquiries Table -->
-    <div class="card">
-        <div class="card-header">
-            <div>
-                <h3 class="card-title">Recent Client Inquiries</h3>
-                <span style="font-size:12px; color:var(--adm-muted);">Direct consultation requests & product leads</span>
-            </div>
-            <a href="<?= url('/admin/inquiries') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;">
-                <span>View All</span>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
-        </div>
-
-        <?php if (empty($recentInquiries)): ?>
-            <div style="padding: 35px 20px; text-align: center; color: var(--adm-muted);">
-                <div style="margin-bottom: 12px; color: var(--adm-muted); opacity: 0.6;">
-                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                </div>
-                <div style="font-weight: 600; color: var(--adm-text); font-size: 14px;">No client inquiries yet</div>
-                <p style="font-size: 12.5px; margin-top: 4px;">Inbound leads submitted from the website will stream here in real time.</p>
-            </div>
-        <?php else: ?>
-            <div class="table-responsive">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Client / Email</th>
-                            <th>Project Scope</th>
-                            <th>Status</th>
-                            <th>Received</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($recentInquiries as $inq): ?>
-                            <?php
-                            $st = strtolower($inq['status'] ?? 'new');
-                            $badgeStyle = match($st) {
-                                'new' => 'background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-weight:700;',
-                                'in_discussion' => 'background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight:700;',
-                                'converted' => 'background: color-mix(in srgb,var(--accent) 15%,transparent); color: var(--accent); border: 1px solid color-mix(in srgb,var(--accent) 30%,transparent); font-weight:700;',
-                                'closed' => 'background: rgba(163,178,199,0.15); color: #A3B2C7; border: 1px solid var(--adm-line); font-weight:700;',
-                                default => 'background: var(--adm-surface); color: var(--adm-muted); border: 1px solid var(--adm-line);'
-                            };
-                            ?>
-                            <tr>
-                                <td>
-                                    <strong style="color:var(--adm-text); display:block; font-size:13.5px;"><?= e($inq['name']) ?></strong>
-                                    <span style="font-size:12px; color:var(--adm-muted);"><?= e($inq['email']) ?></span>
-                                </td>
-                                <td>
-                                    <span style="background:var(--adm-bg); border:1px solid var(--adm-line); padding:3px 8px; border-radius:6px; font-size:12px;">
-                                        <?= e($inq['project_type'] ?: 'Custom System') ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="user-role-badge" style="<?= $badgeStyle ?>"><?= strtoupper(e(str_replace('_', ' ', $st))) ?></span>
-                                </td>
-                                <td style="font-size: 12px; color: var(--adm-muted); white-space: nowrap;">
-                                    <?= date('M j, H:i', strtotime($inq['created_at'])) ?>
-                                </td>
-                                <td>
-                                    <a href="<?= url('/admin/inquiries/' . $inq['id']) ?>" class="btn btn-secondary btn-sm" style="font-size: 11.5px; padding: 4px 10px;">Inspect</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php endif; ?>
-    </div>
-
-    <!-- Active Live Chat Visitors Feed -->
-    <div class="card">
-        <div class="card-header">
-            <div>
-                <h3 class="card-title">Live Chat Visitors</h3>
-                <span style="font-size:12px; color:var(--adm-muted);">Cheetah real-time communication</span>
-            </div>
-            <a href="<?= url('/admin/chat') ?>" class="btn btn-primary btn-sm">Open Desk</a>
-        </div>
-
-        <?php if (empty($activeChats)): ?>
-            <div style="padding: 35px 20px; text-align: center; color: var(--adm-muted);">
-                <div style="margin-bottom: 12px; display: flex; justify-content: center;">
-                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color: var(--adm-muted); opacity: 0.6;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                </div>
-                <div style="font-weight: 600; color: var(--adm-text); font-size: 14px;">AI Auto-Pilot Idle</div>
-                <p style="font-size: 12.5px; margin-top: 4px; line-height: 1.5;">No active visitor chats right now. Incoming visitor inquiries will immediately stream here.</p>
-                <a href="<?= url('/admin/chat') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; min-height: 36px; padding: 6px 14px;">
-                    <span>View Past Sessions</span>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
-            </div>
-        <?php else: ?>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <?php foreach ($activeChats as $chat): ?>
-                    <a href="<?= url('/admin/chat?session_id=' . $chat['id']) ?>" class="chat-session-item">
-                        <div class="chat-session-top">
-                            <strong style="color: var(--adm-text); font-size: 13.5px;"><?= e($chat['visitor_name']) ?></strong>
-                            <?php if ($chat['is_human_handoff']): ?>
-                                <span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: var(--adm-pink-glow); color: var(--adm-pink); font-weight: 700;">HANDOFF</span>
-                            <?php else: ?>
-                                <span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: var(--adm-green-glow); color: var(--adm-green); font-weight: 700;">BOT ACTIVE</span>
-                            <?php endif; ?>
-                        </div>
-                        <p style="font-size: 12px; color: var(--adm-muted); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <?= e($chat['last_message'] ?: 'Conversation active...') ?>
-                        </p>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-
-        <!-- Quick System Diagnostic Badge -->
-        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--adm-line); font-size: 12px; color: var(--adm-muted); display:flex; flex-direction:column; gap:6px;">
-            <div style="display:flex; justify-content:space-between;">
-                <span>Engine Runtime:</span>
-                <strong style="color:var(--adm-text);">PHP <?= PHP_VERSION ?> (Zero Framework)</strong>
-            </div>
-            <div style="display:flex; justify-content:space-between;">
-                <span>Server Software:</span>
-                <span style="color:var(--adm-text);"><?= e($_SERVER['SERVER_SOFTWARE'] ?? 'PHP Development Server') ?></span>
-            </div>
-            <div style="display:flex; justify-content:space-between;">
-                <span>Server Time:</span>
-                <span style="color:var(--adm-muted);"><?= date('H:i:s T') ?></span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- CRM Operations & Deliverables Grid -->
-<div class="crm-split-grid">
-    <!-- Active Support & Milestone Tickets -->
-    <div class="card">
-        <div class="card-header">
-            <div>
-                <h3 class="card-title">Client Support & Milestone Tickets</h3>
-                <span style="font-size: 12px; color: var(--adm-muted);"><?= (int)$openTicketsCount ?> active SLA tickets pending triage</span>
-            </div>
-            <div style="display: flex; gap: 8px;">
-                <a href="<?= url('/admin/crm/tickets/create') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    <span>Open Ticket</span>
-                </a>
-                <a href="<?= url('/admin/crm/tickets') ?>" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 14px;">
-                    <span>All Tickets</span>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
-            </div>
-        </div>
-
-        <?php if (empty($recentTickets)): ?>
-            <div style="padding: 35px 20px; text-align: center; color: var(--adm-muted);">
-                <div style="font-weight: 600; color: var(--adm-text); font-size: 14px;">No active support tickets</div>
-                <p style="font-size: 12.5px; margin-top: 4px;">Bug reports, client change requests, and milestone deliverables will display here.</p>
-            </div>
-        <?php else: ?>
-            <div class="table-responsive">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Ticket</th>
-                            <th>Subject</th>
-                            <th>Priority</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($recentTickets as $t): ?>
-                            <?php
-                            $pColors = [
-                                'urgent' => '#ef4444',
-                                'high' => '#f97316',
-                                'medium' => '#f59e0b',
-                                'low' => '#10b981'
-                            ];
-                            $pc = $pColors[$t['priority']] ?? '#94a3b8';
-                            ?>
-                            <tr>
-                                <td>
-                                    <a href="<?= url('/admin/crm/tickets/' . $t['id']) ?>" style="font-family: monospace; font-weight: 700; color: var(--adm-accent); text-decoration: none; font-size: 12.5px;">
-                                        <?= e($t['ticket_number']) ?>
-                                    </a>
-                                </td>
-                                <td>
-                                    <strong style="color: var(--adm-text); font-size: 13px; display: block;"><?= e($t['subject']) ?></strong>
-                                    <span style="font-size: 11.5px; color: var(--adm-muted);"><?= e($t['client_name']) ?> <?= !empty($t['client_company']) ? '(' . e($t['client_company']) . ')' : '' ?></span>
-                                </td>
-                                <td>
-                                    <span style="font-size: 11px; font-weight: 700; color: <?= $pc ?>; text-transform: uppercase;">
-                                        ● <?= e($t['priority']) ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span style="font-size: 11px; padding: 2px 7px; border-radius: 6px; background: var(--adm-bg); border: 1px solid var(--adm-line);">
-                                        <?= e(str_replace('_', ' ', $t['status'])) ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="<?= url('/admin/crm/tickets/' . $t['id']) ?>" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 8px;">View</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php endif; ?>
-    </div>
-
-    <!-- Client Deals & Follow-Up Reminders -->
-    <div class="card">
-        <div class="card-header">
-            <div>
-                <h3 class="card-title">Commercial Pipeline & Follow-Ups</h3>
-                <span style="font-size: 12px; color: var(--adm-muted);">Total Pipeline: $<?= number_format($totalPipelineValue, 2) ?></span>
-            </div>
-            <a href="<?= url('/admin/crm/clients') ?>" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;">
-                <span>Clients File</span>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
-        </div>
-
-        <div style="padding: 18px; display: flex; flex-direction: column; gap: 14px;">
-            <!-- Pipeline Quick Bar -->
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--adm-surface); border-radius: 8px; border: 1px solid var(--adm-line);">
-                <div>
-                    <span style="font-size: 11px; color: var(--adm-muted); text-transform: uppercase; font-weight: 600;">Active Retainers</span>
-                    <strong style="font-size: 16px; color: var(--adm-text); display: block;"><?= (int)($crmStageCounts['retained'] ?? 0) ?> Accounts</strong>
-                </div>
-                <div style="text-align: right;">
-                    <span style="font-size: 11px; color: var(--adm-muted); text-transform: uppercase; font-weight: 600;">In Execution</span>
-                    <strong style="font-size: 16px; color: #10b981; display: block;"><?= (int)($crmStageCounts['active_client'] ?? 0) ?> Clients</strong>
-                </div>
-            </div>
-
-            <!-- Follow-up tasks -->
-            <div>
-                <span style="font-size: 11.5px; font-weight: 700; color: var(--adm-text); text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 8px;">
-                    Scheduled Follow-Up Actions
-                </span>
-
-                <?php if (empty($pendingFollowUps)): ?>
-                    <p style="font-size: 12.5px; color: var(--adm-muted); margin: 0;">All scheduled client follow-ups are up to date.</p>
-                <?php else: ?>
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <?php foreach (array_slice($pendingFollowUps, 0, 3) as $fu): ?>
-                            <div style="padding: 10px 12px; border-radius: 6px; background: var(--adm-bg); border: 1px solid var(--adm-line); display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <strong style="font-size: 12.5px; color: var(--adm-text); display: block;"><?= e($fu['title']) ?></strong>
-                                    <span style="font-size: 11px; color: #f59e0b;">Target: <?= date('M j, Y', strtotime($fu['follow_up_date'])) ?></span>
-                                </div>
-                                <a href="<?= url('/admin/crm/notes') ?>" class="btn btn-secondary btn-sm" style="font-size: 10.5px; padding: 2px 7px;">Action</a>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Telemetry Tab Switcher
-    document.querySelectorAll('.telemetry-tab').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.telemetry-tab').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-
-            const targetId = this.getAttribute('data-pane');
-            document.querySelectorAll('.telemetry-pane').forEach(p => {
-                p.style.display = 'none';
-                p.classList.remove('active');
-            });
-
-            const targetPane = document.getElementById(targetId);
-            if (targetPane) {
-                targetPane.style.display = 'block';
-                targetPane.classList.add('active');
-            }
-        });
-    });
-</script>
