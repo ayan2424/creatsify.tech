@@ -53,7 +53,10 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                 <img src="<?= asset_v('brand/creatsify-icon.svg') ?>" alt="Creatsify" class="brand-icon-collapsed">
             </a>
             <div class="sidebar-brand-right">
-                <span class="brand-dot" title="Live Node Online"></span>
+                <button type="button" class="sidebar-collapse-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle sidebar width" title="Toggle Sidebar">
+                    <svg class="sidebar-icon-collapse" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><path d="m14 9-3 3 3 3"></path></svg>
+                    <svg class="sidebar-icon-expand" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><path d="m13 15 3-3-3-3"></path></svg>
+                </button>
                 <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close navigation drawer">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
@@ -245,8 +248,8 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
     <div class="admin-main">
         <header class="admin-topbar">
             <div class="topbar-left">
-                <!-- Mobile Navigation Drawer Toggle Button -->
-                <button type="button" class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle navigation drawer">
+                <!-- Mobile Only Navigation Drawer Trigger (Hidden on Desktop) -->
+                <button type="button" class="sidebar-mobile-toggle-btn" id="sidebarMobileToggleBtn" aria-label="Open mobile navigation drawer">
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
@@ -439,6 +442,7 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
             // Sidebar Controls (Collapsible Desktop Rail + Mobile Off-Canvas Drawer)
             const sidebar = document.getElementById('adminSidebar');
             const toggleBtn = document.getElementById('sidebarToggleBtn');
+            const mobileToggleBtn = document.getElementById('sidebarMobileToggleBtn');
             const closeBtn = document.getElementById('sidebarCloseBtn');
             const backdrop = document.getElementById('adminSidebarBackdrop');
 
@@ -464,15 +468,23 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                 document.body.classList.remove('sidebar-locked');
             }
 
-            // Single Toggle button in Topbar
+            // Desktop toggle button inside Sidebar Brand
             if (toggleBtn) {
                 toggleBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     if (isDesktop()) {
                         toggleDesktopSidebar();
                     } else {
-                        openMobileSidebar();
+                        closeMobileSidebar();
                     }
+                });
+            }
+
+            // Mobile-only toggle button inside Topbar
+            if (mobileToggleBtn) {
+                mobileToggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openMobileSidebar();
                 });
             }
 
