@@ -449,3 +449,19 @@ CREATE TABLE IF NOT EXISTS `agency_project_notes` (
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX `idx_agency_notes_project` (`agency_project_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================================
+-- Default Core Seed Data (Super Admins & Roles)
+-- Default Password for both accounts is: admin123
+-- ============================================================================
+INSERT INTO `roles` (`name`, `slug`, `description`, `permissions`) VALUES
+('Super Admin', 'super_admin', 'Full control over all platform modules, settings, users, and code injectors.', '["*"]'),
+('Admin', 'admin', 'Can manage projects, services, blog, chat desk, inboxes, and view analytics.', '["manage_content","manage_inquiries","manage_chat","manage_comms","view_analytics"]'),
+('Editor', 'editor', 'Can author blog posts and edit portfolio projects.', '["manage_content","view_inquiries"]')
+ON DUPLICATE KEY UPDATE `name`=VALUES(`name`);
+
+INSERT INTO `users` (`name`, `email`, `password`, `role`, `phone`, `status`) VALUES
+('Muhammad Ayan Shamim', 'ayan@creatsify.tech', '$2y$10$Bh26gkLWZ/l6un4H54UzRudQ4a84..iXTqPSN2IKuSpPcD4WnAIJC', 'super_admin', '+923000000000', 'active'),
+('Creatsify Admin', 'admin@creatsify.tech', '$2y$10$Bh26gkLWZ/l6un4H54UzRudQ4a84..iXTqPSN2IKuSpPcD4WnAIJC', 'super_admin', '+923000000000', 'active')
+ON DUPLICATE KEY UPDATE `password`=VALUES(`password`), `role`='super_admin', `status`='active';
+

