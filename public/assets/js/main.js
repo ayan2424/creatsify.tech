@@ -16,8 +16,7 @@ const IM = {
 const _P_FALLBACK=[
 ["Cheetah Enterprise","p","For sale","Courier, warehouse and multi-branch logistics platform with 7 role portals, store sync and the Flutter driver and picker app.",["PHP","MySQL","JavaScript","Flutter"],"c",[["Live demo","https://cheetah.ayan24.me"]]],
 ["Cheetah Lite","p","For sale","A lighter, courier-only edition. No warehouse module and no picker role.",["PHP","MySQL","JavaScript"],"c",[["Live demo","https://cheetah-lite.ayan24.me"]]],
-["Cheezify","s","For sale","Online cheese store with its own admin panel, built for a client, with cold-chain delivery zones and SEO-ready pages.",["PHP","MySQL","JavaScript"],"z",[["Visit store","https://cheezify.ayan24.me"]]],
-["Sawi Store","s","Delivered","WordPress and WooCommerce online store built with Elementor.",["WordPress","Elementor","WooCommerce"],"h",[]]
+["Cheezify","s","For sale","Online cheese store with its own admin panel, built for a client, with cold-chain delivery zones and SEO-ready pages.",["PHP","MySQL","JavaScript"],"z",[["Visit store","https://cheezify.ayan24.me"]]]
 ];
 const P = (window.CREATSIFY_PROJECTS && window.CREATSIFY_PROJECTS.length > 0) ? window.CREATSIFY_PROJECTS : _P_FALLBACK;
 const F=["Admin and branch agent","Warehouse manager and picker","Merchant and customer portals","Driver app (Flutter)","Live rider tracking","WooCommerce and Shopify sync","Two-factor login, 19 security layers","Warehouse stock, orders and returns"];
@@ -42,7 +41,6 @@ if($('#pjs')) {
 }
 $$('.pj img').forEach((im,i)=>{ if(featuredP[i]) { const val = String(featuredP[i][5]??''); im.src = (val.startsWith('/') || /^https?:\/\//i.test(val)) ? val : (IM[val] || IM.h); } });
 if($('#feat')) $('#feat').innerHTML=F.map((f,i)=>`<li class="rv l" style="--d:${i*.06}s">${escapeHtml(f)}</li>`).join('');
-if($('#cheetahimg') && !$('#cheetahimg').getAttribute('src')) $('#cheetahimg').src=IM.c;
 if($('#hm1') && !$('#hm1').getAttribute('src')) $('#hm1').src=IM.c;
 if($('#hm2') && !$('#hm2').getAttribute('src')) $('#hm2').src=IM.m;
 if($('#heroimg') && !$('#heroimg').getAttribute('src')) $('#heroimg').src=IM.h;
@@ -154,7 +152,7 @@ const links=$$('#nav a');
 const hashLinks=links.filter(a=>a.getAttribute('href')&&a.getAttribute('href').startsWith('#'));
 if(hashLinks.length){
   const navIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)hashLinks.forEach(a=>a.classList.toggle('act',a.getAttribute('href')=='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
-  $$('#work,#cheetah,#about,#contact').forEach(s=>navIO.observe(s));
+  $$('#work,#software,#about,#contact').forEach(s=>navIO.observe(s));
 }
 
 /* portfolio category filter buttons */

@@ -103,14 +103,14 @@ class Project
     {
         self::ensureColumnsExist();
         return db()->fetchAll("SELECT * FROM `projects` 
-            WHERE `slug` IN ('cheetah-enterprise', 'cheetah-lite', 'cheezify', 'restromaster-kds-interface', 'viddmate-video-suite') 
-            ORDER BY FIELD(`slug`, 'cheetah-enterprise', 'cheetah-lite', 'cheezify', 'restromaster-kds-interface', 'viddmate-video-suite')");
+            WHERE `slug` IN ('cheetah-enterprise', 'cheetah-lite', 'cheezify') 
+            ORDER BY FIELD(`slug`, 'cheetah-enterprise', 'cheetah-lite', 'cheezify')");
     }
 
     public static function portfolioWorks(?string $category = null): array
     {
         self::ensureColumnsExist();
-        $sql = "SELECT * FROM `projects` WHERE `slug` NOT IN ('cheetah-enterprise', 'cheetah-lite', 'cheezify', 'restromaster-kds-interface', 'viddmate-video-suite', 'sawi-store')";
+        $sql = "SELECT * FROM `projects` WHERE `slug` NOT IN ('cheetah-enterprise', 'cheetah-lite', 'cheezify', 'sawi-store')";
         $params = [];
         if ($category && $category !== 'all') {
             if ($category === 'web-saas' || $category === 'saas') {

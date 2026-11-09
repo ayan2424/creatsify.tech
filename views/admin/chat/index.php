@@ -9,7 +9,7 @@ $this->layout('layouts/admin');
         <div style="padding: 16px 18px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; background: var(--surface);">
             <div>
                 <h3 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0;">Live Visitor Sessions</h3>
-                <span style="font-size: 11px; color: var(--muted);">Cheetah Chat Engine</span>
+                <span style="font-size: 11px; color: var(--muted);">Creatsify Live Chat Engine</span>
             </div>
             <span class="user-role-badge" style="background: color-mix(in srgb,var(--accent) 15%,transparent); color: var(--accent); font-weight: 700;"><?= count($sessions) ?> Active</span>
         </div>

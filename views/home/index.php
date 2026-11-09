@@ -974,49 +974,93 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
             </div>
         </div>
 
-        <!-- Interactive Responsive Carousel Slider -->
-        <div class="ag-reviews-carousel-wrap" id="revCarouselWrap">
-            <button type="button" class="ag-carousel-btn prev" id="revPrevBtn" aria-label="Previous Reviews">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <button type="button" class="ag-carousel-btn next" id="revNextBtn" aria-label="Next Reviews">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
+        <?php
+        $allReviews = $reviews ?? [];
+        if (empty($allReviews)) {
+            $allReviews = \App\Models\ClientReview::allApproved();
+        }
+        $half = (int)ceil(count($allReviews) / 2);
+        $row1 = array_slice($allReviews, 0, $half);
+        $row2 = array_slice($allReviews, $half);
+        if (empty($row2)) {
+            $row2 = $row1;
+        }
 
-            <div class="ag-reviews-viewport" id="revViewport">
-                <div class="ag-reviews-track" id="revTrack">
-                    <?php foreach (($reviews ?? []) as $idx => $rev):
-                        $stars = max(1, min(5, (int)($rev['rating'] ?? 5)));
-                        $initials = strtoupper(substr(trim((string)($rev['client_name'] ?? 'C')), 0, 1));
-                    ?>
-                        <div class="ag-review-slide">
-                            <article class="ag-review-card">
-                                <div class="ag-rc-top">
-                                    <div class="ag-rc-stars" aria-label="<?= $stars ?> out of 5 stars">
-                                        <?= str_repeat('&#9733;', $stars) ?><?= str_repeat('&#9734;', 5 - $stars) ?>
+        $getRevAvatar = function($idx) {
+            $num = ($idx % 12) + 1;
+            return asset('assets/images/avatars/avatar-' . $num . '.jpg');
+        };
+        ?>
+
+        <!-- Dual-Row Continuous Marquee Stream (Inspired by Reference Video) -->
+        <div class="om-reviews-marquee-container" id="reviewsMarqueeContainer">
+            <!-- Row 1: Leftward Infinite Stream -->
+            <div class="om-marquee-row om-marquee-row-1" aria-label="Client reviews stream row 1">
+                <div class="om-marquee-track om-marquee-left">
+                    <?php for ($rep = 0; $rep < 2; $rep++): ?>
+                        <?php foreach ($row1 as $idx => $rev):
+                            $stars = max(1, min(5, (int)($rev['rating'] ?? 5)));
+                            $avatarUrl = $getRevAvatar($idx);
+                        ?>
+                            <article class="om-rev-card" <?= $rep > 0 ? 'aria-hidden="true"' : '' ?>>
+                                <div class="om-rev-header-row">
+                                    <div class="om-rev-quote-icon" aria-hidden="true">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.324 1.202-4.544 3.284-4.664 5.234.34-.143.76-.235 1.23-.235 1.95 0 3.511 1.562 3.511 3.511 0 1.95-1.562 3.511-3.511 3.511-.703 0-1.354-.213-1.906-.901zm11 0C14.553 16.227 14 15 14 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.324 1.202-4.544 3.284-4.664 5.234.34-.143.76-.235 1.23-.235 1.95 0 3.511 1.562 3.511 3.511 0 1.95-1.562 3.511-3.511 3.511-.703 0-1.354-.213-1.906-.901z"/></svg>
                                     </div>
-                                    <?php if (!empty($rev['outcome_metric'])): ?>
-                                        <span class="ag-rc-outcome"><?= e($rev['outcome_metric']) ?></span>
-                                    <?php endif; ?>
+                                    <div class="om-rev-top-meta">
+                                        <div class="om-rev-stars" aria-label="<?= $stars ?> out of 5 stars"><?= str_repeat('&#9733;', $stars) ?></div>
+                                        <?php if (!empty($rev['outcome_metric'])): ?>
+                                            <span class="om-rev-metric"><?= e($rev['outcome_metric']) ?></span>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
-                                <h3 class="ag-rc-title">“<?= e($rev['review_title']) ?>”</h3>
-                                <p class="ag-rc-text"><?= e($rev['review_text']) ?></p>
-                                <div class="ag-rc-footer">
-                                    <div class="ag-rc-avatar"><?= e($initials) ?></div>
-                                    <div class="ag-rc-author">
-                                        <strong><?= e($rev['client_name']) ?></strong>
-                                        <span><?= e($rev['client_role'] ?: 'Client') ?><?= !empty($rev['company_name']) ? ' &bull; ' . e($rev['company_name']) : '' ?></span>
+                                <p class="om-rev-text">“<?= e($rev['review_text']) ?>”</p>
+                                <div class="om-rev-author-row">
+                                    <img src="<?= $avatarUrl ?>" alt="<?= e($rev['client_name']) ?>" class="om-rev-avatar" width="44" height="44" loading="lazy">
+                                    <div class="om-rev-author-info">
+                                        <strong class="om-rev-name"><?= e($rev['client_name']) ?></strong>
+                                        <span class="om-rev-role"><?= e($rev['client_role'] ?: 'Verified Client') ?><?= !empty($rev['company_name']) ? ' &bull; ' . e($rev['company_name']) : '' ?></span>
                                     </div>
-                                    <span class="ag-rc-service-tag"><?= e($rev['service_category']) ?></span>
                                 </div>
                             </article>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    <?php endfor; ?>
                 </div>
             </div>
 
-            <!-- Dots Pagination -->
-            <div class="ag-carousel-dots" id="revDots" role="tablist" aria-label="Reviews pagination"></div>
+            <!-- Row 2: Rightward Infinite Stream -->
+            <div class="om-marquee-row om-marquee-row-2" aria-label="Client reviews stream row 2">
+                <div class="om-marquee-track om-marquee-right">
+                    <?php for ($rep = 0; $rep < 2; $rep++): ?>
+                        <?php foreach ($row2 as $idx => $rev):
+                            $stars = max(1, min(5, (int)($rev['rating'] ?? 5)));
+                            $avatarUrl = $getRevAvatar($idx + $half);
+                        ?>
+                            <article class="om-rev-card" <?= $rep > 0 ? 'aria-hidden="true"' : '' ?>>
+                                <div class="om-rev-header-row">
+                                    <div class="om-rev-quote-icon" aria-hidden="true">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.324 1.202-4.544 3.284-4.664 5.234.34-.143.76-.235 1.23-.235 1.95 0 3.511 1.562 3.511 3.511 0 1.95-1.562 3.511-3.511 3.511-.703 0-1.354-.213-1.906-.901zm11 0C14.553 16.227 14 15 14 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.324 1.202-4.544 3.284-4.664 5.234.34-.143.76-.235 1.23-.235 1.95 0 3.511 1.562 3.511 3.511 0 1.95-1.562 3.511-3.511 3.511-.703 0-1.354-.213-1.906-.901z"/></svg>
+                                    </div>
+                                    <div class="om-rev-top-meta">
+                                        <div class="om-rev-stars" aria-label="<?= $stars ?> out of 5 stars"><?= str_repeat('&#9733;', $stars) ?></div>
+                                        <?php if (!empty($rev['outcome_metric'])): ?>
+                                            <span class="om-rev-metric"><?= e($rev['outcome_metric']) ?></span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                <p class="om-rev-text">“<?= e($rev['review_text']) ?>”</p>
+                                <div class="om-rev-author-row">
+                                    <img src="<?= $avatarUrl ?>" alt="<?= e($rev['client_name']) ?>" class="om-rev-avatar" width="44" height="44" loading="lazy">
+                                    <div class="om-rev-author-info">
+                                        <strong class="om-rev-name"><?= e($rev['client_name']) ?></strong>
+                                        <span class="om-rev-role"><?= e($rev['client_role'] ?: 'Verified Client') ?><?= !empty($rev['company_name']) ? ' &bull; ' . e($rev['company_name']) : '' ?></span>
+                                    </div>
+                                </div>
+                            </article>
+                        <?php endforeach; ?>
+                    <?php endfor; ?>
+                </div>
+            </div>
         </div>
 
         <div style="text-align:center;margin-top:36px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;">
