@@ -282,36 +282,56 @@ body {
   font-weight: 700;
 }
 
-/* Sidebar Menu Sections */
+/* Sidebar Menu Sections & Modern Executive Discrete Scrollbar */
 .sidebar-menu {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   margin-top: 4px;
-  padding: 6px 10px 14px;
+  padding: 6px 8px 16px 10px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb,var(--accent) 30%,transparent) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
   overscroll-behavior: contain;
+  scroll-behavior: smooth;
 }
 
 .sidebar-menu::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 .sidebar-menu::-webkit-scrollbar-track {
   background: transparent;
-  margin: 6px 0;
+  margin: 8px 0;
 }
 .sidebar-menu::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb,var(--accent) 25%,transparent);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 999px;
-  transition: background 0.2s ease;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sidebar-menu:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.22);
 }
 .sidebar-menu::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb,var(--accent) 55%,transparent);
+  background: #00D2EE;
+  box-shadow: 0 0 8px rgba(0, 210, 238, 0.6);
+}
+
+/* Light Theme Sidebar Scrollbar */
+[data-theme="light"] .sidebar-menu {
+  scrollbar-color: rgba(15, 23, 42, 0.1) transparent;
+}
+[data-theme="light"] .sidebar-menu::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.08);
+}
+[data-theme="light"] .sidebar-menu:hover::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.22);
+}
+[data-theme="light"] .sidebar-menu::-webkit-scrollbar-thumb:hover {
+  background: #2563EB;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
 }
 
 .menu-divider {
@@ -2882,9 +2902,9 @@ select.form-control {
    LIGHT THEME ERGONOMICS & COMPONENT POLISH (High-Craft Panze Aesthetic)
    ========================================================================== */
 [data-theme="light"] .admin-sidebar {
-  background: #ffffff;
-  border-right: 1px solid var(--adm-line);
-  box-shadow: 2px 0 16px rgba(24, 39, 75, 0.03);
+  background: var(--adm-shell-bg, #EDF2F7);
+  border-right: none !important;
+  box-shadow: none !important;
 }
 
 [data-theme="light"] .sidebar-user-footer {
@@ -3138,7 +3158,8 @@ select.form-control {
 
 .admin-sidebar {
   background: var(--adm-shell-bg, #07090D) !important;
-  border-right: 1px solid var(--adm-line, rgba(255, 255, 255, 0.04));
+  border-right: none !important;
+  box-shadow: none !important;
 }
 
 .admin-main {
@@ -4249,7 +4270,8 @@ select.form-control {
 
 [data-theme="light"] .admin-sidebar {
   background: var(--adm-shell-bg) !important;
-  border-right: 1px solid rgba(15, 23, 42, 0.08) !important;
+  border-right: none !important;
+  box-shadow: none !important;
 }
 
 [data-theme="light"] .admin-main {
