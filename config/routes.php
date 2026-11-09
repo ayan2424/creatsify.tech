@@ -69,6 +69,7 @@ $router->post('/admin/logout', [\App\Controllers\Admin\AuthController::class, 'l
 $router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']], function (Router $r) {
     $r->group(['middleware' => ['role:super_admin,admin']], function (Router $r) {
     // Dashboard & Live System Poll
+    $r->get('', [\App\Controllers\Admin\DashboardController::class, 'index']);
     $r->get('/', [\App\Controllers\Admin\DashboardController::class, 'index']);
     $r->get('/poll', [\App\Controllers\Admin\DashboardController::class, 'poll']);
 

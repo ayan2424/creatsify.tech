@@ -160,6 +160,13 @@ class App
                 }
             }
 
+            // Self-healing schema & admin credential verification for admin requests
+            if (str_starts_with($this->request->getPath(), '/admin')) {
+                try {
+                    \App\Database\SchemaMigrator::ensureAll();
+                } catch (\Throwable $ignored) {}
+            }
+
             // Load routes
             $routesFile = $this->basePath . '/config/routes.php';
             if (file_exists($routesFile)) {

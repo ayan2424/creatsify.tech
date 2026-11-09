@@ -450,6 +450,50 @@ CREATE TABLE IF NOT EXISTS `agency_project_notes` (
     INDEX `idx_agency_notes_project` (`agency_project_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `client_reviews` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `client_name` VARCHAR(120) NOT NULL,
+    `client_email` VARCHAR(150) NULL,
+    `client_role` VARCHAR(120) NULL,
+    `company_name` VARCHAR(150) NULL,
+    `service_category` VARCHAR(100) NOT NULL DEFAULT 'Web Development',
+    `rating` TINYINT UNSIGNED NOT NULL DEFAULT 5,
+    `review_title` VARCHAR(200) NOT NULL,
+    `review_text` TEXT NOT NULL,
+    `outcome_metric` VARCHAR(120) NULL,
+    `client_avatar` VARCHAR(255) NULL,
+    `status` ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'approved',
+    `is_featured` TINYINT(1) NOT NULL DEFAULT 0,
+    `sort_order` INT NOT NULL DEFAULT 0,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_reviews_status` (`status`),
+    INDEX `idx_reviews_featured` (`is_featured`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `service_packages` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(180) NOT NULL,
+    `slug` VARCHAR(180) NOT NULL,
+    `category_track` VARCHAR(50) NOT NULL DEFAULT 'dev',
+    `price` VARCHAR(60) NOT NULL DEFAULT '$299',
+    `billing_unit` VARCHAR(40) NOT NULL DEFAULT '/project',
+    `delivery_time` VARCHAR(80) NOT NULL DEFAULT '7–14 Days',
+    `badge_text` VARCHAR(80) NULL,
+    `is_popular` TINYINT(1) NOT NULL DEFAULT 0,
+    `summary` VARCHAR(350) NULL,
+    `features_json` LONGTEXT NULL,
+    `not_included_json` LONGTEXT NULL,
+    `cta_text` VARCHAR(80) NOT NULL DEFAULT 'Get Started Now',
+    `cta_url` VARCHAR(255) NOT NULL DEFAULT '/contact',
+    `status` VARCHAR(20) NOT NULL DEFAULT 'active',
+    `sort_order` INT NOT NULL DEFAULT 0,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_pkg_category` (`category_track`),
+    INDEX `idx_pkg_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ============================================================================
 -- Default Core Seed Data (Super Admins & Roles)
 -- Default Password for both accounts is: admin123

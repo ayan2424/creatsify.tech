@@ -3,14 +3,22 @@
 $user = auth() ?? ['name' => 'Admin User', 'email' => 'admin@creatsify.tech', 'role' => 'admin'];
 $primaryAccent = setting('primary_accent', '#2563EB');
 $currentPath = request()->getPath();
-$topbarUnreadInquiries = \App\Models\Inquiry::countByStatus('new');
-$topbarUnreadNotifs = \App\Models\Notification::countUnread();
-$topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
-$topbarUnreadInquiriesList = array_slice(\App\Models\Inquiry::all('new'), 0, 4);
-$topbarRecentNotifs = \App\Models\Notification::unread(4);
-if (empty($topbarRecentNotifs)) {
-    $topbarRecentNotifs = \App\Models\Notification::all(4);
-}
+$topbarUnreadInquiries = 0;
+$topbarUnreadNotifs = 0;
+$topbarTotalAlerts = 0;
+$topbarUnreadInquiriesList = [];
+$topbarRecentNotifs = [];
+
+try {
+    $topbarUnreadInquiries = (int)\App\Models\Inquiry::countByStatus('new');
+    $topbarUnreadNotifs = (int)\App\Models\Notification::countUnread();
+    $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
+    $topbarUnreadInquiriesList = array_slice(\App\Models\Inquiry::all('new'), 0, 4);
+    $topbarRecentNotifs = \App\Models\Notification::unread(4);
+    if (empty($topbarRecentNotifs)) {
+        $topbarRecentNotifs = \App\Models\Notification::all(4);
+    }
+} catch (\Throwable $e) {}
 $userName = $user['name'] ?? 'Admin User';
 $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
 ?>

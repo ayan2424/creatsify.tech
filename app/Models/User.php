@@ -14,25 +14,8 @@ class User
         $checked = true;
 
         try {
-            $count = (int)(db()->fetchOne("SELECT COUNT(*) as c FROM `users` WHERE `role` = 'super_admin'")['c'] ?? 0);
-            $hash = password_hash('admin123', PASSWORD_BCRYPT);
-
-            if ($count === 0) {
-                db()->query("INSERT INTO `users` (`name`, `email`, `password`, `role`, `phone`, `status`, `created_at`) VALUES 
-                    ('Muhammad Ayan Shamim', 'ayan@creatsify.tech', '{$hash}', 'super_admin', '+923000000000', 'active', NOW()),
-                    ('Creatsify Admin', 'admin@creatsify.tech', '{$hash}', 'super_admin', '+923000000000', 'active', NOW())
-                    ON DUPLICATE KEY UPDATE `password` = '{$hash}', `role` = 'super_admin', `status` = 'active'");
-            } else {
-                // Ensure admin@creatsify.tech exists as secondary super_admin
-                $adminUser = db()->fetchOne("SELECT `id`, `password` FROM `users` WHERE LOWER(`email`) = 'admin@creatsify.tech' LIMIT 1");
-                if (!$adminUser) {
-                    db()->query("INSERT INTO `users` (`name`, `email`, `password`, `role`, `phone`, `status`, `created_at`) VALUES 
-                        ('Creatsify Admin', 'admin@creatsify.tech', '{$hash}', 'super_admin', '+923000000000', 'active', NOW())");
-                }
-            }
-        } catch (\Throwable $e) {
-            // Silently recover if table not yet migrated
-        }
+            \App\Database\SchemaMigrator::ensureAll();
+        } catch (\Throwable $e) {}
     }
 
     public static function findById(int $id): ?array
