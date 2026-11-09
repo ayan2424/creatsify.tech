@@ -255,17 +255,16 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                     <span class="hamburger-line"></span>
                 </button>
 
-                <!-- Connected Horizontal Navigation Pills (Reference Design) -->
+                <!-- Connected Horizontal Navigation Pills (Essential Quick Operations) -->
                 <nav class="adm-top-pills" role="tablist" aria-label="Operations Quick Links">
                     <a href="<?= url('/admin') ?>" class="adm-top-pill <?= $currentPath === '/admin' ? 'active' : '' ?>">Overview</a>
                     <a href="<?= url('/admin/inquiries') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/inquiries') ? 'active' : '' ?>">Inquiries</a>
-                    <a href="<?= url('/admin/projects') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>">Software Store</a>
-                    <a href="<?= url('/admin/crm/tickets') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/crm/tickets') ? 'active' : '' ?>">Tickets</a>
-                    <a href="<?= url('/admin/crm/clients') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/crm/clients') ? 'active' : '' ?>">Clients</a>
                     <a href="<?= url('/admin/chat') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/chat') ? 'active' : '' ?>">
                         <span class="adm-live-dot"></span>
                         <span>Live Chat</span>
                     </a>
+                    <a href="<?= url('/admin/crm/tickets') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/crm/tickets') ? 'active' : '' ?>">Tickets</a>
+                    <a href="<?= url('/admin/projects') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>">Software</a>
                 </nav>
             </div>
 
@@ -273,8 +272,23 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                 <!-- Desktop Executive Command Search Bar -->
                 <div class="command-search-wrap">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    <input type="text" class="command-search-input" id="adminGlobalSearch" placeholder="Search...">
-                    <span class="command-kbd">⌘K</span>
+                    <input type="text" class="command-search-input" id="adminGlobalSearch" placeholder="Search..." autocomplete="off">
+                    <span class="command-kbd">Ctrl+K</span>
+                </div>
+
+                <!-- Live System Digital Clock Widget -->
+                <div class="adm-header-clock" id="admHeaderClock" title="System Live Time & Date">
+                    <div class="adm-clock-icon-wrap">
+                        <svg class="adm-clock-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span class="adm-clock-live-ping"></span>
+                    </div>
+                    <div class="adm-clock-readout">
+                        <span class="adm-clock-time" id="admClockTime">--:--:--</span>
+                        <span class="adm-clock-date" id="admClockDate">Loading...</span>
+                    </div>
                 </div>
 
                 <!-- Theme Toggle Button (Light / Dark Mode) -->
@@ -653,6 +667,30 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                         localStorage.setItem('creatsify-admin-theme', next);
                     } catch(e) {}
                 });
+            }
+
+            // Real-Time System Digital Clock
+            const clockTimeEl = document.getElementById('admClockTime');
+            const clockDateEl = document.getElementById('admClockDate');
+            if (clockTimeEl && clockDateEl) {
+                function updateClock() {
+                    const now = new Date();
+                    const timeStr = now.toLocaleTimeString(undefined, {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true
+                    });
+                    const dateStr = now.toLocaleDateString(undefined, {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                    clockTimeEl.textContent = timeStr;
+                    clockDateEl.textContent = dateStr;
+                }
+                updateClock();
+                setInterval(updateClock, 1000);
             }
 
             // Interactive Notification Center Dropdown

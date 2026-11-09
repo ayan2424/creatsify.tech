@@ -9,10 +9,11 @@ INSERT INTO `roles` (`name`, `slug`, `description`, `permissions`) VALUES
 ('Editor', 'editor', 'Can author blog posts and edit portfolio projects.', '["manage_content","view_inquiries"]')
 ON DUPLICATE KEY UPDATE `name`=VALUES(`name`);
 
--- 2. Default Super Admin User (Muhammad Ayan Shamim)
+-- 2. Default Super Admin Users
 -- Password is: admin123
 INSERT INTO `users` (`name`, `email`, `password`, `role`, `phone`, `status`) VALUES
-('Muhammad Ayan Shamim', 'ayan@creatsify.tech', '$2y$10$Bh26gkLWZ/l6un4H54UzRudQ4a84..iXTqPSN2IKuSpPcD4WnAIJC', 'super_admin', '+923000000000', 'active')
+('Muhammad Ayan Shamim', 'ayan@creatsify.tech', '$2y$10$Bh26gkLWZ/l6un4H54UzRudQ4a84..iXTqPSN2IKuSpPcD4WnAIJC', 'super_admin', '+923000000000', 'active'),
+('Creatsify Admin', 'admin@creatsify.tech', '$2y$10$Bh26gkLWZ/l6un4H54UzRudQ4a84..iXTqPSN2IKuSpPcD4WnAIJC', 'super_admin', '+923000000000', 'active')
 ON DUPLICATE KEY UPDATE `name`=VALUES(`name`);
 
 -- 3. Platform Settings

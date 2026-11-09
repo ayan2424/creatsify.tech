@@ -30,7 +30,7 @@ $months = [
         <div class="adm-ws-crumbs">
             <span>Overview</span>
             <span>&rsaquo;</span>
-            <span style="color:#CBD5E1;">All Reports</span>
+            <span class="adm-crumb-current">All Reports</span>
         </div>
     </div>
     <div class="adm-ws-actions">
@@ -218,7 +218,7 @@ $months = [
                     <div class="adm-holding-coin-icon orange">CE</div>
                     <div class="adm-holding-meta">
                         <strong>Cheetah Enterprise</strong>
-                        <span>Courier &amp; Multi-Branch Suite</span>
+                        <span>PHP 8.4 Multi-Branch Courier Suite</span>
                     </div>
                 </div>
                 <div class="adm-holding-right">
@@ -227,13 +227,13 @@ $months = [
                 </div>
             </div>
 
-            <!-- 2. Lumina Fleet Companion -->
+            <!-- 2. Cheetah Lite -->
             <div class="adm-holding-item">
                 <div class="adm-holding-left">
-                    <div class="adm-holding-coin-icon cyan">LF</div>
+                    <div class="adm-holding-coin-icon cyan">CL</div>
                     <div class="adm-holding-meta">
-                        <strong>Lumina Companion</strong>
-                        <span>Flutter iOS &amp; Android App</span>
+                        <strong>Cheetah Lite</strong>
+                        <span>Fast Courier &amp; Logistics SaaS Engine</span>
                     </div>
                 </div>
                 <div class="adm-holding-right">
@@ -247,28 +247,13 @@ $months = [
                 <div class="adm-holding-left">
                     <div class="adm-holding-coin-icon purple">CZ</div>
                     <div class="adm-holding-meta">
-                        <strong>Cheezify Storefront</strong>
-                        <span>Cold-Chain D2C Portal</span>
+                        <strong>Cheezify Store</strong>
+                        <span>Fast E-Commerce &amp; Grocery Portal</span>
                     </div>
                 </div>
                 <div class="adm-holding-right">
                     <div class="adm-holding-price">$59.00</div>
                     <div class="adm-holding-change">+12.45%</div>
-                </div>
-            </div>
-
-            <!-- 4. RestroMaster POS -->
-            <div class="adm-holding-item">
-                <div class="adm-holding-left">
-                    <div class="adm-holding-coin-icon gold">RM</div>
-                    <div class="adm-holding-meta">
-                        <strong>RestroMaster KDS</strong>
-                        <span>Real-Time Kitchen Display</span>
-                    </div>
-                </div>
-                <div class="adm-holding-right">
-                    <div class="adm-holding-price">$79.00</div>
-                    <div class="adm-holding-change">+18.30%</div>
                 </div>
             </div>
         </div>
@@ -288,19 +273,19 @@ $months = [
     <div class="adm-dock-stats">
         <span class="adm-dock-pill active-engine">
             <span style="width:7px;height:7px;border-radius:50%;background:#00D2EE;box-shadow:0 0 8px #00D2EE;"></span>
-            <span>Cheetah Core Online</span>
+            <span>Creatsify Core Online</span>
         </span>
         <span class="adm-dock-pill">
             <span>DB Latency:</span>
-            <strong style="color:#00D2EE;"><?= (int)($dbLatencyMs ?? 5) ?>ms Nominal</strong>
+            <strong class="adm-dock-val accent"><?= (int)($dbLatencyMs ?? 5) ?>ms Nominal</strong>
         </span>
         <span class="adm-dock-pill">
             <span>Memory:</span>
-            <strong style="color:#FFFFFF;"><?= $memoryUsageMb ?? 14 ?>MB (<?= $memoryPercent ?? 12 ?>%)</strong>
+            <strong class="adm-dock-val"><?= $memoryUsageMb ?? 14 ?>MB (<?= $memoryPercent ?? 12 ?>%)</strong>
         </span>
         <span class="adm-dock-pill">
             <span>MySQL Tables:</span>
-            <strong style="color:#FFFFFF;"><?= $tableCount ?? 26 ?></strong>
+            <strong class="adm-dock-val"><?= $tableCount ?? 26 ?></strong>
         </span>
     </div>
 
