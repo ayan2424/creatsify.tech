@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $pdo = new PDO($dsn, $dbConfig['username'], $dbConfig['password'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
                 }
 
-                // 1. Run Schema
+                // 1. Run Schema safely
                 $schemaSql = file_get_contents($baseDir . '/database/schema.sql');
                 if ($driver === 'sqlite') {
                     $sqliteSchema = preg_replace('/(INT|BIGINT)\s+AUTO_INCREMENT\s+PRIMARY\s+KEY/i', 'INTEGER PRIMARY KEY AUTOINCREMENT', $schemaSql);
@@ -102,12 +102,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $sqliteSchema = preg_replace('/UNIQUE\s+KEY\s+`?[^`\s]+`?\s*\(([^)]+)\)/i', 'UNIQUE ($1)', $sqliteSchema);
                     $sqliteSchema = preg_replace('/INDEX `[^`]+` \([^)]+\),?/i', '', $sqliteSchema);
                     $sqliteSchema = preg_replace('/,\s*\)/', ')', $sqliteSchema);
-                    $pdo->exec($sqliteSchema);
+                    $queries = explode(";\n", $sqliteSchema);
+                    foreach ($queries as $q) {
+                        $trimmed = trim($q);
+                        if (!empty($trimmed)) {
+                            try { $pdo->exec($trimmed); } catch (Throwable $e) {}
+                        }
+                    }
                 } else {
-                    $pdo->exec($schemaSql);
+                    $queries = explode(";\n", $schemaSql);
+                    foreach ($queries as $q) {
+                        $trimmed = trim($q);
+                        if (!empty($trimmed)) {
+                            try { $pdo->exec($trimmed); } catch (Throwable $e) {}
+                        }
+                    }
                 }
 
-                // 2. Run Seeds
+                // 2. Run Seeds safely
                 $seedsSql = file_get_contents($baseDir . '/database/seeds.sql');
                 if ($driver === 'sqlite') {
                     $sqliteSeeds = preg_replace('/ON DUPLICATE KEY UPDATE `[^`]+`=VALUES\(`[^`]+`\);/i', ';', $seedsSql);
@@ -120,7 +132,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                     }
                 } else {
-                    $pdo->exec($seedsSql);
+                    $queries = explode(";\n", $seedsSql);
+                    foreach ($queries as $q) {
+                        $trimmed = trim($q);
+                        if (!empty($trimmed)) {
+                            try { $pdo->exec($trimmed); } catch (Throwable $e) {}
+                        }
+                    }
                 }
 
                 // 3. Update Super Admin & Title (Safely handle existing or matching emails)

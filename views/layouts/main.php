@@ -44,7 +44,7 @@ $footerCode = setting('custom_footer_code', '');
     <link rel="apple-touch-icon" href="<?= url('/apple-touch-icon.png') ?>">
     <link rel="manifest" href="<?= url('/site.webmanifest') ?>">
     <meta name="theme-color" content="#F6F9FE" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#0A1A33" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#07080A" media="(prefers-color-scheme: dark)">
 
     <!-- Google Fonts: Plus Jakarta Sans & Sora for crisp cross-platform typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
