@@ -8,37 +8,38 @@
    ========================================================================== */
 
 :root {
-  /* Elite Luxury Obsidian & Neon Lime Palette (Reference Design) */
-  --adm-bg: #090A0C;
-  --adm-shell-bg: #090A0C;
-  --adm-surface: #090A0C;
-  --adm-surface-hover: #14171A;
-  --adm-workspace-bg: #131619;
-  --adm-card: #181C20;
-  --adm-card-hover: #1E2328;
-  --adm-line: rgba(255, 255, 255, 0.06);
+  /* Elite Ultra-Luxury Obsidian Midnight & Electric Cyan Palette */
+  --adm-bg: #07090D;
+  --adm-shell-bg: #07090D;
+  --adm-surface: #07090D;
+  --adm-surface-hover: #10141C;
+  --adm-workspace-bg: #0E1219;
+  --adm-card: #131822;
+  --adm-card-hover: #181E2B;
+  --adm-line: rgba(255, 255, 255, 0.065);
   --adm-line-light: rgba(255, 255, 255, 0.04);
   --adm-text: #FFFFFF;
-  --adm-muted: #8E959E;
-  --adm-accent: #C5F82A;
-  --adm-accent-hover: #D4FF00;
-  --adm-accent-glow: rgba(197, 248, 42, 0.25);
-  --adm-coral: #ff5f38;
-  --adm-coral-glow: rgba(255, 95, 56, 0.25);
-  --adm-green: #00e599;
-  --adm-green-glow: rgba(0, 229, 153, 0.25);
-  --adm-pink: #D4FF00;
-  --adm-pink-glow: rgba(212, 255, 0, 0.25);
+  --adm-muted: #8E99A8;
+  --adm-accent: #00D2EE;
+  --adm-accent-hover: #38BDF8;
+  --adm-accent-glow: rgba(0, 210, 238, 0.35);
+  --adm-accent-secondary: #0284C7;
+  --adm-coral: #FF5A5F;
+  --adm-coral-glow: rgba(255, 90, 95, 0.25);
+  --adm-green: #00D2EE;
+  --adm-green-glow: rgba(0, 210, 238, 0.25);
+  --adm-pink: #38BDF8;
+  --adm-pink-glow: rgba(56, 189, 248, 0.25);
   --adm-sidebar-w: 260px;
   --adm-radius: 20px;
   --adm-workspace-radius: 28px;
 
   /* Modern High-End Gradient Tokens (Obsidian Theme) */
-  --adm-grad-primary: linear-gradient(135deg, #1E3A8A 0%, #2563EB 55%, #60A5FA 100%);
-  --adm-grad-accent: linear-gradient(135deg, var(--adm-accent) 0%, #D4A017 100%);
-  --adm-grad-emerald: linear-gradient(135deg, #00b87a 0%, #00e599 100%);
-  --adm-grad-coral: linear-gradient(135deg, #ff5f38 0%, #ff8c42 100%);
-  --adm-grad-pink: linear-gradient(135deg, #D4A017 0%, #60A5FA 100%);
+  --adm-grad-primary: linear-gradient(135deg, #00D2EE 0%, #0284C7 60%, #1E3A8A 100%);
+  --adm-grad-accent: linear-gradient(135deg, #00D2EE 0%, #38BDF8 100%);
+  --adm-grad-emerald: linear-gradient(135deg, #00D2EE 0%, #0284C7 100%);
+  --adm-grad-coral: linear-gradient(135deg, #FF5A5F 0%, #FF8C42 100%);
+  --adm-grad-pink: linear-gradient(135deg, #38BDF8 0%, #60A5FA 100%);
   --adm-grad-card: linear-gradient(145deg, rgba(255, 255, 255, 0.045) 0%, rgba(15, 17, 26, 0.78) 100%);
   --adm-grad-card-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(22, 25, 38, 0.88) 100%);
   --adm-grad-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 100%);
@@ -3137,31 +3138,8 @@ select.form-control {
 }
 
 .admin-sidebar {
-  background: var(--adm-shell-bg, #090A0C) !important;
+  background: var(--adm-shell-bg, #07090D) !important;
   border-right: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.adm-sidebar-welcome {
-  padding: 14px 18px 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  margin-bottom: 10px;
-}
-
-.adm-welcome-title {
-  font-family: Sora, -apple-system, sans-serif;
-  font-size: 26px;
-  font-weight: 800;
-  line-height: 1.15;
-  color: #FFFFFF;
-  letter-spacing: -0.035em;
-  margin: 0 0 6px;
-}
-
-.adm-welcome-sub {
-  font-size: 12px;
-  color: #7A828E;
-  line-height: 1.4;
-  margin: 0;
 }
 
 .adm-category-label {
@@ -3180,14 +3158,23 @@ select.form-control {
   width: 17px;
   height: 17px;
   border-radius: 50%;
-  background: #C5F82A;
-  color: #090A0C;
-  font-size: 12px;
-  font-weight: 900;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94A3B8;
+  font-size: 11px;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.adm-cat-plus:hover {
+  background: #00D2EE;
+  color: #041021;
+  border-color: #00D2EE;
+  box-shadow: 0 0 10px rgba(0, 210, 238, 0.4);
 }
 
 /* 2. Connected Top Navigation Pills */
@@ -3203,10 +3190,10 @@ select.form-control {
   display: flex;
   align-items: center;
   gap: 5px;
-  background: #111417;
+  background: #10141C;
   padding: 5px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.065);
 }
 
 .adm-top-pill {
@@ -3217,7 +3204,7 @@ select.form-control {
   border-radius: 999px;
   font-size: 13px;
   font-weight: 600;
-  color: #8E959E;
+  color: #8E99A8;
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
@@ -3225,22 +3212,22 @@ select.form-control {
 
 .adm-top-pill:hover {
   color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .adm-top-pill.active {
-  background: #C5F82A !important;
-  color: #090A0C !important;
+  background: linear-gradient(135deg, #00D2EE 0%, #0284C7 100%) !important;
+  color: #041021 !important;
   font-weight: 700 !important;
-  box-shadow: 0 4px 18px rgba(197, 248, 42, 0.28);
+  box-shadow: 0 4px 18px rgba(0, 210, 238, 0.35);
 }
 
 .adm-live-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #22C55E;
-  box-shadow: 0 0 8px #22C55E;
+  background: #00D2EE;
+  box-shadow: 0 0 8px #00D2EE;
 }
 
 .adm-action-circle {
@@ -3498,9 +3485,9 @@ select.form-control {
   gap: 5px;
 }
 
-.adm-alloc-legend .dot-lime { width: 6px; height: 6px; border-radius: 50%; background: #C5F82A; }
-.adm-alloc-legend .dot-emerald { width: 6px; height: 6px; border-radius: 50%; background: #22C55E; }
-.adm-alloc-legend .dot-gray { width: 6px; height: 6px; border-radius: 50%; background: #374151; }
+.adm-alloc-legend .dot-cyan { width: 6px; height: 6px; border-radius: 50%; background: #00D2EE; box-shadow: 0 0 6px rgba(0, 210, 238, 0.6); }
+.adm-alloc-legend .dot-sapphire { width: 6px; height: 6px; border-radius: 50%; background: #2563EB; }
+.adm-alloc-legend .dot-gray { width: 6px; height: 6px; border-radius: 50%; background: #475569; }
 
 .adm-matrix-table {
   display: flex;
@@ -3544,12 +3531,12 @@ select.form-control {
   transform: scale(1.15);
 }
 
-.adm-mdot.lime { background: #C5F82A; }
-.adm-mdot.emerald { background: #15803D; }
-.adm-mdot.muted-green { background: #274737; }
-.adm-mdot.charcoal { background: #2A3036; }
-.adm-mdot.dark { background: #1C2024; border: 1px solid rgba(255,255,255,0.06); }
-.adm-mdot.striped { background: repeating-linear-gradient(45deg, #2A3036, #2A3036 3px, #3A434C 3px, #3A434C 6px); }
+.adm-mdot.cyan { background: #00D2EE; box-shadow: 0 0 8px rgba(0, 210, 238, 0.5); }
+.adm-mdot.sapphire { background: #2563EB; }
+.adm-mdot.ice { background: #38BDF8; }
+.adm-mdot.charcoal { background: #1E293B; }
+.adm-mdot.dark { background: #0F172A; border: 1px solid rgba(255,255,255,0.08); }
+.adm-mdot.striped { background: repeating-linear-gradient(45deg, #1E293B, #1E293B 3px, #334155 3px, #334155 6px); }
 
 .adm-matrix-days {
   display: flex;
@@ -3618,27 +3605,28 @@ select.form-control {
   margin: 0 0 20px;
 }
 
-.adm-btn-lime {
+.adm-btn-cyan {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #C5F82A;
-  color: #090A0C !important;
+  background: linear-gradient(135deg, #00D2EE 0%, #0284C7 100%);
+  color: #041021 !important;
   font-weight: 700;
   font-size: 13.5px;
   padding: 10px 22px;
   border-radius: 999px;
   text-decoration: none;
-  border: none;
+  border: 1px solid rgba(0, 210, 238, 0.4);
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(197, 248, 42, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 210, 238, 0.35);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   width: fit-content;
 }
 
-.adm-btn-lime:hover {
+.adm-btn-cyan:hover {
+  background: linear-gradient(135deg, #38BDF8 0%, #0369A1 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(197, 248, 42, 0.45);
+  box-shadow: 0 8px 26px rgba(0, 210, 238, 0.5);
 }
 
 /* Card 3: Today's Earnings / Velocity */
@@ -3684,7 +3672,7 @@ select.form-control {
 .adm-velocity-delta {
   font-size: 12px;
   font-weight: 700;
-  color: #C5F82A;
+  color: #00D2EE;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -3693,10 +3681,11 @@ select.form-control {
 /* Card 4: Portfolio Report Fluid Card */
 .adm-card-report {
   grid-column: span 7;
-  background: radial-gradient(circle at 100% 50%, rgba(34, 197, 94, 0.35) 0%, transparent 60%),
-              radial-gradient(circle at 20% 80%, rgba(197, 248, 42, 0.25) 0%, transparent 50%),
-              #151F18;
-  border-color: rgba(34, 197, 94, 0.25);
+  background: radial-gradient(circle at 100% 40%, rgba(0, 210, 238, 0.28) 0%, transparent 60%),
+              radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.35) 0%, transparent 60%),
+              linear-gradient(135deg, #0A0F1D 0%, #121A2D 100%);
+  border-color: rgba(0, 210, 238, 0.22);
+  box-shadow: 0 16px 36px -10px rgba(0, 210, 238, 0.12);
   justify-content: space-between;
 }
 
@@ -3774,7 +3763,7 @@ select.form-control {
 .adm-capsule-bar {
   width: 18px;
   border-radius: 999px;
-  background: #242A30;
+  background: #1C2333;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -3786,8 +3775,8 @@ select.form-control {
 .adm-capsule-bar-top {
   width: 100%;
   border-radius: 999px;
-  background: #C5F82A;
-  box-shadow: 0 0 12px rgba(197, 248, 42, 0.4);
+  background: linear-gradient(180deg, #00D2EE 0%, #0284C7 100%);
+  box-shadow: 0 0 12px rgba(0, 210, 238, 0.45);
 }
 
 .adm-capsule-month {
@@ -3800,7 +3789,7 @@ select.form-control {
 .adm-capsule-delta {
   font-size: 9.5px;
   font-weight: 700;
-  color: #C5F82A;
+  color: #38BDF8;
 }
 
 /* Card 6: Commercial Holdings List */
@@ -3843,7 +3832,7 @@ select.form-control {
 }
 
 .adm-holding-coin-icon.orange { background: #F7931A; }
-.adm-holding-coin-icon.cyan { background: #00D2EE; }
+.adm-holding-coin-icon.cyan { background: #00D2EE; color: #041021; }
 .adm-holding-coin-icon.purple { background: #8B5CF6; }
 .adm-holding-coin-icon.gold { background: #F59E0B; }
 
@@ -3873,7 +3862,7 @@ select.form-control {
 .adm-holding-change {
   font-size: 11px;
   font-weight: 700;
-  color: #C5F82A;
+  color: #00D2EE;
 }
 
 .adm-holdings-action-row {
@@ -3886,8 +3875,8 @@ select.form-control {
 .adm-telemetry-dock {
   margin-top: 24px;
   padding: 16px 20px;
-  background: #181C20;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: #131822;
+  border: 1px solid rgba(255, 255, 255, 0.065);
   border-radius: 18px;
   display: flex;
   align-items: center;
@@ -3909,17 +3898,17 @@ select.form-control {
   gap: 6px;
   padding: 5px 12px;
   border-radius: 999px;
-  background: #21262B;
+  background: #1C2333;
   border: 1px solid rgba(255, 255, 255, 0.06);
   font-size: 11.5px;
   font-weight: 600;
-  color: #8E959E;
+  color: #8E99A8;
 }
 
 .adm-dock-pill.active-engine {
-  background: rgba(34, 197, 94, 0.12);
-  border-color: rgba(34, 197, 94, 0.3);
-  color: #22C55E;
+  background: rgba(0, 210, 238, 0.12);
+  border-color: rgba(0, 210, 238, 0.3);
+  color: #00D2EE;
 }
 
 .adm-dock-actions {
@@ -3935,7 +3924,7 @@ select.form-control {
   gap: 6px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: #21262B;
+  background: #1C2333;
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: #FFFFFF;
   font-size: 12px;
@@ -3945,15 +3934,22 @@ select.form-control {
 }
 
 .adm-dock-btn:hover {
-  background: #2A3138;
+  background: #252F45;
   border-color: rgba(255, 255, 255, 0.15);
 }
 
 .adm-dock-btn.primary {
-  background: #C5F82A;
-  color: #090A0C !important;
+  background: linear-gradient(135deg, #00D2EE 0%, #0284C7 100%);
+  color: #041021 !important;
   font-weight: 700;
   border: none;
+  box-shadow: 0 4px 14px rgba(0, 210, 238, 0.35);
+}
+
+.adm-dock-btn.primary:hover {
+  background: linear-gradient(135deg, #38BDF8 0%, #0369A1 100%);
+  box-shadow: 0 6px 18px rgba(0, 210, 238, 0.5);
+  transform: translateY(-1px);
 }
 
 /* Responsive Breakpoints for Bento Grid */

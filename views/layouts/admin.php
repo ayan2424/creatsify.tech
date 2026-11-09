@@ -55,12 +55,6 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
             </div>
         </div>
 
-        <!-- Distinctive Welcome Greeting Block (Reference Design) -->
-        <div class="adm-sidebar-welcome">
-            <h1 class="adm-welcome-title">Welcome<br>Back, <?= e($firstName) ?>!</h1>
-            <p class="adm-welcome-sub">Current summary of your agency portfolio</p>
-        </div>
-
         <nav class="sidebar-menu">
             <div class="adm-category-label">HOME</div>
 

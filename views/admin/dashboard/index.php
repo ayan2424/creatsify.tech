@@ -68,8 +68,8 @@ $months = [
                 <div class="adm-alloc-total-label">Total Pipeline</div>
             </div>
             <div class="adm-alloc-legend">
-                <span><span class="dot-lime"></span> $1 - $500</span>
-                <span><span class="dot-emerald"></span> $500 - $2,000</span>
+                <span><span class="dot-cyan"></span> $1 - $500</span>
+                <span><span class="dot-sapphire"></span> $500 - $2,000</span>
                 <span><span class="dot-gray"></span> +$2,000</span>
             </div>
         </div>
@@ -79,22 +79,22 @@ $months = [
             <div class="adm-matrix-row">
                 <span class="adm-matrix-label">Web &amp; SaaS</span>
                 <div class="adm-matrix-dots">
-                    <span class="adm-mdot lime" title="PHP 8.4 MVC Sprint"></span>
+                    <span class="adm-mdot cyan" title="PHP 8.4 MVC Sprint"></span>
                     <span class="adm-mdot charcoal"></span>
-                    <span class="adm-mdot lime"></span>
-                    <span class="adm-mdot muted-green"></span>
+                    <span class="adm-mdot cyan"></span>
+                    <span class="adm-mdot ice"></span>
                     <span class="adm-mdot dark"></span>
-                    <span class="adm-mdot emerald"></span>
-                    <span class="adm-mdot lime"></span>
+                    <span class="adm-mdot sapphire"></span>
+                    <span class="adm-mdot cyan"></span>
                 </div>
             </div>
             <div class="adm-matrix-row">
                 <span class="adm-matrix-label">Flutter Apps</span>
                 <div class="adm-matrix-dots">
                     <span class="adm-mdot charcoal"></span>
-                    <span class="adm-mdot emerald"></span>
+                    <span class="adm-mdot sapphire"></span>
                     <span class="adm-mdot striped"></span>
-                    <span class="adm-mdot lime"></span>
+                    <span class="adm-mdot cyan"></span>
                     <span class="adm-mdot charcoal"></span>
                     <span class="adm-mdot striped"></span>
                     <span class="adm-mdot dark"></span>
@@ -104,11 +104,11 @@ $months = [
                 <span class="adm-matrix-label">Brand &amp; Ads</span>
                 <div class="adm-matrix-dots">
                     <span class="adm-mdot dark"></span>
-                    <span class="adm-mdot lime"></span>
+                    <span class="adm-mdot cyan"></span>
                     <span class="adm-mdot dark"></span>
                     <span class="adm-mdot charcoal"></span>
-                    <span class="adm-mdot emerald"></span>
-                    <span class="adm-mdot muted-green"></span>
+                    <span class="adm-mdot sapphire"></span>
+                    <span class="adm-mdot ice"></span>
                     <span class="adm-mdot striped"></span>
                 </div>
             </div>
@@ -120,12 +120,12 @@ $months = [
 
     <!-- Card 2: Commercial License Mastery Banner (Reference Top Right) -->
     <article class="adm-card adm-card-mastery">
-        <!-- Generative Vector Contour Waves Art -->
+        <!-- Generative Vector Contour Waves Art (Electric Cyan Palette) -->
         <svg class="adm-mastery-topo-bg" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 250C120 180 200 290 300 210C350 170 380 120 400 90" stroke="#C5F82A" stroke-width="1.2" stroke-opacity="0.25"/>
-            <path d="M30 220C100 150 180 260 280 180C330 140 370 100 400 60" stroke="#C5F82A" stroke-width="1.2" stroke-opacity="0.3"/>
-            <path d="M10 190C80 120 160 230 260 150C310 110 360 80 400 30" stroke="#C5F82A" stroke-width="1.5" stroke-opacity="0.4"/>
-            <path d="M0 160C70 90 140 200 240 120C290 80 340 50 400 0" stroke="#C5F82A" stroke-width="1.2" stroke-opacity="0.25"/>
+            <path d="M50 250C120 180 200 290 300 210C350 170 380 120 400 90" stroke="#00D2EE" stroke-width="1.2" stroke-opacity="0.3"/>
+            <path d="M30 220C100 150 180 260 280 180C330 140 370 100 400 60" stroke="#00D2EE" stroke-width="1.2" stroke-opacity="0.35"/>
+            <path d="M10 190C80 120 160 230 260 150C310 110 360 80 400 30" stroke="#00D2EE" stroke-width="1.5" stroke-opacity="0.45"/>
+            <path d="M0 160C70 90 140 200 240 120C290 80 340 50 400 0" stroke="#00D2EE" stroke-width="1.2" stroke-opacity="0.3"/>
         </svg>
 
         <div>
@@ -137,7 +137,7 @@ $months = [
         </div>
 
         <div>
-            <a href="<?= url('/admin/projects') ?>" class="adm-btn-lime">
+            <a href="<?= url('/admin/projects') ?>" class="adm-btn-cyan">
                 <span>Explore Software</span>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
             </a>
@@ -205,7 +205,7 @@ $months = [
         <div class="adm-card-header">
             <h3 class="adm-card-title">Commercial Holdings</h3>
             <a href="<?= url('/admin/projects') ?>" class="adm-card-ctrls" style="text-decoration:none;">
-                <span style="font-size:12px;font-weight:700;color:#C5F82A;display:flex;align-items:center;gap:4px;">
+                <span style="font-size:12px;font-weight:700;color:#00D2EE;display:flex;align-items:center;gap:4px;">
                     See All <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
                 </span>
             </a>
@@ -274,7 +274,7 @@ $months = [
         </div>
 
         <div class="adm-holdings-action-row">
-            <a href="<?= url('/admin/projects') ?>" class="adm-btn-lime" style="padding: 7px 18px; font-size: 12.5px;">
+            <a href="<?= url('/admin/projects') ?>" class="adm-btn-cyan" style="padding: 7px 18px; font-size: 12.5px;">
                 <span>Manage Stacks</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
             </a>
@@ -287,12 +287,12 @@ $months = [
 <section class="adm-telemetry-dock" aria-label="System Telemetry and Fast Actions">
     <div class="adm-dock-stats">
         <span class="adm-dock-pill active-engine">
-            <span style="width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 8px #22C55E;"></span>
+            <span style="width:7px;height:7px;border-radius:50%;background:#00D2EE;box-shadow:0 0 8px #00D2EE;"></span>
             <span>Cheetah Core Online</span>
         </span>
         <span class="adm-dock-pill">
             <span>DB Latency:</span>
-            <strong style="color:#C5F82A;"><?= (int)($dbLatencyMs ?? 5) ?>ms Nominal</strong>
+            <strong style="color:#00D2EE;"><?= (int)($dbLatencyMs ?? 5) ?>ms Nominal</strong>
         </span>
         <span class="adm-dock-pill">
             <span>Memory:</span>
