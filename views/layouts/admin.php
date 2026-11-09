@@ -6,6 +6,11 @@ $currentPath = request()->getPath();
 $topbarUnreadInquiries = \App\Models\Inquiry::countByStatus('new');
 $topbarUnreadNotifs = \App\Models\Notification::countUnread();
 $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
+$topbarUnreadInquiriesList = array_slice(\App\Models\Inquiry::all('new'), 0, 4);
+$topbarRecentNotifs = \App\Models\Notification::unread(4);
+if (empty($topbarRecentNotifs)) {
+    $topbarRecentNotifs = \App\Models\Notification::all(4);
+}
 $userName = $user['name'] ?? 'Admin User';
 $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
 ?>
@@ -269,18 +274,109 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                     <span class="command-kbd">⌘K</span>
                 </div>
 
+                <!-- Theme Toggle Button (Light / Dark Mode) -->
+                <button type="button" class="adm-action-circle adm-theme-toggle-btn" id="admThemeToggleBtn" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
+                    <svg class="adm-theme-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="adm-theme-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+
                 <!-- Settings Gear Icon Circle Button -->
                 <a href="<?= url('/admin/settings') ?>" class="adm-action-circle" title="White-Label Settings">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </a>
 
-                <!-- Notification Bell with Alert Badge -->
-                <a href="<?= url('/admin/inquiries') ?>" class="adm-action-circle adm-bell-btn" title="Client Inquiries & Notifications">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    <?php if ($topbarTotalAlerts > 0): ?>
-                        <span class="adm-red-dot-badge"><?= $topbarTotalAlerts ?></span>
-                    <?php endif; ?>
-                </a>
+                <!-- Interactive Notification Center -->
+                <div class="adm-notif-wrap" id="admNotifWrap">
+                    <button type="button" class="adm-action-circle adm-bell-btn" id="admNotifBtn" title="Client Inquiries & System Alerts" aria-expanded="false" aria-haspopup="true">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                        <?php if ($topbarTotalAlerts > 0): ?>
+                            <span class="adm-red-dot-badge" id="topbarBellBadge"><?= $topbarTotalAlerts ?></span>
+                        <?php endif; ?>
+                    </button>
+
+                    <div class="adm-notif-dropdown" id="admNotifDropdown" role="menu" aria-label="Notifications Panel">
+                        <div class="adm-notif-header">
+                            <div class="adm-notif-header-title">
+                                <span class="adm-notif-h-text">Notifications &amp; Alerts</span>
+                                <?php if ($topbarTotalAlerts > 0): ?>
+                                    <span class="adm-notif-count-pill"><?= $topbarTotalAlerts ?> New</span>
+                                <?php else: ?>
+                                    <span class="adm-notif-count-pill ok">Caught Up</span>
+                                <?php endif; ?>
+                            </div>
+                            <a href="<?= url('/admin/inquiries') ?>" class="adm-notif-all-btn">All Inquiries</a>
+                        </div>
+
+                        <div class="adm-notif-list custom-scrollbar">
+                            <?php if (!empty($topbarUnreadInquiriesList)): ?>
+                                <div class="adm-notif-category-header">
+                                    <span>Recent Client Inquiries</span>
+                                    <span class="adm-notif-badge-small"><?= count($topbarUnreadInquiriesList) ?></span>
+                                </div>
+                                <?php foreach ($topbarUnreadInquiriesList as $inq): ?>
+                                    <a href="<?= url('/admin/inquiries') ?>" class="adm-notif-card is-unread">
+                                        <div class="adm-notif-avatar inquiry-lead">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                        </div>
+                                        <div class="adm-notif-main">
+                                            <div class="adm-notif-row">
+                                                <span class="adm-notif-name"><?= e($inq['name']) ?></span>
+                                                <span class="adm-notif-date"><?= date('M j, g:i a', strtotime($inq['created_at'] ?? 'now')) ?></span>
+                                            </div>
+                                            <div class="adm-notif-service"><?= e($inq['service'] ?? 'General Inquiry') ?></div>
+                                            <div class="adm-notif-snippet"><?= e(mb_strimwidth($inq['message'] ?? '', 0, 70, '...')) ?></div>
+                                        </div>
+                                    </a>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+
+                            <?php if (!empty($topbarRecentNotifs)): ?>
+                                <div class="adm-notif-category-header">
+                                    <span>System Alerts &amp; Dispatch</span>
+                                </div>
+                                <?php foreach ($topbarRecentNotifs as $ntf): ?>
+                                    <div class="adm-notif-card <?= empty($ntf['is_read']) ? 'is-unread' : '' ?>">
+                                        <div class="adm-notif-avatar system-alert">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                        </div>
+                                        <div class="adm-notif-main">
+                                            <div class="adm-notif-row">
+                                                <span class="adm-notif-name"><?= e($ntf['title'] ?? 'System Notice') ?></span>
+                                                <span class="adm-notif-date"><?= date('M j, g:i a', strtotime($ntf['created_at'] ?? 'now')) ?></span>
+                                            </div>
+                                            <div class="adm-notif-snippet"><?= e($ntf['message'] ?? '') ?></div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+
+                            <?php if (empty($topbarUnreadInquiriesList) && empty($topbarRecentNotifs)): ?>
+                                <div class="adm-notif-empty-state">
+                                    <div class="adm-notif-empty-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    </div>
+                                    <div class="adm-notif-empty-heading">All caught up!</div>
+                                    <div class="adm-notif-empty-desc">No unread client inquiries or alerts at this moment.</div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="adm-notif-footer">
+                            <a href="<?= url('/admin/inquiries') ?>" class="adm-notif-footer-action">
+                                <span>Inquiries Desk</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </a>
+                            <a href="<?= url('/admin/crm/tickets') ?>" class="adm-notif-footer-action">
+                                <span>Support Tickets</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </a>
+                            <a href="<?= url('/admin/audit-logs') ?>" class="adm-notif-footer-action">
+                                <span>Audit Logs</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- User Profile Pill (Sleek Avatar Only with Online Indicator) -->
                 <div class="adm-user-profile-circle" title="<?= e($user['name']) ?> (<?= e($user['role']) ?>)">
@@ -530,6 +626,44 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         executeDeskSearch(this.value);
+                    }
+                });
+            }
+
+            // Theme Toggle Controller (Light / Dark Mode)
+            const admThemeToggleBtn = document.getElementById('admThemeToggleBtn');
+            if (admThemeToggleBtn) {
+                admThemeToggleBtn.addEventListener('click', function() {
+                    const cur = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+                    const next = cur === 'light' ? 'dark' : 'light';
+                    document.documentElement.dataset.theme = next;
+                    try {
+                        localStorage.setItem('creatsify-admin-theme', next);
+                    } catch(e) {}
+                });
+            }
+
+            // Interactive Notification Center Dropdown
+            const admNotifBtn = document.getElementById('admNotifBtn');
+            const admNotifWrap = document.getElementById('admNotifWrap');
+            if (admNotifBtn && admNotifWrap) {
+                admNotifBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isOpen = admNotifWrap.classList.toggle('is-open');
+                    this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!admNotifWrap.contains(e.target)) {
+                        admNotifWrap.classList.remove('is-open');
+                        admNotifBtn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && admNotifWrap.classList.contains('is-open')) {
+                        admNotifWrap.classList.remove('is-open');
+                        admNotifBtn.setAttribute('aria-expanded', 'false');
                     }
                 });
             }
