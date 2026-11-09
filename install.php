@@ -123,14 +123,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $pdo->exec($seedsSql);
                 }
 
-                // 3. Update Super Admin & Title
+                // 3. Update Super Admin & Title (Safely handle existing or matching emails)
                 $hashedPass = password_hash($adminPass, PASSWORD_BCRYPT);
-                if ($driver === 'sqlite') {
-                    $stmt = $pdo->prepare("UPDATE `users` SET `name` = :n, `email` = :e, `password` = :p WHERE `role` = 'super_admin'");
+
+                $existing = $pdo->prepare("SELECT `id` FROM `users` WHERE LOWER(`email`) = LOWER(:e) LIMIT 1");
+                $existing->execute(['e' => $adminEmail]);
+                $existingId = $existing->fetchColumn();
+
+                if ($existingId) {
+                    $stmt = $pdo->prepare("UPDATE `users` SET `name` = :n, `password` = :p, `role` = 'super_admin', `status` = 'active' WHERE `id` = :id");
+                    $stmt->execute(['n' => $adminName, 'p' => $hashedPass, 'id' => $existingId]);
                 } else {
-                    $stmt = $pdo->prepare("UPDATE `users` SET `name` = :n, `email` = :e, `password` = :p WHERE `role` = 'super_admin' LIMIT 1");
+                    $firstAdmin = $pdo->query("SELECT `id` FROM `users` WHERE `role` = 'super_admin' ORDER BY `id` ASC LIMIT 1")->fetchColumn();
+                    if ($firstAdmin) {
+                        $stmt = $pdo->prepare("UPDATE `users` SET `name` = :n, `email` = :e, `password` = :p, `status` = 'active' WHERE `id` = :id");
+                        $stmt->execute(['n' => $adminName, 'e' => $adminEmail, 'p' => $hashedPass, 'id' => $firstAdmin]);
+                    } else {
+                        $stmt = $pdo->prepare("INSERT INTO `users` (`name`, `email`, `password`, `role`, `status`) VALUES (:n, :e, :p, 'super_admin', 'active')");
+                        $stmt->execute(['n' => $adminName, 'e' => $adminEmail, 'p' => $hashedPass]);
+                    }
                 }
-                $stmt->execute(['n' => $adminName, 'e' => $adminEmail, 'p' => $hashedPass]);
 
                 $stmt = $pdo->prepare("UPDATE `settings` SET `value` = :v WHERE `key` = 'site_title'");
                 $stmt->execute(['v' => $siteTitle]);

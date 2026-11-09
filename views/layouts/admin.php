@@ -111,10 +111,7 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
 
-            <div class="adm-category-label">
-                <span>CRM</span>
-                <span class="adm-cat-plus">+</span>
-            </div>
+            <div class="adm-category-label">CRM</div>
 
             <a href="<?= url('/admin/crm/clients') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/clients') ? 'active' : '' ?>" data-title="Clients" title="Clients">
                 <span class="nav-link-content">
@@ -145,10 +142,7 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
 
-            <div class="adm-category-label">
-                <span>STUDIO</span>
-                <span class="adm-cat-plus">+</span>
-            </div>
+            <div class="adm-category-label">STUDIO</div>
 
             <a href="<?= url('/admin/projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>" data-title="Software" title="Software">
                 <span class="nav-link-content">
