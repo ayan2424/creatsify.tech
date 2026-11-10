@@ -218,24 +218,15 @@ class SchemaMigrator
             // 5. Ensure Super Admin Account with Guaranteed Password 'admin123'
             $hash = password_hash('admin123', PASSWORD_BCRYPT);
             try {
-                $admin = $db->fetchOne("SELECT `id`, `email`, `role`, `status` FROM `users` WHERE LOWER(`email`) = 'admin@creatsify.tech' LIMIT 1");
-                if (!$admin) {
-                    $db->query("INSERT INTO `users` (`name`, `email`, `password`, `role`, `phone`, `status`, `created_at`) VALUES 
-                        ('Creatsify Admin', 'admin@creatsify.tech', '{$hash}', 'super_admin', '+923000000000', 'active', NOW())");
-                } else {
-                    // Update password, role, and active status so login is 100% guaranteed
-                    $db->query("UPDATE `users` SET `password` = '{$hash}', `role` = 'super_admin', `status` = 'active' WHERE `id` = " . (int)$admin['id']);
-                }
+                $db->query("INSERT INTO `users` (`name`, `email`, `password`, `role`, `phone`, `status`, `created_at`) 
+                    VALUES ('Creatsify Admin', 'admin@creatsify.tech', '{$hash}', 'super_admin', '+923000000000', 'active', NOW())
+                    ON DUPLICATE KEY UPDATE `password` = '{$hash}', `role` = 'super_admin', `status` = 'active'");
             } catch (\Throwable $e) {}
 
             try {
-                $ayan = $db->fetchOne("SELECT `id`, `email`, `role`, `status` FROM `users` WHERE LOWER(`email`) = 'ayan@creatsify.tech' LIMIT 1");
-                if (!$ayan) {
-                    $db->query("INSERT INTO `users` (`name`, `email`, `password`, `role`, `phone`, `status`, `created_at`) VALUES 
-                        ('Muhammad Ayan Shamim', 'ayan@creatsify.tech', '{$hash}', 'super_admin', '+923000000000', 'active', NOW())");
-                } else {
-                    $db->query("UPDATE `users` SET `password` = '{$hash}', `role` = 'super_admin', `status` = 'active' WHERE `id` = " . (int)$ayan['id']);
-                }
+                $db->query("INSERT INTO `users` (`name`, `email`, `password`, `role`, `phone`, `status`, `created_at`) 
+                    VALUES ('Muhammad Ayan Shamim', 'ayan@creatsify.tech', '{$hash}', 'super_admin', '+923000000000', 'active', NOW())
+                    ON DUPLICATE KEY UPDATE `password` = '{$hash}', `role` = 'super_admin', `status` = 'active'");
             } catch (\Throwable $e) {}
 
         } catch (\Throwable $outer) {

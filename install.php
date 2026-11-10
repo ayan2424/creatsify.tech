@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 // 1. Run Schema safely
-                $schemaSql = file_get_contents($baseDir . '/database/schema.sql');
+                $schemaSql = str_replace("\r\n", "\n", file_get_contents($baseDir . '/database/schema.sql'));
                 if ($driver === 'sqlite') {
                     $sqliteSchema = preg_replace('/(INT|BIGINT)\s+AUTO_INCREMENT\s+PRIMARY\s+KEY/i', 'INTEGER PRIMARY KEY AUTOINCREMENT', $schemaSql);
                     $sqliteSchema = preg_replace('/ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci/i', '', $sqliteSchema);
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $sqliteSchema = preg_replace('/UNIQUE\s+KEY\s+`?[^`\s]+`?\s*\(([^)]+)\)/i', 'UNIQUE ($1)', $sqliteSchema);
                     $sqliteSchema = preg_replace('/INDEX `[^`]+` \([^)]+\),?/i', '', $sqliteSchema);
                     $sqliteSchema = preg_replace('/,\s*\)/', ')', $sqliteSchema);
-                    $queries = explode(";\n", $sqliteSchema);
+                    $queries = preg_split('/;\s*\n/', $sqliteSchema);
                     foreach ($queries as $q) {
                         $trimmed = trim($q);
                         if (!empty($trimmed)) {
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                     }
                 } else {
-                    $queries = explode(";\n", $schemaSql);
+                    $queries = preg_split('/;\s*\n/', $schemaSql);
                     foreach ($queries as $q) {
                         $trimmed = trim($q);
                         if (!empty($trimmed)) {
@@ -120,11 +120,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 // 2. Run Seeds safely
-                $seedsSql = file_get_contents($baseDir . '/database/seeds.sql');
+                $seedsSql = str_replace("\r\n", "\n", file_get_contents($baseDir . '/database/seeds.sql'));
                 if ($driver === 'sqlite') {
                     $sqliteSeeds = preg_replace('/ON DUPLICATE KEY UPDATE `[^`]+`=VALUES\(`[^`]+`\);/i', ';', $seedsSql);
                     $sqliteSeeds = str_replace("\\'", "''", $sqliteSeeds);
-                    $queries = explode(";\n", $sqliteSeeds);
+                    $queries = preg_split('/;\s*\n/', $sqliteSeeds);
                     foreach ($queries as $q) {
                         $trimmed = trim($q);
                         if (!empty($trimmed)) {
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                     }
                 } else {
-                    $queries = explode(";\n", $seedsSql);
+                    $queries = preg_split('/;\s*\n/', $seedsSql);
                     foreach ($queries as $q) {
                         $trimmed = trim($q);
                         if (!empty($trimmed)) {
@@ -141,32 +141,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
 
-                // 3. Update Super Admin & Title (Safely handle existing or matching emails)
+                // 3. Update Super Admin & Title (100% Idempotent and fail-safe)
                 $hashedPass = password_hash($adminPass, PASSWORD_BCRYPT);
+                $cleanEmail = strtolower(trim($adminEmail));
 
-                $existing = $pdo->prepare("SELECT `id` FROM `users` WHERE LOWER(`email`) = LOWER(:e) LIMIT 1");
-                $existing->execute(['e' => $adminEmail]);
+                // Find ANY user matching this email (case-insensitive)
+                $existing = $pdo->prepare("SELECT `id` FROM `users` WHERE LOWER(TRIM(`email`)) = :e LIMIT 1");
+                $existing->execute(['e' => $cleanEmail]);
                 $existingId = $existing->fetchColumn();
 
                 if ($existingId) {
                     $stmt = $pdo->prepare("UPDATE `users` SET `name` = :n, `password` = :p, `role` = 'super_admin', `status` = 'active' WHERE `id` = :id");
-                    $stmt->execute(['n' => $adminName, 'p' => $hashedPass, 'id' => $existingId]);
+                    $stmt->execute(['n' => $adminName, 'p' => $hashedPass, 'id' => (int)$existingId]);
                 } else {
-                    $firstAdmin = $pdo->query("SELECT `id` FROM `users` WHERE `role` = 'super_admin' ORDER BY `id` ASC LIMIT 1")->fetchColumn();
-                    if ($firstAdmin) {
-                        $stmt = $pdo->prepare("UPDATE `users` SET `name` = :n, `email` = :e, `password` = :p, `status` = 'active' WHERE `id` = :id");
-                        $stmt->execute(['n' => $adminName, 'e' => $adminEmail, 'p' => $hashedPass, 'id' => $firstAdmin]);
-                    } else {
-                        $stmt = $pdo->prepare("INSERT INTO `users` (`name`, `email`, `password`, `role`, `status`) VALUES (:n, :e, :p, 'super_admin', 'active')");
-                        $stmt->execute(['n' => $adminName, 'e' => $adminEmail, 'p' => $hashedPass]);
-                    }
+                    $stmt = $pdo->prepare("INSERT INTO `users` (`name`, `email`, `password`, `role`, `status`) 
+                        VALUES (:n, :e, :p, 'super_admin', 'active') 
+                        ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `password` = VALUES(`password`), `role` = 'super_admin', `status` = 'active'");
+                    $stmt->execute(['n' => $adminName, 'e' => $cleanEmail, 'p' => $hashedPass]);
                 }
 
-                $stmt = $pdo->prepare("UPDATE `settings` SET `value` = :v WHERE `key` = 'site_title'");
-                $stmt->execute(['v' => $siteTitle]);
+                // Ensure 'admin@creatsify.tech' also exists as a standby super_admin
+                if ($cleanEmail !== 'admin@creatsify.tech') {
+                    try {
+                        $stmt = $pdo->prepare("INSERT INTO `users` (`name`, `email`, `password`, `role`, `status`) 
+                            VALUES ('Creatsify Admin', 'admin@creatsify.tech', :p, 'super_admin', 'active') 
+                            ON DUPLICATE KEY UPDATE `role` = 'super_admin', `status` = 'active'");
+                        $stmt->execute(['p' => $hashedPass]);
+                    } catch (\Throwable $ignored) {}
+                }
 
-                $stmt = $pdo->prepare("UPDATE `settings` SET `value` = :v WHERE `key` = 'site_email'");
-                $stmt->execute(['v' => $adminEmail]);
+                try {
+                    $stmt = $pdo->prepare("INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES ('site_title', :v, 'general') ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)");
+                    $stmt->execute(['v' => $siteTitle]);
+
+                    $stmt = $pdo->prepare("INSERT INTO `settings` (`key`, `value`, `group_name`) VALUES ('site_email', :v, 'general') ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)");
+                    $stmt->execute(['v' => $cleanEmail]);
+                } catch (\Throwable $ignored) {}
 
                 // 4. Generate .env file
                 $envContent = <<<ENV

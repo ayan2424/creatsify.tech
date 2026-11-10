@@ -414,6 +414,123 @@
         startAuto();
       }
     }
+
+    // 9. Portfolio Quick Preview Lightbox Modal
+    const lightboxModal = document.getElementById('portfolioLightboxModal');
+    if (lightboxModal) {
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxTitle = document.getElementById('lightboxTitle');
+      const lightboxBadge = document.getElementById('lightboxBadge');
+      const lightboxCaseLink = document.getElementById('lightboxCaseLink');
+      const lightboxLiveLink = document.getElementById('lightboxLiveLink');
+      const closeButtons = lightboxModal.querySelectorAll('.ag-lightbox-close, .ag-lightbox-backdrop');
+
+      function closeLightbox() {
+        lightboxModal.classList.remove('is-active');
+        lightboxModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.js-open-lightbox').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const img = this.getAttribute('data-img') || '';
+          const title = this.getAttribute('data-title') || 'Project Preview';
+          const badge = this.getAttribute('data-badge') || 'Portfolio Showcase';
+          const slug = this.getAttribute('data-slug') || '';
+          const live = this.getAttribute('data-live') || '';
+
+          if (lightboxImg) lightboxImg.src = img;
+          if (lightboxTitle) lightboxTitle.textContent = title;
+          if (lightboxBadge) lightboxBadge.textContent = badge;
+          if (lightboxCaseLink && slug) {
+            const baseUrl = document.querySelector('link[rel="icon"]')?.href?.replace(/\/favicon\.ico.*$/, '') || '';
+            lightboxCaseLink.href = baseUrl + '/portfolio/' + slug;
+          }
+          if (lightboxLiveLink) {
+            if (live) {
+              lightboxLiveLink.href = live;
+              lightboxLiveLink.style.display = 'inline-flex';
+            } else {
+              lightboxLiveLink.style.display = 'none';
+            }
+          }
+
+          lightboxModal.classList.add('is-active');
+          lightboxModal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      closeButtons.forEach(btn => {
+        btn.addEventListener('click', closeLightbox);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightboxModal.classList.contains('is-active')) {
+          closeLightbox();
+        }
+      });
+    }
+
+    // 10. Dual-Row Touch & Mouse Draggable Review Marquee Streams
+    const marqueeContainer = document.getElementById('reviewsMarqueeContainer');
+    if (marqueeContainer) {
+      const rows = marqueeContainer.querySelectorAll('.om-marquee-row');
+      rows.forEach(row => {
+        let isDown = false;
+        let startX = 0;
+        let scrollStart = 0;
+
+        // Mouse Drag Handlers
+        row.addEventListener('mousedown', (e) => {
+          isDown = true;
+          row.classList.add('is-dragging');
+          marqueeContainer.classList.add('js-drag-active');
+          startX = e.pageX - row.offsetLeft;
+          scrollStart = row.scrollLeft;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          const x = e.pageX - row.offsetLeft;
+          const walk = (x - startX) * 1.5;
+          row.scrollLeft = scrollStart - walk;
+        });
+
+        window.addEventListener('mouseup', () => {
+          if (!isDown) return;
+          isDown = false;
+          row.classList.remove('is-dragging');
+          setTimeout(() => {
+            marqueeContainer.classList.remove('js-drag-active');
+          }, 400);
+        });
+
+        // Touch Interaction Handlers
+        row.addEventListener('touchstart', () => {
+          marqueeContainer.classList.add('js-drag-active');
+        }, { passive: true });
+
+        row.addEventListener('touchend', () => {
+          setTimeout(() => {
+            marqueeContainer.classList.remove('js-drag-active');
+          }, 1200);
+        }, { passive: true });
+
+        // Wheel horizontal scrolling support
+        row.addEventListener('wheel', (e) => {
+          if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            marqueeContainer.classList.add('js-drag-active');
+            clearTimeout(row._wheelTimeout);
+            row._wheelTimeout = setTimeout(() => {
+              marqueeContainer.classList.remove('js-drag-active');
+            }, 800);
+          }
+        }, { passive: true });
+      });
+    }
   }
 
   if (document.readyState === 'loading') {

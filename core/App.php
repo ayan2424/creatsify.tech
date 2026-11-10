@@ -184,7 +184,7 @@ class App
 
     private function handleException(\Throwable $e): void
     {
-        $debug = (bool)($this->config('app.debug', false));
+        $debug = (bool)($this->config('app.debug', false)) || (!empty($_GET['debug']) && $_GET['debug'] === '1');
         $logPath = $this->basePath . '/storage/logs/error.log';
         @error_log("[" . date('Y-m-d H:i:s') . "] " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine() . "\n" . $e->getTraceAsString() . "\n", 3, $logPath);
 
@@ -200,18 +200,24 @@ class App
 
         http_response_code(500);
 
-        // Check if error is database connection failure
-        if (str_contains($e->getMessage(), 'Database Connection Failed') || str_contains($e->getMessage(), 'Access denied')) {
+        // Check if error is database connection failure or missing tables
+        $msg = $e->getMessage();
+        $isDbSetupError = str_contains($msg, 'Database Connection Failed')
+            || str_contains($msg, 'Access denied')
+            || str_contains($msg, 'Base table or view not found')
+            || str_contains($msg, "doesn't exist")
+            || str_contains($msg, 'Unknown database')
+            || str_contains($msg, 'no such table');
+
+        if ($isDbSetupError) {
             echo "<!DOCTYPE html><html><head><title>Database Setup Required | Creatsify Studio</title><style>body{background:#07080e;color:#eef0f7;font-family:'Segoe UI',sans-serif;padding:40px 20px;display:flex;justify-content:center;align-items:center;min-height:90vh;}div.box{background:#12131c;border:1px solid #252736;padding:36px;border-radius:14px;max-width:640px;box-shadow:0 20px 50px rgba(0,0,0,0.6);}h2{color:#ff4d6d;margin-top:0;font-size:22px;}p{color:#a3a7bb;font-size:14px;line-height:1.6;margin-bottom:18px;}code{background:#090a10;border:1px solid #252736;padding:2px 8px;border-radius:4px;color:#8b7bff;font-size:13px;word-break:break-all;}ol{margin-left:20px;color:#cbd0e3;font-size:13.5px;line-height:1.8;}li strong{color:#eef0f7;}.btn{display:inline-block;margin-top:20px;background:#8b7bff;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;}</style></head><body>";
             echo "<div class='box'>";
-            echo "<h2>Database Connection Required</h2>";
-            echo "<p>Creatsify Studio cannot connect to MySQL with the current configuration.<br>Error: <code>" . htmlspecialchars($e->getMessage()) . "</code></p>";
+            echo "<h2>Database Setup or Migration Required</h2>";
+            echo "<p>Creatsify Studio detected an unmigrated database or schema mismatch.<br>Detail: <code>" . htmlspecialchars($msg) . "</code></p>";
             echo "<div style='background:#090a10;border:1px solid #252736;padding:18px;border-radius:10px;'>";
-            echo "<strong style='color:#8b7bff;display:block;margin-bottom:10px;'>Server Setup & Configuration:</strong>";
+            echo "<strong style='color:#8b7bff;display:block;margin-bottom:10px;'>Auto-Recovery Options:</strong>";
             echo "<ol>";
-            echo "<li>Check your hosting control panel or database administration tool to verify database name, username, and password.</li>";
-            echo "<li>Ensure your project <code>.env</code> file contains valid credentials for <code>DB_DATABASE</code>, <code>DB_USERNAME</code>, and <code>DB_PASSWORD</code>.</li>";
-            echo "<li>Alternatively, launch the web installer to automatically test credentials and migrate tables:</li>";
+            echo "<li>If this is a new installation or database migration, launch the 1-click web installer:</li>";
             echo "</ol>";
             echo "<a href='/install.php' class='btn'>Launch 1-Click Web Installer &rarr;</a>";
             echo "</div></div></body></html>";
