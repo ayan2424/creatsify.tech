@@ -2053,6 +2053,8 @@ main{overflow-x:clip}
   top: 0;
   right: 0;
   bottom: 0;
+  height: 100vh;
+  height: 100dvh;
   width: 320px;
   max-width: 85vw;
   background: var(--surface);
@@ -2065,6 +2067,7 @@ main{overflow-x:clip}
   box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
   padding: 0;
   overflow: hidden;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
 }
 
 .mobile-drawer-sheet.open {
@@ -2100,6 +2103,7 @@ main{overflow-x:clip}
 .mobile-drawer-links {
   flex-grow: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 16px 20px;
   display: flex;
   flex-direction: column;
@@ -3703,10 +3707,17 @@ nav a.act {
    ========================================================================== */
 .form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
 .form-group{display:flex;flex-direction:column;gap:7px;min-width:0;margin-bottom:16px}
-.form-row>.form-group{margin-bottom:0}
+.form-row>.form-group,.form-row>label{display:flex;flex-direction:column;gap:6px;min-width:0;width:100%;margin-bottom:0}
 .form-group label{font-size:13px;font-weight:600;color:var(--text)}
-.form-group input,.form-group select,.form-group textarea{width:100%;box-sizing:border-box}
+.form-group input,.form-group select,.form-group textarea,.form-row input,.form-row select,.form-row textarea{width:100%;box-sizing:border-box}
 @media(max-width:640px){.form-row{grid-template-columns:1fr}}
+
+.om-license-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:580px){.om-license-grid{grid-template-columns:1fr}}
+
+@media(max-width:768px){
+  input,select,textarea{font-size:16px!important}
+}
 
 /* ==========================================================================
    HEADER: main links as soft pills, "Software" marked as the page where we sell
@@ -5035,7 +5046,8 @@ nav a.nav-hot::before{content:"";display:inline-block;width:6px;height:6px;margi
     grid-template-columns: 1fr;
   }
   .om-team-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
   .om-contact-wrap {
     grid-template-columns: 1fr;
@@ -5043,6 +5055,9 @@ nav a.nav-hot::before{content:"";display:inline-block;width:6px;height:6px;margi
   }
 }
 @media (max-width: 600px) {
+  .om-team-grid {
+    grid-template-columns: 1fr;
+  }
   .om-facts-bar {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -5356,9 +5371,15 @@ footer.om-footer,
 /* Inner Project Cards Sync */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   gap: 28px;
   margin-top: 32px;
+}
+@media (max-width: 640px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 .project-card {
   border-radius: 24px;
@@ -5507,9 +5528,15 @@ footer.om-footer,
 /* Inner Service Cards Sync */
 .svc-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   gap: 28px;
   margin-top: 32px;
+}
+@media (max-width: 640px) {
+  .svc-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 .svc-card {
   border-radius: 24px;
@@ -6747,9 +6774,15 @@ header nav#nav a {
   margin-top: 36px;
   align-items: stretch;
 }
-@media (max-width: 980px) {
+@media (max-width: 1024px) and (min-width: 641px) {
+  .ag-pkg-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
   .ag-pkg-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 .ag-pkg-card {

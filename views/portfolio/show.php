@@ -116,7 +116,7 @@ $waMsg = urlencode("Hello! I am interested in licensing or customizing " . ($pro
                 <?php if ($forSale): ?>
                     <div style="padding:24px;border-radius:18px;background:color-mix(in srgb,var(--surface) 60%,var(--bg));border:1px solid var(--line);">
                         <h3 style="font-family:Sora,sans-serif;font-size:18px;font-weight:800;margin:0 0 14px;color:var(--text);">Commercial License Inclusions</h3>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div class="om-license-grid">
                             <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text);"><i style="color:#10b981;font-weight:800;font-style:normal;">&#10003;</i> 100% Unlocked Source Code</div>
                             <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text);"><i style="color:#10b981;font-weight:800;font-style:normal;">&#10003;</i> Full White-Label Rights</div>
                             <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text);"><i style="color:#10b981;font-weight:800;font-style:normal;">&#10003;</i> Active Live Interactive Demo</div>

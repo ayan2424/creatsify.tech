@@ -53,17 +53,17 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                     <?= csrf_field() ?>
                     <input type="text" name="_hp_check" value="" style="display:none!important;" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div class="form-row">
                         <label>Your Name<input type="text" id="sp_name" name="name" required placeholder="John Doe"></label>
                         <label>Email Used With Us<input type="email" id="sp_email" name="email" required placeholder="john@example.com"></label>
                     </div>
 
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div class="form-row">
                         <label>Company / Brand (Optional)<input type="text" id="sp_company" name="company" placeholder="Acme Logistics"></label>
                         <label>WhatsApp / Phone (Optional)<input type="text" id="sp_whatsapp" name="whatsapp" placeholder="+1 555 123 4567"></label>
                     </div>
 
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div class="form-row">
                         <label>How can we help?
                             <select id="sp_type" name="support_type" required>
                                 <?php foreach ($supportTypes as $value => $type): ?>
@@ -80,7 +80,7 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                         </label>
                     </div>
 
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div class="form-row">
                         <label>Product, service, or project
                             <select id="sp_offering" name="offering_name" required>
                                 <option value="" disabled <?= $selectedOffering === '' ? 'selected' : '' ?>>Choose what this concerns</option>
@@ -114,7 +114,7 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                         </label>
                     </div>
 
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div class="form-row">
                         <label>Hosting / Environment
                             <select id="sp_environment" name="server_environment">
                                 <option value="">Not applicable / not sure</option>
@@ -131,7 +131,7 @@ $waMsg = urlencode("Hello! I need technical support for my Creatsify software/se
                         </label>
                     </div>
 
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div class="form-row">
                         <label>Issue category
                             <select id="sp_category" name="issue_category">
                                 <option value="Installation, deployment, or configuration">Installation, deployment, or configuration</option>

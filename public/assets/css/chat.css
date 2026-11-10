@@ -320,6 +320,25 @@
     }
 }
 
+@media (max-width: 480px) {
+    .creatsify-chat-container {
+        right: 16px;
+        bottom: 16px;
+        bottom: max(16px, env(safe-area-inset-bottom));
+    }
+    .chat-window {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+        width: auto;
+        height: min(480px, calc(100dvh - 120px));
+        max-width: none;
+        max-height: none;
+        border-radius: 16px;
+    }
+}
+
 /* text never smaller than 12px */
 .chat-status,.chat-timestamp,.msg-time,.chat-chip{font-size:12px}
 .chat-title{margin:0}

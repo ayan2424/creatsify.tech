@@ -189,12 +189,12 @@ $pct3 = round(($threeCount / $totalReviews) * 100);
                 </div>
             </div>
 
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+            <div class="form-row">
                 <label>Your Full Name *<input name="client_name" required placeholder="Alex Morgan"></label>
                 <label>Your Role / Title<input name="client_role" placeholder="Founder / Marketing Director"></label>
             </div>
 
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+            <div class="form-row">
                 <label>Company / Brand Name<input name="company_name" placeholder="Apex Commerce"></label>
                 <label>Service You Used *
                     <select name="service_category" required>
@@ -205,7 +205,7 @@ $pct3 = round(($threeCount / $totalReviews) * 100);
                 </label>
             </div>
 
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+            <div class="form-row">
                 <label>Review Headline *<input name="review_title" required placeholder="e.g., Flawless website redesign and 3x faster load times"></label>
                 <label>Key Result / Outcome (Optional)<input name="outcome_metric" placeholder="e.g., +150% Leads, 4.9★ App, 3.5x ROAS"></label>
             </div>
