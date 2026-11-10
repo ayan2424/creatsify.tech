@@ -5954,9 +5954,16 @@ header nav#nav a {
   padding: 52px 0 64px;
 }
 .om-hero-wrap {
+  display: grid;
   grid-template-columns: 1.06fr 0.94fr;
   gap: 44px;
   align-items: center;
+}
+@media (max-width: 980px) {
+  .om-hero-wrap {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
 }
 .om-hero-visual-stage {
   position: relative;
@@ -6160,6 +6167,117 @@ header nav#nav a {
   min-width: 195px;
   padding: 10px 14px;
   z-index: 10;
+}
+
+/* Comprehensive Mobile Responsiveness for Hero (< 768px and < 480px) */
+@media (max-width: 768px) {
+  .om-hero {
+    padding: 24px 0 40px !important;
+  }
+  .om-hero-content {
+    width: 100% !important;
+    align-items: flex-start !important;
+  }
+  .om-hero-tag {
+    font-size: 11.5px !important;
+    padding: 6px 12px !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    line-height: 1.4 !important;
+  }
+  .om-hero-headline {
+    font-size: clamp(26px, 7.2vw, 38px) !important;
+    line-height: 1.14 !important;
+    margin: 14px 0 !important;
+  }
+  .om-hero-sub {
+    font-size: 14.5px !important;
+    line-height: 1.62 !important;
+    margin-bottom: 22px !important;
+  }
+  .om-hero-visual-stage {
+    padding: 16px 0 0 !important;
+    width: 100% !important;
+  }
+  .om-hero-visual-stage .om-float-divisions,
+  .om-hero-visual-stage .om-float-founders,
+  .om-hero-visual-stage .om-float-quality {
+    display: none !important;
+  }
+  .om-centerpiece-card.om-agency-command-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    border-radius: 20px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .om-cta-group {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+  .om-cta-group .om-btn-gold,
+  .om-cta-group .om-btn-glass,
+  .om-cta-group .om-hero-wa-link {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    min-height: 48px !important;
+    padding: 12px 20px !important;
+    box-sizing: border-box !important;
+  }
+  .om-proof-bar {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin-top: 18px !important;
+  }
+  .om-proof-item {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ag-stage-body {
+    padding: 12px !important;
+    gap: 9px !important;
+  }
+  .ag-pillar-row {
+    padding: 10px 11px !important;
+    gap: 10px !important;
+  }
+  .ag-pillar-icon {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    border-radius: 10px !important;
+  }
+  .ag-pillar-top strong {
+    font-size: 12.5px !important;
+  }
+  .ag-pillar-info p {
+    font-size: 11px !important;
+  }
+  .ag-command-kpis {
+    padding: 8px 10px !important;
+    gap: 6px !important;
+  }
+  .ag-kpi-val {
+    font-size: 14px !important;
+  }
+  .ag-kpi-lbl {
+    font-size: 9.5px !important;
+  }
+  .ag-stage-chips span {
+    font-size: 9.5px !important;
+    padding: 2px 6px !important;
+  }
 }
 
 /* Stage 2: Full-Stack Tech, Design & Growth Arsenal Carousel */
