@@ -9,7 +9,11 @@ class Section
 {
     public static function allActive(): array
     {
-        return db()->fetchAll("SELECT * FROM `sections` WHERE `is_active` = 1 ORDER BY `sort_order` ASC");
+        try {
+            return db()->fetchAll("SELECT * FROM `sections` WHERE `is_active` = 1 ORDER BY `sort_order` ASC");
+        } catch (\Throwable $e) {
+            return [];
+        }
     }
 
     public static function all(): array

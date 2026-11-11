@@ -9,13 +9,17 @@ class Post
 {
     public static function allPublished(): array
     {
-        return db()->fetchAll(
-            "SELECT p.*, u.name as author_name 
-             FROM `posts` p 
-             LEFT JOIN `users` u ON p.author_id = u.id 
-             WHERE p.is_published = 1 
-             ORDER BY p.published_at DESC"
-        );
+        try {
+            return db()->fetchAll(
+                "SELECT p.*, u.name as author_name 
+                 FROM `posts` p 
+                 LEFT JOIN `users` u ON p.author_id = u.id 
+                 WHERE p.is_published = 1 
+                 ORDER BY p.published_at DESC"
+            );
+        } catch (\Throwable $e) {
+            return [];
+        }
     }
 
     public static function all(): array

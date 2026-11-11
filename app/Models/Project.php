@@ -76,8 +76,8 @@ class Project
         } catch (\Throwable $e) {
             try {
                 db()->query("ALTER TABLE `projects` 
-                    ADD COLUMN `gumroad_url` VARCHAR(255) NULL AFTER `live_url`, 
-                    ADD COLUMN `price` VARCHAR(50) NULL DEFAULT '$99' AFTER `gumroad_url`");
+                    ADD COLUMN `gumroad_url` VARCHAR(255) NULL, 
+                    ADD COLUMN `price` VARCHAR(50) NULL DEFAULT '$99'");
             } catch (\Throwable $e2) {}
         }
 
@@ -87,8 +87,8 @@ class Project
         } catch (\Throwable $e) {
             try {
                 db()->query("ALTER TABLE `projects` 
-                    ADD COLUMN `is_software` TINYINT(1) NOT NULL DEFAULT 0 AFTER `featured`, 
-                    ADD COLUMN `subcategory` VARCHAR(100) NULL AFTER `category`");
+                    ADD COLUMN `is_software` TINYINT(1) NOT NULL DEFAULT 0, 
+                    ADD COLUMN `subcategory` VARCHAR(100) NULL");
             } catch (\Throwable $e2) {}
         }
 
