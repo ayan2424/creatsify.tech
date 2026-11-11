@@ -46,6 +46,40 @@ class ServicePackage
             }
         }
 
+        // Self-heal is_active column if missing
+        try {
+            db()->query("SELECT `is_active` FROM `service_packages` LIMIT 1");
+        } catch (\Throwable $e) {
+            try {
+                db()->query("ALTER TABLE `service_packages` ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 1 AFTER `sort_order`");
+                db()->query("UPDATE `service_packages` SET `is_active` = (CASE WHEN `status` = 'inactive' THEN 0 ELSE 1 END)");
+            } catch (\Throwable $e2) {
+                try {
+                    db()->query("ALTER TABLE `service_packages` ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 1");
+                } catch (\Throwable $e3) {}
+            }
+        }
+
+        // Self-heal features column if missing (legacy schema had features_json)
+        try {
+            db()->query("SELECT `features` FROM `service_packages` LIMIT 1");
+        } catch (\Throwable $e) {
+            try {
+                db()->query("ALTER TABLE `service_packages` ADD COLUMN `features` TEXT NULL AFTER `summary`");
+                db()->query("UPDATE `service_packages` SET `features` = `features_json` WHERE `features` IS NULL AND `features_json` IS NOT NULL");
+            } catch (\Throwable $e2) {}
+        }
+
+        // Self-heal cta_label column if missing (legacy schema had cta_text)
+        try {
+            db()->query("SELECT `cta_label` FROM `service_packages` LIMIT 1");
+        } catch (\Throwable $e) {
+            try {
+                db()->query("ALTER TABLE `service_packages` ADD COLUMN `cta_label` VARCHAR(80) NOT NULL DEFAULT 'Select Package' AFTER `features`");
+                db()->query("UPDATE `service_packages` SET `cta_label` = `cta_text` WHERE `cta_label` IS NULL AND `cta_text` IS NOT NULL");
+            } catch (\Throwable $e2) {}
+        }
+
         // Self-heal delivery_time column if table was created earlier without it
         try {
             db()->query("SELECT `delivery_time` FROM `service_packages` LIMIT 1");
@@ -344,7 +378,20 @@ class ServicePackage
     public static function allActive(): array
     {
         self::ensureTableExists();
-        $rows = db()->fetchAll("SELECT * FROM `service_packages` WHERE `is_active` = 1 ORDER BY `sort_order` ASC, `id` ASC");
+        $rows = [];
+        try {
+            $rows = db()->fetchAll("SELECT * FROM `service_packages` WHERE `is_active` = 1 ORDER BY `sort_order` ASC, `id` ASC");
+        } catch (\Throwable $e1) {
+            try {
+                $rows = db()->fetchAll("SELECT * FROM `service_packages` WHERE `status` = 'active' ORDER BY `sort_order` ASC, `id` ASC");
+            } catch (\Throwable $e2) {
+                try {
+                    $rows = db()->fetchAll("SELECT * FROM `service_packages` ORDER BY `id` ASC");
+                } catch (\Throwable $e3) {
+                    $rows = [];
+                }
+            }
+        }
         return array_map([self::class, 'normalizeRow'], $rows);
     }
 
@@ -365,7 +412,16 @@ class ServicePackage
     public static function all(): array
     {
         self::ensureTableExists();
-        $rows = db()->fetchAll("SELECT * FROM `service_packages` ORDER BY `category_track` ASC, `sort_order` ASC, `id` ASC");
+        $rows = [];
+        try {
+            $rows = db()->fetchAll("SELECT * FROM `service_packages` ORDER BY `category_track` ASC, `sort_order` ASC, `id` ASC");
+        } catch (\Throwable $e1) {
+            try {
+                $rows = db()->fetchAll("SELECT * FROM `service_packages` ORDER BY `id` ASC");
+            } catch (\Throwable $e2) {
+                $rows = [];
+            }
+        }
         return array_map([self::class, 'normalizeRow'], $rows);
     }
 

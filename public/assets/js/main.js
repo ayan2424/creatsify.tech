@@ -433,3 +433,155 @@ show(0)})();
 $$('[data-quote]').forEach(a=>a.addEventListener('click',()=>{const sel=$('#form select[name=project_type]'),msg=$('#form textarea');
 if(sel)[...sel.options].forEach(o=>{if(o.text===a.dataset.quote)sel.value=o.value});
 if(msg&&!msg.value)msg.value='I am interested in '+a.dataset.quote+'. '}));
+
+/* ==========================================================================
+   UNIVERSAL PORTFOLIO QUICK PREVIEW LIGHTBOX MODAL
+   - Context & category-aware actions (Live Preview, Buy License, More Details)
+   - Dynamic meta, description, tech stack tags, and smooth modal controls
+   ========================================================================== */
+(function initPortfolioLightbox() {
+    function setupLightbox() {
+        const modal = document.getElementById('portfolioLightboxModal');
+        if (!modal) return;
+
+        const img = document.getElementById('lightboxImg');
+        const title = document.getElementById('lightboxTitle');
+        const badge = document.getElementById('lightboxBadge');
+        const swBadge = document.getElementById('lightboxSoftwareBadge');
+        const priceLabel = document.getElementById('lightboxPriceLabel');
+        const desc = document.getElementById('lightboxDesc');
+        const techWrap = document.getElementById('lightboxTechWrap');
+        const techPills = document.getElementById('lightboxTechPills');
+        const clientName = document.getElementById('lightboxClientName');
+
+        const liveLink = document.getElementById('lightboxLiveLink');
+        const buyLink = document.getElementById('lightboxBuyLink');
+        const buyLabel = document.getElementById('lightboxBuyLabel');
+        const caseLink = document.getElementById('lightboxCaseLink');
+
+        function closeModal() {
+            modal.classList.remove('is-active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        modal.querySelectorAll('.ag-lightbox-close, .ag-lightbox-backdrop').forEach(el => {
+            el.addEventListener('click', closeModal);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+                closeModal();
+            }
+        });
+
+        // Event delegation for all .js-open-lightbox buttons across the app
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.js-open-lightbox');
+            if (!btn) return;
+            e.preventDefault();
+            e.stopPropagation();
+
+            const d = btn.dataset;
+            const imgSrc = d.img || '';
+            const prTitle = d.title || 'Project Preview';
+            const prBadge = d.badge || 'Case Study';
+            const prSlug = d.slug || '';
+            const prLive = d.live || '';
+            const isSoftware = d.software === '1';
+            const prPrice = d.price || '$99';
+            const prGumroad = d.gumroad || '';
+            const prDesc = d.desc || '';
+            const prTech = d.tech || '';
+            const prClient = d.client || '';
+
+            if (img) img.src = imgSrc;
+            if (title) title.textContent = prTitle;
+            if (badge) badge.textContent = prBadge;
+
+            // Software badge with price
+            if (swBadge) {
+                if (isSoftware) {
+                    swBadge.style.display = 'inline-flex';
+                    if (priceLabel) priceLabel.textContent = 'Ready-Made Software • ' + prPrice;
+                } else {
+                    swBadge.style.display = 'none';
+                }
+            }
+
+            // Description
+            if (desc) {
+                desc.textContent = prDesc;
+                desc.style.display = prDesc ? 'block' : 'none';
+            }
+
+            // Tech stack tags
+            if (techPills && techWrap) {
+                techPills.innerHTML = '';
+                if (prTech) {
+                    const items = prTech.split(',').map(s => s.trim()).filter(Boolean);
+                    if (items.length) {
+                        items.forEach(t => {
+                            const span = document.createElement('span');
+                            span.className = 'ag-lightbox-tech-pill';
+                            span.textContent = t;
+                            techPills.appendChild(span);
+                        });
+                        techWrap.style.display = 'flex';
+                    } else {
+                        techWrap.style.display = 'none';
+                    }
+                } else {
+                    techWrap.style.display = 'none';
+                }
+            }
+
+            // Client name
+            if (clientName) {
+                clientName.textContent = prClient ? 'Client: ' + prClient : '';
+            }
+
+            // Base URL helper
+            const baseUrl = (typeof window.CREATSIFY_BASE_URL !== 'undefined') 
+                ? window.CREATSIFY_BASE_URL 
+                : (document.querySelector('link[rel="icon"]')?.href?.replace(/\/favicon\.ico.*$/, '') || '');
+
+            // 1. Live Preview Website Link (Shown if live_url is set and not '#')
+            if (liveLink) {
+                if (prLive && prLive !== '#' && prLive !== '') {
+                    liveLink.href = prLive;
+                    liveLink.style.display = 'inline-flex';
+                } else {
+                    liveLink.style.display = 'none';
+                }
+            }
+
+            // 2. Buy License Button (for ready-made software or commercial scripts)
+            if (buyLink) {
+                if (isSoftware) {
+                    const buyUrl = prGumroad || (baseUrl + '/contact?project=' + encodeURIComponent(prTitle + ' (' + prPrice + ')'));
+                    buyLink.href = buyUrl;
+                    if (buyLabel) buyLabel.textContent = 'Buy License (' + prPrice + ')';
+                    buyLink.style.display = 'inline-flex';
+                } else {
+                    buyLink.style.display = 'none';
+                }
+            }
+
+            // 3. More Details Case Study Link
+            if (caseLink) {
+                caseLink.href = baseUrl + '/portfolio/' + prSlug;
+            }
+
+            modal.classList.add('is-active');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupLightbox);
+    } else {
+        setupLightbox();
+    }
+})();

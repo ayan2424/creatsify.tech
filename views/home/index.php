@@ -528,57 +528,6 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
         <div class="ag-case-grid" style="margin-top:40px;">
             <?php
             $caseProjects = !empty($projects) ? $projects : ($portfolioWorks ?? []);
-
-            $monogram = static function (string $slug, string $title): string {
-                $custom = [
-                    'growth-engine-campaigns'    => 'GE',
-                    'apex-retail-redesign'       => 'AR',
-                    'cheetah-enterprise'         => 'CE',
-                    'lumina-fleet-app'           => 'LF',
-                    'cheetah-lite'               => 'CL',
-                    'kinetix-brand-system'       => 'KB',
-                    'cheezify'                   => 'CZ',
-                    'restromaster-kds-interface' => 'RM',
-                    'viddmate-video-suite'       => 'VM',
-                    'pulserank-geo-seo'          => 'PR',
-                    'novagrowth-performance-ads' => 'NG',
-                ];
-                if (isset($custom[$slug])) {
-                    return $custom[$slug];
-                }
-                $words = preg_split('/\s+/', trim($title));
-                if (count($words) >= 2) {
-                    return strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
-                }
-                return strtoupper(substr(preg_replace('/[^a-zA-Z0-9]/', '', $title), 0, 2));
-            };
-
-            $auraColor = static function (string $slug, int $idx): string {
-                $custom = [
-                    'cheetah-enterprise'         => 'rgba(16, 185, 129, 0.28)',
-                    'cheetah-lite'               => 'rgba(14, 165, 233, 0.28)',
-                    'cheezify'                   => 'rgba(245, 158, 11, 0.28)',
-                    'restromaster-kds-interface' => 'rgba(239, 68, 68, 0.28)',
-                    'viddmate-video-suite'       => 'rgba(139, 92, 246, 0.30)',
-                    'apex-retail-redesign'       => 'rgba(0, 210, 238, 0.28)',
-                    'lumina-fleet-app'           => 'rgba(20, 184, 166, 0.28)',
-                    'kinetix-brand-system'       => 'rgba(236, 72, 153, 0.28)',
-                    'pulserank-geo-seo'          => 'rgba(45, 212, 191, 0.28)',
-                    'novagrowth-performance-ads' => 'rgba(168, 85, 247, 0.30)',
-                ];
-                if (isset($custom[$slug])) {
-                    return $custom[$slug];
-                }
-                $palette = [
-                    'rgba(0, 210, 238, 0.28)',
-                    'rgba(16, 185, 129, 0.28)',
-                    'rgba(139, 92, 246, 0.30)',
-                    'rgba(245, 158, 11, 0.28)',
-                    'rgba(236, 72, 153, 0.28)',
-                ];
-                return $palette[$idx % count($palette)];
-            };
-
             foreach ($caseProjects as $idx => $pr):
                 $slug = $pr['slug'];
                 $shot = $imgFor($slug);
@@ -591,34 +540,26 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 $isSoftware = !empty($pr['is_software']) || ($pr['status'] ?? '') === 'For sale';
                 $priceStr = !empty($pr['price']) ? $pr['price'] : '$99';
                 $desc = !empty($pr['summary']) ? $pr['summary'] : (!empty($pr['description']) ? $pr['description'] : '');
-                $mono = $monogram($slug, (string)$pr['title']);
-                $aura = $auraColor($slug, $idx);
             ?>
-                <article class="ag-case-card rv on" data-work-cat="<?= e($cat) ?>" style="--d:<?= ($idx * 0.08) ?>s; --card-aura:<?= $aura ?>;">
-                    <!-- Top-Left macOS Traffic Light Dots -->
+                <article class="ag-case-card rv on" data-work-cat="<?= e($cat) ?>" style="--d:<?= ($idx * 0.08) ?>s;">
+                    <!-- 1. The Clean, Crisp Screenshot Image -->
+                    <?php if ($shot): ?>
+                        <img src="<?= asset($shot) ?>" width="1376" height="768" loading="lazy" alt="<?= e($pr['title']) ?>" class="ag-card-img">
+                    <?php else: ?>
+                        <div class="ag-case-img-fallback">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            <span><?= e($pr['title']) ?></span>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- 2. macOS 3 Traffic Light Dots (Always Visible at Top-Left) -->
                     <div class="ag-card-dots" aria-hidden="true">
                         <span class="ag-dot d-red"></span>
                         <span class="ag-dot d-yellow"></span>
                         <span class="ag-dot d-green"></span>
                     </div>
 
-                    <!-- Ambient Glow Aura -->
-                    <div class="ag-card-aura" aria-hidden="true"></div>
-
-                    <!-- Matrix Dot Grid Texture -->
-                    <div class="ag-card-matrix" aria-hidden="true"></div>
-
-                    <!-- Center 2-Letter Monogram Watermark -->
-                    <div class="ag-card-watermark" aria-hidden="true"><?= e($mono) ?></div>
-
-                    <!-- Atmospheric Screenshot Backdrop -->
-                    <?php if ($shot): ?>
-                        <div class="ag-card-media-wrap" aria-hidden="true">
-                            <img src="<?= asset($shot) ?>" width="1376" height="768" loading="lazy" alt="" class="ag-card-img">
-                        </div>
-                    <?php endif; ?>
-
-                    <!-- Bottom-Aligned Card Body -->
+                    <!-- 3. Details & Action Buttons (Hidden by Default, Revealed on Hover & Focus with Progressive Blur) -->
                     <div class="ag-card-body">
                         <h3 class="ag-card-title">
                             <a href="<?= url('/portfolio/' . $slug) ?>"><?= e($pr['title']) ?></a>
@@ -639,22 +580,23 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                         <?php endif; ?>
 
                         <div class="ag-card-actions">
-                            <?php if ($hasLive): ?>
-                                <a href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer" class="ag-btn-preview" title="Open Live Website">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                                    <span>Live Preview</span>
-                                </a>
-                            <?php elseif ($shot): ?>
-                                <button type="button" class="ag-btn-preview js-open-lightbox" data-img="<?= asset($shot) ?>" data-title="<?= e($pr['title']) ?>" data-slug="<?= e($slug) ?>" data-badge="<?= e($catLabel) ?>" data-live="<?= e($live) ?>" title="View Preview Image">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                                    <span>Live Preview</span>
-                                </button>
-                            <?php else: ?>
-                                <a href="<?= url('/portfolio/' . $slug) ?>" class="ag-btn-preview" title="View Case Study">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                                    <span>Live Preview</span>
-                                </a>
-                            <?php endif; ?>
+                            <button type="button" 
+                                    class="ag-btn-preview js-open-lightbox" 
+                                    data-img="<?= asset($shot) ?>" 
+                                    data-title="<?= e($pr['title']) ?>" 
+                                    data-slug="<?= e($slug) ?>" 
+                                    data-badge="<?= e($catLabel) ?>" 
+                                    data-live="<?= e($live) ?>" 
+                                    data-software="<?= $isSoftware ? '1' : '0' ?>"
+                                    data-price="<?= e($priceStr) ?>"
+                                    data-gumroad="<?= e($pr['gumroad_url'] ?? '') ?>"
+                                    data-desc="<?= e($desc) ?>"
+                                    data-tech="<?= e($pr['tech_stack'] ?? '') ?>"
+                                    data-client="<?= e($pr['client'] ?? '') ?>"
+                                    title="Quick Preview &amp; Specs">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                                <span>Preview</span>
+                            </button>
 
                             <a href="<?= url('/portfolio/' . $slug) ?>" class="ag-btn-details" title="View Full Case Study">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -665,8 +607,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
                 </article>
             <?php endforeach; ?>
         </div>
-
-        <div style="text-align:center;margin-top:36px;">
+<div style="text-align:center;margin-top:36px;">
             <a class="om-btn-glass" href="<?= url('/portfolio') ?>">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 <span>View All Client Case Studies</span>
@@ -675,30 +616,7 @@ $totalReviews = max(12, (int)($reviewStats['total'] ?? 12));
     </div>
 </section>
 
-<!-- Portfolio Lightbox Quick Preview Modal -->
-<div id="portfolioLightboxModal" class="ag-lightbox-modal" aria-hidden="true" role="dialog" aria-label="Project Preview">
-    <div class="ag-lightbox-backdrop"></div>
-    <div class="ag-lightbox-dialog">
-        <div class="ag-lightbox-header">
-            <span class="ag-lightbox-badge" id="lightboxBadge">Portfolio Showcase</span>
-            <h3 class="ag-lightbox-title" id="lightboxTitle">Project Preview</h3>
-            <button type="button" class="ag-lightbox-close" aria-label="Close Preview">&times;</button>
-        </div>
-        <div class="ag-lightbox-body">
-            <img src="" alt="" id="lightboxImg" class="ag-lightbox-img" loading="eager">
-        </div>
-        <div class="ag-lightbox-footer">
-            <a href="#" id="lightboxLiveLink" target="_blank" rel="noopener noreferrer" class="om-btn-glass sm" style="display:none;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                <span>Visit Live Website &nearr;</span>
-            </a>
-            <a href="#" id="lightboxCaseLink" class="om-btn-gold sm">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>View Full Case Study &amp; Specs</span>
-            </a>
-        </div>
-    </div>
-</div>
+
 
 <!-- ======================================================================
      STAGE 5: WHY CREATSIFY — THE UNFAIR ADVANTAGE (#why-us)

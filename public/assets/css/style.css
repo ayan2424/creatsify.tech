@@ -6513,8 +6513,10 @@ header nav#nav a {
   }
 }
 /* ==========================================================================
-   AG WORK CARDS — Mac-Terminal Aesthetic with Ambient Glow & Monograms
-   Matches user reference image with traffic lights, watermark, aura, and glowing actions
+   AG WORK CARDS — Clean Screenshot Showcase with 3 macOS Window Dots
+   - Default State: Only the crisp, high-resolution screenshot and top-left 3 dots.
+   - Hover / Focus State: Glowing cyan border + frosted glass gradient overlay
+     revealing project title, tags, description, and action buttons.
    ========================================================================== */
 .ag-case-grid {
   display: grid;
@@ -6538,8 +6540,7 @@ header nav#nav a {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 420px;
-  padding: 24px 22px 22px;
+  min-height: 400px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.28s ease,
@@ -6549,56 +6550,63 @@ header nav#nav a {
 
 [data-theme="light"] .ag-case-card {
   background: #0d111a;
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
-.ag-case-card:hover {
+.ag-case-card:hover,
+.ag-case-card:focus-within {
   transform: translateY(-4px);
   border-color: rgba(0, 210, 238, 0.55);
-  box-shadow: 0 0 35px -5px rgba(0, 210, 238, 0.25), 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 35px -5px rgba(0, 210, 238, 0.28), 0 20px 40px -10px rgba(0, 0, 0, 0.7);
 }
 
-/* 1. Ambient Radial Aura */
-.ag-card-aura {
-  position: absolute;
-  top: -40px;
-  left: -20px;
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  background: var(--card-aura, rgba(0, 210, 238, 0.22));
-  filter: blur(55px);
-  opacity: 0.65;
-  pointer-events: none;
-  z-index: 1;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.ag-case-card:hover .ag-card-aura {
-  opacity: 0.9;
-  transform: scale(1.15);
-}
-
-/* 2. Matrix Dot Grid Texture */
-.ag-card-matrix {
+/* 1. Full Screenshot Image Covering the entire card */
+.ag-card-img {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
-  background-size: 16px 16px;
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
   z-index: 1;
-  opacity: 0.75;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 3. macOS Traffic Light Dots */
+.ag-case-card:hover .ag-card-img,
+.ag-case-card:focus-within .ag-card-img {
+  transform: scale(1.04);
+}
+
+/* Fallback if no screenshot */
+.ag-case-img-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #0d101a;
+  color: rgba(255, 255, 255, 0.4);
+  z-index: 1;
+}
+
+/* 2. Top-Left 3 macOS Traffic Light Dots — Always Visible */
 .ag-card-dots {
   position: absolute;
-  top: 18px;
-  left: 20px;
+  top: 16px;
+  left: 18px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  z-index: 4;
+  gap: 6.5px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(8, 9, 16, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 5;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
 }
 
 .ag-dot {
@@ -6606,7 +6614,7 @@ header nav#nav a {
   height: 8.5px;
   border-radius: 50%;
   display: inline-block;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .ag-dot.d-red {
@@ -6621,64 +6629,34 @@ header nav#nav a {
   background: #27c93f;
 }
 
-/* 4. Center Monogram Watermark */
-.ag-card-watermark {
-  position: absolute;
-  top: 36%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: Sora, sans-serif;
-  font-size: 96px;
-  font-weight: 900;
-  letter-spacing: -3px;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.045);
-  pointer-events: none;
-  user-select: none;
-  z-index: 2;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.ag-case-card:hover .ag-card-watermark {
-  color: rgba(255, 255, 255, 0.08);
-  transform: translate(-50%, -52%) scale(1.05);
-}
-
-/* 5. Screenshot Media Backdrop (Faint & Atmospheric) */
-.ag-card-media-wrap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.16;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 40%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 40%, transparent 100%);
-  transition: opacity 0.3s ease;
-}
-
-.ag-case-card:hover .ag-card-media-wrap {
-  opacity: 0.28;
-}
-
-.ag-card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  filter: saturate(1.1);
-}
-
-/* 6. Card Body Content (Pinned to bottom) */
+/* 3. Card Body (Details & Buttons) — Hidden by Default, Revealed on Hover & Focus */
+/* 3. Card Body (Details & Action Buttons) — Full-card progressive blur & gradient on hover & focus */
 .ag-card-body {
-  position: relative;
-  z-index: 3;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
   display: flex;
   flex-direction: column;
-  margin-top: auto;
+  justify-content: flex-end;
+  padding: 24px 22px 22px;
+  background: linear-gradient(180deg, rgba(6, 9, 18, 0.38) 0%, rgba(6, 9, 18, 0.68) 42%, rgba(6, 9, 18, 0.93) 75%, rgba(6, 9, 18, 0.99) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.3s;
+}
+
+.ag-case-card:hover .ag-card-body,
+.ag-case-card:focus-within .ag-card-body {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .ag-card-title {
@@ -6744,7 +6722,7 @@ header nav#nav a {
 .ag-card-desc {
   font-family: Inter, sans-serif;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.72);
   line-height: 1.48;
   margin: 0 0 18px;
   display: -webkit-box;
@@ -6753,7 +6731,7 @@ header nav#nav a {
   overflow: hidden;
 }
 
-/* 7. Action Buttons */
+/* 4. Action Buttons */
 .ag-card-actions {
   display: flex;
   align-items: center;
@@ -6795,9 +6773,9 @@ header nav#nav a {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   font-family: Inter, sans-serif;
@@ -6815,8 +6793,8 @@ header nav#nav a {
 
 .ag-btn-details:hover {
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
   color: #ffffff;
 }
 .ag-case-actions {
@@ -6921,20 +6899,20 @@ header nav#nav a {
 .ag-lightbox-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(4, 10, 20, 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(4, 8, 18, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 .ag-lightbox-dialog {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 980px;
+  max-width: 960px;
   max-height: 90vh;
-  background: #091528;
-  border: 1px solid rgba(0, 210, 238, 0.35);
+  background: #080d19;
+  border: 1px solid rgba(0, 210, 238, 0.38);
   border-radius: 20px;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.8), 0 0 35px -5px rgba(0, 210, 238, 0.22);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -6948,35 +6926,43 @@ header nav#nav a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 16px 22px;
+  gap: 14px;
+  padding: 16px 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(5, 14, 28, 0.85);
+  background: rgba(6, 11, 22, 0.95);
+}
+.ag-lightbox-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+  flex: 1;
 }
 .ag-lightbox-badge {
   font-size: 11px;
   font-weight: 700;
-  padding: 3px 9px;
+  padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(0, 210, 238, 0.15);
-  color: #00D2EE;
-  border: 1px solid rgba(0, 210, 238, 0.3);
+  background: rgba(0, 210, 238, 0.14);
+  color: #00d2ee;
+  border: 1px solid rgba(0, 210, 238, 0.32);
+  white-space: nowrap;
 }
 .ag-lightbox-title {
   font-family: Sora, sans-serif;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 800;
-  color: #fff;
+  color: #ffffff;
   margin: 0;
-  flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .ag-lightbox-close {
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -6987,38 +6973,163 @@ header nav#nav a {
   line-height: 1;
   cursor: pointer;
   transition: background 0.18s, transform 0.18s;
+  flex-shrink: 0;
 }
 .ag-lightbox-close:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.22);
   transform: scale(1.08);
 }
 .ag-lightbox-body {
-  padding: 16px;
+  padding: 0;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background: #040711;
+  max-height: calc(90vh - 140px);
+}
+.ag-lightbox-img-wrap {
+  width: 100%;
+  background: #020409;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #020710;
-  min-height: 320px;
-  max-height: calc(90vh - 140px);
+  padding: 16px;
 }
 .ag-lightbox-img {
   max-width: 100%;
-  max-height: 68vh;
+  max-height: 52vh;
   object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+}
+.ag-lightbox-meta-panel {
+  padding: 18px 24px;
+  background: rgba(6, 11, 22, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.ag-lightbox-desc {
+  font-family: Inter, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 14px;
+}
+.ag-lightbox-tech-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ag-lightbox-tech-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.45);
+}
+.ag-lightbox-tech-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.ag-lightbox-tech-pill {
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 .ag-lightbox-footer {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
-  padding: 14px 22px;
+  padding: 14px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(5, 14, 28, 0.9);
+  background: rgba(6, 11, 22, 0.98);
 }
-
+.ag-lightbox-footer-btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ag-btn-modal-live {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #00d2ee;
+  color: #041021;
+  font-family: Inter, sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(0, 210, 238, 0.4);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), background 0.18s, box-shadow 0.18s;
+  white-space: nowrap;
+}
+.ag-btn-modal-live:hover {
+  transform: translateY(-2px);
+  background: #25e2fb;
+  box-shadow: 0 6px 24px rgba(0, 210, 238, 0.65);
+  color: #041021;
+}
+.ag-btn-modal-buy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #f5a623 0%, #e09210 100%);
+  color: #1a0e00;
+  font-family: Inter, sans-serif;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 8px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(245, 166, 35, 0.4);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), filter 0.18s, box-shadow 0.18s;
+  white-space: nowrap;
+}
+.ag-btn-modal-buy:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 6px 24px rgba(245, 166, 35, 0.65);
+  color: #1a0e00;
+}
+.ag-btn-modal-case {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: Inter, sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), background 0.18s, border-color 0.18s;
+  white-space: nowrap;
+}
+.ag-btn-modal-case:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+}
 /* 4. Why Creatsify Is #1 — Strength Cards & Comparison Matrix (#why-us) */
 .ag-strength-grid {
   display: grid;

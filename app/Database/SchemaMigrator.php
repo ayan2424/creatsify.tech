@@ -192,19 +192,41 @@ class SchemaMigrator
                 `badge_text` VARCHAR(80) NULL,
                 `is_popular` TINYINT(1) NOT NULL DEFAULT 0,
                 `summary` VARCHAR(350) NULL,
+                `features` TEXT NULL,
                 `features_json` LONGTEXT NULL,
                 `not_included_json` LONGTEXT NULL,
+                `cta_label` VARCHAR(80) NOT NULL DEFAULT 'Select Package',
                 `cta_text` VARCHAR(80) NOT NULL DEFAULT 'Get Started Now',
                 `cta_url` VARCHAR(255) NOT NULL DEFAULT '/contact',
                 `status` VARCHAR(20) NOT NULL DEFAULT 'active',
+                `is_active` TINYINT(1) NOT NULL DEFAULT 1,
                 `sort_order` INT NOT NULL DEFAULT 0,
                 `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 INDEX `idx_pkg_category` (`category_track`),
-                INDEX `idx_pkg_status` (`status`)
+                INDEX `idx_pkg_status` (`status`),
+                INDEX `idx_pkg_active` (`is_active`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
             // 4. Ensure Columns in Existing Tables
+            try {
+                $db->query("SELECT `is_active` FROM `service_packages` LIMIT 1");
+            } catch (\Throwable $e) {
+                try {
+                    $db->query("ALTER TABLE `service_packages` 
+                        ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 1 AFTER `sort_order`,
+                        ADD COLUMN `features` TEXT NULL AFTER `summary`,
+                        ADD COLUMN `cta_label` VARCHAR(80) NOT NULL DEFAULT 'Select Package' AFTER `features`");
+                    $db->query("UPDATE `service_packages` SET `is_active` = (CASE WHEN `status` = 'inactive' THEN 0 ELSE 1 END)");
+                    $db->query("UPDATE `service_packages` SET `features` = `features_json` WHERE `features` IS NULL AND `features_json` IS NOT NULL");
+                    $db->query("UPDATE `service_packages` SET `cta_label` = `cta_text` WHERE `cta_label` IS NULL AND `cta_text` IS NOT NULL");
+                } catch (\Throwable $e2) {
+                    try {
+                        $db->query("ALTER TABLE `service_packages` ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 1");
+                    } catch (\Throwable $e3) {}
+                }
+            }
+
             try {
                 $db->query("SELECT `gumroad_url`, `price` FROM `projects` LIMIT 1");
             } catch (\Throwable $e) {

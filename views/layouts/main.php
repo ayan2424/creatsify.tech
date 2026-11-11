@@ -110,6 +110,9 @@ $footerCode = setting('custom_footer_code', '');
     <!-- Floating Native Live Chat Widget -->
     <?php $this->partial('partials/chat_widget'); ?>
 
+    <!-- Universal Portfolio Quick Preview Lightbox Modal -->
+    <?php $this->partial('partials/portfolio-lightbox'); ?>
+
     <!-- Notification Chime Audio -->
     <audio id="notifChime" preload="auto">
         <source src="data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU..." type="audio/wav">
