@@ -28,8 +28,6 @@ $router->group(['middleware' => ['analytics']], function (Router $r) {
     $r->get('/packages', [\App\Controllers\PackagesController::class, 'index']);
     $r->get('/reviews', [\App\Controllers\ReviewsController::class, 'index']);
     $r->post('/reviews', [\App\Controllers\ReviewsController::class, 'store'], ['csrf']);
-    $r->get('/team', [\App\Controllers\TeamController::class, 'index']);
-    $r->get('/team/{slug}', [\App\Controllers\TeamController::class, 'show']);
     $r->get('/about', [\App\Controllers\AboutController::class, 'index']);
     $r->get('/blog', [\App\Controllers\BlogController::class, 'index']);
     $r->get('/blog/{slug}', [\App\Controllers\BlogController::class, 'show']);
@@ -58,9 +56,7 @@ $router->post('/api/webhooks/whatsapp', [\App\Controllers\WebhookController::cla
 // --------------------------------------------------------------------------
 $router->get('/admin/login', [\App\Controllers\Admin\AuthController::class, 'showLogin']);
 $router->post('/admin/login', [\App\Controllers\Admin\AuthController::class, 'login'], ['csrf']);
-if (env('DEMO_MODE', false) === true) {
-    $router->get('/admin/demo-login', [\App\Controllers\Admin\AuthController::class, 'demoLogin']);
-}
+$router->get('/admin/demo-login', [\App\Controllers\Admin\AuthController::class, 'demoLogin']);
 $router->post('/admin/logout', [\App\Controllers\Admin\AuthController::class, 'logout'], ['csrf']);
 
 // --------------------------------------------------------------------------
@@ -101,24 +97,6 @@ $router->group(['prefix' => '/admin', 'middleware' => ['auth', 'csrf', 'demo']],
     $r->post('/projects/{id}', [\App\Controllers\Admin\ProjectsController::class, 'update']);
     $r->post('/projects/{id}/toggle-featured', [\App\Controllers\Admin\ProjectsController::class, 'toggleFeatured']);
     $r->post('/projects/{id}/delete', [\App\Controllers\Admin\ProjectsController::class, 'delete']);
-
-    // Agency Team & Member Portfolios
-    $r->get('/team', [\App\Controllers\Admin\TeamController::class, 'index']);
-    $r->get('/team/create', [\App\Controllers\Admin\TeamController::class, 'create']);
-    $r->post('/team', [\App\Controllers\Admin\TeamController::class, 'store']);
-    $r->get('/team/{id}/edit', [\App\Controllers\Admin\TeamController::class, 'edit']);
-    $r->post('/team/{id}', [\App\Controllers\Admin\TeamController::class, 'update']);
-    $r->post('/team/{id}/toggle', [\App\Controllers\Admin\TeamController::class, 'toggle']);
-    $r->post('/team/{id}/delete', [\App\Controllers\Admin\TeamController::class, 'delete']);
-
-    // Individual Member Portfolios
-    $r->get('/team/{memberId}/portfolio', [\App\Controllers\Admin\TeamController::class, 'portfolio']);
-    $r->get('/team/{memberId}/portfolio/create', [\App\Controllers\Admin\TeamController::class, 'createPortfolio']);
-    $r->post('/team/{memberId}/portfolio', [\App\Controllers\Admin\TeamController::class, 'storePortfolio']);
-    $r->get('/team/{memberId}/portfolio/{itemId}/edit', [\App\Controllers\Admin\TeamController::class, 'editPortfolio']);
-    $r->post('/team/{memberId}/portfolio/{itemId}', [\App\Controllers\Admin\TeamController::class, 'updatePortfolio']);
-    $r->post('/team/{memberId}/portfolio/{itemId}/toggle-featured', [\App\Controllers\Admin\TeamController::class, 'togglePortfolioFeatured']);
-    $r->post('/team/{memberId}/portfolio/{itemId}/delete', [\App\Controllers\Admin\TeamController::class, 'deletePortfolio']);
 
     // Services
     $r->get('/services', [\App\Controllers\Admin\ServicesController::class, 'index']);

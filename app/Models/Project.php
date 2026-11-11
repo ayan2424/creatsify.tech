@@ -3,11 +3,66 @@
 namespace App\Models;
 
 /**
- * Creatsify Studio - Portfolio Projects Model
+ * Creatsify Studio - Portfolio Projects & Ready-Made Software Model
+ *
+ * Core Work Categories (7 Official Disciplines):
+ * - web-dev           => Web Design & Development
+ * - mobile-app        => Mobile App Development
+ * - saas-crm          => SaaS & CRM
+ * - software-eng      => Software & Product Engineering
+ * - seo-geo           => SEO & GEO
+ * - digital-marketing => Digital Marketing
+ * - ui-ux-branding    => UI/UX Design & Branding
+ *
+ * Ready-Made Software is maintained strictly as an attribute tag (`is_software = 1`),
+ * enabling dual-surface showcase on both /software (#products) and /portfolio (#work).
  */
 class Project
 {
+    public const CATEGORIES = [
+        'web-dev'           => 'Web Design & Development',
+        'mobile-app'        => 'Mobile App Development',
+        'saas-crm'          => 'SaaS & CRM',
+        'software-eng'      => 'Software & Product Engineering',
+        'seo-geo'           => 'SEO & GEO',
+        'digital-marketing' => 'Digital Marketing',
+        'ui-ux-branding'    => 'UI/UX Design & Branding',
+    ];
+
     private static bool $checked = false;
+
+    public static function categories(): array
+    {
+        return self::CATEGORIES;
+    }
+
+    public static function categoryLabel(string $key): string
+    {
+        $normalized = self::normalizeCategory($key);
+        return self::CATEGORIES[$normalized] ?? ucfirst(str_replace('-', ' ', $key));
+    }
+
+    public static function normalizeCategory(?string $cat): string
+    {
+        if (empty($cat)) {
+            return 'all';
+        }
+        $cat = strtolower(trim($cat));
+        if (isset(self::CATEGORIES[$cat])) {
+            return $cat;
+        }
+
+        return match ($cat) {
+            'saas', 'crm'                               => 'saas-crm',
+            'apps', 'mobile', 'flutter'                 => 'mobile-app',
+            'stores', 'redesign', 'web', 'web-saas'     => 'web-dev',
+            'software', 'engineering', 'eng', 'courier' => 'software-eng',
+            'seo', 'geo'                                => 'seo-geo',
+            'growth', 'marketing', 'ads'                => 'digital-marketing',
+            'branding', 'design', 'ui-ux', 'ui/ux'      => 'ui-ux-branding',
+            default                                     => $cat,
+        };
+    }
 
     public static function ensureColumnsExist(): void
     {
@@ -26,67 +81,133 @@ class Project
             } catch (\Throwable $e2) {}
         }
 
+        // Ensure is_software & subcategory columns exist for unified Work & Software architecture
+        try {
+            db()->query("SELECT `is_software`, `subcategory` FROM `projects` LIMIT 1");
+        } catch (\Throwable $e) {
+            try {
+                db()->query("ALTER TABLE `projects` 
+                    ADD COLUMN `is_software` TINYINT(1) NOT NULL DEFAULT 0 AFTER `featured`, 
+                    ADD COLUMN `subcategory` VARCHAR(100) NULL AFTER `category`");
+            } catch (\Throwable $e2) {}
+        }
+
+        // Backfill & normalize projects into the 7 official categories with proper Ready-Made tags
+        try {
+            // 1. Cheetah Enterprise (SaaS & CRM Backbone + Ready-Made Software)
+            db()->query("UPDATE `projects` SET 
+                `category` = 'saas-crm',
+                `subcategory` = 'Courier & Logistics Backbone',
+                `is_software` = 1,
+                `status` = 'For sale',
+                `price` = COALESCE(NULLIF(`price`, ''), '$99')
+                WHERE `slug` = 'cheetah-enterprise'");
+
+            // 2. Cheetah Lite (Software & Product Engineering + Ready-Made Software)
+            db()->query("UPDATE `projects` SET 
+                `category` = 'software-eng',
+                `subcategory` = 'Courier Dispatch Suite',
+                `is_software` = 1,
+                `status` = 'For sale',
+                `price` = COALESCE(NULLIF(`price`, ''), '$49')
+                WHERE `slug` = 'cheetah-lite'");
+
+            // 3. Cheezify POS (Web Design & Development + Ready-Made Software)
+            db()->query("UPDATE `projects` SET 
+                `category` = 'web-dev',
+                `subcategory` = 'Food Ordering & POS',
+                `is_software` = 1,
+                `status` = 'For sale',
+                `price` = COALESCE(NULLIF(`price`, ''), '$79')
+                WHERE `slug` = 'cheezify'");
+
+            // 4. Apex Retail Redesign (Web Design & Development client work)
+            db()->query("UPDATE `projects` SET 
+                `category` = 'web-dev',
+                `subcategory` = 'Storefront Redesign & CRO',
+                `is_software` = 0,
+                `status` = 'Delivered'
+                WHERE `slug` = 'apex-retail-redesign'");
+
+            // 5. Lumina Fleet Companion (Mobile App Development client work)
+            db()->query("UPDATE `projects` SET 
+                `category` = 'mobile-app',
+                `subcategory` = 'Flutter Mobile Companion',
+                `is_software` = 0,
+                `status` = 'Delivered'
+                WHERE `slug` = 'lumina-fleet-app'");
+
+            // 6. Kinetix Brand System (UI/UX Design & Branding client work)
+            db()->query("UPDATE `projects` SET 
+                `category` = 'ui-ux-branding',
+                `subcategory` = 'Brand Identity & Ads',
+                `is_software` = 0,
+                `status` = 'Delivered'
+                WHERE `slug` = 'kinetix-brand-system'");
+        } catch (\Throwable $e) {}
+
         // Ensure RestroMaster and ViddMate projects exist for real showcase
         try {
             $restro = db()->fetchOne("SELECT `id` FROM `projects` WHERE `slug` = 'restromaster-kds-interface' LIMIT 1");
             if (!$restro) {
                 db()->query("INSERT INTO `projects` 
-                    (`title`, `slug`, `category`, `client`, `featured`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
+                    (`title`, `slug`, `category`, `subcategory`, `client`, `featured`, `is_software`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
                     VALUES 
-                    ('RestroMaster POS & KDS Interface', 'restromaster-kds-interface', 'saas', 'Zenith Hospitality Group', 1, 
+                    ('RestroMaster POS & KDS Interface', 'restromaster-kds-interface', 'saas-crm', 'Restaurant POS & KDS', 'Zenith Hospitality Group', 1, 1, 
                      'Touch-optimized kitchen display system, contactless QR tabletop ordering, and real-time order routing for high-volume venues.',
                      'Complete restaurant management ecosystem featuring low-latency kitchen order tickets (KOT), multi-station display routing, QR digital menu with real-time bill settlement, and thermal printer integration.',
                      '/assets/images/restromaster-preview.jpg', '', '', '$79', 'PHP 8.4, Vue.js, Tailwind CSS, WebSocket, MySQL 8', 'For sale', 4)");
             } else {
-                db()->query("UPDATE `projects` SET `status` = 'For sale', `price` = '$79' WHERE `slug` = 'restromaster-kds-interface'");
+                db()->query("UPDATE `projects` SET `category` = 'saas-crm', `subcategory` = 'Restaurant POS & KDS', `is_software` = 1, `status` = 'For sale', `price` = '$79' WHERE `slug` = 'restromaster-kds-interface'");
             }
 
             $viddmate = db()->fetchOne("SELECT `id` FROM `projects` WHERE `slug` = 'viddmate-video-suite' LIMIT 1");
             if (!$viddmate) {
                 db()->query("INSERT INTO `projects` 
-                    (`title`, `slug`, `category`, `client`, `featured`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
+                    (`title`, `slug`, `category`, `subcategory`, `client`, `featured`, `is_software`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
                     VALUES 
-                    ('ViddMate 4K Video Transcoding Suite', 'viddmate-video-suite', 'saas', 'Kinetix Cloud', 1, 
+                    ('ViddMate 4K Video Transcoding Suite', 'viddmate-video-suite', 'software-eng', 'Video Encoding & Transcoding', 'Kinetix Cloud', 1, 1, 
                      'High-throughput cloud media encoding and transcoding web platform with GPU acceleration and automated storage delivery.',
                      'Scalable video processing infrastructure engineered for automated 4K H.265/AV1 transcoding, audio waveform extraction, watermarking, and instant cloud CDN distribution with webhooks.',
                      '/assets/images/viddmate-preview.jpg', '', '', '$89', 'PHP 8.4, Node.js, FFmpeg, Redis, Tailwind CSS', 'For sale', 5)");
             } else {
-                db()->query("UPDATE `projects` SET `status` = 'For sale', `price` = '$89' WHERE `slug` = 'viddmate-video-suite'");
+                db()->query("UPDATE `projects` SET `category` = 'software-eng', `subcategory` = 'Video Encoding & Transcoding', `is_software` = 1, `status` = 'For sale', `price` = '$89' WHERE `slug` = 'viddmate-video-suite'");
             }
 
-            // Client Portfolio Case Studies
-            $apex = db()->fetchOne("SELECT `id` FROM `projects` WHERE `slug` = 'apex-retail-redesign' LIMIT 1");
-            if (!$apex) {
+            // Ensure SEO & GEO Showcase Case Study
+            $pulse = db()->fetchOne("SELECT `id` FROM `projects` WHERE `slug` = 'pulserank-geo-seo' LIMIT 1");
+            if (!$pulse) {
                 db()->query("INSERT INTO `projects` 
-                    (`title`, `slug`, `category`, `client`, `featured`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
+                    (`title`, `slug`, `category`, `subcategory`, `client`, `featured`, `is_software`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
                     VALUES 
-                    ('Apex Retail — High-Speed Storefront Redesign', 'apex-retail-redesign', 'redesign', 'Apex Retail Group', 1, 
-                     'Re-engineered a slow legacy e-commerce site into a mobile-first, conversion-optimized experience with streamlined 1-step checkout and sub-second load times.',
-                     'Apex Retail Group was suffering high cart abandonment on mobile devices due to slow legacy rendering and disjointed page flows. Creatsify executed an end-to-end design and engineering sprint: replacing the bloated monolithic theme with a high-speed Next.js + Tailwind CSS architecture, consolidating the checkout to a frictionless 1-step flow, and implementing automated CRO analytics silos.',
-                     '/assets/images/apex-preview.jpg', '', '', '', 'Next.js, Tailwind CSS, UI/UX Redesign, CRO Funnels', 'Delivered', 1)");
+                    ('PulseRank SEO & GEO Engine', 'pulserank-geo-seo', 'seo-geo', 'AI Search & Local Entity Authority', 'HealthScale Networks', 1, 0, 
+                     'Dominating local search and Generative AI engine overviews (Perplexity, ChatGPT, Google SGE) with structured knowledge graphs and entity-first technical SEO.',
+                     'HealthScale Networks operated 42 regional clinics but lacked organic visibility in generative AI overviews. Creatsify deployed comprehensive entity-based semantic SEO, automated Schema.org JSON-LD microdata, medical knowledge graph linking, and high-velocity content clusters, securing 1st-tier AI answer citations and +310% qualified patient appointments.',
+                     '/assets/images/pulserank-preview.jpg', '', '', '', 'Generative Engine Optimization (GEO), Schema.org, Next.js, Entity SEO', 'Delivered', 6)");
+            } else {
+                db()->query("UPDATE `projects` SET `category` = 'seo-geo', `subcategory` = 'AI Search & Local Entity Authority', `is_software` = 0 WHERE `slug` = 'pulserank-geo-seo'");
             }
 
-            $lumina = db()->fetchOne("SELECT `id` FROM `projects` WHERE `slug` = 'lumina-fleet-app' LIMIT 1");
-            if (!$lumina) {
+            // Ensure Digital Marketing Showcase Case Study
+            $nova = db()->fetchOne("SELECT `id` FROM `projects` WHERE `slug` = 'novagrowth-performance-ads' LIMIT 1");
+            if (!$nova) {
                 db()->query("INSERT INTO `projects` 
-                    (`title`, `slug`, `category`, `client`, `featured`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
+                    (`title`, `slug`, `category`, `subcategory`, `client`, `featured`, `is_software`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
                     VALUES 
-                    ('Lumina Fleet Companion — Cross-Platform Mobile Suite', 'lumina-fleet-app', 'apps', 'Lumina Health Tech', 1, 
-                     'Engineered native-speed iOS and Android mobile applications featuring offline-first state synchronization, digital signature capture, and cloud API integration.',
-                     'Engineered cross-platform mobile companion apps in Flutter & Dart for Lumina field operators. Featuring 60fps fluid UI animations, offline-first SQLite state caching with automated cloud sync, biometric authentication, digital proof-of-delivery signatures, and instant push notification routing.',
-                     '/assets/images/lumina-preview.jpg', '', '', '', 'Flutter, Dart, Node.js API, SQLite, Cloud Sync', 'Delivered', 2)");
+                    ('NovaGrowth Omnichannel Ad Engine', 'novagrowth-performance-ads', 'digital-marketing', 'Omnichannel Performance Ad Engine', 'NovaFin Capital', 1, 0, 
+                     'Engineered high-converting creative ad variations, landing page CRO funnels, and algorithmic Meta & Google PPC campaigns scaling qualified enterprise leads.',
+                     'NovaFin Capital required scalable B2B customer acquisition with rigorous unit economics. Creatsify designed and managed end-to-end full-funnel digital campaigns across Meta, Google Search, and LinkedIn, pairing algorithmic audience bidding with high-velocity landing page split testing to achieve a sustained 4.1x ROAS.',
+                     '/assets/images/novagrowth-preview.jpg', '', '', '', 'Meta Ads API, Google PPC, CRO Funnels, PostHog, GA4', 'Delivered', 7)");
+            } else {
+                db()->query("UPDATE `projects` SET `category` = 'digital-marketing', `subcategory` = 'Omnichannel Performance Ad Engine', `is_software` = 0 WHERE `slug` = 'novagrowth-performance-ads'");
             }
 
-            $kinetix = db()->fetchOne("SELECT `id` FROM `projects` WHERE `slug` = 'kinetix-brand-system' LIMIT 1");
-            if (!$kinetix) {
-                db()->query("INSERT INTO `projects` 
-                    (`title`, `slug`, `category`, `client`, `featured`, `summary`, `description`, `image_url`, `live_url`, `gumroad_url`, `price`, `tech_stack`, `status`, `sort_order`) 
-                    VALUES 
-                    ('Kinetix Cloud — Complete Brand Identity & Performance Ad Funnel', 'kinetix-brand-system', 'growth', 'Kinetix Cloud Solutions', 1, 
-                     'Designed a distinctive 3D & vector logo system, dark/light UI tokens, and executed high-CTR Meta and Google PPC ad campaigns to scale qualified inbound leads.',
-                     'Kinetix Cloud required a high-authority brand identity to compete in global B2B cloud infrastructure markets. Creatsify developed a 3D procedural logo mark, scalable Figma design tokens, and launched full-funnel Meta and Google Ads campaigns that achieved a 3.8x verified return on ad spend (ROAS).',
-                     '/assets/images/kinetix-preview.jpg', '', '', '', 'Logo Design, Brand Book, Meta Ads, Google PPC, Figma Tokens', 'Delivered', 3)");
-            }
+            // Migrate any remaining legacy category values across the table
+            db()->query("UPDATE `projects` SET `category` = 'web-dev' WHERE `category` IN ('stores', 'redesign')");
+            db()->query("UPDATE `projects` SET `category` = 'mobile-app' WHERE `category` = 'apps'");
+            db()->query("UPDATE `projects` SET `category` = 'saas-crm' WHERE `category` = 'saas'");
+            db()->query("UPDATE `projects` SET `category` = 'digital-marketing' WHERE `category` = 'growth'");
+            db()->query("UPDATE `projects` SET `category` = 'ui-ux-branding' WHERE `category` = 'branding'");
 
             // Ensure Sawi Store is deleted from table
             db()->query("DELETE FROM `projects` WHERE `slug` = 'sawi-store'");
@@ -103,27 +224,36 @@ class Project
     {
         self::ensureColumnsExist();
         return db()->fetchAll("SELECT * FROM `projects` 
-            WHERE `slug` IN ('cheetah-enterprise', 'cheetah-lite', 'cheezify') 
-            ORDER BY FIELD(`slug`, 'cheetah-enterprise', 'cheetah-lite', 'cheezify')");
+            WHERE (`is_software` = 1 OR `status` = 'For sale') 
+            AND `slug` != 'sawi-store' 
+            ORDER BY `sort_order` ASC, `id` DESC");
     }
 
     public static function portfolioWorks(?string $category = null): array
     {
         self::ensureColumnsExist();
-        $sql = "SELECT * FROM `projects` WHERE `slug` NOT IN ('cheetah-enterprise', 'cheetah-lite', 'cheezify', 'sawi-store')";
+        $sql = "SELECT * FROM `projects` WHERE `slug` != 'sawi-store'";
         $params = [];
+
         if ($category && $category !== 'all') {
-            if ($category === 'web-saas' || $category === 'saas') {
-                $sql .= " AND (`category` IN ('saas', 'web-saas') OR `tech_stack` LIKE '%PHP%' OR `tech_stack` LIKE '%Next.js%')";
-            } elseif ($category === 'mobile' || $category === 'apps') {
-                $sql .= " AND (`category` = 'apps' OR `tech_stack` LIKE '%Flutter%')";
-            } elseif ($category === 'redesign' || $category === 'branding') {
-                $sql .= " AND (`category` IN ('redesign', 'branding', 'growth') OR `tech_stack` LIKE '%UI/UX%' OR `tech_stack` LIKE '%Logo%')";
-            } elseif ($category === 'growth') {
-                $sql .= " AND (`category` IN ('growth', 'ads', 'seo') OR `tech_stack` LIKE '%Ads%')";
-            } else {
-                $sql .= " AND `category` = :cat";
-                $params['cat'] = $category;
+            $norm = self::normalizeCategory($category);
+            if (isset(self::CATEGORIES[$norm])) {
+                $sql .= " AND (`category` = :cat";
+                $params['cat'] = $norm;
+
+                // Also support legacy aliases in case any rows haven't updated
+                if ($norm === 'web-dev') {
+                    $sql .= " OR `category` IN ('stores', 'redesign', 'web')";
+                } elseif ($norm === 'mobile-app') {
+                    $sql .= " OR `category` IN ('apps', 'mobile')";
+                } elseif ($norm === 'saas-crm') {
+                    $sql .= " OR `category` = 'saas'";
+                } elseif ($norm === 'digital-marketing') {
+                    $sql .= " OR `category` IN ('growth', 'ads')";
+                } elseif ($norm === 'ui-ux-branding') {
+                    $sql .= " OR `category` = 'branding'";
+                }
+                $sql .= ")";
             }
         }
         $sql .= " ORDER BY `sort_order` ASC, `id` DESC";
@@ -133,25 +263,33 @@ class Project
     public static function allByCategory(?string $category = null): array
     {
         self::ensureColumnsExist();
-        if ($category && in_array($category, ['saas', 'stores', 'apps'], true)) {
-            return db()->fetchAll("SELECT * FROM `projects` WHERE `category` = :cat ORDER BY `sort_order` ASC, `id` DESC", ['cat' => $category]);
+        if ($category === 'software') {
+            return self::readyMadeProducts();
         }
-        return db()->fetchAll("SELECT * FROM `projects` ORDER BY `sort_order` ASC, `id` DESC");
+        if ($category === 'client-work') {
+            return db()->fetchAll("SELECT * FROM `projects` WHERE (`is_software` = 0 OR `is_software` IS NULL) AND `status` != 'For sale' AND `slug` != 'sawi-store' ORDER BY `sort_order` ASC, `id` DESC");
+        }
+        return self::portfolioWorks($category);
     }
 
     public static function categoryCounts(): array
     {
         self::ensureColumnsExist();
-        $rows = db()->fetchAll("SELECT `category`, COUNT(*) as cnt FROM `projects` GROUP BY `category`");
-        $counts = ['all' => 0, 'saas' => 0, 'stores' => 0, 'apps' => 0];
-        foreach ($rows as $r) {
-            $cat = $r['category'] ?? '';
-            $cnt = (int)($r['cnt'] ?? 0);
-            if (isset($counts[$cat])) {
-                $counts[$cat] = $cnt;
-            }
-            $counts['all'] += $cnt;
+        $all = (int)(db()->fetchOne("SELECT COUNT(*) as cnt FROM `projects` WHERE `slug` != 'sawi-store'")['cnt'] ?? 0);
+        $software = (int)(db()->fetchOne("SELECT COUNT(*) as cnt FROM `projects` WHERE (`is_software` = 1 OR `status` = 'For sale') AND `slug` != 'sawi-store'")['cnt'] ?? 0);
+        $clientWork = (int)(db()->fetchOne("SELECT COUNT(*) as cnt FROM `projects` WHERE (`is_software` = 0 OR `is_software` IS NULL) AND `status` != 'For sale' AND `slug` != 'sawi-store'")['cnt'] ?? 0);
+
+        $counts = [
+            'all'         => $all,
+            'software'    => $software,
+            'client_work' => $clientWork,
+        ];
+
+        foreach (self::CATEGORIES as $key => $name) {
+            $cnt = (int)(db()->fetchOne("SELECT COUNT(*) as cnt FROM `projects` WHERE `slug` != 'sawi-store' AND `category` = :cat", ['cat' => $key])['cnt'] ?? 0);
+            $counts[$key] = $cnt;
         }
+
         return $counts;
     }
 

@@ -14,12 +14,16 @@ class PortfolioController
 {
     public function index(Request $request): Response
     {
-        $category = $request->get('cat', 'all');
-        $portfolioWorks = Project::portfolioWorks($category);
+        $category = (string)$request->get('cat', 'all');
+        if ($category === 'software') {
+            return redirect(url('/software'));
+        }
+        $normalizedCategory = Project::normalizeCategory($category);
+        $portfolioWorks = Project::portfolioWorks($normalizedCategory);
 
         return view('portfolio/index', [
             'projects'       => $portfolioWorks,
-            'activeCategory' => $category,
+            'activeCategory' => $normalizedCategory,
             'meta_title'     => 'Our Work & Delivered Client Case Studies | Creatsify Digital Agency',
             'meta_desc'      => 'Explore our portfolio of delivered full-stack web platforms, Flutter mobile apps, high-converting website redesigns, and high-ROAS marketing campaigns.',
         ]);

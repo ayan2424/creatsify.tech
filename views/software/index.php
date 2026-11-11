@@ -68,7 +68,7 @@ $thumb = static function (array $p) use ($assetDir) {
                     </div>
                     <div class="om-prod-body">
                         <div class="om-prod-status-row">
-                            <span class="om-prod-pill">Ready to Ship</span>
+                            <span class="om-prod-pill"><?= e(!empty($pr['subcategory']) ? $pr['subcategory'] : 'Commercial Script') ?></span>
                             <span class="om-prod-rights">&#10003; 100% Unlocked Code + Custom Tailoring</span>
                         </div>
                         <h3 class="om-prod-title"><?= e($pr['title']) ?></h3>

@@ -108,6 +108,9 @@ if (!function_exists('url')) {
     {
         $sub = app_base_path();
         $path = '/' . ltrim($path, '/');
+        if ($sub && ($path === $sub || str_starts_with($path, $sub . '/'))) {
+            return $path;
+        }
         return $sub ? $sub . $path : $path;
     }
 }

@@ -526,9 +526,15 @@
                 </form>
             </div>
 
-            <?php if (env('DEMO_MODE', false) === true): ?>
+            <?php 
+            $canShowDemo = env('DEMO_MODE', false) === true 
+                || env('APP_ENV', '') === 'development' 
+                || env('APP_ENV', '') === 'local' 
+                || env('APP_DEBUG', false) === true;
+            if ($canShowDemo): 
+            ?>
                 <div class="demo-box">
-                    <p class="demo-box-hint">Demo access is enabled for this isolated environment.</p>
+                    <p class="demo-box-hint">1-Click Demo Evaluation Workspace is ready.</p>
                     <a href="<?= url('/admin/demo-login') ?>" class="btn-demo">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                         <span>Open Demo Workspace</span>

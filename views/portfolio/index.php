@@ -14,6 +14,8 @@ $thumb = static function (array $p) use ($assetDir) {
         'cheezify'                   => 'images/cheezify-preview.jpg',
         'restromaster-kds-interface' => 'images/restromaster-preview.jpg',
         'viddmate-video-suite'       => 'images/viddmate-preview.jpg',
+        'pulserank-geo-seo'          => 'images/pulserank-preview.jpg',
+        'novagrowth-performance-ads' => 'images/novagrowth-preview.jpg',
     ];
     if (isset($map[$slug]) && is_file($assetDir . basename($map[$slug]))) {
         return $map[$slug];
@@ -21,17 +23,6 @@ $thumb = static function (array $p) use ($assetDir) {
     $file = $slug . '-preview.jpg';
     return is_file($assetDir . $file) ? 'images/' . $file : null;
 };
-
-$outcomeMap = [
-    'apex-retail-redesign'       => '+184% Conversion Lift',
-    'lumina-fleet-app'           => '4.9★ App Store Rating',
-    'kinetix-brand-system'       => '3.8x Meta & Google ROAS',
-    'cheetah-enterprise'         => '120k+ Parcels/Mo Handled',
-    'cheetah-lite'               => '12-Day Custom Launch',
-    'cheezify'                   => '+92% Repeat Order Rate',
-    'restromaster-kds-interface' => '0.8s Kitchen Order Sync',
-    'viddmate-video-suite'       => '4.2x Faster Encoding',
-];
 ?>
 
 <!-- Agency Portfolio Hero (Inspired by Logoxoom / Modern Creative Agency) -->
@@ -39,15 +30,18 @@ $outcomeMap = [
     <div class="wrap">
         <div class="om-sec-tag"><span class="om-sec-dot"></span> Agency Portfolio &bull; Verified Client Case Studies</div>
         <h1 class="page-title">Our Work &amp; Measurable Client Impact</h1>
-        <p class="page-lead">A showcase of bespoke web applications, cross-platform Flutter mobile suites, conversion-engineered redesigns, and scalable ad acquisition engines delivered for ambitious brands worldwide.</p>
+        <p class="page-lead">A showcase of bespoke web applications, cross-platform Flutter mobile suites, conversion-engineered redesigns, scalable software architectures, and high-ROAS marketing campaigns delivered for ambitious brands worldwide.</p>
 
-        <!-- Logoxoom Style Filter Tabs -->
+        <!-- 7 Official Service Category Filter Tabs (Ready-Made Software is maintained as an attribute tag, not a category) -->
         <div class="om-filter-bar" style="margin-top:28px;" role="tablist" aria-label="Filter case studies by discipline">
-            <a href="<?= url('/portfolio?cat=all') ?>" class="om-filter-pill <?= $activeCategory === 'all' ? 'active' : '' ?>">All Work</a>
-            <a href="<?= url('/portfolio?cat=web-saas') ?>" class="om-filter-pill <?= $activeCategory === 'web-saas' ? 'active' : '' ?>">Web &amp; SaaS</a>
-            <a href="<?= url('/portfolio?cat=mobile') ?>" class="om-filter-pill <?= $activeCategory === 'mobile' ? 'active' : '' ?>">Flutter Mobile Apps</a>
-            <a href="<?= url('/portfolio?cat=redesign') ?>" class="om-filter-pill <?= $activeCategory === 'redesign' ? 'active' : '' ?>">Website Redesign &amp; CRO</a>
-            <a href="<?= url('/portfolio?cat=growth') ?>" class="om-filter-pill <?= $activeCategory === 'growth' ? 'active' : '' ?>">Brand Identity &amp; Ads</a>
+            <a href="<?= url('/portfolio?cat=all') ?>" class="om-filter-pill <?= ($activeCategory === 'all' || empty($activeCategory)) ? 'active' : '' ?>">All Work</a>
+            <a href="<?= url('/portfolio?cat=web-dev') ?>" class="om-filter-pill <?= $activeCategory === 'web-dev' ? 'active' : '' ?>">Web Design &amp; Development</a>
+            <a href="<?= url('/portfolio?cat=mobile-app') ?>" class="om-filter-pill <?= $activeCategory === 'mobile-app' ? 'active' : '' ?>">Mobile App Development</a>
+            <a href="<?= url('/portfolio?cat=saas-crm') ?>" class="om-filter-pill <?= $activeCategory === 'saas-crm' ? 'active' : '' ?>">SaaS &amp; CRM</a>
+            <a href="<?= url('/portfolio?cat=software-eng') ?>" class="om-filter-pill <?= $activeCategory === 'software-eng' ? 'active' : '' ?>">Software &amp; Product Engineering</a>
+            <a href="<?= url('/portfolio?cat=seo-geo') ?>" class="om-filter-pill <?= $activeCategory === 'seo-geo' ? 'active' : '' ?>">SEO &amp; GEO</a>
+            <a href="<?= url('/portfolio?cat=digital-marketing') ?>" class="om-filter-pill <?= $activeCategory === 'digital-marketing' ? 'active' : '' ?>">Digital Marketing</a>
+            <a href="<?= url('/portfolio?cat=ui-ux-branding') ?>" class="om-filter-pill <?= $activeCategory === 'ui-ux-branding' ? 'active' : '' ?>">UI/UX Design &amp; Branding</a>
         </div>
     </div>
 </section>
@@ -60,63 +54,56 @@ $outcomeMap = [
                 $slug = $project['slug'];
                 $shot = $thumb($project);
                 $live = $project['live_url'] ?? '';
-                $hasLive = $live && $live !== '#';
-                $tech = array_filter(array_map('trim', explode(',', (string)($project['tech_stack'] ?? ''))));
-                $client = !empty($project['client']) ? $project['client'] : 'Creatsify Enterprise';
-                $outcome = $outcomeMap[$slug] ?? '+150% Growth Lift';
+                $hasLive = !empty($live) && $live !== '#';
+                $cat = $project['category'] ?? 'web-dev';
+                $catName = \App\Models\Project::categoryLabel($cat);
+                $catLabel = !empty($project['subcategory']) ? $project['subcategory'] : $catName;
+                $isSoftware = !empty($project['is_software']) || ($project['status'] ?? '') === 'For sale';
+                $priceStr = !empty($project['price']) ? $project['price'] : '$99';
             ?>
                 <article class="ag-case-card rv" style="--d:<?= $i * 0.08 ?>s">
                     <div class="ag-case-media-frame">
-                        <div class="ag-case-browser-bar">
-                            <div class="om-browser-dots">
-                                <span class="dot d-red"></span>
-                                <span class="dot d-yellow"></span>
-                                <span class="dot d-green"></span>
+                        <?php if ($shot): ?>
+                            <img src="<?= asset($shot) ?>" width="1376" height="768" loading="lazy" alt="<?= e($project['title']) ?> showcase" class="ag-case-img">
+                        <?php else: ?>
+                            <div class="ag-case-img-fallback">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                <span><?= e($project['title']) ?></span>
                             </div>
-                            <span class="ag-case-browser-url">creatsify.tech / showcase / <?= e($slug) ?></span>
-                            <span class="ag-case-badge-pill"><?= e($outcome) ?></span>
+                        <?php endif; ?>
+                        <div class="ag-case-overlay">
+                            <div class="ag-case-overlay-actions">
+                                <?php if ($hasLive): ?>
+                                    <a href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer" class="ag-case-action-btn primary" title="Open Live Website">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                        <span>Live Preview</span>
+                                    </a>
+                                <?php elseif ($shot): ?>
+                                    <a href="<?= url('/portfolio/' . e($slug)) ?>" class="ag-case-action-btn primary" title="View Case Study">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                                        <span>Quick Preview</span>
+                                    </a>
+                                <?php endif; ?>
+                                <a href="<?= url('/portfolio/' . e($slug)) ?>" class="ag-case-action-btn secondary" title="View Full Case Study">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    <span>Case Details</span>
+                                </a>
+                            </div>
                         </div>
-                        <a href="<?= url('/portfolio/' . e($slug)) ?>" class="ag-case-img-link" aria-label="View case study for <?= e($project['title']) ?>">
-                            <?php if ($shot): ?>
-                                <img src="<?= asset($shot) ?>" width="1376" height="768" loading="lazy" alt="<?= e($project['title']) ?> showcase" class="ag-case-img">
-                            <?php else: ?>
-                                <div class="ag-case-img-fallback">
-                                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                                    <span><?= e($project['title']) ?></span>
-                                </div>
-                            <?php endif; ?>
-                            <div class="ag-case-overlay">
-                                <span class="ag-case-overlay-btn">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                    <span>Explore Case Study</span>
-                                </span>
-                            </div>
-                        </a>
                     </div>
 
-                    <div class="ag-case-body">
-                        <div class="ag-case-meta-top">
-                            <span class="ag-case-client-tag">&#10003; <?= e($client) ?></span>
-                            <span class="ag-case-status-tag">Delivered &amp; Verified</span>
+                    <div class="ag-case-info-bar">
+                        <div style="min-width:0;flex:1;">
+                            <h3 class="ag-case-title"><a href="<?= url('/portfolio/' . e($slug)) ?>"><?= e($project['title']) ?></a></h3>
                         </div>
-                        <h3 class="ag-case-title"><a href="<?= url('/portfolio/' . e($slug)) ?>"><?= e($project['title']) ?></a></h3>
-                        <p class="ag-case-desc"><?= e($project['summary'] ?: $project['description']) ?></p>
-
-                        <div class="om-prod-chips">
-                            <?php foreach ($tech as $t): ?><span><?= e($t) ?></span><?php endforeach; ?>
-                        </div>
-
-                        <div class="ag-case-actions">
-                            <a href="<?= url('/portfolio/' . e($slug)) ?>" class="ag-case-btn-primary">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                <span>Explore Case Study</span>
-                            </a>
-                            <?php if ($hasLive): ?>
-                                <a href="<?= e($live) ?>" target="_blank" rel="noopener noreferrer" class="ag-case-btn-secondary">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    <span>Live Preview</span>
-                                </a>
+                        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+                            <?php if ($isSoftware): ?>
+                                <span class="ag-case-tag-sw" title="Ready-Made Commercial Software Available For Direct Purchase Or Customization">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                                    <span>Ready-Made Software &bull; <?= e($priceStr) ?></span>
+                                </span>
                             <?php endif; ?>
+                            <span class="ag-case-cat-pill"><?= e($catLabel) ?></span>
                         </div>
                     </div>
                 </article>

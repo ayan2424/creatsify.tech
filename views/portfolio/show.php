@@ -37,7 +37,7 @@ $waMsg = urlencode("Hello! I am interested in licensing or customizing " . ($pro
         </a>
 
         <div style="margin-top:20px;">
-            <div class="om-sec-tag"><span class="om-sec-dot"></span> <?= e(ucfirst($project['category'])) ?> &bull; <?= e($project['status']) ?></div>
+            <div class="om-sec-tag"><span class="om-sec-dot"></span> <?= e(!empty($project['subcategory']) ? $project['subcategory'] : ucfirst($project['category'])) ?> &bull; <?= e($project['status']) ?></div>
             <h1 class="page-title"><?= e($project['title']) ?></h1>
             <p class="page-lead"><?= e($project['summary']) ?></p>
 

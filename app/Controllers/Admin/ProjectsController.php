@@ -37,7 +37,9 @@ class ProjectsController
     {
         $title = trim((string)$request->input('title', ''));
         $slug = trim((string)$request->input('slug', '')) ?: strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $title));
-        $category = trim((string)$request->input('category', 'saas'));
+        $category = Project::normalizeCategory(trim((string)$request->input('category', 'web-dev')));
+        $subcategory = trim((string)$request->input('subcategory', ''));
+        $isSoftware = (int)$request->input('is_software', 0);
         $client = trim((string)$request->input('client', ''));
         $featured = (int)$request->input('featured', 0);
         $summary = trim((string)$request->input('summary', ''));
@@ -47,7 +49,7 @@ class ProjectsController
         $gumroadUrl = trim((string)$request->input('gumroad_url', ''));
         $price = trim((string)$request->input('price', '$99'));
         $techStack = trim((string)$request->input('tech_stack', ''));
-        $status = trim((string)$request->input('status', 'Shipped'));
+        $status = trim((string)$request->input('status', $isSoftware ? 'For sale' : 'Delivered'));
         $sortOrder = (int)$request->input('sort_order', 0);
 
         if (empty($title)) {
@@ -59,6 +61,8 @@ class ProjectsController
             'title' => $title,
             'slug' => $slug,
             'category' => $category,
+            'subcategory' => $subcategory,
+            'is_software' => $isSoftware,
             'client' => $client,
             'featured' => $featured,
             'summary' => $summary,
@@ -102,7 +106,9 @@ class ProjectsController
 
         $title = trim((string)$request->input('title', ''));
         $slug = trim((string)$request->input('slug', '')) ?: $project['slug'];
-        $category = trim((string)$request->input('category', 'saas'));
+        $category = Project::normalizeCategory(trim((string)$request->input('category', 'web-dev')));
+        $subcategory = trim((string)$request->input('subcategory', ''));
+        $isSoftware = (int)$request->input('is_software', 0);
         $client = trim((string)$request->input('client', ''));
         $featured = (int)$request->input('featured', 0);
         $summary = trim((string)$request->input('summary', ''));
@@ -112,13 +118,15 @@ class ProjectsController
         $gumroadUrl = trim((string)$request->input('gumroad_url', ''));
         $price = trim((string)$request->input('price', '$99'));
         $techStack = trim((string)$request->input('tech_stack', ''));
-        $status = trim((string)$request->input('status', 'Shipped'));
+        $status = trim((string)$request->input('status', $isSoftware ? 'For sale' : 'Delivered'));
         $sortOrder = (int)$request->input('sort_order', 0);
 
         Project::update((int)$id, [
             'title' => $title,
             'slug' => $slug,
             'category' => $category,
+            'subcategory' => $subcategory,
+            'is_software' => $isSoftware,
             'client' => $client,
             'featured' => $featured,
             'summary' => $summary,
