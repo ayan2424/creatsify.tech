@@ -5614,3 +5614,11 @@ textarea::placeholder {
     color: #000000 !important;
   }
 }
+
+/* ==========================================================================
+   ACCESSIBILITY OVERRIDES v2 — keep this block last
+   ========================================================================== */
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:2px solid var(--accent,#00D2EE);outline-offset:2px;border-radius:8px}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}

@@ -13,12 +13,12 @@ try {
     $topbarUnreadInquiries = (int)\App\Models\Inquiry::countByStatus('new');
     $topbarUnreadNotifs = (int)\App\Models\Notification::countUnread();
     $topbarTotalAlerts = $topbarUnreadInquiries + $topbarUnreadNotifs;
-    $topbarUnreadInquiriesList = array_slice(\App\Models\Inquiry::all('new'), 0, 4);
+    $topbarUnreadInquiriesList = db()->fetchAll("SELECT * FROM `inquiries` WHERE `status` = 'new' ORDER BY `id` DESC LIMIT 4");
     $topbarRecentNotifs = \App\Models\Notification::unread(4);
     if (empty($topbarRecentNotifs)) {
         $topbarRecentNotifs = \App\Models\Notification::all(4);
     }
-} catch (\Throwable $e) {}
+} catch (\Throwable $e) { error_log('[admin layout] ' . $e->getMessage()); }
 $userName = $user['name'] ?? 'Admin User';
 $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
 ?>
@@ -27,6 +27,7 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <meta name="csrf-token" content="<?= csrf_token() ?>">
     <title><?= e($meta_title ?? 'Creatsify Admin Desk') ?></title>
     <link rel="icon" href="<?= url('/favicon.ico') ?>" sizes="32x32">
@@ -74,21 +75,21 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
         <nav class="sidebar-menu">
             <div class="adm-category-label">MAIN</div>
 
-            <a href="<?= url('/admin') ?>" class="nav-link <?= $currentPath === '/admin' ? 'active' : '' ?>" data-title="Overview" title="Overview">
+            <a href="<?= url('/admin') ?>" class="nav-link <?= $currentPath === '/admin' ? 'active' : '' ?>" <?= $currentPath === '/admin' ? 'aria-current="page"' : '' ?> data-title="Overview" title="Overview">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     <span>Overview</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/inquiries') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/inquiries') ? 'active' : '' ?>" data-title="Inquiries" title="Inquiries">
+            <a href="<?= url('/admin/inquiries') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/inquiries') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/inquiries') ? 'aria-current="page"' : '' ?> data-title="Inquiries" title="Inquiries">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                     <span>Inquiries</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/chat') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/chat') ? 'active' : '' ?>" data-title="Live Chat" title="Live Chat">
+            <a href="<?= url('/admin/chat') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/chat') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/chat') ? 'aria-current="page"' : '' ?> data-title="Live Chat" title="Live Chat">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                     <span>Live Chat</span>
@@ -96,14 +97,14 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                 <span class="nav-badge danger" id="sideLiveChatBadge" style="display:none;">Live</span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/whatsapp') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/whatsapp') ? 'active' : '' ?>" data-title="WhatsApp" title="WhatsApp">
+            <a href="<?= url('/admin/whatsapp') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/whatsapp') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/whatsapp') ? 'aria-current="page"' : '' ?> data-title="WhatsApp" title="WhatsApp">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                     <span>WhatsApp</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/sms') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/sms') ? 'active' : '' ?>" data-title="SMS" title="SMS">
+            <a href="<?= url('/admin/sms') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/sms') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/sms') ? 'aria-current="page"' : '' ?> data-title="SMS" title="SMS">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                     <span>SMS</span>
@@ -113,28 +114,28 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
 
             <div class="adm-category-label">CRM</div>
 
-            <a href="<?= url('/admin/crm/clients') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/clients') ? 'active' : '' ?>" data-title="Clients" title="Clients">
+            <a href="<?= url('/admin/crm/clients') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/clients') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/crm/clients') ? 'aria-current="page"' : '' ?> data-title="Clients" title="Clients">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     <span>Clients</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/crm/tickets') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/tickets') ? 'active' : '' ?>" data-title="Tickets" title="Tickets">
+            <a href="<?= url('/admin/crm/tickets') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/tickets') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/crm/tickets') ? 'aria-current="page"' : '' ?> data-title="Tickets" title="Tickets">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
                     <span>Tickets</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/crm/notes') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/notes') ? 'active' : '' ?>" data-title="Notes" title="Notes">
+            <a href="<?= url('/admin/crm/notes') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/crm/notes') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/crm/notes') ? 'aria-current="page"' : '' ?> data-title="Notes" title="Notes">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                     <span>Notes</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/agency-projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/agency-projects') ? 'active' : '' ?>" data-title="Projects" title="Projects">
+            <a href="<?= url('/admin/agency-projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/agency-projects') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/agency-projects') ? 'aria-current="page"' : '' ?> data-title="Projects" title="Projects">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
                     <span>Projects</span>
@@ -144,49 +145,49 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
 
             <div class="adm-category-label">STUDIO</div>
 
-            <a href="<?= url('/admin/projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>" data-title="Work & Software" title="Work & Software">
+            <a href="<?= url('/admin/projects') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/projects') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/projects') ? 'aria-current="page"' : '' ?> data-title="Work & Software" title="Work & Software">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                     <span>Work &amp; Software</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/services') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/services') ? 'active' : '' ?>" data-title="Services" title="Services">
+            <a href="<?= url('/admin/services') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/services') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/services') ? 'aria-current="page"' : '' ?> data-title="Services" title="Services">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
                     <span>Services</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/packages') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/packages') ? 'active' : '' ?>" data-title="Packages" title="Packages">
+            <a href="<?= url('/admin/packages') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/packages') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/packages') ? 'aria-current="page"' : '' ?> data-title="Packages" title="Packages">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                     <span>Packages</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/reviews') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/reviews') ? 'active' : '' ?>" data-title="Reviews" title="Reviews">
+            <a href="<?= url('/admin/reviews') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/reviews') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/reviews') ? 'aria-current="page"' : '' ?> data-title="Reviews" title="Reviews">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                     <span>Reviews</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/posts') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/posts') ? 'active' : '' ?>" data-title="Blog" title="Blog">
+            <a href="<?= url('/admin/posts') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/posts') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/posts') ? 'aria-current="page"' : '' ?> data-title="Blog" title="Blog">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                     <span>Blog</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/media') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/media') ? 'active' : '' ?>" data-title="Media" title="Media">
+            <a href="<?= url('/admin/media') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/media') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/media') ? 'aria-current="page"' : '' ?> data-title="Media" title="Media">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                     <span>Media</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/sections') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/sections') ? 'active' : '' ?>" data-title="Sections" title="Sections">
+            <a href="<?= url('/admin/sections') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/sections') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/sections') ? 'aria-current="page"' : '' ?> data-title="Sections" title="Sections">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
                     <span>Sections</span>
@@ -196,21 +197,21 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
 
             <div class="adm-category-label">SYSTEM</div>
 
-            <a href="<?= url('/admin/users') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/users') ? 'active' : '' ?>" data-title="Users" title="Users">
+            <a href="<?= url('/admin/users') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/users') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/users') ? 'aria-current="page"' : '' ?> data-title="Users" title="Users">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     <span>Users</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/audit-logs') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/audit-logs') ? 'active' : '' ?>" data-title="Logs" title="Logs">
+            <a href="<?= url('/admin/audit-logs') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/audit-logs') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/audit-logs') ? 'aria-current="page"' : '' ?> data-title="Logs" title="Logs">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                     <span>Logs</span>
                 </span>
                 <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
-            <a href="<?= url('/admin/settings') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/settings') ? 'active' : '' ?>" data-title="Settings" title="Settings">
+            <a href="<?= url('/admin/settings') ?>" class="nav-link <?= str_starts_with($currentPath, '/admin/settings') ? 'active' : '' ?>" <?= str_starts_with($currentPath, '/admin/settings') ? 'aria-current="page"' : '' ?> data-title="Settings" title="Settings">
                 <span class="nav-link-content">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     <span>Settings</span>
@@ -251,7 +252,7 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                 </button>
 
                 <!-- Connected Horizontal Navigation Pills (Essential Quick Operations) -->
-                <nav class="adm-top-pills" role="tablist" aria-label="Operations Quick Links">
+                <nav class="adm-top-pills" aria-label="Operations Quick Links">
                     <a href="<?= url('/admin') ?>" class="adm-top-pill <?= $currentPath === '/admin' ? 'active' : '' ?>">Overview</a>
                     <a href="<?= url('/admin/inquiries') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/inquiries') ? 'active' : '' ?>">Inquiries</a>
                     <a href="<?= url('/admin/chat') ?>" class="adm-top-pill <?= str_starts_with($currentPath, '/admin/chat') ? 'active' : '' ?>">
@@ -267,7 +268,7 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                 <!-- Desktop Executive Command Search Bar -->
                 <div class="command-search-wrap">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    <input type="text" class="command-search-input" id="adminGlobalSearch" placeholder="Search..." autocomplete="off">
+                    <input type="text" class="command-search-input" id="adminGlobalSearch" aria-label="Search admin" placeholder="Search..." autocomplete="off">
                     <span class="command-kbd">Ctrl+K</span>
                 </div>
 
@@ -299,14 +300,14 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
 
                 <!-- Interactive Notification Center -->
                 <div class="adm-notif-wrap" id="admNotifWrap">
-                    <button type="button" class="adm-action-circle adm-bell-btn" id="admNotifBtn" title="Client Inquiries & System Alerts" aria-expanded="false" aria-haspopup="true">
+                    <button type="button" class="adm-action-circle adm-bell-btn" id="admNotifBtn" title="Client Inquiries & System Alerts" aria-expanded="false" aria-controls="admNotifDropdown">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                         <?php if ($topbarTotalAlerts > 0): ?>
                             <span class="adm-red-dot-badge" id="topbarBellBadge"><?= $topbarTotalAlerts ?></span>
                         <?php endif; ?>
                     </button>
 
-                    <div class="adm-notif-dropdown" id="admNotifDropdown" role="menu" aria-label="Notifications Panel">
+                    <div class="adm-notif-dropdown" id="admNotifDropdown" role="region" aria-label="Notifications Panel">
                         <div class="adm-notif-header">
                             <div class="adm-notif-header-title">
                                 <span class="adm-notif-h-text">Notifications &amp; Alerts</span>
@@ -684,7 +685,7 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                     clockDateEl.textContent = dateStr;
                 }
                 updateClock();
-                setInterval(updateClock, 1000);
+                setInterval(function () { if (!document.hidden) updateClock(); }, 1000);
             }
 
             // Interactive Notification Center Dropdown
@@ -741,7 +742,7 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
                     })
                     .catch(() => {});
             }
-            setInterval(pollSystem, 10000);
+            setInterval(function () { if (!document.hidden) pollSystem(); }, 20000);
         })();
     </script>
 </body>

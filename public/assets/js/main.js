@@ -1,5 +1,5 @@
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const RM=false,FINE=true;
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches,FINE=matchMedia('(hover: hover) and (pointer: fine)').matches;
 const root=document.documentElement,clamp=(v,a,b)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t;
 let hero=null,hi=null;
 const baseUrl = (window.CREATSIFY_BASE_URL || '').replace(/\/$/, '');
@@ -50,7 +50,8 @@ $$('[data-split]').forEach(el=>{el.innerHTML=el.textContent.trim().split(/\s+/).
 
 /* Enhanced theme toggle */
 const themeBtn = $('#theme');
-let th = localStorage.getItem('creatsify-theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+let th = null; try { th = localStorage.getItem('creatsify-theme') || localStorage.getItem('creatsify_theme'); } catch(e) {}
+th = th || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
 root.dataset.theme = th;
 if (themeBtn) {
   themeBtn.onclick = () => {
@@ -137,13 +138,14 @@ const onScroll=()=>{tkS=false;const y=scrollY,h=root.scrollHeight-innerHeight;ro
 if(y<1000){if(hi)hi.style.setProperty('--py',(y*.05)+'px');if(hero){hero.style.setProperty('--hy',(y*.14)+'px');hero.style.setProperty('--ho',clamp(1-y/(innerHeight*.9),0,1));}}
 pjUpdate()};
 addEventListener('scroll',()=>{if(!tkS){tkS=true;requestAnimationFrame(onScroll)}},{passive:true});addEventListener('resize',onScroll);addEventListener('load',onScroll);onScroll();
-(function T(){const ny=scrollY;vel=lerp(vel,ny-sy,.1);sy=ny;
+const _mqBig=$$('.mq.big');
+(function T(){if(!_mqBig.length&&!lys.length)return;const ny=scrollY;vel=lerp(vel,ny-sy,.1);sy=ny;
 if(Math.abs(vel) > 0.05){
-  $$('.mq.big').forEach(b => {
+  _mqBig.forEach(b => {
     b.style.transform = `skewX(${clamp(-vel*.08,-6,6).toFixed(2)}deg)`;
   });
 } else {
-  $$('.mq.big').forEach(b => { if(b.style.transform) b.style.transform = ''; });
+  _mqBig.forEach(b => { if(b.style.transform) b.style.transform = ''; });
 }
 cx=lerp(cx,pcx,.06);cy=lerp(cy,pcy,.06);lys.forEach(c=>{const d=+c.dataset.d;c.style.transform=`translate3d(${(-cx*d).toFixed(1)}px,${(-cy*d).toFixed(1)}px,0)`});
 requestAnimationFrame(T)})();
@@ -208,12 +210,14 @@ const handleFormSubmit=async(e)=>{
     _csrf_token:fd.get('_csrf_token')||window.CREATSIFY_CSRF_TOKEN||''
   };
 
+  const CONTACT_EMAIL=window.CREATSIFY_CONTACT_EMAIL||'hello@creatsify.tech';
   const apiUrl=window.CREATSIFY_API_URL||(window.CREATSIFY_BASE_URL?window.CREATSIFY_BASE_URL+'/api/contact':'/api/contact');
 
   let notice=form.querySelector('.form-notice');
   if(!notice){
     notice=document.createElement('div');
     notice.className='form-notice';
+    notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');
     form.appendChild(notice);
   }
 
@@ -230,16 +234,18 @@ const handleFormSubmit=async(e)=>{
       notice.textContent=result.message||'Thank you! Your inquiry has been sent to Creatsify Studio. We will get back to you within 24 hours.';
       form.reset();
     } else {
-      throw new Error((result&&(result.error||result.message))||'Server returned an error');
+      notice.className='form-notice error';
+      notice.style.display='block';
+      notice.textContent=(result&&(result.error||result.message))||'We could not send your message. Please check the form and try again.';
     }
   }catch(err){
     console.warn('API error, falling back to mailto:',err);
     const sub=encodeURIComponent('Project Inquiry: '+payload.project_type);
     const body=encodeURIComponent(payload.message+'\n\nFrom: '+payload.name+' ('+payload.email+')'+(payload.company?'\nCompany: '+payload.company:'')+(payload.phone?'\nPhone: '+payload.phone:'')+(payload.timeline?'\nTimeline: '+payload.timeline:''));
-    location.href='mailto:hello@creatsify.tech?subject='+sub+'&body='+body;
+    location.href='mailto:'+CONTACT_EMAIL+'?subject='+sub+'&body='+body;
     notice.className='form-notice info';
     notice.style.display='block';
-    notice.textContent='Opening your email client to send message to hello@creatsify.tech...';
+    notice.textContent='Opening your email client to send your message to '+CONTACT_EMAIL+'...';
   }finally{
     if(btn){
       btn.disabled=false;
@@ -365,7 +371,17 @@ document.addEventListener('DOMContentLoaded', function () {
             if (cross) cross.style.display = 'block';
         }
         document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => { (mobileDrawerClose || mobileDrawer.querySelector('a,button'))?.focus(); });
     };
+
+    mobileDrawer && mobileDrawer.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab') return;
+        const f = [...mobileDrawer.querySelectorAll('a[href],button:not([disabled])')].filter(el => el.offsetParent !== null);
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
 
     const closeDrawer = () => {
         if (!mobileDrawer) return;
@@ -381,6 +397,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (cross) cross.style.display = 'none';
         }
         document.body.style.overflow = '';
+        if (mobileMenuBtn && mobileDrawer.contains(document.activeElement)) mobileMenuBtn.focus();
     };
 
     if (mobileMenuBtn) {
@@ -459,11 +476,24 @@ if(msg&&!msg.value)msg.value='I am interested in '+a.dataset.quote+'. '}));
         const buyLabel = document.getElementById('lightboxBuyLabel');
         const caseLink = document.getElementById('lightboxCaseLink');
 
+        let lastTrigger = null;
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('inert', '');
         function closeModal() {
             modal.classList.remove('is-active');
             modal.setAttribute('aria-hidden', 'true');
+            modal.setAttribute('inert', '');
             document.body.style.overflow = '';
+            if (lastTrigger && lastTrigger.focus) lastTrigger.focus();
         }
+        modal.addEventListener('keydown', e => {
+            if (e.key !== 'Tab') return;
+            const f = [...modal.querySelectorAll('a[href],button:not([disabled])')].filter(el => el.offsetParent !== null);
+            if (!f.length) return;
+            const first = f[0], last = f[f.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        });
 
         modal.querySelectorAll('.ag-lightbox-close, .ag-lightbox-backdrop').forEach(el => {
             el.addEventListener('click', closeModal);
@@ -573,9 +603,13 @@ if(msg&&!msg.value)msg.value='I am interested in '+a.dataset.quote+'. '}));
                 caseLink.href = baseUrl + '/portfolio/' + prSlug;
             }
 
+            lastTrigger = btn;
+            modal.removeAttribute('inert');
             modal.classList.add('is-active');
             modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
+            const cb = modal.querySelector('.ag-lightbox-close');
+            if (cb) requestAnimationFrame(() => cb.focus());
         });
     }
 

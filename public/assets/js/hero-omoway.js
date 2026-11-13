@@ -71,8 +71,8 @@
       svcButtons.forEach(btn => {
         btn.addEventListener('click', function () {
           const filter = this.getAttribute('data-svc-filter');
-          svcButtons.forEach(b => b.classList.remove('active'));
-          this.classList.add('active');
+          svcButtons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+          this.classList.add('active'); this.setAttribute('aria-pressed','true');
 
           svcCards.forEach(card => {
             const cat = card.getAttribute('data-svc-cat') || '';
@@ -91,23 +91,43 @@
     const workButtons = document.querySelectorAll('[data-work-filter]');
     const workCards = document.querySelectorAll('[data-work-cat]');
     if (workButtons.length && workCards.length) {
+      const WORK_LIMIT = 6;
+      let workFilter = 'all', workExpanded = false, moreBtn = null;
+      function applyWork() {
+        let matches = 0;
+        workCards.forEach(card => {
+          const cat = card.getAttribute('data-work-cat') || '';
+          const ok = workFilter === 'all' || cat.includes(workFilter);
+          if (ok) matches++;
+          const visible = ok && (workExpanded || matches <= WORK_LIMIT);
+          card.style.display = visible ? '' : 'none';
+          if (visible) card.classList.add('on');
+        });
+        if (moreBtn) {
+          const hidden = Math.max(0, matches - WORK_LIMIT);
+          moreBtn.parentElement.style.display = (hidden > 0 && !workExpanded) ? '' : 'none';
+          moreBtn.querySelector('span').textContent = 'Show ' + hidden + ' more project' + (hidden === 1 ? '' : 's');
+        }
+      }
+      if (workCards.length > WORK_LIMIT && workCards[0].parentElement) {
+        const wrap = document.createElement('div');
+        wrap.className = 'ag-work-more';
+        wrap.innerHTML = '<button type="button" class="om-btn-glass ag-more-btn"><span></span></button>';
+        workCards[0].parentElement.after(wrap);
+        moreBtn = wrap.firstChild;
+        moreBtn.addEventListener('click', () => { workExpanded = true; applyWork(); });
+      }
       workButtons.forEach(btn => {
         btn.addEventListener('click', function () {
           const filter = this.getAttribute('data-work-filter');
-          workButtons.forEach(b => b.classList.remove('active'));
-          this.classList.add('active');
+          workButtons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+          this.classList.add('active'); this.setAttribute('aria-pressed','true');
 
-          workCards.forEach(card => {
-            const cat = card.getAttribute('data-work-cat') || '';
-            if (filter === 'all' || cat.includes(filter)) {
-              card.style.display = '';
-              card.classList.add('on');
-            } else {
-              card.style.display = 'none';
-            }
-          });
+          workFilter = filter;
+          applyWork();
         });
       });
+      applyWork();
     }
 
     // 4. Package Track Switcher Tabs ([data-pkg-tab])
@@ -117,8 +137,8 @@
       pkgTabs.forEach(tab => {
         tab.addEventListener('click', function () {
           const targetTrack = this.getAttribute('data-pkg-tab');
-          pkgTabs.forEach(t => t.classList.remove('active'));
-          this.classList.add('active');
+          pkgTabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-pressed','false'); });
+          this.classList.add('active'); this.setAttribute('aria-pressed','true');
 
           pkgPanels.forEach(panel => {
             const panelTrack = panel.getAttribute('data-pkg-panel');

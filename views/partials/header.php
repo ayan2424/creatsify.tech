@@ -57,7 +57,7 @@ $navItems = [
         </button>
     </div>
 
-    <nav class="mobile-drawer-links" aria-label="Main">
+    <nav class="mobile-drawer-links" aria-label="Mobile">
         <?php foreach ($navItems as $item): ?>
             <a href="<?= url($item['href']) ?>" class="mobile-link <?= $item['on'] ? 'act' : '' ?>">
                 <span><?= e($item['label']) ?></span>

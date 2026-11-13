@@ -1,32 +1,31 @@
 <?php
 /** @var Core\View $this */
-$this->layout('layouts/admin', ['page_title' => 'Portfolio Overview', 'meta_title' => 'Dashboard | Creatsify Admin']);
+$this->layout('layouts/admin', ['page_title' => 'Dashboard', 'meta_title' => 'Dashboard | Creatsify Admin']);
 
-$pipelineVal = !empty($totalPipelineValue) ? '$' . number_format((float)$totalPipelineValue) : '$17.3K';
-$todayRevenueVal = '$' . number_format((($stats['today'] ?? 142) * 24));
+$pipelineVal = !empty($totalPipelineValue) ? '$' . number_format((float)$totalPipelineValue) : '$0';
+$todayRevenueVal = number_format((int)($stats['today'] ?? 0));
 $dailyHits = $dailyTrend ?? [];
 
-// 12 Months Data Breakdown for Capsule Bar Chart
-$months = [
-    ['month' => 'Jan', 'hits' => 19, 'pct' => '+66%', 'h' => 65, 'top' => 28],
-    ['month' => 'Feb', 'hits' => 28, 'pct' => '+23%', 'h' => 88, 'top' => 38],
-    ['month' => 'Mar', 'hits' => 39, 'pct' => '+56%', 'h' => 110, 'top' => 48],
-    ['month' => 'Apr', 'hits' => 44, 'pct' => '+25%', 'h' => 125, 'top' => 55],
-    ['month' => 'May', 'hits' => 45, 'pct' => '+26%', 'h' => 130, 'top' => 58],
-    ['month' => 'Jun', 'hits' => 28, 'pct' => '+76%', 'h' => 90, 'top' => 40],
-    ['month' => 'Jul', 'hits' => 32, 'pct' => '+23%', 'h' => 98, 'top' => 44],
-    ['month' => 'Aug', 'hits' => 28, 'pct' => '+33%', 'h' => 90, 'top' => 38],
-    ['month' => 'Sep', 'hits' => 29, 'pct' => '+34%', 'h' => 94, 'top' => 42],
-    ['month' => 'Oct', 'hits' => 10, 'pct' => '+25%', 'h' => 48, 'top' => 22],
-    ['month' => 'Nov', 'hits' => 14, 'pct' => '+36%', 'h' => 58, 'top' => 26],
-    ['month' => 'Dec', 'hits' => 18, 'pct' => '+36%', 'h' => 70, 'top' => 32],
-];
+// Real inquiries per month (last 12 months)
+$months = [];
+try {
+    $rows = db()->fetchAll("SELECT DATE_FORMAT(`created_at`, '%Y-%m') AS ym, COUNT(*) AS c FROM `inquiries` WHERE `created_at` >= DATE_SUB(DATE_FORMAT(CURDATE(), '%Y-%m-01'), INTERVAL 11 MONTH) GROUP BY ym");
+} catch (\Throwable $e) { $rows = []; }
+$byMonth = [];
+foreach ($rows as $r) { $byMonth[$r['ym']] = (int)$r['c']; }
+$maxC = max(1, ...array_values($byMonth ?: [0]));
+for ($i = 11; $i >= 0; $i--) {
+    $ts = strtotime(date('Y-m-01') . " -$i months");
+    $c = $byMonth[date('Y-m', $ts)] ?? 0;
+    $h = $c > 0 ? max(24, (int)round($c / $maxC * 130)) : 10;
+    $months[] = ['month' => date('M', $ts), 'pct' => (string)$c, 'h' => $h, 'top' => (int)round($h * 0.45)];
+}
 ?>
 
 <!-- 1. Inset Workspace Header (Reference Design) -->
 <div class="adm-ws-header">
     <div>
-        <h1 class="adm-ws-title">Portfolio Overview</h1>
+        <h1 class="adm-ws-title">Dashboard</h1>
         <div class="adm-ws-crumbs">
             <span>Overview</span>
             <span>&rsaquo;</span>
@@ -52,13 +51,11 @@ $months = [
 <!-- 2. Ultra-Luxury Bento Grid -->
 <div class="adm-bento-grid">
 
-    <!-- Card 1: Asset Allocation Matrix (Reference Top Left) -->
+    <!-- Card 1: Pipeline Overview Matrix (Reference Top Left) -->
     <article class="adm-card adm-card-allocation">
         <div class="adm-card-header">
-            <h3 class="adm-card-title">Asset Allocation</h3>
+            <h3 class="adm-card-title">Pipeline Overview</h3>
             <div class="adm-card-ctrls">
-                <span class="adm-ctrl-pill">Weekly <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
-                <span class="adm-ctrl-more">&bull;&bull;&bull;</span>
             </div>
         </div>
 
@@ -154,8 +151,7 @@ $months = [
         </div>
         <div class="adm-velocity-big-val"><?= e($todayRevenueVal) ?></div>
         <div class="adm-velocity-delta">
-            <span>+73%</span>
-            <span>Velocity &amp; Leads Surge</span>
+            <span>Site visits recorded today</span>
         </div>
     </article>
 
@@ -163,8 +159,8 @@ $months = [
     <article class="adm-card adm-card-report">
         <div class="adm-report-top">
             <div class="adm-report-icons">
-                <span class="adm-report-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
-                <span class="adm-report-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+                <span class="adm-report-icon-btn" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+                <span class="adm-report-icon-btn" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
             </div>
             <a href="<?= url('/admin/audit-logs') ?>" class="adm-report-icon-btn" title="View Logs">&times;</a>
         </div>
@@ -178,10 +174,8 @@ $months = [
     <!-- Card 5: Two-Tone Capsule Bar Graph (Reference Bottom Left) -->
     <article class="adm-card adm-card-chart">
         <div class="adm-card-header">
-            <h3 class="adm-card-title">Earnings Breakdown</h3>
+            <h3 class="adm-card-title">Inquiries · Last 12 Months</h3>
             <div class="adm-card-ctrls">
-                <span class="adm-ctrl-pill">Sort by Month <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
-                <span class="adm-ctrl-more">&bull;&bull;&bull;</span>
             </div>
         </div>
 
