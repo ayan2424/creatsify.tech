@@ -519,8 +519,7 @@ $avgRating = $totalReviews > 0 ? number_format((float)($reviewStats['avg_rating'
 
             <!-- Interactive Work Filter Pills (The 7 Official Disciplines) -->
             <div class="om-filter-bar ag-work-filter" style="margin-top:24px;" role="group" aria-label="Filter case studies">
-                <button type="button" class="om-filter-pill active" data-work-filter="all" aria-pressed="true">All Work</button>
-                <button type="button" class="om-filter-pill" data-work-filter="web-dev" aria-pressed="false">Web Design &amp; Development</button>
+                <button type="button" class="om-filter-pill active" data-work-filter="web-dev" aria-pressed="true">Web Design &amp; Development</button>
                 <button type="button" class="om-filter-pill" data-work-filter="mobile-app" aria-pressed="false">Mobile App Development</button>
                 <button type="button" class="om-filter-pill" data-work-filter="saas-crm" aria-pressed="false">SaaS &amp; CRM</button>
                 <button type="button" class="om-filter-pill" data-work-filter="software-eng" aria-pressed="false">Software &amp; Product Engineering</button>

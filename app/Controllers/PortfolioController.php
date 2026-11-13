@@ -14,9 +14,12 @@ class PortfolioController
 {
     public function index(Request $request): Response
     {
-        $category = (string)$request->get('cat', 'all');
+        $category = (string)$request->get('cat', 'web-dev');
         if ($category === 'software') {
             return redirect(url('/software'));
+        }
+        if ($category === 'all') {
+            $category = 'web-dev';
         }
         $normalizedCategory = Project::normalizeCategory($category);
         $portfolioWorks = Project::portfolioWorks($normalizedCategory);

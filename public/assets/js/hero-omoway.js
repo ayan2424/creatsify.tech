@@ -91,8 +91,10 @@
     const workButtons = document.querySelectorAll('[data-work-filter]');
     const workCards = document.querySelectorAll('[data-work-cat]');
     if (workButtons.length && workCards.length) {
-      const WORK_LIMIT = 6;
-      let workFilter = 'all', workExpanded = false, moreBtn = null;
+      const WORK_LIMIT = 8;
+      const activeWorkBtn = document.querySelector('[data-work-filter].active');
+      let workFilter = activeWorkBtn ? activeWorkBtn.getAttribute('data-work-filter') : 'web-dev';
+      let workExpanded = false, moreBtn = null;
       function applyWork() {
         let matches = 0;
         workCards.forEach(card => {

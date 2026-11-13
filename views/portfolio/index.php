@@ -36,8 +36,7 @@ $thumb = static function (array $p) use ($assetDir) {
 
         <!-- 7 Official Service Category Filter Tabs (Ready-Made Software is maintained as an attribute tag, not a category) -->
         <div class="om-filter-bar" style="margin-top:28px;" role="group" aria-label="Filter case studies by discipline">
-            <a href="<?= url('/portfolio?cat=all') ?>" class="om-filter-pill <?= ($activeCategory === 'all' || empty($activeCategory)) ? 'active' : '' ?>">All Work</a>
-            <a href="<?= url('/portfolio?cat=web-dev') ?>" class="om-filter-pill <?= $activeCategory === 'web-dev' ? 'active' : '' ?>">Web Design &amp; Development</a>
+            <a href="<?= url('/portfolio?cat=web-dev') ?>" class="om-filter-pill <?= ($activeCategory === 'web-dev' || empty($activeCategory) || $activeCategory === 'all') ? 'active' : '' ?>">Web Design &amp; Development</a>
             <a href="<?= url('/portfolio?cat=mobile-app') ?>" class="om-filter-pill <?= $activeCategory === 'mobile-app' ? 'active' : '' ?>">Mobile App Development</a>
             <a href="<?= url('/portfolio?cat=saas-crm') ?>" class="om-filter-pill <?= $activeCategory === 'saas-crm' ? 'active' : '' ?>">SaaS &amp; CRM</a>
             <a href="<?= url('/portfolio?cat=software-eng') ?>" class="om-filter-pill <?= $activeCategory === 'software-eng' ? 'active' : '' ?>">Software &amp; Product Engineering</a>
