@@ -162,8 +162,8 @@ $pct3 = round(($threeCount / $totalReviews) * 100);
             <div class="ag-strength-card" style="margin-top:24px;">
                 <h3 style="margin-top:0;">How Our Verification Works</h3>
                 <p style="margin-bottom:10px;">Every review submitted through this portal is verified against our project delivery or software license records before going live on our public scoreboard.</p>
-                <div class="om-prod-chips">
-                    <span>Verified Clients</span><span>Real Metrics</span><span>Zero Fake Bots</span>
+                <div class="om-prod-chips on-light">
+                    <span>Verified clients</span><span>Real results</span><span>Moderated reviews</span>
                 </div>
             </div>
         </div>

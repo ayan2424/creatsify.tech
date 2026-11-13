@@ -22,17 +22,17 @@ $footerCode = setting('custom_footer_code', '');
     <meta name="author" content="Creatsify Digital Agency">
     <meta name="robots" content="index, follow">
     <meta name="csrf-token" content="<?= csrf_token() ?>">
-    <link rel="canonical" href="<?= e(url(request()->getPath())) ?>">
+    <link rel="canonical" href="<?= e(abs_url(request()->getPath())) ?>">
 
     <!-- OpenGraph / Social -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="<?= e($siteTitle) ?>">
     <meta property="og:description" content="<?= e($siteDesc) ?>">
-    <meta property="og:url" content="<?= e(url(request()->getPath())) ?>">
-    <meta property="og:image" content="<?= e(url('/assets/brand/og-image.png')) ?>">
+    <meta property="og:url" content="<?= e(abs_url(request()->getPath())) ?>">
+    <meta property="og:image" content="<?= e(abs_url('/assets/brand/og-image.png')) ?>">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta name="twitter:image" content="<?= e(url('/assets/brand/og-image.png')) ?>">
+    <meta name="twitter:image" content="<?= e(abs_url('/assets/brand/og-image.png')) ?>">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= e($siteTitle) ?>">
     <meta name="twitter:description" content="<?= e($siteDesc) ?>">

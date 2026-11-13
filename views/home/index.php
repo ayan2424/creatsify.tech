@@ -55,8 +55,8 @@ $avgRating = $totalReviews > 0 ? number_format((float)($reviewStats['avg_rating'
     '@context' => 'https://schema.org',
     '@type' => 'ProfessionalService',
     'name' => setting('site_name', 'Creatsify') . ' Digital Agency',
-    'url' => url('/'),
-    'logo' => asset('brand/creatsify-logo-dark.png'),
+    'url' => abs_url('/'),
+    'logo' => absolutize(asset('brand/creatsify-logo-dark.png')),
     'description' => 'Full-service Web & Mobile App Development, Website Redesign, SaaS Engineering, Branding & Logo Design, Technical SEO, and Performance Marketing Agency.',
     'priceRange' => '$$',
 ] + ($totalReviews > 0 && $avgRating ? ['aggregateRating' => [
@@ -660,7 +660,7 @@ $avgRating = $totalReviews > 0 ? number_format((float)($reviewStats['avg_rating'
 
         <!-- Comparison Table: Creatsify vs Traditional Agencies vs Freelancers -->
         <div class="ag-compare-wrap rv s" style="margin-top:44px;">
-            <div class="ag-compare-table-scroll">
+            <div class="ag-compare-table-scroll" tabindex="0" role="region" aria-label="Comparison table">
                 <table class="ag-compare-table">
                     <thead>
                         <tr>
@@ -1002,7 +1002,7 @@ $avgRating = $totalReviews > 0 ? number_format((float)($reviewStats['avg_rating'
         <!-- Dual-Row Continuous Marquee Stream (Inspired by Reference Video) -->
         <div class="om-reviews-marquee-container" id="reviewsMarqueeContainer">
             <!-- Row 1: Leftward Infinite Stream -->
-            <div class="om-marquee-row om-marquee-row-1" aria-label="Client reviews stream row 1">
+            <div class="om-marquee-row om-marquee-row-1" aria-label="Client reviews stream row 1" role="region" tabindex="0">
                 <div class="om-marquee-track om-marquee-left">
                     <?php for ($rep = 0; $rep < 3; $rep++): ?>
                         <?php foreach ($row1 as $idx => $rev):
@@ -1036,7 +1036,7 @@ $avgRating = $totalReviews > 0 ? number_format((float)($reviewStats['avg_rating'
             </div>
 
             <!-- Row 2: Rightward Infinite Stream -->
-            <div class="om-marquee-row om-marquee-row-2" aria-label="Client reviews stream row 2">
+            <div class="om-marquee-row om-marquee-row-2" aria-label="Client reviews stream row 2" role="region" tabindex="0">
                 <div class="om-marquee-track om-marquee-right">
                     <?php for ($rep = 0; $rep < 3; $rep++): ?>
                         <?php foreach ($row2 as $idx => $rev):

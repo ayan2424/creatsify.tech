@@ -25,8 +25,8 @@ class PackagesController
             'packageTracks'   => $packageTracks,
             'reviewStats'     => $reviewStats,
             'reviews'         => $reviews,
-            'meta_title'      => 'Transparent Service Packages & Custom Scope Calculator | Creatsify',
-            'meta_desc'       => 'Explore Creatsify transparent service packages for Web & Mobile App Development, Branding & UI/UX Redesign, and SEO & Paid Social Ads — or build your custom bundle estimate.',
+            'meta_title'      => 'Service Packages & Pricing | Creatsify',
+            'meta_desc'       => 'Clear packages for web and app development, branding and SEO — or build a custom bundle estimate with our scope calculator.',
         ]);
     }
 }

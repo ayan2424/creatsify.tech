@@ -24,7 +24,14 @@ class Session
                 ini_set('session.cookie_secure', '1');
             }
 
+            $isAdminReq = str_starts_with((string)(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?? ''), '/admin');
+            if (!$isAdminReq) {
+                session_cache_limiter('');
+            }
             session_start();
+            if (!$isAdminReq && !headers_sent()) {
+                header('Cache-Control: private, max-age=0, must-revalidate');
+            }
         }
 
         // Age out flash data

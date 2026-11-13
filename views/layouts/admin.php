@@ -745,5 +745,6 @@ $firstName = explode(' ', trim((string)$userName))[0] ?? 'Admin';
             setInterval(function () { if (!document.hidden) pollSystem(); }, 20000);
         })();
     </script>
+    <script src="<?= asset_v('js/admin-a11y.js') ?>" defer></script>
 </body>
 </html>

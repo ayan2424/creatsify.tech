@@ -84,8 +84,8 @@ class HomeController
             'posts'             => $posts,
             'reviews'           => $reviews,
             'reviewStats'       => $reviewStats,
-            'meta_title'        => 'Creatsify — Web & App Development, Branding, SEO & Digital Growth Agency',
-            'meta_desc'         => 'Creatsify is a full-service digital engineering, branding, and performance marketing agency building custom web apps, Flutter mobile apps, website redesigns, SaaS, SEO, and paid social ad engines.',
+            'meta_title'        => 'Creatsify | Web, Mobile & SaaS Development Agency',
+            'meta_desc'         => 'Custom websites, Flutter mobile apps, SaaS, branding and SEO from one senior team — fixed milestones and full source-code ownership.',
         ]);
     }
 }

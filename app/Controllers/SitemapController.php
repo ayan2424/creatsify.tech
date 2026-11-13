@@ -17,7 +17,7 @@ class SitemapController
     {
         $baseUrl = rtrim(url('/'), '/');
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') ? 'https://' : 'http://';
-        if (str_starts_with($baseUrl, '/')) {
+        if ($baseUrl === '' || str_starts_with($baseUrl, '/')) {
             $baseUrl = $protocol . ($_SERVER['HTTP_HOST'] ?? 'localhost') . $baseUrl;
         }
 

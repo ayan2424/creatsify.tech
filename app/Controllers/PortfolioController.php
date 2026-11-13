@@ -24,8 +24,8 @@ class PortfolioController
         return view('portfolio/index', [
             'projects'       => $portfolioWorks,
             'activeCategory' => $normalizedCategory,
-            'meta_title'     => 'Our Work & Delivered Client Case Studies | Creatsify Digital Agency',
-            'meta_desc'      => 'Explore our portfolio of delivered full-stack web platforms, Flutter mobile apps, high-converting website redesigns, and high-ROAS marketing campaigns.',
+            'meta_title'     => 'Our Work & Case Studies | Creatsify',
+            'meta_desc'      => 'Recent websites, mobile apps, redesigns and campaigns we have delivered, with the goals, technology and results behind each project.',
         ]);
     }
 

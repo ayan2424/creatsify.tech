@@ -251,8 +251,117 @@ class SchemaMigrator
                     ON DUPLICATE KEY UPDATE `password` = '{$hash}', `role` = 'super_admin', `status` = 'active'");
             } catch (\Throwable $e) {}
 
+            self::healColumnDrift($db);
+
         } catch (\Throwable $outer) {
             // Never break runtime execution if DB user lacks certain permissions
+        }
+    }
+
+    /**
+     * Models and this migrator define a few tables differently, and whichever ran first won, which led to
+     * "Unknown column" errors (e.g. review submit, package list). This adds any missing column so that both
+     * definitions work. Runs until every table is healed once, then stops via a flag file.
+     */
+    private static function healColumnDrift($db): void
+    {
+        $flag = dirname(__DIR__, 2) . '/storage/cache/schema_heal_v1.flag';
+        if (is_file($flag)) {
+            return;
+        }
+        $map = [
+        'client_reviews' => [
+            'client_name' => "VARCHAR(120) NOT NULL",
+            'client_email' => "VARCHAR(150) NULL",
+            'client_role' => "VARCHAR(120) NULL",
+            'company_name' => "VARCHAR(150) NULL",
+            'service_category' => "VARCHAR(100) NOT NULL DEFAULT 'Web Development'",
+            'rating' => "TINYINT UNSIGNED NOT NULL DEFAULT 5",
+            'review_title' => "VARCHAR(200) NOT NULL",
+            'review_text' => "TEXT NOT NULL",
+            'outcome_metric' => "VARCHAR(120) NULL",
+            'client_avatar' => "VARCHAR(255) NULL",
+            'status' => "ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'approved'",
+            'is_featured' => "TINYINT(1) NOT NULL DEFAULT 0",
+            'sort_order' => "INT NOT NULL DEFAULT 0",
+            'created_at' => "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+            'updated_at' => "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+            'project_url' => "VARCHAR(255) NULL",
+            'is_verified' => "TINYINT(1) NOT NULL DEFAULT 1",
+            'ip_address' => "VARCHAR(45) NULL",
+        ],
+        'service_packages' => [
+            'title' => "VARCHAR(180) NOT NULL",
+            'slug' => "VARCHAR(180) NOT NULL",
+            'category_track' => "VARCHAR(50) NOT NULL DEFAULT 'dev'",
+            'price' => "VARCHAR(60) NOT NULL DEFAULT '$299'",
+            'billing_unit' => "VARCHAR(40) NOT NULL DEFAULT '/project'",
+            'delivery_time' => "VARCHAR(80) NOT NULL DEFAULT '7\u201314 Days'",
+            'badge_text' => "VARCHAR(80) NULL",
+            'is_popular' => "TINYINT(1) NOT NULL DEFAULT 0",
+            'summary' => "VARCHAR(350) NULL",
+            'features' => "TEXT NULL",
+            'features_json' => "LONGTEXT NULL",
+            'not_included_json' => "LONGTEXT NULL",
+            'cta_label' => "VARCHAR(80) NOT NULL DEFAULT 'Select Package'",
+            'cta_text' => "VARCHAR(80) NOT NULL DEFAULT 'Get Started Now'",
+            'cta_url' => "VARCHAR(255) NOT NULL DEFAULT '/contact'",
+            'status' => "VARCHAR(20) NOT NULL DEFAULT 'active'",
+            'is_active' => "TINYINT(1) NOT NULL DEFAULT 1",
+            'sort_order' => "INT NOT NULL DEFAULT 0",
+            'created_at' => "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+            'updated_at' => "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+        ],
+        'agency_project_milestones' => [
+            'agency_project_id' => "INT NOT NULL",
+            'title' => "VARCHAR(180) NOT NULL",
+            'description' => "TEXT NULL",
+            'target_date' => "DATE NULL",
+            'status' => "VARCHAR(30) NOT NULL DEFAULT 'pending'",
+            'sort_order' => "INT NOT NULL DEFAULT 0",
+            'created_at' => "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+            'amount' => "DECIMAL(12,2) NULL",
+            'due_date' => "DATE NULL",
+            'completed_at' => "DATETIME NULL",
+            'updated_at' => "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+        ],
+        'agency_project_tasks' => [
+            'agency_project_id' => "INT NOT NULL",
+            'assigned_member_id' => "INT NULL",
+            'title' => "VARCHAR(200) NOT NULL",
+            'description' => "TEXT NULL",
+            'status' => "VARCHAR(30) NOT NULL DEFAULT 'todo'",
+            'priority' => "VARCHAR(20) NOT NULL DEFAULT 'medium'",
+            'due_date' => "DATE NULL",
+            'sort_order' => "INT NOT NULL DEFAULT 0",
+            'created_at' => "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP",
+            'updated_at' => "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+            'milestone_id' => "INT NULL",
+            'assigned_team_member_id' => "INT NULL",
+            'completed_at' => "DATETIME NULL",
+        ],
+        ];
+        $allGood = true;
+        foreach ($map as $table => $cols) {
+            if (!$db->fetchOne("SHOW TABLES LIKE '" . $table . "'")) {
+                $allGood = false;
+                continue;
+            }
+            foreach ($cols as $col => $def) {
+                if ($db->fetchOne("SHOW COLUMNS FROM `" . $table . "` LIKE '" . $col . "'")) {
+                    continue;
+                }
+                try {
+                    $db->query("ALTER TABLE `" . $table . "` ADD COLUMN `" . $col . "` " . $def);
+                } catch (\Throwable $e) {
+                    error_log('[schema heal] ' . $table . '.' . $col . ': ' . $e->getMessage());
+                    $allGood = false;
+                }
+            }
+        }
+        if ($allGood) {
+            @mkdir(dirname($flag), 0775, true);
+            @file_put_contents($flag, date('c'));
         }
     }
 }

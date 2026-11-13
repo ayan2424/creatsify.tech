@@ -18,7 +18,7 @@ class SoftwareController
         return view('software/index', [
             'products' => $products,
             'meta_title' => 'Ready-Made Software & Codebase Licenses | Creatsify',
-            'meta_desc' => 'Production-ready software platforms sold directly via Gumroad with 100% unlocked source code, white-label rights, and custom tailoring support. Explore live demos.',
+            'meta_desc' => 'Production-ready software with full source code, white-label rights and optional customization. Licensed via Gumroad — explore live demos.',
         ]);
     }
 }

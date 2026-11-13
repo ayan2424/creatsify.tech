@@ -35,7 +35,7 @@ $thumb = static function (array $p) use ($assetDir) {
         <p class="page-lead">A showcase of bespoke web applications, cross-platform Flutter mobile suites, conversion-engineered redesigns, scalable software architectures, and high-ROAS marketing campaigns delivered for ambitious brands worldwide.</p>
 
         <!-- 7 Official Service Category Filter Tabs (Ready-Made Software is maintained as an attribute tag, not a category) -->
-        <div class="om-filter-bar" style="margin-top:28px;" role="tablist" aria-label="Filter case studies by discipline">
+        <div class="om-filter-bar" style="margin-top:28px;" role="group" aria-label="Filter case studies by discipline">
             <a href="<?= url('/portfolio?cat=all') ?>" class="om-filter-pill <?= ($activeCategory === 'all' || empty($activeCategory)) ? 'active' : '' ?>">All Work</a>
             <a href="<?= url('/portfolio?cat=web-dev') ?>" class="om-filter-pill <?= $activeCategory === 'web-dev' ? 'active' : '' ?>">Web Design &amp; Development</a>
             <a href="<?= url('/portfolio?cat=mobile-app') ?>" class="om-filter-pill <?= $activeCategory === 'mobile-app' ? 'active' : '' ?>">Mobile App Development</a>

@@ -26,8 +26,8 @@ class ServicesController
             'packagesByTrack' => $packagesByTrack,
             'packageTracks'   => $packageTracks,
             'reviewStats'     => $reviewStats,
-            'meta_title'      => 'Full-Spectrum Digital Services — Web, Flutter Apps, SEO, Ads & Branding | Creatsify',
-            'meta_desc'       => 'Explore Creatsify full-spectrum agency services: Custom Web Development (PHP, Node.js, Next.js), Flutter Mobile Apps, Website Redesign, SaaS Engineering, SEO, Paid Social Ads, and Brand Identity.'
+            'meta_title'      => 'Web, App, SEO & Branding Services | Creatsify',
+            'meta_desc'       => 'Custom web development, Flutter mobile apps, website redesign, SaaS, SEO, paid ads and branding — delivered by one team with clear milestones.'
         ]);
     }
 }

@@ -115,6 +115,33 @@ if (!function_exists('url')) {
     }
 }
 
+if (!function_exists('absolutize')) {
+    /** Turn a site-relative URL into an absolute one (needed for canonical, Open Graph, sitemap, JSON-LD). */
+    function absolutize(string $u): string
+    {
+        if (preg_match('#^https?://#i', $u)) {
+            return $u;
+        }
+        $configured = (string)env('APP_URL', '');
+        $p = $configured !== '' ? parse_url($configured) : [];
+        $host = $p['host'] ?? '';
+        if ($host !== '' && !in_array($host, ['localhost', '127.0.0.1'], true)) {
+            $origin = ($p['scheme'] ?? 'https') . '://' . $host . (isset($p['port']) ? ':' . $p['port'] : '');
+        } else {
+            $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+            $origin = ($https ? 'https://' : 'http://') . ($_SERVER['HTTP_HOST'] ?? 'localhost');
+        }
+        return $origin . '/' . ltrim($u, '/');
+    }
+}
+
+if (!function_exists('abs_url')) {
+    function abs_url(string $path = ''): string
+    {
+        return absolutize(url($path));
+    }
+}
+
 if (!function_exists('asset')) {
     function asset(string $path): string
     {

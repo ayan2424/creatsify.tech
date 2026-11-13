@@ -38,7 +38,7 @@ class ReviewsController
             'currentCategory' => $activeCategory,
             'categories'      => $serviceCategories,
             'meta_title'      => 'Client Reviews & Verified Testimonials | ' . setting('site_name', 'Creatsify'),
-            'meta_desc'       => 'Read verified client reviews and star ratings for Creatsify Digital Agency across custom web development, Flutter mobile apps, website redesign, branding, SEO, and social media ads.',
+            'meta_desc'       => 'Read verified client reviews and ratings for Creatsify across web development, mobile apps, redesign, branding, SEO and ads.',
         ]);
     }
 

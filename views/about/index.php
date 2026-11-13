@@ -58,7 +58,7 @@ $totalReviews = (int)($reviewStats['total'] ?? 48);
 
                     <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
                         <div style="padding:14px;background:color-mix(in srgb,var(--surface) 70%,var(--bg));border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;gap:12px;">
-                            <span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#ffffff;display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0;">01</span>
+                            <span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent,#ffffff);display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0;">01</span>
                             <div>
                                 <strong style="color:var(--text);font-size:13.5px;display:block;">Web &amp; SaaS Engineering Division</strong>
                                 <span style="color:var(--accent);font-size:12px;font-weight:600;">PHP &bull; Node.js &bull; Next.js &bull; Tailwind &bull; MySQL</span>
@@ -66,7 +66,7 @@ $totalReviews = (int)($reviewStats['total'] ?? 48);
                         </div>
 
                         <div style="padding:14px;background:color-mix(in srgb,var(--surface) 70%,var(--bg));border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;gap:12px;">
-                            <span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#ffffff;display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0;">02</span>
+                            <span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent,#ffffff);display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0;">02</span>
                             <div>
                                 <strong style="color:var(--text);font-size:13.5px;display:block;">Mobile App Engineering Division</strong>
                                 <span style="color:var(--accent);font-size:12px;font-weight:600;">Flutter &amp; Dart &bull; iOS &amp; Android Native Speed</span>
@@ -74,7 +74,7 @@ $totalReviews = (int)($reviewStats['total'] ?? 48);
                         </div>
 
                         <div style="padding:14px;background:color-mix(in srgb,var(--surface) 70%,var(--bg));border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;gap:12px;">
-                            <span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#ffffff;display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0;">03</span>
+                            <span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent,#ffffff);display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0;">03</span>
                             <div>
                                 <strong style="color:var(--text);font-size:13.5px;display:block;">Brand, Logo &amp; UI/UX Redesign Studio</strong>
                                 <span style="color:var(--accent);font-size:12px;font-weight:600;">Logo Design &bull; Brand Kits &bull; CRO Redesigns</span>
@@ -82,7 +82,7 @@ $totalReviews = (int)($reviewStats['total'] ?? 48);
                         </div>
 
                         <div style="padding:14px;background:color-mix(in srgb,var(--surface) 70%,var(--bg));border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;gap:12px;">
-                            <span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#ffffff;display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0;">04</span>
+                            <span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent,#ffffff);display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0;">04</span>
                             <div>
                                 <strong style="color:var(--text);font-size:13.5px;display:block;">SEO &amp; Paid Social Growth Desk</strong>
                                 <span style="color:var(--accent);font-size:12px;font-weight:600;">Technical SEO &bull; Meta/IG Ads &bull; Google PPC</span>

@@ -74,4 +74,15 @@
       new IntersectionObserver(function (en) { atContact = en[0].isIntersecting; sync(); }, { rootMargin: '0px 0px -20% 0px' }).observe(contact);
     }
   }
+
+  /* 4. Filter bars: expose the active pill to assistive tech on every page */
+  $$('.om-filter-bar[role="group"]').forEach(function (bar) {
+    var btns = $$('button', bar);
+    var sync = function () { btns.forEach(function (b) { b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false'); }); };
+    sync();
+    if ('MutationObserver' in window) {
+      var mo = new MutationObserver(sync);
+      btns.forEach(function (b) { mo.observe(b, { attributes: true, attributeFilter: ['class'] }); });
+    }
+  });
 })();

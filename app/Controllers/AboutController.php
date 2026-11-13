@@ -18,8 +18,8 @@ class AboutController
 
         return view('about/index', [
             'reviewStats' => $reviewStats,
-            'meta_title'  => 'About Creatsify | Full-Service Web, App, Branding & Digital Growth Agency',
-            'meta_desc'   => 'Discover how Creatsify engineers custom web and mobile applications, executes high-converting website redesigns, crafts brand identities, and scales businesses through SEO and paid social ads.',
+            'meta_title'  => 'About Creatsify | Web, App & Brand Studio',
+            'meta_desc'   => 'Meet the team behind Creatsify: developers, designers and marketers building websites, apps, brands and growth campaigns for clients worldwide.',
         ]);
     }
 }

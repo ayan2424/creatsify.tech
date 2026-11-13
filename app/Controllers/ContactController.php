@@ -24,7 +24,7 @@ class ContactController
 
         return view('contact/index', [
             'meta_title' => 'Contact ' . setting('site_name', 'Creatsify') . ' | Start Your Project',
-            'meta_desc' => 'Start a custom project, discuss an agency service, or ask a pre-purchase software question.',
+            'meta_desc' => 'Start a project, ask about an agency service or get help choosing a ready-made platform. We reply within 24 hours.',
             'services' => Service::allActive(),
             'projects' => Project::all(),
             'selectedOffering' => $selectedOffering,

@@ -40,7 +40,7 @@ $trackMeta    = $packageTracks ?? [
             </div>
 
             <!-- Interactive Package Track Switcher Tabs -->
-            <div class="om-filter-bar ag-pkg-tabs" style="margin-top:30px;" role="tablist" aria-label="Service Package Tracks">
+            <div class="om-filter-bar ag-pkg-tabs" style="margin-top:30px;" role="group" aria-label="Service Package Tracks">
                 <button type="button" class="om-filter-pill active" data-pkg-tab="all">All Packages (9)</button>
                 <button type="button" class="om-filter-pill" data-pkg-tab="dev">01. Web, App &amp; SaaS Dev</button>
                 <button type="button" class="om-filter-pill" data-pkg-tab="design">02. Branding, Logo &amp; Redesign</button>

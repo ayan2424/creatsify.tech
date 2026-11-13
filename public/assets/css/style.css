@@ -8378,3 +8378,17 @@ p{text-wrap:pretty}
 .m-cta-wa{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:#25D366;color:#fff;box-shadow:0 10px 24px rgba(37,211,102,.35)}
 @media (max-width:768px){.m-cta{display:flex}.m-cta.show{transform:none}}
 @media (prefers-reduced-motion:reduce){.hero-aurora i{animation:none}.tilt-wrap{transform:none!important}}
+
+/* ==========================================================================
+   CONTRAST & A11Y FIXES v4 (axe-verified) — keep last
+   ========================================================================== */
+:root[data-theme=light]{--accent:#0369A1;--on-accent:#ffffff}
+:root[data-theme=dark]{--on-accent:#04202a}
+[data-theme=light] .ag-rc-outcome,[data-theme=light] .om-rev-metric{color:#047857}
+[data-theme=light] .ag-pkg-delivery-pill,[data-theme=light] .om-how-step-num{color:#0369a1}
+.om-prod-chips.on-light span{color:#334155;background:transparent;border:1px solid var(--line-strong)}
+[data-theme=dark] .om-prod-chips.on-light span{color:var(--muted)}
+.ag-compare-table-scroll:focus-visible,.om-marquee-row:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:14px}
+.om-prod-chips.on-light span{color:#334155!important;border-color:var(--line-strong)!important;background:transparent!important}
+[data-theme=dark] .om-prod-chips.on-light span{color:var(--muted)!important}
+[data-theme=light] .ag-svc-badge,[data-theme=light] .ag-str-num{color:#0369a1}

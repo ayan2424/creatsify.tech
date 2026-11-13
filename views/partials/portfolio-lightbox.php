@@ -18,7 +18,7 @@
         <!-- Modal Visual Preview & Details -->
         <div class="ag-lightbox-body">
             <div class="ag-lightbox-img-wrap">
-                <img src="" alt="" id="lightboxImg" class="ag-lightbox-img" loading="eager">
+                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="1376" height="768" alt="" id="lightboxImg" class="ag-lightbox-img" loading="eager">
             </div>
 
             <div class="ag-lightbox-meta-panel" id="lightboxMetaPanel">
