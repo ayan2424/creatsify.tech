@@ -1,166 +1,126 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, PenLine, Quote, Star } from 'lucide-react';
 import type { ReviewItem, ReviewStats } from '@/types/creatsify';
 import { resolveAvatarUrl } from '@/lib/utils';
 
-interface DraggableRowProps {
-  reviews: ReviewItem[];
-  direction: 'left' | 'right';
-  avatarOffset: number;
-  ariaLabel: string;
-}
-
-function DraggableMarqueeRow({
+function MarqueeRow({
   reviews,
-  direction,
+  rowClass,
+  trackClass,
   avatarOffset,
   ariaLabel,
-}: DraggableRowProps) {
-  const scrollerRef = useRef<HTMLDivElement>(null);
+  onDragStateChange,
+}: {
+  reviews: ReviewItem[];
+  rowClass: string;
+  trackClass: string;
+  avatarOffset: number;
+  ariaLabel: string;
+  onDragStateChange: (active: boolean) => void;
+}) {
+  const rowRef = useRef<HTMLDivElement>(null);
   const draggingRef = useRef(false);
-  const hoveredRef = useRef(false);
   const startXRef = useRef(0);
-  const startScrollLeftRef = useRef(0);
-
-  // Smooth infinite drift paused cleanly during hover, focus, or user mouse/touch drag
-  useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) return;
-
-    // Position rightward track in middle copy so dragging left/right both loop seamlessly
-    const singleSetWidth = () => el.scrollWidth / 3;
-    if (direction === 'right') {
-      el.scrollLeft = singleSetWidth();
-    }
-
-    let rafId = 0;
-    const speed = direction === 'left' ? 0.55 : -0.55;
-
-    const tick = () => {
-      if (!draggingRef.current && !hoveredRef.current) {
-        el.scrollLeft += speed;
-        const unit = singleSetWidth();
-        if (unit > 0) {
-          if (el.scrollLeft >= unit * 2) {
-            el.scrollLeft -= unit;
-          } else if (el.scrollLeft <= 1) {
-            el.scrollLeft += unit;
-          }
-        }
-      }
-      rafId = requestAnimationFrame(tick);
-    };
-
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [direction, reviews.length]);
+  const scrollStartRef = useRef(0);
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = scrollerRef.current;
-    if (!el) return;
+    const row = rowRef.current;
+    if (!row) return;
     draggingRef.current = true;
+    row.classList.add('is-dragging');
+    onDragStateChange(true);
     startXRef.current = e.clientX;
-    startScrollLeftRef.current = el.scrollLeft;
-    el.setPointerCapture(e.pointerId);
+    scrollStartRef.current = row.scrollLeft;
+    row.setPointerCapture(e.pointerId);
   };
 
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = scrollerRef.current;
-    if (!el || !draggingRef.current) return;
-    const delta = e.clientX - startXRef.current;
-    el.scrollLeft = startScrollLeftRef.current - delta * 1.2;
+    const row = rowRef.current;
+    if (!row || !draggingRef.current) return;
+    const walk = (e.clientX - startXRef.current) * 1.4;
+    row.scrollLeft = scrollStartRef.current - walk;
   };
 
   const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = scrollerRef.current;
+    const row = rowRef.current;
+    if (!draggingRef.current) return;
     draggingRef.current = false;
-    if (el && el.hasPointerCapture(e.pointerId)) {
-      el.releasePointerCapture(e.pointerId);
+    if (row) {
+      row.classList.remove('is-dragging');
+      if (row.hasPointerCapture(e.pointerId)) {
+        row.releasePointerCapture(e.pointerId);
+      }
     }
+    setTimeout(() => onDragStateChange(false), 350);
   };
-
-  const tripled = [...reviews, ...reviews, ...reviews];
 
   return (
     <div
-      ref={scrollerRef}
+      ref={rowRef}
+      className={`om-marquee-row ${rowClass}`}
+      aria-label={ariaLabel}
       role="region"
       tabIndex={0}
-      aria-label={ariaLabel}
-      onMouseEnter={() => {
-        hoveredRef.current = true;
-      }}
-      onMouseLeave={() => {
-        hoveredRef.current = false;
-        draggingRef.current = false;
-      }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      className="no-scrollbar flex cursor-grab select-none gap-4 overflow-x-auto px-4 py-2 active:cursor-grabbing touch-pan-x"
     >
-      {tripled.map((rev, i) => {
-        const originalIdx = i % reviews.length;
-        const isClone = i >= reviews.length;
-        const stars = Math.max(1, Math.min(5, Number(rev.rating) || 5));
+      <div className={`om-marquee-track ${trackClass}`}>
+        {[0, 1, 2].map((rep) =>
+          reviews.map((rev, idx) => {
+            const stars = Math.max(1, Math.min(5, Number(rev.rating) || 5));
+            const avatarUrl = resolveAvatarUrl(avatarOffset + idx);
 
-        return (
-          <article
-            key={`${rev.id}-${i}`}
-            aria-hidden={isClone ? 'true' : undefined}
-            className="flex w-[320px] shrink-0 flex-col justify-between rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 transition-colors hover:border-[var(--line-strong)] sm:w-[370px]"
-          >
-            <div>
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-0.5 text-amber-400" aria-label={`${stars} out of 5 stars`}>
-                  {Array.from({ length: stars }).map((_, sIdx) => (
-                    <Star key={sIdx} className="h-3.5 w-3.5 fill-amber-400" />
-                  ))}
+            return (
+              <article
+                key={`${rep}-${rev.id}-${idx}`}
+                className="om-rev-card"
+                aria-hidden={rep > 0 ? 'true' : undefined}
+              >
+                <div className="om-rev-header-row">
+                  <div className="om-rev-quote-icon" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.324 1.202-4.544 3.284-4.664 5.234.34-.143.76-.235 1.23-.235 1.95 0 3.511 1.562 3.511 3.511 0 1.95-1.562 3.511-3.511 3.511-.703 0-1.354-.213-1.906-.901zm11 0C14.553 16.227 14 15 14 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.324 1.202-4.544 3.284-4.664 5.234.34-.143.76-.235 1.23-.235 1.95 0 3.511 1.562 3.511 3.511 0 1.95-1.562 3.511-3.511 3.511-.703 0-1.354-.213-1.906-.901z" />
+                    </svg>
+                  </div>
+                  <div className="om-rev-top-meta">
+                    <div className="om-rev-stars" aria-label={`${stars} out of 5 stars`}>
+                      {'\u2605'.repeat(stars)}
+                    </div>
+                    {rev.outcome_metric && (
+                      <span className="om-rev-metric">{rev.outcome_metric}</span>
+                    )}
+                  </div>
                 </div>
-                {rev.outcome_metric && (
-                  <span className="rounded-full bg-[var(--accent-soft)] px-2.5 py-0.5 font-mono text-[11px] font-semibold text-[var(--accent)]">
-                    {rev.outcome_metric}
-                  </span>
-                )}
-              </div>
 
-              <div className="mt-4 flex items-start gap-2">
-                <Quote className="mt-1 h-4 w-4 shrink-0 text-[var(--accent)] opacity-50" />
-                <p className="text-[14px] leading-relaxed text-[var(--text)]">
-                  {rev.review_text}
-                </p>
-              </div>
-            </div>
+                <p className="om-rev-text">&ldquo;{rev.review_text}&rdquo;</p>
 
-            <div className="mt-5 flex items-center gap-3 border-t border-[var(--line)] pt-4">
-              <img
-                src={resolveAvatarUrl(avatarOffset + originalIdx)}
-                alt={rev.client_name}
-                width={40}
-                height={40}
-                loading="lazy"
-                draggable={false}
-                className="h-10 w-10 rounded-full border border-[var(--line-strong)] object-cover"
-              />
-              <div className="min-w-0">
-                <strong className="block truncate font-display text-sm font-bold text-[var(--text)]">
-                  {rev.client_name}
-                </strong>
-                <span className="block truncate text-xs text-[var(--muted)]">
-                  {rev.client_role || 'Verified Client'}
-                  {rev.company_name ? ` · ${rev.company_name}` : ''}
-                </span>
-              </div>
-            </div>
-          </article>
-        );
-      })}
+                <div className="om-rev-author-row">
+                  <img
+                    src={avatarUrl}
+                    alt={rev.client_name}
+                    className="om-rev-avatar"
+                    width={44}
+                    height={44}
+                    loading="eager"
+                    draggable={false}
+                  />
+                  <div className="om-rev-author-info">
+                    <strong className="om-rev-name">{rev.client_name}</strong>
+                    <span className="om-rev-role">
+                      {rev.client_role || 'Verified Client'}
+                      {rev.company_name ? ` \u2022 ${rev.company_name}` : ''}
+                    </span>
+                  </div>
+                </div>
+              </article>
+            );
+          })
+        )}
+      </div>
     </div>
   );
 }
@@ -172,6 +132,8 @@ export function ReviewsMarqueeSection({
   reviews: ReviewItem[];
   stats: ReviewStats;
 }) {
+  const [dragActive, setDragActive] = useState(false);
+
   if (reviews.length === 0) return null;
 
   const half = Math.ceil(reviews.length / 2);
@@ -179,67 +141,91 @@ export function ReviewsMarqueeSection({
   const row2 = reviews.slice(half).length > 0 ? reviews.slice(half) : row1;
 
   return (
-    <section id="reviews" className="border-y border-[var(--line)] bg-[var(--bg-subtle)] py-20 lg:py-28">
-      <div className="mx-auto max-w-[1220px] px-5 sm:px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-4xl">
-            What clients say about working with us
-          </h2>
-          <p className="mt-3 text-[15.5px] leading-relaxed text-[var(--muted)]">
-            Drag or swipe either row to read verified feedback from founders and engineering leaders worldwide.
+    <section id="reviews" className="ag-reviews-sec">
+      <div className="wrap">
+        <div className="om-sec-center">
+          <div className="om-sec-tag">
+            <span className="om-sec-dot" /> Client feedback
+          </div>
+          <h2 className="om-sec-heading">What clients say about working with us</h2>
+          <p className="om-sec-sub">
+            Honest feedback from founders and teams we&apos;ve built, designed and grown with.
           </p>
 
-          <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-4 rounded-2xl border border-[var(--line-strong)] bg-[var(--surface)] px-5 py-3.5">
-            <span className="font-display text-3xl font-extrabold text-[var(--text)] tabular-nums">
-              {stats.avg_rating}
-            </span>
-            <div className="text-left">
-              <div className="flex items-center gap-0.5 text-amber-400">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <Star key={i} className="h-3.5 w-3.5 fill-amber-400" />
-                ))}
+          <div
+            className="ag-rating-summary-pill"
+            style={{ margin: '20px auto 36px', display: 'inline-flex' }}
+          >
+            <div className="ag-rsp-score">{stats.avg_rating || '4.9'}</div>
+            <div className="ag-rsp-meta" style={{ textAlign: 'left' }}>
+              <div className="ag-rsp-stars" aria-label="5 out of 5 stars">
+                &#9733;&#9733;&#9733;&#9733;&#9733;
               </div>
-              <span className="text-xs font-medium text-[var(--muted)] tabular-nums">
-                Based on {stats.total}+ Verified Reviews
+              <span>
+                {stats.total > 0
+                  ? `Based on ${stats.total} Verified Reviews`
+                  : 'Client Reviews'}
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <Link href="/reviews#submit-review" className="btn-brand !px-3.5 !py-2 !text-xs">
-                <PenLine className="h-3.5 w-3.5" />
-                <span>Leave a Review</span>
+            <div className="ag-rsp-actions">
+              <Link href="/reviews#submit-review" className="om-btn-gold sm">
+                <span>Leave a Review &#9733;</span>
               </Link>
-              <Link href="/reviews" className="btn-ghost !px-3.5 !py-2 !text-xs">
+              <Link href="/reviews" className="om-btn-glass sm">
                 <span>All Reviews</span>
               </Link>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Dual-Row Draggable / Swipeable Marquee */}
-      <div className="relative mt-10 space-y-4">
-        <DraggableMarqueeRow
-          reviews={row1}
-          direction="left"
-          avatarOffset={0}
-          ariaLabel="Client reviews row 1 — drag or swipe horizontally"
-        />
-        <DraggableMarqueeRow
-          reviews={row2}
-          direction="right"
-          avatarOffset={half}
-          ariaLabel="Client reviews row 2 — drag or swipe horizontally"
-        />
-      </div>
+        <div
+          className={`om-reviews-marquee-container${dragActive ? ' js-drag-active' : ''}`}
+          id="reviewsMarqueeContainer"
+        >
+          <MarqueeRow
+            reviews={row1}
+            rowClass="om-marquee-row-1"
+            trackClass="om-marquee-left"
+            avatarOffset={0}
+            ariaLabel="Client reviews stream row 1"
+            onDragStateChange={setDragActive}
+          />
+          <MarqueeRow
+            reviews={row2}
+            rowClass="om-marquee-row-2"
+            trackClass="om-marquee-right"
+            avatarOffset={half}
+            ariaLabel="Client reviews stream row 2"
+            onDragStateChange={setDragActive}
+          />
+        </div>
 
-      <div className="mt-10 flex flex-wrap justify-center gap-3 px-5">
-        <Link href="/reviews" className="btn-brand">
-          <span>Read all {stats.total} reviews</span>
-          <ArrowUpRight className="h-4 w-4" />
-        </Link>
-        <Link href="/reviews#submit-review" className="btn-ghost">
-          <span>Worked with us? Share feedback</span>
-        </Link>
+        <div
+          style={{
+            textAlign: 'center',
+            marginTop: '36px',
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '14px',
+            flexWrap: 'wrap',
+          }}
+        >
+          <Link className="om-btn-gold" href="/reviews">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+            <span>
+              {stats.total > 0 ? `Read All ${stats.total} Reviews` : 'Read Client Reviews'}
+            </span>
+          </Link>
+          <Link className="om-btn-glass" href="/reviews#submit-review">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+            </svg>
+            <span>Worked with us? Share your feedback</span>
+          </Link>
+        </div>
       </div>
     </section>
   );

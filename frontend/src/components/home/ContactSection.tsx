@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { ArrowUpRight, CheckCircle2, ChevronDown, Loader2, MessageCircle } from 'lucide-react';
 import type { PackageItem } from '@/types/creatsify';
 import { fetchClientCsrfToken } from '@/lib/api';
 import { whatsappLink } from '@/lib/utils';
@@ -13,21 +12,6 @@ interface ContactSectionProps {
   preselectedMessage?: string;
 }
 
-const FAQS = [
-  {
-    q: 'Do I own the source code and brand files?',
-    a: 'Yes. Every custom website, mobile app, and brand system comes with 100% unlocked source code and commercial IP rights upon handover.',
-  },
-  {
-    q: 'Can you customize your ready-made platforms for our brand?',
-    a: 'Yes. License any platform directly via Gumroad or ask our engineering team to rebrand, add custom modules, and integrate local payment or shipping gateways.',
-  },
-  {
-    q: 'How do milestone payments work for custom builds?',
-    a: 'We break projects into clear weekly sprints. You review real progress on a live staging server at each milestone before approving the next stage.',
-  },
-];
-
 export function ContactSection({
   whatsappNumber,
   packagesByTrack,
@@ -38,27 +22,49 @@ export function ContactSection({
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [projectType, setProjectType] = useState(preselectedOffering || 'Custom Web Development');
+  const [customOptions, setCustomOptions] = useState<string[]>([]);
   const [message, setMessage] = useState(preselectedMessage || '');
   const [honeypot, setHoneypot] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [openFaq, setOpenFaq] = useState<number>(0);
+
+  const allPackageOptions = Object.values(packagesByTrack)
+    .flat()
+    .map((p) => `${p.title} (${p.price_label})`);
 
   useEffect(() => {
-    if (preselectedOffering) setProjectType(preselectedOffering);
+    if (!preselectedOffering) return;
+    setProjectType(preselectedOffering);
+    const knownStatic = [
+      'Custom Web Development',
+      'Mobile App Development (Flutter & Dart)',
+      'Website Redesign & Modernization',
+      'SaaS Product Engineering',
+      'Search Engine Optimization (SEO)',
+      'Social Media Marketing & Paid Ads',
+      'Branding, Logo & Graphic Design',
+      'E-Commerce & Online Store Build',
+      'Customize Ready-Made Software For My Business',
+      'Cheetah Enterprise License ($99)',
+      'Cheetah Lite License ($49)',
+      'Cheezify Food & POS License ($59)',
+      'Free Website, UX & SEO Teardown Audit',
+      ...allPackageOptions,
+    ];
+    if (!knownStatic.includes(preselectedOffering)) {
+      setCustomOptions((prev) =>
+        prev.includes(preselectedOffering) ? prev : [preselectedOffering, ...prev]
+      );
+    }
   }, [preselectedOffering]);
 
   useEffect(() => {
     if (preselectedMessage) setMessage(preselectedMessage);
   }, [preselectedMessage]);
 
-  const allPackageOptions = Object.values(packagesByTrack)
-    .flat()
-    .map((p) => `${p.title} (${p.price_label})`);
-
   const waHref = whatsappLink(
     whatsappNumber,
-    `Hello Creatsify! I would like to discuss: ${projectType}.`
+    `Hello! I would like to discuss ${projectType} with Creatsify Digital Agency.`
   );
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -117,221 +123,217 @@ export function ContactSection({
   };
 
   return (
-    <section id="contact" className="py-20 lg:py-28">
-      <div className="mx-auto grid max-w-[1220px] gap-10 px-5 sm:px-6 lg:grid-cols-12">
-        {/* Left: WhatsApp & FAQs */}
-        <div className="lg:col-span-5">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-4xl">
-            Tell us what you&apos;d like to build
-          </h2>
-          <p className="mt-3 text-[15.5px] leading-relaxed text-[var(--muted)]">
-            Choose a package, request customization on one of our ready-made platforms, or book a free website &amp; SEO teardown.
+    <section id="contact" className="om-contact-sec">
+      <div className="wrap om-contact-wrap">
+        <div className="om-contact-left">
+          <div className="om-sec-tag">
+            <span className="om-sec-dot" /> Get in touch
+          </div>
+          <h2 className="om-sec-heading">Tell us what you&apos;d like to build</h2>
+          <p className="om-sec-sub">
+            Choose a package, ask about customizing one of our ready-made platforms, or request a free website and SEO review. Prefer a quick chat? Message us on WhatsApp.
           </p>
 
-          <div className="mt-7 rounded-2xl border border-emerald-500/30 bg-[var(--surface)] p-5">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-500">
-                  <MessageCircle className="h-5 w-5" />
-                </div>
-                <div>
-                  <strong className="block font-display text-sm font-bold text-[var(--text)]">
-                    Direct WhatsApp Desk
-                  </strong>
-                  <span className="text-xs text-[var(--muted)]">
-                    Talk straight with senior engineers
-                  </span>
-                </div>
+          <div className="om-whatsapp-card">
+            <div className="om-wa-header">
+              <span className="om-wa-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z" />
+                </svg>
+              </span>
+              <div className="om-wa-header-info">
+                <b>Chat on WhatsApp</b>
+                <span>Talk directly with our senior team</span>
               </div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[11px] font-semibold text-emerald-500">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                Quick replies
+              <span className="om-wa-active-pill">
+                <i className="om-pulse-dot" /> Quick replies
               </span>
             </div>
-
             <a
               href={waHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 font-display text-sm font-bold text-[#041021] transition-transform hover:brightness-110 active:scale-[0.98]"
+              className="om-wa-btn"
+              id="homeWaDynamicLink"
             >
-              <MessageCircle className="h-4 w-4" />
-              <span>Message us on WhatsApp</span>
+              <span className="om-wa-btn-lead">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z" />
+                </svg>
+                <span>Message us on WhatsApp</span>
+              </span>
             </a>
           </div>
 
-          {/* FAQ Accordion */}
-          <div className="mt-7 space-y-2.5">
-            {FAQS.map((faq, idx) => {
-              const isOpen = openFaq === idx;
-              return (
-                <div
-                  key={faq.q}
-                  className="overflow-hidden rounded-xl border border-[var(--line)] bg-[var(--surface)]"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaq(isOpen ? -1 : idx)}
-                    aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left text-sm font-semibold text-[var(--text)] cursor-pointer"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown
-                      className={`h-4 w-4 shrink-0 text-[var(--muted)] transition-transform duration-200 ${
-                        isOpen ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                  {isOpen && (
-                    <div className="border-t border-[var(--line)] px-4 py-3 text-sm leading-relaxed text-[var(--muted)]">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+          <div className="ag-faq-mini">
+            <details className="ag-faq-item" open>
+              <summary>Do I own the source code and brand files?</summary>
+              <p>
+                Yes. Every custom website, app and design system comes with the full source code and commercial rights, so you&apos;re never locked in.
+              </p>
+            </details>
+            <details className="ag-faq-item">
+              <summary>Can you customize your ready-made platforms for us?</summary>
+              <p>
+                Yes. You can license a platform directly on Gumroad, or we can rebrand it, add features and connect your local payment and shipping services.
+              </p>
+            </details>
+            <details className="ag-faq-item">
+              <summary>How do payments work for custom projects?</summary>
+              <p>
+                We work in milestones. You review progress on a staging site at each stage and pay for a milestone once you&apos;re happy with it.
+              </p>
+            </details>
           </div>
         </div>
 
-        {/* Right: Project Brief Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="rounded-2xl border border-[var(--line-strong)] bg-[var(--surface)] p-6 sm:p-8 lg:col-span-7"
-        >
+        <form id="form" className="om-contact-form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="_hp_check"
             value={honeypot}
             onChange={(e) => setHoneypot(e.target.value)}
+            style={{ display: 'none' }}
             tabIndex={-1}
             autoComplete="off"
             aria-hidden="true"
-            className="hidden"
           />
 
-          <div className="border-b border-[var(--line)] pb-4">
-            <strong className="font-display text-lg font-bold text-[var(--text)]">
-              Request a proposal
-            </strong>
-            <p className="mt-1 text-xs text-[var(--muted)]">
-              We reply within 24 hours · Your project details stay strictly confidential
-            </p>
+          <div className="ag-form-head">
+            <strong>Request a proposal</strong>
+            <span>We reply within 24 hours &bull; Your details stay private</span>
           </div>
 
           {status && (
             <div
               role="status"
-              className={`mt-5 flex items-start gap-2.5 rounded-xl border p-4 text-sm ${
-                status.type === 'success'
-                  ? 'border-emerald-500/35 bg-emerald-500/10 text-emerald-500'
-                  : 'border-rose-500/35 bg-rose-500/10 text-rose-400'
-              }`}
+              style={{
+                padding: '12px 14px',
+                borderRadius: '12px',
+                fontSize: '13.5px',
+                marginBottom: '12px',
+                border:
+                  status.type === 'success'
+                    ? '1px solid rgba(16,185,129,0.4)'
+                    : '1px solid rgba(244,63,94,0.4)',
+                background:
+                  status.type === 'success'
+                    ? 'rgba(16,185,129,0.12)'
+                    : 'rgba(244,63,94,0.12)',
+                color: status.type === 'success' ? '#10b981' : '#fb7185',
+              }}
             >
-              {status.type === 'success' && <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />}
-              <span>{status.text}</span>
+              {status.text}
             </div>
           )}
 
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            <label className="block text-xs font-semibold text-[var(--text)]">
-              Your name
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="John Doe"
-                className="mt-1.5 w-full rounded-xl border border-[var(--line)] bg-[var(--bg-subtle)] px-3.5 py-2.5 text-sm font-normal text-[var(--text)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none"
-              />
-            </label>
-
-            <label className="block text-xs font-semibold text-[var(--text)]">
-              Your email
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="john@company.com"
-                className="mt-1.5 w-full rounded-xl border border-[var(--line)] bg-[var(--bg-subtle)] px-3.5 py-2.5 text-sm font-normal text-[var(--text)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none"
-              />
-            </label>
-          </div>
-
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <label className="block text-xs font-semibold text-[var(--text)]">
-              Phone or WhatsApp (optional)
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+1 555 123 4567"
-                className="mt-1.5 w-full rounded-xl border border-[var(--line)] bg-[var(--bg-subtle)] px-3.5 py-2.5 text-sm font-normal text-[var(--text)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none"
-              />
-            </label>
-
-            <label className="block text-xs font-semibold text-[var(--text)]">
-              Service or Package Needed
-              <select
-                value={projectType}
-                onChange={(e) => setProjectType(e.target.value)}
-                className="mt-1.5 w-full rounded-xl border border-[var(--line)] bg-[var(--bg-subtle)] px-3.5 py-2.5 text-sm font-normal text-[var(--text)] focus:border-[var(--accent)] focus:outline-none"
-              >
-                <optgroup label="Agency Services">
-                  <option value="Custom Web Development">Custom web development</option>
-                  <option value="Mobile App Development (Flutter & Dart)">Mobile app (Flutter iOS &amp; Android)</option>
-                  <option value="Website Redesign & UI/UX Modernization">Website redesign</option>
-                  <option value="SaaS Products & Custom Portals">SaaS product or portal</option>
-                  <option value="Search Engine Optimization (SEO)">Technical SEO</option>
-                  <option value="Social Media Marketing & Paid Ads">Social media &amp; paid ads</option>
-                  <option value="Branding, Logo & Graphic Design">Branding &amp; logo design</option>
-                  <option value="E-Commerce & Custom Store Systems">E-commerce &amp; POS</option>
+          <label>
+            Your name
+            <input
+              name="name"
+              required
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="John Doe"
+            />
+          </label>
+          <label>
+            Your email
+            <input
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="john@company.com"
+            />
+          </label>
+          <label>
+            Phone or WhatsApp (optional)
+            <input
+              name="phone"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="+1 555 123 4567"
+              autoComplete="tel"
+            />
+          </label>
+          <label>
+            Service or Package Needed
+            <select
+              name="project_type"
+              id="homeProjectTypeSelect"
+              value={projectType}
+              onChange={(e) => setProjectType(e.target.value)}
+            >
+              {customOptions.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+              <optgroup label="Agency Service Packages">
+                <option value="Custom Web Development">Custom web development</option>
+                <option value="Mobile App Development (Flutter & Dart)">Mobile app (iOS &amp; Android)</option>
+                <option value="Website Redesign & Modernization">Website redesign</option>
+                <option value="SaaS Product Engineering">SaaS product or web portal</option>
+                <option value="Search Engine Optimization (SEO)">SEO</option>
+                <option value="Social Media Marketing & Paid Ads">Social media &amp; paid ads</option>
+                <option value="Branding, Logo & Graphic Design">Branding &amp; logo design</option>
+                <option value="E-Commerce & Online Store Build">E-commerce store</option>
+              </optgroup>
+              {allPackageOptions.length > 0 && (
+                <optgroup label="Package Tiers">
+                  {allPackageOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
                 </optgroup>
-                {allPackageOptions.length > 0 && (
-                  <optgroup label="Service Packages">
-                    {allPackageOptions.map((opt) => (
-                      <option key={opt} value={opt}>
-                        {opt}
-                      </option>
-                    ))}
-                  </optgroup>
-                )}
-                <optgroup label="Ready-Made Platforms">
-                  <option value="Customize Ready-Made Software For My Business">
-                    Customize a ready-made platform
-                  </option>
-                  <option value="Cheetah Enterprise License ($99)">Cheetah Enterprise License ($99)</option>
-                  <option value="Cheetah Lite License ($49)">Cheetah Lite License ($49)</option>
-                  <option value="Cheezify Food & POS License ($59)">Cheezify Food &amp; POS License ($59)</option>
-                </optgroup>
-              </select>
-            </label>
-          </div>
-
-          <label className="mt-4 block text-xs font-semibold text-[var(--text)]">
+              )}
+              <optgroup label="Ready-Made Software (Buy or Customize)">
+                <option value="Customize Ready-Made Software For My Business">
+                  Customize a ready-made platform
+                </option>
+                <option value="Cheetah Enterprise License ($99)">
+                  Cheetah Enterprise License ($99)
+                </option>
+                <option value="Cheetah Lite License ($49)">Cheetah Lite License ($49)</option>
+                <option value="Cheezify Food & POS License ($59)">
+                  Cheezify Food &amp; POS License ($59)
+                </option>
+              </optgroup>
+              <optgroup label="Free Audit">
+                <option value="Free Website, UX & SEO Teardown Audit">
+                  Free 15-minute website &amp; SEO review
+                </option>
+              </optgroup>
+            </select>
+          </label>
+          <label>
             Project details &amp; goals
             <textarea
+              name="message"
+              id="homeProjectMessage"
               rows={4}
               required
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Tell us about your project, goals, target timeline, or any specific requirements..."
-              className="mt-1.5 w-full rounded-xl border border-[var(--line)] bg-[var(--bg-subtle)] px-3.5 py-2.5 text-sm font-normal text-[var(--text)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none"
             />
           </label>
-
-          <button type="submit" disabled={submitting} className="btn-brand mt-5 w-full disabled:opacity-50">
-            {submitting ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Sending brief...</span>
-              </>
-            ) : (
-              <>
-                <span>Send your brief</span>
-                <ArrowUpRight className="h-4 w-4" />
-              </>
-            )}
+          <button
+            className="om-btn-gold"
+            type="submit"
+            disabled={submitting}
+            style={{ width: '100%', justifyContent: 'center', border: 'none', cursor: 'pointer' }}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+            <span>{submitting ? 'Sending brief...' : 'Send your brief'}</span>
           </button>
         </form>
       </div>

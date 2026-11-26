@@ -2,195 +2,201 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowUp, ArrowUpRight, Check, Globe, MessageCircle } from 'lucide-react';
-import { useTheme } from './Providers';
 import { whatsappLink } from '@/lib/utils';
 
 interface FooterProps {
   whatsappNumber: string;
-  footerProducts: Array<{
-    slug: string;
-    title: string;
-    price?: string | null;
-  }>;
+  footerProducts: Array<{ slug: string; title: string; price?: string | null }>;
 }
 
 export function Footer({ whatsappNumber, footerProducts }: FooterProps) {
-  const { theme } = useTheme();
+  const year = new Date().getFullYear();
   const waHref = whatsappLink(
     whatsappNumber,
     'Hello! I would like to discuss a project or package with Creatsify Digital Agency.'
   );
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <footer className="relative mt-24 border-t border-[var(--line)] bg-[var(--bg-subtle)]">
-      <div className="mx-auto max-w-[1220px] px-5 py-16 sm:px-6 lg:py-20">
-        {/* Pre-Footer Conversion Callout */}
-        <div className="relative overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[var(--surface)] p-8 sm:p-10 lg:p-12">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-20 blur-3xl"
-            style={{ background: 'radial-gradient(circle, var(--accent) 0%, transparent 70%)' }}
-          />
-          <div className="relative flex flex-col justify-between gap-8 lg:flex-row lg:items-center">
-            <div className="max-w-2xl">
-              <h2 className="text-2xl font-bold tracking-tight text-[var(--text)] sm:text-3xl lg:text-[34px]">
-                Let&apos;s build something your customers will love
-              </h2>
-              <p className="mt-3 text-[15px] leading-relaxed text-[var(--muted)]">
-                Tell us about your idea — a custom web platform, a Flutter mobile app, a high-converting redesign, brand identity, or growth campaign — and we&apos;ll reply within 24 hours with a clear plan, timeline, and quote.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[13px] font-medium text-[var(--text)]">
-                {['Websites & mobile apps', 'Brand & UI/UX design', 'SEO & paid ads', '100% code ownership'].map(
-                  (item) => (
-                    <span key={item} className="inline-flex items-center gap-1.5">
-                      <Check className="h-3.5 w-3.5 text-[var(--emerald)]" />
-                      {item}
-                    </span>
-                  )
-                )}
-              </div>
+    <footer className="om-footer">
+      <div className="wrap">
+        {/* Pre-Footer Heroic Callout Box (Exact PHP Design) */}
+        <div className="om-ft-cta-box">
+          <div className="om-ft-cta-left">
+            <div className="om-sec-tag dark">
+              <span className="om-sec-dot" /> Ready when you are
             </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row lg:min-w-[220px] lg:flex-col">
-              <Link href="/contact" className="btn-brand w-full">
-                <span>Start a project</span>
-                <ArrowUpRight className="h-4 w-4" />
-              </Link>
-              <a
-                href={waHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-ghost w-full !border-emerald-500/35 !text-emerald-500 hover:!bg-emerald-500/10"
+            <h2 className="om-ft-cta-title">Let&apos;s build something your customers will love</h2>
+            <p className="om-ft-cta-desc">
+              Tell us about your idea &mdash; a new website, a mobile app, a redesign, a brand or a growth campaign &mdash; and we&apos;ll reply with a clear plan, timeline and quote.
+            </p>
+            <div className="om-ft-proof-pills">
+              <span>&#10003; Websites &amp; mobile apps</span>
+              <span>&#10003; Brand &amp; UI/UX design</span>
+              <span>&#10003; SEO &amp; paid ads</span>
+              <span>&#10003; Full code ownership</span>
+            </div>
+          </div>
+          <div className="om-ft-cta-right">
+            <Link className="om-btn-gold" href="/contact">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
               >
-                <MessageCircle className="h-4 w-4" />
-                <span>Chat on WhatsApp</span>
-              </a>
-            </div>
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+              <span>Start a project</span>
+            </Link>
+            <a
+              className="om-ft-wa-btn"
+              href={waHref}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z" />
+              </svg>
+              <span>Chat on WhatsApp</span>
+            </a>
           </div>
         </div>
 
-        {/* Multi-column footer directory */}
-        <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <Link href="/" className="inline-block" aria-label="Creatsify Home">
+        {/* Main Multi-Column Agency Footer */}
+        <div className="om-ft-main-grid">
+          <div className="om-ft-col brand-col">
+            <Link
+              href="/"
+              className="om-ft-brand-head"
+              aria-label="Creatsify Home"
+              style={{ display: 'inline-block', textDecoration: 'none' }}
+            >
               <img
-                src={theme === 'light' ? '/assets/brand/creatsify-logo-light.svg' : '/assets/brand/creatsify-logo-dark.svg'}
+                src="/assets/brand/creatsify-logo-dark.svg"
+                height={40}
                 alt="Creatsify"
-                className="h-9 w-auto"
+                style={{ height: '40px', width: 'auto', display: 'block' }}
               />
             </Link>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-[var(--muted)]">
-              A senior digital engineering, branding, and growth studio. We build custom software, Flutter apps, and commercial platforms for ambitious businesses worldwide.
+            <p className="om-ft-brand-desc">
+              A digital studio for websites, mobile apps, branding and growth. We design, build and market products for businesses worldwide &mdash; with direct access to the people doing the work.
             </p>
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-              <Link
-                href="/reviews"
-                className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--surface)] px-3.5 py-1.5 text-xs font-medium text-[var(--text)] transition-colors hover:border-[var(--accent)]"
+            <Link
+              href="/reviews"
+              className="om-ft-leadership-badge"
+              style={{ textDecoration: 'none' }}
+            >
+              <span className="om-pulse-dot" />
+              <span>Read client reviews</span>
+            </Link>
+            <div className="om-ft-location-pill">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
               >
-                <span className="h-2 w-2 rounded-full bg-[var(--emerald)]" />
-                Read verified client reviews
-              </Link>
-              <span className="inline-flex items-center gap-1.5 text-xs text-[var(--muted)]">
-                <Globe className="h-3.5 w-3.5" />
-                Worldwide delivery
-              </span>
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span>Working with clients worldwide</span>
             </div>
           </div>
 
-          <div className="lg:col-span-3">
-            <h3 className="text-sm font-semibold text-[var(--text)]">Services</h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-[var(--muted)]">
-              {[
-                ['Custom web development', '/services#custom-web-development'],
-                ['Mobile apps (Flutter)', '/services#mobile-app-development'],
-                ['Website redesign', '/services#website-redesign-modernization'],
-                ['SaaS engineering', '/services#saas-product-engineering'],
-                ['Technical SEO', '/services#search-engine-optimization-seo'],
-                ['Social media & ads', '/services#social-media-marketing-ads'],
-                ['Branding & logos', '/services#branding-logo-graphic-design'],
-              ].map(([label, href]) => (
-                <li key={href}>
-                  <Link href={href} className="transition-colors hover:text-[var(--text)]">
-                    {label}
-                  </Link>
-                </li>
-              ))}
+          <div className="om-ft-col">
+            <h4 className="om-ft-col-title">Services</h4>
+            <ul className="om-ft-links">
+              <li><Link href="/services#custom-web-development">Custom web development</Link></li>
+              <li><Link href="/services#mobile-app-development">Mobile apps</Link></li>
+              <li><Link href="/services#website-redesign-modernization">Website redesign</Link></li>
+              <li><Link href="/services#saas-product-engineering">SaaS development</Link></li>
+              <li><Link href="/services#search-engine-optimization-seo">SEO</Link></li>
+              <li><Link href="/services#social-media-marketing-ads">Social media &amp; ads</Link></li>
+              <li><Link href="/services#branding-logo-graphic-design">Branding &amp; logo design</Link></li>
             </ul>
           </div>
 
-          <div className="lg:col-span-3">
-            <h3 className="text-sm font-semibold text-[var(--text)]">Ready-made platforms</h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-[var(--muted)]">
-              {footerProducts.map((prod) => (
-                <li key={prod.slug}>
-                  <Link
-                    href={`/portfolio/${prod.slug}`}
-                    className="inline-flex items-center gap-2 transition-colors hover:text-[var(--text)]"
-                  >
-                    <span>{prod.title}</span>
-                    {prod.price && (
-                      <span className="rounded-md bg-[var(--accent-soft)] px-1.5 py-0.5 font-mono text-[11px] font-semibold text-[var(--accent)] tabular-nums">
-                        {prod.price}
-                      </span>
-                    )}
+          <div className="om-ft-col">
+            <h4 className="om-ft-col-title">Ready-made platforms</h4>
+            <ul className="om-ft-links">
+              {footerProducts.slice(0, 3).map((ftp) => (
+                <li key={ftp.slug}>
+                  <Link href={`/portfolio/${ftp.slug}`}>
+                    {ftp.title}
+                    {ftp.price ? (
+                      <>
+                        {' '}
+                        <span className="om-ft-price">{ftp.price}</span>
+                      </>
+                    ) : null}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link
-                  href="/contact?kind=software_presale&offering=Customize+Ready-Made+Software"
-                  className="transition-colors hover:text-[var(--text)]"
-                >
+                <Link href="/contact?kind=custom_tailoring&offering=Customize+Ready-Made+Software">
                   Request customization
                 </Link>
               </li>
               <li>
-                <Link href="/software" className="font-medium text-[var(--accent)] hover:underline">
-                  Browse all platforms →
-                </Link>
+                <Link href="/software">Browse all platforms</Link>
               </li>
             </ul>
           </div>
 
-          <div className="lg:col-span-2">
-            <h3 className="text-sm font-semibold text-[var(--text)]">Company</h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-[var(--muted)]">
-              {[
-                ['Our work', '/portfolio'],
-                ['Packages & pricing', '/packages'],
-                ['Client reviews', '/reviews'],
-                ['About Creatsify', '/about'],
-                ['Blog', '/blog'],
-                ['Script support', '/support'],
-                ['Contact us', '/contact'],
-                ['Privacy & terms', '/privacy'],
-              ].map(([label, href]) => (
-                <li key={href}>
-                  <Link href={href} className="transition-colors hover:text-[var(--text)]">
-                    {label}
-                  </Link>
-                </li>
-              ))}
+          <div className="om-ft-col">
+            <h4 className="om-ft-col-title">Company</h4>
+            <ul className="om-ft-links">
+              <li><Link href="/portfolio">Our work</Link></li>
+              <li><Link href="/packages">Packages &amp; pricing</Link></li>
+              <li><Link href="/reviews">Client reviews</Link></li>
+              <li><Link href="/about">About Creatsify</Link></li>
+              <li><Link href="/blog">Blog</Link></li>
+              <li><Link href="/support">Support</Link></li>
+              <li><Link href="/contact">Contact us</Link></li>
+              <li><Link href="/privacy">Privacy &amp; terms</Link></li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Copyright Bar */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-[var(--line)] pt-7 text-xs text-[var(--muted)] sm:flex-row">
-          <p>&copy; {new Date().getFullYear()} Creatsify Digital Agency. All rights reserved.</p>
-          <button
-            type="button"
-            onClick={scrollToTop}
-            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--surface)] px-3.5 py-1.5 text-xs font-medium text-[var(--text)] transition-colors hover:border-[var(--accent)] active:scale-95 cursor-pointer"
+        {/* Sub-Footer Bottom Bar */}
+        <div className="om-ft-bottom-bar">
+          <div
+            className="om-ft-copyright"
+            style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}
           >
-            <span>Back to top</span>
-            <ArrowUp className="h-3.5 w-3.5" />
-          </button>
+            <Link
+              href="/"
+              aria-label="Creatsify Home"
+              style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}
+            >
+              <img
+                src="/assets/brand/creatsify-logo-dark.svg"
+                height={26}
+                alt="Creatsify"
+                style={{ height: '26px', width: 'auto', display: 'block' }}
+              />
+            </Link>
+            <span>&copy; {year} Creatsify. All rights reserved.</span>
+          </div>
+          <div className="om-ft-bottom-right">
+            <a className="om-ft-top-btn" href="#top" aria-label="Back to top">
+              <span>Back to top</span>
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <polyline points="18 15 12 9 6 15" />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </footer>

@@ -22,8 +22,8 @@ export function WorkShowcaseSection({
   categories,
   initialCategory = 'web-dev',
   showViewAllButton = true,
-  heading = "Projects we're proud of",
-  subcopy = 'Selected websites, mobile apps, SaaS platforms, redesigns, and growth systems — click Preview to inspect or open live.',
+  heading = 'Selected Work',
+  subcopy = 'Click Preview to inspect any project, or open live builds directly.',
 }: WorkShowcaseSectionProps) {
   const categoryEntries = Object.entries(categories);
   const firstKey = categoryEntries[0]?.[0] || 'web-dev';
@@ -35,21 +35,43 @@ export function WorkShowcaseSection({
 
   const filtered = projects.filter((pr) => pr.category === activeCat);
 
+  // Adaptive grid columns so 2-item categories fill 100% cleanly without leaving a dead right-side hole,
+  // while 3-item and 4+-item categories showcase 3 to 4 cards per row on desktop.
+  const gridColsClass =
+    filtered.length <= 1
+      ? 'grid-cols-1 max-w-2xl mx-auto'
+      : filtered.length === 2
+      ? 'grid-cols-1 md:grid-cols-2'
+      : filtered.length === 3
+      ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+      : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4';
+
   return (
-    <section id="work" className="py-20 lg:py-28">
-      <div className="mx-auto max-w-[1280px] px-5 sm:px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-4xl">
-            {heading}
-          </h2>
-          <p className="mt-3 text-[15.5px] leading-relaxed text-[var(--muted)]">{subcopy}</p>
+    <section id="work" className="py-16 lg:py-24">
+      <div className="mx-auto max-w-[1220px] px-5 sm:px-6">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div>
+            <h2 className="font-display text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-4xl">
+              {heading}
+            </h2>
+            <p className="mt-2 text-[15px] text-[var(--muted)]">{subcopy}</p>
+          </div>
+          {showViewAllButton && (
+            <Link
+              href="/portfolio"
+              className="inline-flex shrink-0 items-center gap-1.5 font-display text-sm font-bold text-[var(--accent)] hover:underline"
+            >
+              <span>Full archive</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          )}
         </div>
 
-        {/* 7 Official Discipline Filter Tabs (Web Design & Development First — No All Work) */}
+        {/* 7 Official Discipline Filter Tabs — Web Design & Development First, No "All Work" */}
         <div
           role="group"
           aria-label="Filter case studies by discipline"
-          className="mt-8 flex flex-wrap items-center justify-center gap-2"
+          className="mt-7 flex flex-wrap items-center gap-2"
         >
           {categoryEntries.map(([key, label]) => {
             const active = activeCat === key;
@@ -81,11 +103,8 @@ export function WorkShowcaseSection({
           })}
         </div>
 
-        {/* 3-to-4 Column Desktop Showcase Grid */}
-        <motion.div
-          layout
-          className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-        >
+        {/* Adaptive Showcase Grid */}
+        <motion.div layout className={`mt-8 grid gap-5 ${gridColsClass}`}>
           <AnimatePresence mode="popLayout">
             {filtered.map((project) => {
               const showLive = hasValidLiveUrl(project.live_url);
@@ -95,23 +114,24 @@ export function WorkShowcaseSection({
                 <motion.article
                   layout
                   key={project.slug}
-                  initial={{ opacity: 0, scale: 0.96, y: 10 }}
+                  initial={{ opacity: 0, scale: 0.97, y: 8 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
-                  onClick={() => setTouchedSlug((prev) => (prev === project.slug ? null : project.slug))}
-                  className="group relative aspect-[4/3] min-h-[300px] overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[#0b0e16] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-cyan-400/55 hover:shadow-[0_22px_54px_-16px_rgba(0,210,238,0.28)]"
+                  transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+                  onClick={() =>
+                    setTouchedSlug((prev) => (prev === project.slug ? null : project.slug))
+                  }
+                  className="group relative aspect-[16/10] min-h-[280px] overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[var(--surface)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[var(--shadow-elevated)]"
                 >
-                  {/* Clean Full-Bleed Screenshot */}
                   {project.image_resolved ? (
                     <img
                       src={project.image_resolved}
                       alt={project.title}
-                      loading="lazy"
+                      loading="eager"
                       className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                     />
                   ) : (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[#0d1019] text-slate-400">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[var(--bg-subtle)] text-[var(--muted)]">
                       <Monitor className="h-8 w-8" />
                       <span className="text-sm font-medium">{project.title}</span>
                     </div>
@@ -127,19 +147,45 @@ export function WorkShowcaseSection({
                     <span className="h-2 w-2 rounded-full bg-[#27c93f]" />
                   </div>
 
-                  {/* Software Price Pill if applicable */}
                   {project.is_software && project.price && (
                     <span className="absolute right-4 top-4 z-20 rounded-full border border-emerald-400/30 bg-[#080a10]/80 px-2.5 py-1 font-mono text-[11px] font-semibold text-emerald-300 backdrop-blur-md tabular-nums">
                       {project.price}
                     </span>
                   )}
 
-                  {/* Progressive Hover / Focus / Touch Frosted Overlay */}
+                  {/* Always-Visible Editorial Bottom Scrim & Title (Expands Smoothly on Hover/Tap) */}
                   <div
-                    className={`absolute inset-0 z-10 flex flex-col justify-end bg-gradient-to-t from-[#06080f]/95 via-[#06080f]/78 to-[#06080f]/10 p-5 backdrop-blur-[3px] transition-[opacity,transform] duration-250 ease-out ${
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-32 bg-gradient-to-t from-[#06080f]/92 via-[#06080f]/45 to-transparent transition-opacity duration-300 group-hover:opacity-0"
+                  />
+                  <div
+                    className={`pointer-events-none absolute bottom-4 left-4 right-4 z-[6] flex items-end justify-between gap-3 transition-[opacity,transform] duration-250 ${
                       isRevealed
-                        ? 'opacity-100 translate-y-0'
-                        : 'opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0'
+                        ? 'translate-y-2 opacity-0'
+                        : 'translate-y-0 opacity-100 group-focus-within:translate-y-2 group-focus-within:opacity-0 group-hover:translate-y-2 group-hover:opacity-0'
+                    }`}
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate font-display text-[15.5px] font-bold text-white drop-shadow-sm">
+                        {project.title}
+                      </p>
+                      <p className="truncate text-[11.5px] font-medium text-slate-300/90">
+                        {project.subcategory || project.category_label}
+                      </p>
+                    </div>
+                    {project.outcome_metric && (
+                      <span className="shrink-0 rounded-full border border-cyan-400/30 bg-[#06080f]/80 px-2.5 py-1 font-mono text-[10.5px] font-semibold text-cyan-300 backdrop-blur-md">
+                        {project.outcome_metric}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Progressive Hover / Focus / Touch Frosted Action Overlay */}
+                  <div
+                    className={`absolute inset-0 z-10 flex flex-col justify-end bg-gradient-to-t from-[#06080f]/96 via-[#06080f]/80 to-[#06080f]/25 p-5 backdrop-blur-[2px] transition-[opacity,transform] duration-250 ease-out ${
+                      isRevealed
+                        ? 'translate-y-0 opacity-100'
+                        : 'translate-y-2 opacity-0 group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100'
                     }`}
                   >
                     {project.outcome_metric && (
@@ -148,7 +194,7 @@ export function WorkShowcaseSection({
                       </span>
                     )}
 
-                    <h3 className="font-display text-[17px] font-bold leading-snug text-white">
+                    <h3 className="font-display text-lg font-bold leading-snug text-white">
                       <Link
                         href={`/portfolio/${project.slug}`}
                         onClick={(e) => e.stopPropagation()}
@@ -158,7 +204,6 @@ export function WorkShowcaseSection({
                       </Link>
                     </h3>
 
-                    {/* Category-Aware Action Buttons */}
                     <div className="mt-4 flex flex-wrap items-center gap-2">
                       {project.category === 'web-dev' && showLive ? (
                         <a
@@ -166,7 +211,7 @@ export function WorkShowcaseSection({
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#00D2EE] px-3.5 py-2 font-display text-xs font-bold text-[#041021] transition-transform hover:brightness-110 active:scale-95"
+                          className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#00D2EE] px-4 py-2 font-display text-xs font-bold text-[#041021] transition-transform hover:brightness-110 active:scale-95"
                         >
                           <ExternalLink className="h-3.5 w-3.5" />
                           <span>Live Site</span>
@@ -178,7 +223,7 @@ export function WorkShowcaseSection({
                             e.stopPropagation();
                             setLightboxProject(project);
                           }}
-                          className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#00D2EE] px-3.5 py-2 font-display text-xs font-bold text-[#041021] transition-transform hover:brightness-110 active:scale-95 cursor-pointer"
+                          className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#00D2EE] px-4 py-2 font-display text-xs font-bold text-[#041021] transition-transform hover:brightness-110 active:scale-95 cursor-pointer"
                         >
                           <Eye className="h-3.5 w-3.5" />
                           <span>Preview</span>
@@ -215,7 +260,7 @@ export function WorkShowcaseSection({
                       <Link
                         href={`/portfolio/${project.slug}`}
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-2 font-display text-xs font-semibold text-white transition-colors hover:bg-white/20 active:scale-95"
+                        className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-2 font-display text-xs font-semibold text-white transition-colors hover:bg-white/20 active:scale-95"
                       >
                         <span>Details</span>
                         <ArrowRight className="h-3.5 w-3.5" />
@@ -229,19 +274,10 @@ export function WorkShowcaseSection({
         </motion.div>
 
         {filtered.length === 0 && (
-          <div className="mt-10 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-10 text-center text-sm text-[var(--muted)]">
-            New case studies for this discipline are being prepared.{' '}
+          <div className="mt-8 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-10 text-center text-sm text-[var(--muted)]">
+            Private case studies available on request.{' '}
             <Link href="/contact" className="font-semibold text-[var(--accent)] hover:underline">
-              Request private samples →
-            </Link>
-          </div>
-        )}
-
-        {showViewAllButton && (
-          <div className="mt-10 text-center">
-            <Link href="/portfolio" className="btn-ghost">
-              <span>Explore full portfolio archive</span>
-              <ArrowRight className="h-4 w-4" />
+              Ask our team →
             </Link>
           </div>
         )}

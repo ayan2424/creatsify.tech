@@ -19,7 +19,8 @@ export default async function PackagesPage() {
     <div className="pt-6">
       <PackagesAndEstimatorSection
         packagesByTrack={data.packages_by_track}
-        showCompareLink={false}
+        showEstimator={true}
+        showCompareButton={false}
       />
     </div>
   );

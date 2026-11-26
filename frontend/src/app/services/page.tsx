@@ -41,15 +41,14 @@ export default async function ServicesPage() {
               className="scroll-mt-24 flex flex-col justify-between rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-7 transition-colors hover:border-[var(--line-strong)]"
             >
               <div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-xs font-semibold text-[var(--accent)] tabular-nums">
-                    {String(idx + 1).padStart(2, '0')} / DISCIPLINE
+                <div className="flex items-baseline gap-3">
+                  <span className="font-mono text-sm font-semibold text-[var(--accent)] tabular-nums">
+                    {String(idx + 1).padStart(2, '0')}
                   </span>
+                  <h2 className="font-display text-2xl font-bold text-[var(--text)]">
+                    {svc.title}
+                  </h2>
                 </div>
-
-                <h2 className="mt-3 font-display text-2xl font-bold text-[var(--text)]">
-                  {svc.title}
-                </h2>
                 <p className="mt-3 text-[15px] leading-relaxed text-[var(--muted)]">
                   {svc.full_description || svc.short_description}
                 </p>

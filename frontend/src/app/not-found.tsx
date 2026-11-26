@@ -1,29 +1,27 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Home } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="mx-auto flex min-h-[62vh] max-w-xl flex-col items-center justify-center px-5 py-20 text-center">
-      <span className="rounded-full border border-[var(--line-strong)] bg-[var(--surface)] px-3.5 py-1 font-mono text-xs font-semibold text-[var(--accent)]">
-        404 · Page not found
-      </span>
-      <h1 className="mt-5 font-display text-3xl font-extrabold text-[var(--text)] sm:text-4xl">
-        This page doesn&apos;t exist
+    <section className="mx-auto flex min-h-[65vh] max-w-[920px] flex-col items-center justify-center px-5 py-24 text-center sm:px-6">
+      <p className="font-mono text-sm font-semibold text-[var(--accent)] tabular-nums">404</p>
+      <h1 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-5xl">
+        Page not found
       </h1>
-      <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
-        The link may have moved or the URL was mistyped. Jump back to the studio homepage or browse our shipped portfolio.
+      <p className="mt-4 max-w-md text-[15.5px] leading-relaxed text-[var(--muted)]">
+        The page you&apos;re looking for may have moved or no longer exists. Jump back to our studio showcase or reach out directly.
       </p>
-      <div className="mt-7 flex flex-wrap justify-center gap-3">
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <Link href="/" className="btn-brand">
-          <Home className="h-4 w-4" />
-          <span>Return Home</span>
-        </Link>
-        <Link href="/portfolio" className="btn-ghost">
           <ArrowLeft className="h-4 w-4" />
-          <span>Explore Work</span>
+          <span>Back to Home</span>
+        </Link>
+        <Link href="/contact" className="btn-ghost">
+          <span>Start a Project</span>
+          <ArrowUpRight className="h-4 w-4" />
         </Link>
       </div>
-    </div>
+    </section>
   );
 }

@@ -98,7 +98,8 @@ export default async function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body className="min-h-screen antialiased">
-        <div className="creatsify-ambient-bg" aria-hidden="true" />
+        <div className="bg" aria-hidden="true" />
+        <div className="vg" aria-hidden="true" />
         <Providers>
           <ScrollProgress />
           <Header />

@@ -2,205 +2,239 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import {
+  ArrowRight,
   ArrowUpRight,
+  Check,
   Code2,
-  Layers,
-  Layout,
   PenTool,
-  Search,
-  ShoppingBag,
   Smartphone,
   TrendingUp,
 } from 'lucide-react';
 import type { ServiceItem } from '@/types/creatsify';
+import { SpotlightCard } from '@/components/ui/SpotlightCard';
+import { Magnetic } from '@/components/ui/Magnetic';
 
-type FilterKey = 'all' | 'engineering' | 'creative' | 'growth';
-
-const FILTER_TABS: Array<{ key: FilterKey; label: string }> = [
-  { key: 'all', label: 'All capabilities' },
-  { key: 'engineering', label: 'Web & Mobile Apps' },
-  { key: 'creative', label: 'Branding & Redesign' },
-  { key: 'growth', label: 'SEO & Paid Ads' },
+const STUDIO_PILLARS = [
+  {
+    id: 'web',
+    num: '01',
+    title: 'Web Platforms & SaaS',
+    tagline: 'Zero-bloat Next.js, PHP 8.4 MVC & multi-tenant web applications.',
+    metric: '99/100 Core Web Vitals',
+    deliverables: [
+      'Custom SaaS & Admin Dashboards',
+      'E-Commerce & POS Storefronts',
+      'Normalized MySQL & REST APIs',
+    ],
+    stack: ['Next.js', 'PHP 8.4', 'Node.js', 'Tailwind v4', 'MySQL 8'],
+    icon: Code2,
+  },
+  {
+    id: 'mobile',
+    num: '02',
+    title: 'Flutter Mobile Apps',
+    tagline: '60fps native-speed iOS & Android apps from one unified Dart codebase.',
+    metric: '4.9★ Store Launches',
+    deliverables: [
+      'iOS & Android Consumer & Fleet Apps',
+      'Live GPS Tracking & Push Alerts',
+      'App Store & Play Store Publishing',
+    ],
+    stack: ['Flutter', 'Dart', 'Firebase', 'REST APIs', 'WebSockets'],
+    icon: Smartphone,
+  },
+  {
+    id: 'brand',
+    num: '03',
+    title: 'Brand Identity & UI/UX Redesign',
+    tagline: 'Modern interface overhauls and distinct identities built to convert.',
+    metric: '+184% Conversion Lift',
+    deliverables: [
+      'Website UX & CRO Overhauls',
+      'Master Vector Logos & Brand Books',
+      'Interactive Figma Design Systems',
+    ],
+    stack: ['Figma', 'Brand Systems', 'CRO Funnels', 'Motion UI'],
+    icon: PenTool,
+  },
+  {
+    id: 'growth',
+    num: '04',
+    title: 'Technical SEO & Paid Growth',
+    tagline: 'Compounding organic search rankings paired with tracked ad scale.',
+    metric: '3.8x Verified Ad ROAS',
+    deliverables: [
+      'Technical SEO & JSON-LD Schema',
+      'Meta (FB/IG), Google & TikTok Ads',
+      'Pixel / CAPI Attribution & Creatives',
+    ],
+    stack: ['Technical SEO', 'Meta CAPI', 'Google Ads', 'Analytics'],
+    icon: TrendingUp,
+  },
 ];
 
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
-  code: Code2,
-  smartphone: Smartphone,
-  layout: Layout,
-  layers: Layers,
-  search: Search,
-  'trending-up': TrendingUp,
-  'pen-tool': PenTool,
-  'shopping-bag': ShoppingBag,
-};
-
-function trackForSlug(slug: string): FilterKey {
-  if (
-    slug.includes('branding') ||
-    slug.includes('redesign') ||
-    slug.includes('logo')
-  ) {
-    return 'creative';
-  }
-  if (slug.includes('seo') || slug.includes('marketing') || slug.includes('ads')) {
-    return 'growth';
-  }
-  return 'engineering';
-}
-
 export function ServicesSection({
-  services,
   onSelectOffering,
 }: {
-  services: ServiceItem[];
+  services?: ServiceItem[];
   onSelectOffering?: (offering: string) => void;
 }) {
-  const [filter, setFilter] = useState<FilterKey>('all');
-
-  const visible = services.filter((svc) =>
-    filter === 'all' ? true : trackForSlug(svc.slug) === filter
-  );
+  const [activeId, setActiveId] = useState<string>('web');
+  const active = STUDIO_PILLARS.find((p) => p.id === activeId) || STUDIO_PILLARS[0];
+  const ActiveIcon = active.icon;
 
   return (
-    <section id="services" className="py-20 lg:py-28">
+    <section
+      id="services"
+      className="border-y border-[var(--line)] bg-[var(--bg-subtle)] py-16 lg:py-24"
+    >
       <div className="mx-auto max-w-[1220px] px-5 sm:px-6">
-        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-          <div className="max-w-2xl">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div>
             <h2 className="font-display text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-4xl">
-              Everything you need to launch and grow online
+              Four disciplines. One senior team.
             </h2>
-            <p className="mt-3 text-[15.5px] leading-relaxed text-[var(--muted)]">
-              Work with one unified engineering, design, and growth team — so your codebase, brand identity, and acquisition funnel reinforce each other without hand-off delays.
+            <p className="mt-2 text-[15px] text-[var(--muted)]">
+              Hover or tap a capability to inspect deliverables — no agencies to coordinate.
             </p>
           </div>
-
-          <div
-            role="group"
-            aria-label="Filter agency capabilities"
-            className="flex flex-wrap gap-1.5 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-1.5"
+          <Link
+            href="/services"
+            className="inline-flex shrink-0 items-center gap-1.5 font-display text-sm font-bold text-[var(--accent)] hover:underline"
           >
-            {FILTER_TABS.map((tab) => {
-              const active = filter === tab.key;
+            <span>All 8 capabilities</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        {/* Clean Split-Index — Replaces 2,200px 8-Box Wall */}
+        <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:items-center">
+          {/* Left: Architectural Hairline Track List */}
+          <div className="divide-y divide-[var(--line)] border-y border-[var(--line)] lg:col-span-6">
+            {STUDIO_PILLARS.map((pillar) => {
+              const isActive = pillar.id === activeId;
               return (
                 <button
-                  key={tab.key}
+                  key={pillar.id}
                   type="button"
-                  onClick={() => setFilter(tab.key)}
-                  aria-pressed={active}
-                  className={`relative rounded-xl px-3.5 py-2 text-xs font-semibold transition-colors cursor-pointer sm:text-[13px] ${
-                    active ? 'text-[var(--on-accent)]' : 'text-[var(--muted)] hover:text-[var(--text)]'
+                  onClick={() => setActiveId(pillar.id)}
+                  onMouseEnter={() => setActiveId(pillar.id)}
+                  className={`group relative flex w-full items-center justify-between gap-4 py-5 pl-4 text-left transition-colors cursor-pointer ${
+                    isActive ? 'text-[var(--text)]' : 'text-[var(--muted)] hover:text-[var(--text)]'
                   }`}
                 >
-                  {active && (
+                  {isActive && (
                     <motion.span
-                      layoutId="service-filter-pill"
+                      layoutId="service-active-bar"
                       transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                      className="absolute inset-0 -z-0 rounded-xl bg-[var(--accent)]"
+                      className="absolute bottom-3 left-0 top-3 w-[2.5px] rounded-full bg-[var(--accent)]"
                     />
                   )}
-                  <span className="relative z-10">{tab.label}</span>
+                  <div className="flex items-baseline gap-4">
+                    <span
+                      className={`font-mono text-xs font-semibold tabular-nums transition-colors ${
+                        isActive ? 'text-[var(--accent)]' : 'opacity-60'
+                      }`}
+                    >
+                      {pillar.num}
+                    </span>
+                    <span className="font-display text-xl font-bold tracking-tight sm:text-2xl">
+                      {pillar.title}
+                    </span>
+                  </div>
+                  <ArrowRight
+                    className={`h-5 w-5 shrink-0 transition-transform duration-200 ${
+                      isActive
+                        ? 'translate-x-0 text-[var(--accent)] opacity-100'
+                        : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-60'
+                    }`}
+                  />
                 </button>
               );
             })}
           </div>
-        </div>
 
-        {/* Asymmetric Editorial Bento Grid (avoids uniform 3-column template) */}
-        <motion.div layout className="mt-10 grid gap-5 md:grid-cols-12">
-          <AnimatePresence mode="popLayout">
-            {visible.map((svc, idx) => {
-              const Icon = ICON_MAP[svc.icon || 'code'] || Code2;
-              const deliverables = (svc.deliverables || '')
-                .split(',')
-                .map((d) => d.trim())
-                .filter(Boolean)
-                .slice(0, 4);
-
-              // Asymmetric bento spans when viewing all capabilities
-              const spanClass =
-                filter === 'all'
-                  ? idx === 0 || idx === 3
-                    ? 'md:col-span-7'
-                    : idx === 1 || idx === 2
-                    ? 'md:col-span-5'
-                    : 'md:col-span-6'
-                  : 'md:col-span-6';
-
-              return (
-                <motion.article
-                  layout
-                  key={svc.slug}
-                  initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                  className={`group flex flex-col justify-between rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 transition-[border-color,background-color] duration-200 hover:border-[var(--line-strong)] hover:bg-[var(--surface-elevated)] sm:p-7 ${spanClass}`}
-                >
-                  <div>
+          {/* Right: Morphing Spotlight Focus Theater */}
+          <div className="lg:col-span-6">
+            <SpotlightCard active className="rounded-2xl p-7 sm:p-8">
+              <div className="relative z-10">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={active.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                  >
                     <div className="flex items-center justify-between gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--line-strong)] bg-[var(--bg-subtle)] text-[var(--accent)]">
-                        <Icon className="h-5 w-5" />
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
+                        <ActiveIcon className="h-5 w-5" />
                       </div>
-                      <span className="font-mono text-xs font-medium text-[var(--muted)] tabular-nums">
-                        {String(idx + 1).padStart(2, '0')}
+                      <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs font-semibold text-[var(--emerald)] tabular-nums">
+                        {active.metric}
                       </span>
                     </div>
 
-                    <h3 className="mt-5 font-display text-xl font-bold text-[var(--text)]">
-                      {svc.title}
+                    <h3 className="mt-5 font-display text-2xl font-bold text-[var(--text)]">
+                      {active.title}
                     </h3>
-                    <p className="mt-2.5 text-[14.5px] leading-relaxed text-[var(--muted)]">
-                      {svc.short_description}
+                    <p className="mt-2 text-[15px] leading-relaxed text-[var(--muted)]">
+                      {active.tagline}
                     </p>
 
-                    {deliverables.length > 0 && (
-                      <div className="mt-5 flex flex-wrap gap-1.5">
-                        {deliverables.map((item) => (
-                          <span
-                            key={item}
-                            className="rounded-lg border border-[var(--line)] bg-[var(--bg-subtle)] px-2.5 py-1 text-[12px] font-medium text-[var(--muted)]"
+                    <ul className="mt-5 space-y-2.5 border-t border-[var(--line)] pt-5 text-sm font-medium text-[var(--text)]">
+                      {active.deliverables.map((item) => (
+                        <li key={item} className="flex items-center gap-2.5">
+                          <Check className="h-4 w-4 shrink-0 text-[var(--emerald)]" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-5 flex flex-wrap gap-1.5">
+                      {active.stack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="rounded-md border border-[var(--line)] bg-[var(--bg-subtle)] px-2.5 py-1 font-mono text-[11px] font-medium text-[var(--muted)]"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 flex flex-wrap items-center gap-3">
+                      <Magnetic strength={0.22}>
+                        {onSelectOffering ? (
+                          <button
+                            type="button"
+                            onClick={() => onSelectOffering(active.title)}
+                            className="btn-brand"
                           >
-                            {item}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-6 flex items-center justify-between border-t border-[var(--line)] pt-4">
-                    {onSelectOffering ? (
-                      <button
-                        type="button"
-                        onClick={() => onSelectOffering(svc.title)}
-                        className="inline-flex items-center gap-1.5 font-display text-[13.5px] font-bold text-[var(--accent)] transition-transform group-hover:translate-x-0.5 cursor-pointer"
-                      >
-                        <span>Plan this project</span>
-                        <ArrowUpRight className="h-4 w-4" />
-                      </button>
-                    ) : (
-                      <Link
-                        href={`/contact?offering=${encodeURIComponent(svc.title)}`}
-                        className="inline-flex items-center gap-1.5 font-display text-[13.5px] font-bold text-[var(--accent)] transition-transform group-hover:translate-x-0.5"
-                      >
-                        <span>Plan this project</span>
-                        <ArrowUpRight className="h-4 w-4" />
+                            <span>Start this project</span>
+                            <ArrowUpRight className="h-4 w-4" />
+                          </button>
+                        ) : (
+                          <Link
+                            href={`/contact?offering=${encodeURIComponent(active.title)}`}
+                            className="btn-brand"
+                          >
+                            <span>Start this project</span>
+                            <ArrowUpRight className="h-4 w-4" />
+                          </Link>
+                        )}
+                      </Magnetic>
+                      <Link href="/services" className="btn-ghost">
+                        <span>Full scope</span>
                       </Link>
-                    )}
-
-                    <Link
-                      href={`/services#${svc.slug}`}
-                      className="text-xs font-medium text-[var(--muted)] hover:text-[var(--text)]"
-                    >
-                      Scope details
-                    </Link>
-                  </div>
-                </motion.article>
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </SpotlightCard>
+          </div>
+        </div>
       </div>
     </section>
   );

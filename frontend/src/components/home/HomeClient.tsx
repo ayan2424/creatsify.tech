@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import type { HomePayload } from '@/types/creatsify';
 import { HeroSection } from './HeroSection';
-import { ArsenalAndProof } from './ArsenalAndProof';
+import { ArsenalAndFactsSection } from './ArsenalAndFactsSection';
 import { ServicesSection } from './ServicesSection';
 import { WorkShowcaseSection } from './WorkShowcaseSection';
-import { WhyAndCompareSection } from './WhyAndCompareSection';
+import { WhyCreatsifySection } from './WhyCreatsifySection';
 import { PackagesAndEstimatorSection } from './PackagesAndEstimatorSection';
 import { ReadyMadeSoftwareSection } from './ReadyMadeSoftwareSection';
 import { WorkflowSection } from './WorkflowSection';
@@ -27,45 +27,64 @@ export function HomeClient({ data }: { data: HomePayload }) {
   };
 
   const workProjects =
-    data.portfolio_works.length > 0 ? data.portfolio_works : data.projects;
+    data.projects.length > 0 ? data.projects : data.portfolio_works;
 
   return (
     <>
+      {/* Stage 1: Exact PHP Hero */}
       <HeroSection
         avgRating={data.review_stats.avg_rating || '4.9'}
         totalReviews={data.review_stats.total || 8}
         whatsappNumber={data.site.whatsapp_number}
       />
 
-      <ArsenalAndProof avgRating={data.review_stats.avg_rating || '4.9'} />
+      {/* Stage 2: Exact PHP Arsenal Carousel & Facts Proof Bar */}
+      <ArsenalAndFactsSection avgRating={data.review_stats.avg_rating || '4.9'} />
 
+      {/* Stage 3: KEPT NEW — Four disciplines. One senior team. */}
       <ServicesSection
         services={data.services}
-        onSelectOffering={(title) => handleSelectOffering(title)}
+        onSelectOffering={(title) =>
+          handleSelectOffering(
+            title,
+            `Hello Creatsify! I am interested in ${title}. Please share next steps.`
+          )
+        }
       />
 
+      {/* Stage 4: KEPT NEW — Selected Work Card Design & Lightbox */}
       <WorkShowcaseSection
         projects={workProjects}
         categories={data.categories}
         initialCategory="web-dev"
       />
 
-      <WhyAndCompareSection />
+      {/* Stage 5: Exact PHP Why Creatsify + Comparison Table */}
+      <WhyCreatsifySection />
 
+      {/* Stage 6: Exact PHP Transparent Packages + Scope Estimator */}
       <PackagesAndEstimatorSection
         packagesByTrack={data.packages_by_track}
         onSelectOffering={handleSelectOffering}
+        showEstimator={true}
+        showCompareButton={true}
       />
 
+      {/* Stage 7: Exact PHP Ready-Made Commercial Software Platforms */}
       <ReadyMadeSoftwareSection
         products={data.ready_made_products}
-        onSelectOffering={(title) => handleSelectOffering(title)}
+        onSelectOffering={handleSelectOffering}
+        showBrowseAll={true}
+        limit={6}
       />
 
+      {/* Stage 8: Exact PHP 4-Step Agency Workflow */}
       <WorkflowSection />
 
+      {/* Stage 9: Exact PHP Verified Client Reviews Dual-Row Marquee */}
       <ReviewsMarqueeSection reviews={data.reviews} stats={data.review_stats} />
 
+      {/* Stage 10: Exact PHP Direct Consultation & WhatsApp Hub */}
       <ContactSection
         whatsappNumber={data.site.whatsapp_number}
         packagesByTrack={data.packages_by_track}

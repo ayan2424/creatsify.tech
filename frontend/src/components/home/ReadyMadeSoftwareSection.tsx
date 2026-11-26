@@ -2,152 +2,174 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Check, ExternalLink, ShoppingBag, Sliders } from 'lucide-react';
 import type { ProjectItem } from '@/types/creatsify';
 import { hasValidLiveUrl } from '@/lib/utils';
 
 interface ReadyMadeSoftwareProps {
   products: ProjectItem[];
-  onSelectOffering?: (offering: string) => void;
+  onSelectOffering?: (offering: string, note?: string) => void;
   showBrowseAll?: boolean;
+  limit?: number;
 }
 
 export function ReadyMadeSoftwareSection({
   products,
   onSelectOffering,
   showBrowseAll = true,
+  limit = 6,
 }: ReadyMadeSoftwareProps) {
-  if (products.length === 0) return null;
+  const visible = limit ? products.slice(0, limit) : products;
+  if (visible.length === 0) return null;
 
   return (
-    <section
-      id="products"
-      className="relative overflow-hidden border-y border-white/10 bg-[#07090f] py-20 text-slate-100 lg:py-28"
-    >
-      <div className="mx-auto max-w-[1220px] px-5 sm:px-6">
-        <div className="max-w-2xl">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            Launch in days with a ready-made commercial platform
-          </h2>
-          <p className="mt-3 text-[15.5px] leading-relaxed text-slate-400">
-            License our tested white-label software directly on Gumroad with 100% unlocked source code and first-party support — or have our senior engineers tailor it to your exact business workflow.
+    <section id="products" className="om-dark-showcase">
+      <div className="wrap">
+        <div className="om-showcase-header">
+          <div className="om-sec-tag dark">
+            <span className="om-sec-dot" /> Ready-made platforms
+          </div>
+          <h2 className="om-sec-heading light">Launch in days with a ready-made platform</h2>
+          <p className="om-sec-sub light">
+            Alongside custom builds, we offer tested commercial software.{' '}
+            <b>License a platform directly on Gumroad</b> with full source code, or{' '}
+            <b>have our team customize it</b> for your business.
           </p>
         </div>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {products.map((prod) => {
-            const showLive = hasValidLiveUrl(prod.live_url);
+        <div className="om-prod-grid">
+          {visible.map((pr) => {
+            const showLive = hasValidLiveUrl(pr.live_url);
+            const priceStr = pr.price || '';
+            const techList = pr.tech_list || [];
+
             return (
-              <article
-                key={prod.slug}
-                className="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0d111a] transition-[border-color,transform] duration-200 hover:-translate-y-1 hover:border-cyan-400/40"
-              >
-                {/* Frame with macOS Bar */}
-                <div className="border-b border-white/10 bg-[#090c14]">
-                  <div className="flex items-center justify-between px-4 py-2.5">
-                    <div className="flex items-center gap-1.5" aria-hidden="true">
-                      <span className="h-2 w-2 rounded-full bg-[#ff5f56]" />
-                      <span className="h-2 w-2 rounded-full bg-[#ffbd2e]" />
-                      <span className="h-2 w-2 rounded-full bg-[#27c93f]" />
+              <article key={pr.slug} className="om-prod-card">
+                <div className="om-prod-media-frame">
+                  <div className="om-prod-bar">
+                    <div className="om-prod-dots">
+                      <span className="dot d-red" />
+                      <span className="dot d-yellow" />
+                      <span className="dot d-green" />
                     </div>
-                    <span className="font-mono text-[11px] font-semibold text-cyan-300 tabular-nums">
-                      {prod.price ? `Direct: ${prod.price} · Or Customize` : 'Direct License'}
+                    <span className="om-prod-badge-price">
+                      {priceStr !== ''
+                        ? `Direct: ${priceStr} \u2022 Or Customize`
+                        : 'Custom quote available'}
                     </span>
                   </div>
-                  <div className="aspect-[16/10] w-full overflow-hidden bg-[#06080f]">
-                    {prod.image_resolved ? (
-                      <img
-                        src={prod.image_resolved}
-                        alt={prod.title}
-                        loading="lazy"
-                        className="h-full w-full object-cover object-top"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center text-sm text-slate-400">
-                        {prod.title}
+
+                  {pr.image_resolved ? (
+                    <img
+                      src={pr.image_resolved}
+                      width={1376}
+                      height={768}
+                      loading="eager"
+                      alt={pr.title}
+                      className="om-prod-img"
+                    />
+                  ) : (
+                    <div className="om-prod-cover">
+                      <div className="om-prod-cover-meta">
+                        <span className="om-prod-cover-badge">Ready to deploy</span>
+                        <b>{pr.title} Architecture</b>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
 
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center justify-between gap-2 text-xs">
-                    <span className="rounded-full bg-white/8 px-2.5 py-1 font-medium text-slate-300">
-                      {prod.subcategory || prod.category_label}
+                <div className="om-prod-body">
+                  <div className="om-prod-status-row">
+                    <span className="om-prod-pill">
+                      {pr.subcategory || 'Commercial Script'}
                     </span>
-                    <span className="inline-flex items-center gap-1 font-medium text-emerald-400">
-                      <Check className="h-3.5 w-3.5" />
-                      Full source code
-                    </span>
+                    <span className="om-prod-rights">&#10003; Full source code</span>
                   </div>
 
-                  <h3 className="mt-4 font-display text-xl font-bold text-white">
-                    <Link href={`/portfolio/${prod.slug}`} className="hover:text-cyan-300">
-                      {prod.title}
-                    </Link>
-                  </h3>
+                  <h3 className="om-prod-title">{pr.title}</h3>
+                  <p className="om-prod-desc">{pr.summary}</p>
 
-                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-400">
-                    {prod.summary}
-                  </p>
-
-                  {prod.tech_list.length > 0 && (
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {prod.tech_list.slice(0, 5).map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 font-mono text-[11px] text-slate-300"
-                        >
-                          {t}
-                        </span>
+                  {techList.length > 0 && (
+                    <div className="om-prod-chips">
+                      {techList.map((t) => (
+                        <span key={t}>{t}</span>
                       ))}
                     </div>
                   )}
 
-                  <div className="mt-6 flex flex-wrap gap-2 pt-2">
-                    {prod.gumroad_url && (
+                  <div className="om-prod-actions">
+                    {pr.gumroad_url && (
                       <a
-                        href={prod.gumroad_url}
+                        className="om-btn-gold"
+                        href={pr.gumroad_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#00D2EE] px-4 py-2.5 font-display text-xs font-bold text-[#041021] transition-transform hover:brightness-110 active:scale-95"
                       >
-                        <ShoppingBag className="h-3.5 w-3.5" />
-                        <span>Buy License {prod.price ? `(${prod.price})` : ''}</span>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                          <line x1="3" y1="6" x2="21" y2="6" />
+                          <path d="M16 10a4 4 0 0 1-8 0" />
+                        </svg>
+                        <span>
+                          {priceStr !== '' ? `Buy License (${priceStr})` : 'Buy License'}
+                        </span>
                       </a>
                     )}
 
                     {onSelectOffering ? (
                       <button
                         type="button"
-                        onClick={() => onSelectOffering(`Customize ${prod.title} For My Business`)}
-                        className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-2.5 font-display text-xs font-semibold text-white transition-colors hover:bg-white/15 active:scale-95 cursor-pointer"
+                        onClick={() =>
+                          onSelectOffering(
+                            `Customize ${pr.title} For My Business`,
+                            `Hello Creatsify! I would like to customize ${pr.title} for my business. Please share details.`
+                          )
+                        }
+                        className="om-btn-glass light"
+                        style={{ cursor: 'pointer' }}
                       >
-                        <Sliders className="h-3.5 w-3.5" />
-                        <span>Customize</span>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <path d="M12 20h9" />
+                          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                        </svg>
+                        <span>Customize for me</span>
                       </button>
                     ) : (
                       <Link
+                        className="om-btn-glass light"
                         href={`/contact?kind=software_presale&offering=${encodeURIComponent(
-                          `Customize ${prod.title}`
+                          `Customize ${pr.title} For My Business`
                         )}`}
-                        className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-2.5 font-display text-xs font-semibold text-white transition-colors hover:bg-white/15 active:scale-95"
                       >
-                        <Sliders className="h-3.5 w-3.5" />
-                        <span>Customize</span>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <path d="M12 20h9" />
+                          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                        </svg>
+                        <span>Customize for me</span>
                       </Link>
                     )}
 
-                    {showLive && (
+                    {showLive ? (
                       <a
-                        href={prod.live_url!}
+                        className="om-btn-glass light"
+                        href={pr.live_url!}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={`Live demo of ${prod.title}`}
-                        className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 p-2.5 text-cyan-300 transition-colors hover:bg-white/15"
                       >
-                        <ExternalLink className="h-3.5 w-3.5" />
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                        <span>Live Demo</span>
                       </a>
+                    ) : (
+                      <Link className="om-btn-glass light" href={`/portfolio/${pr.slug}`}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <circle cx="11" cy="11" r="8" />
+                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        <span>View details</span>
+                      </Link>
                     )}
                   </div>
                 </div>
@@ -157,13 +179,16 @@ export function ReadyMadeSoftwareSection({
         </div>
 
         {showBrowseAll && (
-          <div className="mt-10 text-center">
+          <div style={{ textAlign: 'center', marginTop: '40px' }}>
             <Link
               href="/software"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 font-display text-sm font-semibold text-white transition-colors hover:border-cyan-400/50 hover:bg-white/10"
+              className="om-btn-glass light"
+              style={{ display: 'inline-flex', padding: '12px 28px' }}
             >
-              <span>Browse all commercial platforms</span>
-              <ArrowUpRight className="h-4 w-4" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+              </svg>
+              <span>Browse all platforms</span>
             </Link>
           </div>
         )}

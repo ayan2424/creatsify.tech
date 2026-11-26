@@ -2,14 +2,14 @@
 
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'motion/react';
-import { ArrowUpRight, Check, Clock, Sparkles } from 'lucide-react';
 import type { PackageItem } from '@/types/creatsify';
 
 interface PackagesAndEstimatorProps {
   packagesByTrack: Record<string, PackageItem[]>;
   onSelectOffering?: (offering: string, note?: string) => void;
-  showCompareLink?: boolean;
+  showEstimator?: boolean;
+  compact?: boolean;
+  showCompareButton?: boolean;
 }
 
 const TRACK_TABS = [
@@ -19,17 +19,18 @@ const TRACK_TABS = [
 ];
 
 const BUNDLE_OPTIONS = [
-  { id: 'web', label: 'Website build or redesign', value: 'Custom Website / Redesign', price: 350, days: 7, defaultChecked: true },
-  { id: 'mobile', label: 'Mobile app (Flutter iOS & Android)', value: 'Flutter Mobile App (iOS & Android)', price: 750, days: 14, defaultChecked: false },
-  { id: 'brand', label: 'Logo & complete brand identity', value: 'Logo & Complete Brand Identity', price: 150, days: 3, defaultChecked: true },
-  { id: 'seo', label: 'Technical & On-Page SEO setup', value: 'Technical & On-Page SEO', price: 220, days: 5, defaultChecked: false },
-  { id: 'ads', label: 'Meta & Google Paid Ads setup', value: 'Meta & Google Paid Ads Setup', price: 250, days: 4, defaultChecked: false },
+  { id: 'web', value: 'Custom Website / Redesign', label: 'Website build or redesign', price: 350, days: 7, defaultChecked: true },
+  { id: 'mobile', value: 'Flutter Mobile App (iOS & Android)', label: 'Mobile app (Flutter)', price: 750, days: 14, defaultChecked: false },
+  { id: 'brand', value: 'Logo & Complete Brand Identity', label: 'Logo & brand identity', price: 150, days: 3, defaultChecked: true },
+  { id: 'seo', value: 'Technical & On-Page SEO', label: 'SEO setup', price: 220, days: 5, defaultChecked: false },
+  { id: 'ads', value: 'Meta & Google Paid Ads Setup', label: 'Social & paid ads', price: 250, days: 4, defaultChecked: false },
 ];
 
 export function PackagesAndEstimatorSection({
   packagesByTrack,
   onSelectOffering,
-  showCompareLink = true,
+  showEstimator = true,
+  showCompareButton = true,
 }: PackagesAndEstimatorProps) {
   const [activeTrack, setActiveTrack] = useState<string>('dev');
   const [selectedIds, setSelectedIds] = useState<string[]>(
@@ -41,9 +42,13 @@ export function PackagesAndEstimatorSection({
   const bundleSummary = useMemo(() => {
     const picked = BUNDLE_OPTIONS.filter((o) => selectedIds.includes(o.id));
     const rawTotal = picked.reduce((sum, item) => sum + item.price, 0);
-    const totalDays = picked.reduce((sum, item) => sum + item.days, 0);
-    const discountApplied = picked.length >= 2;
+    let maxDays = 5;
+    picked.forEach((item) => {
+      if (item.days > maxDays) maxDays = item.days;
+    });
+    const discountApplied = picked.length > 1;
     const finalTotal = discountApplied ? Math.round(rawTotal * 0.85) : rawTotal;
+    const totalDays = picked.length > 0 ? maxDays + (discountApplied ? 3 : 0) : 0;
     return { picked, rawTotal, finalTotal, totalDays, discountApplied };
   }, [selectedIds]);
 
@@ -54,32 +59,34 @@ export function PackagesAndEstimatorSection({
   };
 
   const handleRequestBundle = () => {
-    const names = bundleSummary.picked.map((p) => p.label).join(', ');
-    const summaryText = `Custom Bundle Request: ${names || 'Custom Scope'} (Estimated $${bundleSummary.finalTotal}, ~${bundleSummary.totalDays} days).`;
+    if (bundleSummary.picked.length === 0) return;
+    const names = bundleSummary.picked.map((p) => p.value);
+    const summaryStr = `Custom Agency Bundle ($${bundleSummary.finalTotal}): ${names.join(' + ')}`;
+    const msg = `I would like to lock in this Custom Multi-Service Bundle (Estimated $${bundleSummary.finalTotal}):\n- ${names.join('\n- ')}`;
     if (onSelectOffering) {
-      onSelectOffering('Custom Web Development', summaryText);
+      onSelectOffering(summaryStr, msg);
     } else {
-      window.location.href = `/contact?offering=${encodeURIComponent(
-        `Custom Bundle ($${bundleSummary.finalTotal})`
-      )}`;
+      window.location.href = `/contact?offering=${encodeURIComponent(summaryStr)}`;
     }
   };
 
   return (
-    <section id="packages" className="py-20 lg:py-28">
-      <div className="mx-auto max-w-[1220px] px-5 sm:px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-4xl">
-            Clear packages for every stage
-          </h2>
-          <p className="mt-3 text-[15.5px] leading-relaxed text-[var(--muted)]">
-            Pick a ready-to-start sprint package, or combine multiple disciplines below for an automatic 15% bundle saving.
+    <section id="packages" className="ag-packages-sec">
+      <div className="wrap">
+        <div className="om-sec-center">
+          <div className="om-sec-tag">
+            <span className="om-sec-dot" /> Transparent pricing
+          </div>
+          <h2 className="om-sec-heading">Clear packages for every stage</h2>
+          <p className="om-sec-sub">
+            Pick a ready-to-start package, or build a custom bundle with the estimator below.
           </p>
 
           <div
+            className="om-filter-bar ag-pkg-tabs"
+            style={{ marginTop: '26px' }}
             role="group"
-            aria-label="Service package tracks"
-            className="mt-7 inline-flex flex-wrap justify-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--surface)] p-1.5"
+            aria-label="Service Package Tracks"
           >
             {TRACK_TABS.map((tab) => {
               const active = activeTrack === tab.key;
@@ -88,201 +95,182 @@ export function PackagesAndEstimatorSection({
                   key={tab.key}
                   type="button"
                   onClick={() => setActiveTrack(tab.key)}
+                  className={`om-filter-pill${active ? ' active' : ''}`}
                   aria-pressed={active}
-                  className={`relative rounded-full px-4 py-2 text-[13px] font-semibold transition-colors cursor-pointer ${
-                    active ? 'text-[var(--on-accent)]' : 'text-[var(--muted)] hover:text-[var(--text)]'
-                  }`}
                 >
-                  {active && (
-                    <motion.span
-                      layoutId="pkg-track-pill"
-                      transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                      className="absolute inset-0 -z-0 rounded-full bg-[var(--accent)]"
-                    />
-                  )}
-                  <span className="relative z-10">{tab.label}</span>
+                  {tab.label}
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* Package Cards */}
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
+        <div className="ag-pkg-grid active" data-pkg-panel={activeTrack}>
           {trackPackages.map((pkg) => {
+            const isPop = Boolean(pkg.is_popular);
             const selectVal = `${pkg.title} (${pkg.price_label})`;
+            const cycle = pkg.billing_cycle ? `/${pkg.billing_cycle.replace(/^\//, '')}` : '';
+
             return (
               <article
                 key={pkg.slug || pkg.id}
-                className={`relative flex flex-col rounded-2xl border p-7 transition-colors ${
-                  pkg.is_popular
-                    ? 'border-[var(--accent)] bg-[var(--surface-elevated)]'
-                    : 'border-[var(--line)] bg-[var(--surface)] hover:border-[var(--line-strong)]'
-                }`}
+                className={`ag-pkg-card${isPop ? ' popular' : ''}`}
               >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--accent)]">
-                    {pkg.is_popular ? pkg.tier_badge || 'Most popular' : `${activeTrack} sprint`}
-                  </span>
-                  {pkg.delivery_time && (
-                    <span className="inline-flex items-center gap-1 rounded-full border border-[var(--line)] bg-[var(--bg-subtle)] px-2.5 py-1 text-[11.5px] font-medium text-[var(--muted)] tabular-nums">
-                      <Clock className="h-3 w-3" />
-                      {pkg.delivery_time}
-                    </span>
-                  )}
-                </div>
-
-                <h3 className="mt-4 font-display text-xl font-bold text-[var(--text)]">
-                  {pkg.title}
-                </h3>
-
-                <div className="mt-3 flex items-baseline gap-1">
-                  <span className="font-display text-4xl font-extrabold text-[var(--text)] tabular-nums">
-                    {pkg.price_label}
-                  </span>
-                  {pkg.billing_cycle && (
-                    <span className="text-sm font-medium text-[var(--muted)]">
-                      /{pkg.billing_cycle.replace(/^\//, '')}
-                    </span>
-                  )}
-                </div>
-
-                {pkg.subtitle && (
-                  <p className="mt-2.5 text-sm leading-relaxed text-[var(--muted)]">
-                    {pkg.subtitle}
-                  </p>
+                {isPop && (
+                  <div className="ag-pkg-pop-ribbon">
+                    {(pkg.tier_badge || 'MOST POPULAR').toUpperCase()}
+                  </div>
                 )}
 
-                <ul className="mt-6 flex-1 space-y-2.5 border-t border-[var(--line)] pt-5 text-sm text-[var(--text)]">
-                  {pkg.features_list.map((feat) => (
-                    <li key={feat} className="flex items-start gap-2.5">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--emerald)]" />
-                      <span>{feat}</span>
-                    </li>
+                <div className="ag-pkg-head">
+                  <div className="ag-pkg-top-meta">
+                    <span className="ag-pkg-tier-cat">{activeTrack.toUpperCase()} SPRINT</span>
+                    {pkg.delivery_time && (
+                      <span className="ag-pkg-delivery-pill">
+                        <svg
+                          width="11"
+                          height="11"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          style={{ marginRight: '4px', verticalAlign: '-1px', display: 'inline-block' }}
+                        >
+                          <circle cx="12" cy="12" r="10" />
+                          <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        {pkg.delivery_time}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="ag-pkg-tier">{pkg.title}</h3>
+                  <div className="ag-pkg-price">
+                    {pkg.price_label}
+                    <span>{cycle}</span>
+                  </div>
+                  {pkg.subtitle && <p className="ag-pkg-sub">{pkg.subtitle}</p>}
+                </div>
+
+                <ul className="ag-pkg-list">
+                  {pkg.features_list.map((fItem) => (
+                    <li key={fItem}>&#10003; {fItem}</li>
                   ))}
                 </ul>
 
-                <div className="mt-7">
-                  {onSelectOffering ? (
-                    <button
-                      type="button"
-                      onClick={() => onSelectOffering(selectVal)}
-                      className={`${pkg.is_popular ? 'btn-brand' : 'btn-ghost'} w-full`}
-                    >
-                      <span>{pkg.cta_text || 'Select Package'}</span>
-                      <ArrowUpRight className="h-4 w-4" />
-                    </button>
-                  ) : (
-                    <Link
-                      href={`/contact?offering=${encodeURIComponent(selectVal)}`}
-                      className={`${pkg.is_popular ? 'btn-brand' : 'btn-ghost'} w-full`}
-                    >
-                      <span>{pkg.cta_text || 'Select Package'}</span>
-                      <ArrowUpRight className="h-4 w-4" />
-                    </Link>
-                  )}
-                </div>
+                {onSelectOffering ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onSelectOffering(
+                        selectVal,
+                        `Hello Creatsify! I am interested in: ${selectVal}. Please share the next steps.`
+                      )
+                    }
+                    className={isPop ? 'om-btn-gold' : 'om-btn-glass'}
+                    style={{ width: '100%', justifyContent: 'center', marginTop: 'auto', cursor: 'pointer' }}
+                  >
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span>{pkg.cta_text || 'Select Package'}</span>
+                  </button>
+                ) : (
+                  <Link
+                    href={`/contact?offering=${encodeURIComponent(selectVal)}`}
+                    className={isPop ? 'om-btn-gold' : 'om-btn-glass'}
+                    style={{ width: '100%', justifyContent: 'center', marginTop: 'auto' }}
+                  >
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span>{pkg.cta_text || 'Select Package'}</span>
+                  </Link>
+                )}
               </article>
             );
           })}
         </div>
 
-        {showCompareLink && (
-          <div className="mt-8 text-center">
-            <Link href="/packages" className="btn-ghost">
-              <span>Compare all package tracks</span>
-              <ArrowUpRight className="h-4 w-4" />
+        {showCompareButton && (
+          <div style={{ textAlign: 'center', marginTop: '28px' }}>
+            <Link href="/packages" className="om-btn-glass">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+              </svg>
+              <span>Compare full package details</span>
             </Link>
           </div>
         )}
 
-        {/* Interactive Scope & Bundle Estimator */}
-        <div className="mt-14 grid gap-8 rounded-2xl border border-[var(--line-strong)] bg-[var(--surface)] p-6 sm:p-8 lg:grid-cols-12 lg:items-center lg:p-10">
-          <div className="lg:col-span-7">
-            <h3 className="font-display text-2xl font-bold text-[var(--text)]">
-              Need more than one service? Build a custom bundle
-            </h3>
-            <p className="mt-2 text-sm text-[var(--muted)]">
-              Select two or more deliverables below to unlock an automatic 15% multi-discipline bundle discount.
-            </p>
-
-            <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
-              {BUNDLE_OPTIONS.map((opt) => {
-                const checked = selectedIds.includes(opt.id);
-                return (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => toggleOption(opt.id)}
-                    aria-pressed={checked}
-                    className={`flex items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left text-sm transition-colors cursor-pointer ${
-                      checked
-                        ? 'border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--text)]'
-                        : 'border-[var(--line)] bg-[var(--bg-subtle)] text-[var(--muted)] hover:border-[var(--line-strong)] hover:text-[var(--text)]'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2.5 font-medium">
-                      <span
-                        className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
-                          checked
-                            ? 'border-[var(--accent)] bg-[var(--accent)] text-[var(--on-accent)]'
-                            : 'border-[var(--line-strong)]'
-                        }`}
-                      >
-                        {checked && <Check className="h-3 w-3" />}
+        {showEstimator && (
+          <div className="ag-scope-estimator" id="scopeEstimator">
+            <div className="ag-se-left">
+              <div className="om-sec-tag" style={{ marginBottom: '8px' }}>
+                <span className="om-sec-dot" /> Bundle builder
+              </div>
+              <h3>Need more than one service?</h3>
+              <p>
+                Choose what you need and get an instant estimate, with an automatic{' '}
+                <b>15% bundle discount</b>.
+              </p>
+              <div className="ag-se-options">
+                {BUNDLE_OPTIONS.map((opt) => {
+                  const checked = selectedIds.includes(opt.id);
+                  return (
+                    <label key={opt.id} className="ag-se-check">
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => toggleOption(opt.id)}
+                      />
+                      <span className="ag-se-label">
+                        <span>{opt.label}</span> <b>+${opt.price}</b>
                       </span>
-                      <span>{opt.label}</span>
-                    </span>
-                    <span className="font-mono text-xs font-semibold tabular-nums">
-                      +${opt.price}
-                    </span>
-                  </button>
-                );
-              })}
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="ag-se-right">
+              <span className="ag-se-badge">
+                {bundleSummary.discountApplied
+                  ? '15% bundle saving applied'
+                  : 'Select 2+ for 15% off'}
+              </span>
+              <div className="ag-se-total-label">Estimated investment</div>
+              <div className="ag-se-total-price" id="seTotalPrice">
+                {bundleSummary.finalTotal > 0
+                  ? `$${bundleSummary.finalTotal.toLocaleString()}`
+                  : 'Select Services'}
+              </div>
+              <div className="ag-se-timeline" id="seTimeline">
+                {bundleSummary.picked.length > 0
+                  ? `Est. Kickoff & Delivery: ~${bundleSummary.totalDays} Days`
+                  : 'Check at least one service above'}
+              </div>
+              <button
+                type="button"
+                className="om-btn-gold"
+                id="seLockBtn"
+                onClick={handleRequestBundle}
+                disabled={bundleSummary.picked.length === 0}
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  border: 'none',
+                  cursor: 'pointer',
+                  marginTop: '14px',
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+                <span>Request this bundle</span>
+              </button>
             </div>
           </div>
-
-          <div className="rounded-2xl border border-[var(--line)] bg-[var(--bg-subtle)] p-6 lg:col-span-5">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                Estimated investment
-              </span>
-              {bundleSummary.discountApplied && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[11px] font-semibold text-emerald-500">
-                  <Sparkles className="h-3 w-3" />
-                  15% bundle saving
-                </span>
-              )}
-            </div>
-
-            <div className="mt-3 flex items-baseline gap-3">
-              <span className="font-display text-4xl font-extrabold text-[var(--text)] tabular-nums">
-                ${bundleSummary.finalTotal}
-              </span>
-              {bundleSummary.discountApplied && (
-                <span className="font-mono text-sm text-[var(--muted)] line-through tabular-nums">
-                  ${bundleSummary.rawTotal}
-                </span>
-              )}
-            </div>
-
-            <p className="mt-1.5 font-mono text-xs text-[var(--muted)] tabular-nums">
-              {bundleSummary.totalDays > 0
-                ? `Estimated delivery: ~${bundleSummary.totalDays} days`
-                : 'Select at least one service to estimate'}
-            </p>
-
-            <button
-              type="button"
-              onClick={handleRequestBundle}
-              disabled={bundleSummary.picked.length === 0}
-              className="btn-brand mt-6 w-full disabled:opacity-40"
-            >
-              <span>Request this bundle</span>
-              <ArrowUpRight className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );
