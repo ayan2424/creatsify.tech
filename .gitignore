@@ -7,6 +7,14 @@ storage/*.sqlite
 storage/installed.lock
 .env
 node_modules/
+frontend/node_modules/
+frontend/.next/
+frontend/.env*.local
+.impeccable/mocks/
+.impeccable/questions/
+.impeccable/review/
+.impeccable/reference/
+.impeccable/config.local.json
 .DS_Store
 Thumbs.db
 scratch/

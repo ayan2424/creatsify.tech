@@ -14,7 +14,8 @@ class CsrfMiddleware
         '/api/webhooks/whatsapp',
         '/api/chat/send',
         '/api/chat/messages',
-        '/api/chat/poll'
+        '/api/chat/poll',
+        '/api/v1/analytics/hit',
     ];
 
     public function handle(Request $request, callable $next): Response

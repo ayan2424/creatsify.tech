@@ -12,9 +12,9 @@
 
 Creatsify.tech is an elite full-stack digital software studio and agency platform engineered for direct commercial performance.
 
-* **Backend Core:** PHP 8.2+ (strictly typed, zero third-party framework overhead like Laravel or Symfony). Handcrafted, high-velocity MVC engine (`public/index.php` -> `Core\App` -> `Core\Router` -> `Core\Database` -> Controllers -> Models -> Views).
+* **Backend Core:** PHP 8.2+ / 8.4 (strictly typed, zero third-party framework overhead like Laravel or Symfony). Handcrafted, high-velocity MVC engine (`public/index.php` -> `Core\App` -> `Core\Router` -> `Core\Database` -> Controllers -> Models -> Views) powering the Admin Desk (`/admin/*`), Agency CRM, WhatsApp Cloud API, Live Chat (`/api/chat/*`), Support Portal (`/api/support`), Contact Engine (`/api/contact`), and the Headless Public JSON API v1 (`App\Controllers\Api\PublicApiController` at `/api/v1/*`).
 * **Database Layer:** MySQL 8.0+ / MariaDB via PDO with prepared statements exclusively. Direct execution speed, zero ORM query bloat.
-* **Frontend Layer:** Vanilla ES6 modules, native CSS custom properties / design tokens, and SVG icons. **No node/npm build step required for production deployment.**
+* **Frontend Layer (Hybrid Next.js 15 App Router):** Located in `frontend/` (Next.js 15 App Router SSR/ISR, React 19, TypeScript, Tailwind CSS v4, Motion v12, GSAP ScrollTrigger, Lenis Smooth Scroll, React Three Fiber WebGL, Lucide SVG icons). Runs via Node/PM2 on `127.0.0.1:3000` behind aaPanel Nginx (`deploy/aapanel-nginx-hybrid.conf` + `deploy/ecosystem.config.cjs`), while `/admin`, `/api`, `/assets`, `/uploads`, `/sitemap.xml`, and `/install.php` remain served directly by PHP 8.4 FPM on the same origin. Legacy PHP views remain intact as an automatic fallback.
 * **Dual Remote Repositories:**
   - `origin`: `https://github.com/ayan2424/creatsify.tech.git` (Primary)
   - `old-creatsify`: `https://github.com/ayan2424/creatsify.git` (Secondary mirror)

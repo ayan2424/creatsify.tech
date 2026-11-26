@@ -44,8 +44,13 @@ class ReviewsController
 
     public function store(Request $request): Response
     {
+        $isApi = $request->isAjax() || str_starts_with($request->getPath(), '/api');
+
         // Honeypot anti-bot check
         if (!empty($request->input('_hp_check'))) {
+            if ($isApi) {
+                return Response::json(['success' => true, 'message' => 'Thank you! Your review has been received.']);
+            }
             flash('success', 'Thank you! Your review has been received.');
             return Response::redirect(url('/reviews'));
         }
@@ -57,6 +62,9 @@ class ReviewsController
         if (is_array($history)) {
             $history = array_filter($history, static fn($ts) => ($now - (int)$ts) < 1800);
             if (count($history) >= 5) {
+                if ($isApi) {
+                    return Response::json(['success' => false, 'error' => 'You have submitted several reviews recently. Please wait a few minutes before submitting another.'], 429);
+                }
                 flash('error', 'You have submitted several reviews recently. Please wait a few minutes before submitting another.');
                 return Response::redirect(url('/reviews#submit-review'));
             }
@@ -75,6 +83,9 @@ class ReviewsController
         $outcomeMetric = trim(strip_tags((string)$request->input('outcome_metric', '')));
 
         if (mb_strlen($clientName) < 2 || mb_strlen($reviewTitle) < 4 || mb_strlen($reviewText) < 15) {
+            if ($isApi) {
+                return Response::json(['success' => false, 'error' => 'Please enter your name, a short headline, and your detailed feedback (at least 15 characters).'], 422);
+            }
             flash('error', 'Please enter your name, a short headline, and your detailed feedback (at least 15 characters).');
             return Response::redirect(url('/reviews#submit-review'));
         }
@@ -94,7 +105,7 @@ class ReviewsController
 
         $status = ($rating >= 4) ? 'approved' : 'pending';
 
-        ClientReview::create([
+        $newId = ClientReview::create([
             'client_name'      => mb_substr($clientName, 0, 120),
             'client_email'     => mb_substr($clientEmail, 0, 150),
             'client_role'      => mb_substr($clientRole ?: 'Verified Client', 0, 120),
@@ -123,12 +134,20 @@ class ReviewsController
         } catch (\Throwable $e) {
         }
 
-        if ($status === 'approved') {
-            flash('success', 'Thank you for your feedback! Your verified review is now live.');
-        } else {
-            flash('success', 'Thank you for your feedback! Your review has been submitted to our quality desk.');
+        $msg = ($status === 'approved')
+            ? 'Thank you for your feedback! Your verified review is now live.'
+            : 'Thank you for your feedback! Your review has been submitted to our quality desk.';
+
+        if ($isApi) {
+            return Response::json([
+                'success' => true,
+                'id'      => $newId,
+                'status'  => $status,
+                'message' => $msg,
+            ]);
         }
 
+        flash('success', $msg);
         return Response::redirect(url('/reviews#reviews-grid'));
     }
 }

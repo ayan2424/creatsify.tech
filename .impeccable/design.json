@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-27T01:07:00+05:00",
+  "title": "Design System: Creatsify Studio",
+  "extensions": {
+    "colorMeta": {
+      "accent-cyan": {
+        "role": "primary",
+        "displayName": "Creatsify Cyan",
+        "canonical": "#00d2ee",
+        "tonalRamp": ["#042f38", "#075161", "#08758c", "#049eb8", "#00d2ee", "#4ee2f5", "#9ef0fb", "#dffafd"]
+      },
+      "accent-sapphire": {
+        "role": "primary",
+        "displayName": "Studio Sapphire",
+        "canonical": "#0284c7",
+        "tonalRamp": ["#082f49", "#0c4a6e", "#075985", "#0369a1", "#0284c7", "#38bdf8", "#7dd3fc", "#e0f2fe"]
+      },
+      "emerald-live": {
+        "role": "secondary",
+        "displayName": "Live Emerald",
+        "canonical": "#10b981",
+        "tonalRamp": ["#022c22", "#064e3b", "#047857", "#059669", "#10b981", "#34d399", "#6ee7b7", "#d1fae5"]
+      },
+      "obsidian-ground": {
+        "role": "neutral",
+        "displayName": "Obsidian Ground",
+        "canonical": "#07080a",
+        "tonalRamp": ["#07080a", "#0b0e14", "#0f1219", "#141923", "#1e2636", "#475569", "#94a3b8", "#f8fafc"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Primary hero and page headlines." },
+      "headline": { "displayName": "Headline", "purpose": "Major section titles without eyebrow kickers." },
+      "title": { "displayName": "Title", "purpose": "Card and package titles." },
+      "body": { "displayName": "Body", "purpose": "Product-truth prose at 56-70ch measure." },
+      "label": { "displayName": "Mono Label", "purpose": "Tabular prices, indices, and telemetry." }
+    },
+    "shadows": [
+      {
+        "name": "elevated-overlay",
+        "value": "0 24px 60px -18px rgba(0, 0, 0, 0.72)",
+        "purpose": "Floating studio command card, lightbox dialogs, and persistent live chat drawer."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Snappy responsive entrances, hover reveals, and tactile button feedback."
+      },
+      {
+        "name": "spring-pill",
+        "value": "spring(stiffness: 420, damping: 32)",
+        "purpose": "Shared-element layoutId indicator transitions across navigation and filter tabs."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "2xl", "value": "1536px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Brand Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "High-contrast pill CTA for primary conversion actions.",
+      "html": "<button class=\"ds-btn-brand\">Start Your Project</button>",
+      "css": ".ds-btn-brand { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 9999px; background: linear-gradient(135deg, #00d2ee 0%, #0284c7 100%); color: #041021; font-family: Sora, system-ui, sans-serif; font-weight: 700; font-size: 14px; padding: 12px 24px; cursor: pointer; transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), filter 180ms ease; } .ds-btn-brand:hover { filter: brightness(1.08); transform: translateY(-1px); } .ds-btn-brand:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Ghost Studio Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action button with crisp 1px rim border.",
+      "html": "<button class=\"ds-btn-ghost\">Explore Case Studies</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; gap: 8px; border-radius: 9999px; background: #0f1219; color: #f8fafc; border: 1px solid rgba(255,255,255,0.16); font-family: Sora, system-ui, sans-serif; font-weight: 600; font-size: 14px; padding: 12px 22px; cursor: pointer; transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms ease; } .ds-btn-ghost:hover { border-color: rgba(0,210,238,0.5); transform: translateY(-1px); } .ds-btn-ghost:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Studio Capability Card",
+      "kind": "card",
+      "refersTo": "studio-card",
+      "description": "Elevated dark obsidian card with single rim-border declaration.",
+      "html": "<div class=\"ds-card\"><h3>Custom Web &amp; SaaS</h3><p>High-velocity architectures delivered with 100% unlocked source code.</p></div>",
+      "css": ".ds-card { border-radius: 16px; background: #0f1219; border: 1px solid rgba(255,255,255,0.08); padding: 24px; color: #f8fafc; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; } .ds-card h3 { margin: 0 0 8px; font-family: Sora, system-ui, sans-serif; font-size: 18px; font-weight: 700; } .ds-card p { margin: 0; font-size: 14px; color: #94a3b8; line-height: 1.6; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Precision Obsidian & Daylight Studio",
+    "overview": "Creatsify Studio balances high-craft engineering authority with tactile digital clarity, pairing Obsidian Dark and Crisp Daylight polarity with sapphire-cyan conversion surfaces and uninterrupted software showcases.",
+    "keyCharacteristics": [
+      "Dual-theme Obsidian Dark and Crisp Daylight polarity without FOUC",
+      "Sora display typography + Plus Jakarta Sans body + JetBrains Mono tabular specs",
+      "WebGL 3D hero depth, Framer Motion layoutId transitions, GSAP ScrollTrigger & Lenis smooth scroll",
+      "Clean 3-to-4 column macOS-framed portfolio cards with category-aware Lightbox Preview"
+    ],
+    "rules": [
+      { "name": "The Single-Accent Discipline Rule", "body": "Brand cyan and sapphire lead primary actions and active states; never introduce unmotivated purple/indigo AI gradients or decorative gradient fills on headings.", "section": "colors" },
+      { "name": "The Weight-Not-Gradient Rule", "body": "Headings earn emphasis through scale, tight tracking, and stark contrast — never gradient text clips or uppercase kicker tags.", "section": "typography" },
+      { "name": "The Single Elevation Declaration Rule", "body": "Never stack heavy drop shadows beneath high-contrast borders on resting cards; declare elevation once through clean rim borders or tonal stepping.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep Web Design & Development first and active by default across #work and /portfolio (no All Work tab).",
+      "Do route all public data reads and form submissions through the Custom PHP MVC /api/v1/*, /api/contact, /api/support, and /api/chat/* endpoints.",
+      "Do gate hover-lift transforms inside @media (hover: hover) and (pointer: fine) and honor prefers-reduced-motion."
+    ],
+    "donts": [
+      "Don't add eyebrow/kicker tags above headings, gradient text on headings, or emoji icons anywhere in the UI.",
+      "Don't introduce third-party script marketplace links (Codester, CodeGrape, SellAnyCode).",
+      "Don't animate interactive UI elements from scale(0) or with sluggish ease-in curves."
+    ]
+  }
+}

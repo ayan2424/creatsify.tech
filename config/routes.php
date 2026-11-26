@@ -39,8 +39,21 @@ $router->group(['middleware' => ['analytics']], function (Router $r) {
 });
 
 // --------------------------------------------------------------------------
-// Public API Endpoints (Chat Engine, Contact AJAX, Meta Webhooks)
+// Public API Endpoints (Next.js Headless Bridge, Chat Engine, Contact AJAX, Meta Webhooks)
 // --------------------------------------------------------------------------
+$router->get('/api/v1/csrf', [\App\Controllers\Api\PublicApiController::class, 'csrf']);
+$router->get('/api/v1/bootstrap', [\App\Controllers\Api\PublicApiController::class, 'bootstrap']);
+$router->get('/api/v1/home', [\App\Controllers\Api\PublicApiController::class, 'home']);
+$router->get('/api/v1/projects', [\App\Controllers\Api\PublicApiController::class, 'projects']);
+$router->get('/api/v1/projects/{slug}', [\App\Controllers\Api\PublicApiController::class, 'projectShow']);
+$router->get('/api/v1/services', [\App\Controllers\Api\PublicApiController::class, 'services']);
+$router->get('/api/v1/packages', [\App\Controllers\Api\PublicApiController::class, 'packages']);
+$router->get('/api/v1/reviews', [\App\Controllers\Api\PublicApiController::class, 'reviews']);
+$router->post('/api/v1/reviews', [\App\Controllers\ReviewsController::class, 'store'], ['csrf']);
+$router->get('/api/v1/posts', [\App\Controllers\Api\PublicApiController::class, 'posts']);
+$router->get('/api/v1/posts/{slug}', [\App\Controllers\Api\PublicApiController::class, 'postShow']);
+$router->post('/api/v1/analytics/hit', [\App\Controllers\Api\PublicApiController::class, 'analyticsHit']);
+
 $router->post('/api/contact', [\App\Controllers\ContactController::class, 'submit'], ['csrf']);
 $router->post('/api/support', [\App\Controllers\SupportController::class, 'submit'], ['csrf']);
 $router->post('/api/chat/send', [\App\Controllers\ChatController::class, 'send']);
