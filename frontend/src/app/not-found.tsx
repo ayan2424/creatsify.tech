@@ -1,10 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { NotFoundNeko } from '@/components/ui/NotFoundNeko';
 
 export default function NotFound() {
   return (
-    <section className="mx-auto flex min-h-[65vh] max-w-[920px] flex-col items-center justify-center px-5 py-24 text-center sm:px-6">
+    <section className="mx-auto flex min-h-[68vh] max-w-[920px] flex-col items-center justify-center px-5 py-20 text-center sm:px-6">
+      <NotFoundNeko />
       <p className="font-mono text-sm font-semibold text-[var(--accent)] tabular-nums">404</p>
       <h1 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-5xl">
         Page not found

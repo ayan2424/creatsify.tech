@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'motion/react';
 import gsap from 'gsap';
@@ -16,10 +17,24 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import type { ServiceItem } from '@/types/creatsify';
+import type { NekoExpression, NekoMode } from '@/lib/nekoRobotEngine';
+import { useTheme } from '@/components/Providers';
 import { SpotlightCard } from '@/components/ui/SpotlightCard';
 import { Magnetic } from '@/components/ui/Magnetic';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const CreatsifyNekoCanvas = dynamic(
+  () => import('@/components/ui/CreatsifyNekoCanvas').then((m) => m.CreatsifyNekoCanvas),
+  { ssr: false }
+);
+
+const DISCIPLINE_NEKO: Record<string, { expr: NekoExpression; mode: NekoMode }> = {
+  web: { expr: 'excited', mode: 'hover' },
+  mobile: { expr: 'joy', mode: 'wave' },
+  brand: { expr: 'love', mode: 'hover' },
+  growth: { expr: 'think', mode: 'think' },
+};
 
 const STUDIO_PILLARS = [
   {
@@ -86,10 +101,13 @@ export function ServicesSection({
   services?: ServiceItem[];
   onSelectOffering?: (offering: string) => void;
 }) {
+  const { theme } = useTheme();
   const [activeId, setActiveId] = useState<string>('web');
+  const [avatarBoop, setAvatarBoop] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const active = STUDIO_PILLARS.find((p) => p.id === activeId) || STUDIO_PILLARS[0];
   const ActiveIcon = active.icon;
+  const activeNeko = DISCIPLINE_NEKO[active.id] || DISCIPLINE_NEKO.web;
 
   useGSAP(
     () => {
@@ -192,10 +210,50 @@ export function ServicesSection({
             })}
           </div>
 
-          {/* Right: Morphing Spotlight Focus Theater */}
+          {/* Right: Morphing Spotlight Focus Theater + Live Card Avatar Bust */}
           <div className="lg:col-span-6">
             <SpotlightCard active className="rounded-2xl p-7 sm:p-8">
               <div className="relative z-10">
+                {/* Persistent Neko Card Avatar Bust Header (never remounts WebGL on tab switch) */}
+                <div className="mb-5 flex items-center justify-between gap-4 border-b border-[var(--line)] pb-5">
+                  <div className="flex items-center gap-3.5">
+                    <button
+                      type="button"
+                      onClick={() => setAvatarBoop((n) => n + 1)}
+                      title="Tap Neko Avatar"
+                      className="relative h-[78px] w-[78px] shrink-0 overflow-hidden rounded-2xl border border-[var(--accent)]/35 bg-[radial-gradient(circle_at_50%_35%,rgba(0,210,238,0.18),rgba(7,25,94,0.88))] cursor-pointer"
+                    >
+                      <CreatsifyNekoCanvas
+                        variant="card-avatar"
+                        mode={activeNeko.mode}
+                        expressionOverride={activeNeko.expr}
+                        isDark={theme === 'dark'}
+                        boopSignal={avatarBoop}
+                        lazyMount={true}
+                        globalPointer={true}
+                        className="h-full w-full"
+                        ariaLabel="Creatsify Neko discipline bust portrait"
+                      />
+                    </button>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent)]">
+                          <ActiveIcon className="h-4 w-4" />
+                        </span>
+                        <span className="font-mono text-xs font-semibold text-[var(--muted)] tabular-nums">
+                          {active.num} / 04
+                        </span>
+                      </div>
+                      <h3 className="mt-1.5 font-display text-xl font-bold text-[var(--text)] sm:text-2xl">
+                        {active.title}
+                      </h3>
+                    </div>
+                  </div>
+                  <span className="hidden shrink-0 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs font-semibold text-[var(--emerald)] tabular-nums sm:inline-flex">
+                    {active.metric}
+                  </span>
+                </div>
+
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={active.id}
@@ -204,19 +262,13 @@ export function ServicesSection({
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
-                        <ActiveIcon className="h-5 w-5" />
-                      </div>
-                      <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs font-semibold text-[var(--emerald)] tabular-nums">
+                    <div className="mb-3 sm:hidden">
+                      <span className="inline-flex rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs font-semibold text-[var(--emerald)] tabular-nums">
                         {active.metric}
                       </span>
                     </div>
 
-                    <h3 className="mt-5 font-display text-2xl font-bold text-[var(--text)]">
-                      {active.title}
-                    </h3>
-                    <p className="mt-2 text-[15px] leading-relaxed text-[var(--muted)]">
+                    <p className="text-[15px] leading-relaxed text-[var(--muted)]">
                       {active.tagline}
                     </p>
 

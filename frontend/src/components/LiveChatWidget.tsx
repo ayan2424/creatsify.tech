@@ -6,8 +6,8 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Send, X } from 'lucide-react';
 import { useTheme } from './Providers';
 
-const CreatsifyRobotCanvas = dynamic(
-  () => import('@/components/ui/CreatsifyRobotCanvas').then((m) => m.CreatsifyRobotCanvas),
+const CreatsifyNekoCanvas = dynamic(
+  () => import('@/components/ui/CreatsifyNekoCanvas').then((m) => m.CreatsifyNekoCanvas),
   { ssr: false }
 );
 
@@ -218,17 +218,19 @@ export function LiveChatWidget() {
                 <button
                   type="button"
                   onClick={() => setHeaderCheer((n) => n + 1)}
-                  title="Tap to say hi!"
-                  className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-[var(--accent)]/45 bg-[radial-gradient(circle_at_50%_35%,rgba(37,227,245,0.22),rgba(11,14,22,0.85))] cursor-pointer"
+                  title="Tap to boop Neko!"
+                  className="relative h-13 w-13 shrink-0 overflow-hidden rounded-full border border-[var(--accent)]/45 bg-[radial-gradient(circle_at_50%_35%,rgba(37,227,245,0.22),rgba(11,14,22,0.88))] cursor-pointer"
                 >
-                  <CreatsifyRobotCanvas
-                    variant="chat-header"
+                  <CreatsifyNekoCanvas
+                    variant="chatbot-icon"
+                    mode={sending ? 'think' : 'hover'}
+                    speaking={sending}
                     isDark={isDark}
-                    cheerSignal={headerCheer}
+                    boopSignal={headerCheer}
                     globalPointer={true}
                     interactive={false}
                     className="h-full w-full"
-                    ariaLabel="Creatsify AI Assistant Robot"
+                    ariaLabel="Creatsify AI Neko Assistant"
                   />
                   <span className="pointer-events-none absolute bottom-0.5 right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[var(--bg-subtle)] bg-[var(--emerald)]" />
                 </button>
@@ -341,20 +343,21 @@ export function LiveChatWidget() {
           className={`relative ml-auto flex items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105 active:scale-95 cursor-pointer ${
             open
               ? 'h-13 w-13 bg-gradient-to-br from-[#00D2EE] to-[#0284C7] text-[#041021] shadow-[0_14px_34px_-8px_rgba(0,210,238,0.55)]'
-              : 'h-[66px] w-[66px] border-2 border-[#00D2EE]/75 bg-[radial-gradient(circle_at_50%_30%,rgba(42,163,247,0.32),rgba(10,16,34,0.92))] shadow-[0_16px_38px_-6px_rgba(0,210,238,0.55)]'
+              : 'h-[72px] w-[72px] border-2 border-[#00D2EE]/75 bg-[radial-gradient(circle_at_50%_30%,rgba(26,102,255,0.34),rgba(7,25,94,0.94))] shadow-[0_16px_38px_-6px_rgba(0,210,238,0.55)]'
           }`}
         >
           {open ? (
             <X className="h-5 w-5" />
           ) : (
-            <CreatsifyRobotCanvas
-              variant="chat-launcher"
-              isDark={isDark}
-              cheerSignal={launcherCheer}
+            <CreatsifyNekoCanvas
+              variant="chatbot-icon"
+              mode="hover"
+              isDark={true}
+              boopSignal={launcherCheer}
               globalPointer={true}
               interactive={false}
               className="h-full w-full"
-              ariaLabel="Creatsify 3D Chat Assistant"
+              ariaLabel="Creatsify 3D Neko Chat Assistant"
             />
           )}
 

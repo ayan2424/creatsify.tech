@@ -1,12 +1,27 @@
 'use client';
 
 import React, { useRef } from 'react';
+import dynamic from 'next/dynamic';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { Code2, MoveHorizontal, PenTool, Smartphone, TrendingUp } from 'lucide-react';
+import { useTheme } from '@/components/Providers';
 import { SpotlightCard } from '@/components/ui/SpotlightCard';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const CreatsifyNekoCanvas = dynamic(
+  () => import('@/components/ui/CreatsifyNekoCanvas').then((m) => m.CreatsifyNekoCanvas),
+  { ssr: false }
+);
+
+const ORBIT_PILLARS = [
+  { icon: Code2, label: 'Web & SaaS', detail: 'Next.js · PHP 8.4 · MySQL' },
+  { icon: Smartphone, label: 'Flutter Mobile', detail: 'iOS & Android · 60fps Dart' },
+  { icon: PenTool, label: 'Brand & UI/UX', detail: 'Figma Systems · CRO' },
+  { icon: TrendingUp, label: 'SEO & Paid Ads', detail: 'Schema · Meta & Google' },
+];
 
 const STRENGTHS = [
   {
@@ -32,6 +47,7 @@ const STRENGTHS = [
 ];
 
 export function WhyCreatsifySection() {
+  const { theme } = useTheme();
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(
@@ -108,6 +124,63 @@ export function WhyCreatsifySection() {
             </SpotlightCard>
           ))}
         </div>
+
+        {/* Full-Stack Orbit 3D Showcase: Unified Studio Discipline Rings */}
+        <SpotlightCard className="mt-10 rounded-2xl p-6 sm:p-8">
+          <div className="relative z-10 grid items-center gap-6 lg:grid-cols-12">
+            <div className="relative flex flex-col items-center justify-center lg:col-span-5">
+              <div className="relative h-[265px] w-full max-w-[340px] sm:h-[295px]">
+                <CreatsifyNekoCanvas
+                  variant="full-stack-orbit"
+                  mode="hover"
+                  isDark={theme === 'dark'}
+                  lazyMount={true}
+                  globalPointer={true}
+                  interactive={true}
+                  className="h-full w-full"
+                  ariaLabel="Interactive Full-Stack Orbit 3D Creatsify Neko with rotating tech rings"
+                />
+                <div className="robot-pedestal-glow !bottom-1 !h-9 !w-44" aria-hidden="true" />
+              </div>
+              <span className="mt-1 inline-flex items-center gap-1.5 font-mono text-[11px] font-medium text-[var(--muted)]">
+                <MoveHorizontal className="h-3.5 w-3.5 text-[var(--accent)]" />
+                <span>Drag to rotate orbital stack &middot; Tap to boop</span>
+              </span>
+            </div>
+
+            <div className="lg:col-span-7">
+              <h3 className="font-display text-2xl font-bold tracking-tight text-[var(--text)] sm:text-3xl">
+                Every discipline orbiting one shared roadmap.
+              </h3>
+              <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[var(--muted)]">
+                Instead of splitting your website, mobile app, brand identity, and ad campaigns across four separate vendors, our senior team builds and ships them as one synchronized system.
+              </p>
+              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {ORBIT_PILLARS.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div
+                      key={item.label}
+                      className="flex items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--bg-subtle)] px-4 py-3"
+                    >
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent)]">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <div className="min-w-0">
+                        <strong className="block font-display text-sm font-bold text-[var(--text)]">
+                          {item.label}
+                        </strong>
+                        <span className="block truncate font-mono text-[11px] text-[var(--muted)]">
+                          {item.detail}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </SpotlightCard>
 
         <div className="ag-compare-wrap" style={{ marginTop: '44px' }}>
           <div

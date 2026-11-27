@@ -6,17 +6,26 @@ import { motion } from 'motion/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { MessageSquare, MoveHorizontal, Sparkles } from 'lucide-react';
+import { MessageSquare, Sparkles } from 'lucide-react';
 import { useTheme } from '@/components/Providers';
 import { Magnetic } from '@/components/ui/Magnetic';
 import { whatsappLink } from '@/lib/utils';
+import type { NekoMode } from '@/lib/nekoRobotEngine';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const CreatsifyRobotCanvas = dynamic(
-  () => import('@/components/ui/CreatsifyRobotCanvas').then((m) => m.CreatsifyRobotCanvas),
+const CreatsifyNekoCanvas = dynamic(
+  () => import('@/components/ui/CreatsifyNekoCanvas').then((m) => m.CreatsifyNekoCanvas),
   { ssr: false }
 );
+
+const HERO_NEKO_MODES: Array<{ id: NekoMode; label: string }> = [
+  { id: 'hover', label: 'Hover' },
+  { id: 'wave', label: 'Wave' },
+  { id: 'dance', label: 'Dance' },
+  { id: 'flip', label: 'Flip' },
+  { id: 'think', label: 'Think' },
+];
 
 interface HeroSectionProps {
   avgRating: string;
@@ -32,17 +41,19 @@ export function HeroSection({
   const sectionRef = useRef<HTMLElement>(null);
   const float1Ref = useRef<HTMLDivElement>(null);
   const float2Ref = useRef<HTMLAnchorElement>(null);
-  const [cheerSignal, setCheerSignal] = useState(0);
+  const [boopSignal, setBoopSignal] = useState(0);
+  const [nekoMode, setNekoMode] = useState<NekoMode>('hover');
 
   const waHref = whatsappLink(
     whatsappNumber,
     'Hello! I would like to discuss a project or service package with Creatsify Digital Agency.'
   );
 
-  const triggerRobotCheer = () => setCheerSignal((n) => n + 1);
+  const triggerRobotBoop = () => setBoopSignal((n) => n + 1);
 
   const openLiveChat = () => {
-    triggerRobotCheer();
+    setNekoMode('wave');
+    triggerRobotBoop();
     window.dispatchEvent(new CustomEvent('creatsify:open-chat'));
   };
 
@@ -138,7 +149,7 @@ export function HeroSection({
               <a
                 className="om-btn-gold"
                 href="#contact"
-                onMouseEnter={triggerRobotCheer}
+                onMouseEnter={triggerRobotBoop}
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -196,30 +207,47 @@ export function HeroSection({
         >
           <div className="om-stage-glow" aria-hidden="true" />
 
-          {/* Live 3D Interactive Creatsify Robot Canvas */}
+          {/* Live 3D Interactive Pixar Neko Hero Mascot Canvas */}
           <div className="relative h-[400px] w-full max-w-[490px] sm:h-[470px]">
-            <CreatsifyRobotCanvas
+            <CreatsifyNekoCanvas
               variant="hero"
+              mode={nekoMode}
               isDark={theme === 'dark'}
-              cheerSignal={cheerSignal}
+              boopSignal={boopSignal}
               globalPointer={true}
               interactive={true}
               className="h-full w-full"
-              ariaLabel="Interactive 3D Creatsify Robot — drag to rotate, click to wave"
+              ariaLabel="Interactive 3D Creatsify Neko Mascot — drag to spin, tap to boop"
             />
             <div className="robot-pedestal-glow" aria-hidden="true" />
           </div>
 
-          {/* Sleek Interactive Control Dock Under Robot */}
-          <div className="relative z-20 -mt-3 flex flex-wrap items-center justify-center gap-2">
-            <button
-              type="button"
-              onClick={triggerRobotCheer}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[var(--line-strong)] bg-[color-mix(in_srgb,var(--surface)_86%,transparent)] px-3.5 py-1.5 font-mono text-[11.5px] font-medium text-[var(--muted)] backdrop-blur-md transition-colors hover:border-[var(--accent)] hover:text-[var(--text)] cursor-pointer"
+          {/* Sleek Interactive Mode Control Dock Under Neko Mascot */}
+          <div className="relative z-20 -mt-3 flex flex-wrap items-center justify-center gap-1.5">
+            <div
+              role="group"
+              aria-label="Mascot animations"
+              className="inline-flex items-center gap-1 rounded-full border border-[var(--line-strong)] bg-[color-mix(in_srgb,var(--surface)_86%,transparent)] p-1 backdrop-blur-md"
             >
-              <MoveHorizontal className="h-3.5 w-3.5 text-[var(--accent)]" />
-              <span>Drag to spin &middot; Tap to wave</span>
-            </button>
+              {HERO_NEKO_MODES.map((m) => {
+                const active = nekoMode === m.id;
+                return (
+                  <button
+                    key={m.id}
+                    type="button"
+                    onClick={() => setNekoMode(m.id)}
+                    aria-pressed={active}
+                    className={`rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold transition-colors cursor-pointer ${
+                      active
+                        ? 'bg-[var(--accent)] text-[var(--on-accent)]'
+                        : 'text-[var(--muted)] hover:text-[var(--text)]'
+                    }`}
+                  >
+                    {m.label}
+                  </button>
+                );
+              })}
+            </div>
             <button
               type="button"
               onClick={openLiveChat}

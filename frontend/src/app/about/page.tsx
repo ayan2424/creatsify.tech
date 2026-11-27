@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowUpRight, Check, Star } from 'lucide-react';
 import { getBootstrap } from '@/lib/api';
+import { AboutNekoAvatar } from '@/components/ui/AboutNekoAvatar';
 
 export const revalidate = 60;
 
@@ -72,6 +73,7 @@ export default async function AboutPage() {
         </div>
 
         <aside className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-7 sm:p-8 lg:col-span-5">
+          <AboutNekoAvatar />
           <h2 className="font-display text-xl font-bold text-[var(--text)]">
             Four Integrated Practice Divisions
           </h2>

@@ -1,10 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { whatsappLink } from '@/lib/utils';
 import { Magnetic } from '@/components/ui/Magnetic';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+
+const CreatsifyNekoCanvas = dynamic(
+  () => import('@/components/ui/CreatsifyNekoCanvas').then((m) => m.CreatsifyNekoCanvas),
+  { ssr: false }
+);
 
 interface FooterProps {
   whatsappNumber: string;
@@ -12,6 +18,7 @@ interface FooterProps {
 }
 
 export function Footer({ whatsappNumber, footerProducts }: FooterProps) {
+  const [cornerBoop, setCornerBoop] = useState(0);
   const year = new Date().getFullYear();
   const waHref = whatsappLink(
     whatsappNumber,
@@ -40,8 +47,29 @@ export function Footer({ whatsappNumber, footerProducts }: FooterProps) {
               </div>
             </div>
             <div className="om-ft-cta-right">
+              <div
+                onClick={() => setCornerBoop((n) => n + 1)}
+                title="Tap Creatsify Mini Neko"
+                className="relative mx-auto mb-1 h-[126px] w-[126px] cursor-pointer"
+              >
+                <CreatsifyNekoCanvas
+                  variant="mini-corner"
+                  mode="wave"
+                  isDark={true}
+                  boopSignal={cornerBoop}
+                  lazyMount={true}
+                  globalPointer={true}
+                  interactive={true}
+                  className="h-full w-full"
+                  ariaLabel="Waving Creatsify Chibi Neko Robot"
+                />
+              </div>
               <Magnetic>
-                <Link className="om-btn-gold" href="/contact">
+                <Link
+                  className="om-btn-gold"
+                  href="/contact"
+                  onMouseEnter={() => setCornerBoop((n) => n + 1)}
+                >
                   <svg
                     width="15"
                     height="15"
