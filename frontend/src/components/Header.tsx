@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from './Providers';
+import { Magnetic } from '@/components/ui/Magnetic';
 
 const NAV_ITEMS = [
   { href: '/', label: 'Home' },
@@ -19,6 +20,14 @@ export function Header() {
   const pathname = usePathname() || '/';
   const { toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -47,7 +56,7 @@ export function Header() {
 
   return (
     <>
-      <header>
+      <header className={scrolled ? 'scrolled' : undefined}>
         <div className="wrap bar">
           <Link href="/" className="brand-link" aria-label="Creatsify Home">
             <img
@@ -125,23 +134,25 @@ export function Header() {
               </svg>
             </button>
 
-            <Link
-              className={`btn p desktop-cta${pathname.startsWith('/contact') ? ' act' : ''}`}
-              href="/contact"
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                className="btn-lead-icon"
+            <Magnetic strength={0.22}>
+              <Link
+                className={`btn p desktop-cta${pathname.startsWith('/contact') ? ' act' : ''}`}
+                href="/contact"
               >
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
-              <span>Start a project</span>
-            </Link>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  className="btn-lead-icon"
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                <span>Start a project</span>
+              </Link>
+            </Magnetic>
 
             <button
               className="btn icon mobile-menu-toggle"
@@ -184,7 +195,6 @@ export function Header() {
         </div>
       </header>
 
-      {/* Mobile Navigation Drawer & Backdrop (Exact PHP Design) */}
       <div
         className={`mobile-drawer-backdrop${mobileOpen ? ' open' : ''}`}
         id="mobileDrawerBackdrop"

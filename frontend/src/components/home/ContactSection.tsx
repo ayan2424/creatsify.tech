@@ -1,9 +1,17 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+import { Plus } from 'lucide-react';
 import type { PackageItem } from '@/types/creatsify';
 import { fetchClientCsrfToken } from '@/lib/api';
 import { whatsappLink } from '@/lib/utils';
+import { Magnetic } from '@/components/ui/Magnetic';
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface ContactSectionProps {
   whatsappNumber: string;
@@ -12,12 +20,28 @@ interface ContactSectionProps {
   preselectedMessage?: string;
 }
 
+const FAQS = [
+  {
+    q: 'Do I own the source code and brand files?',
+    a: "Yes. Every custom website, app and design system comes with the full source code and commercial rights, so you're never locked in.",
+  },
+  {
+    q: 'Can you customize your ready-made platforms for us?',
+    a: 'Yes. You can license a platform directly on Gumroad, or we can rebrand it, add features and connect your local payment and shipping services.',
+  },
+  {
+    q: 'How do payments work for custom projects?',
+    a: "We work in milestones. You review progress on a staging site at each stage and pay for a milestone once you're happy with it.",
+  },
+];
+
 export function ContactSection({
   whatsappNumber,
   packagesByTrack,
   preselectedOffering = '',
   preselectedMessage = '',
 }: ContactSectionProps) {
+  const sectionRef = useRef<HTMLElement>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -27,10 +51,40 @@ export function ContactSection({
   const [honeypot, setHoneypot] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [openFaq, setOpenFaq] = useState<number>(0);
 
   const allPackageOptions = Object.values(packagesByTrack)
     .flat()
     .map((p) => `${p.title} (${p.price_label})`);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        if (!sectionRef.current) return;
+        gsap.fromTo(
+          sectionRef.current.querySelectorAll('.om-contact-left, .om-contact-form'),
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.65,
+            stagger: 0.12,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 84%',
+              once: true,
+              fastScrollEnd: true,
+            },
+          }
+        );
+      });
+      return () => mm.revert();
+    },
+    { scope: sectionRef }
+  );
 
   useEffect(() => {
     if (!preselectedOffering) return;
@@ -123,7 +177,7 @@ export function ContactSection({
   };
 
   return (
-    <section id="contact" className="om-contact-sec">
+    <section ref={sectionRef} id="contact" className="om-contact-sec">
       <div className="wrap om-contact-wrap">
         <div className="om-contact-left">
           <div className="om-sec-tag">
@@ -165,25 +219,47 @@ export function ContactSection({
             </a>
           </div>
 
+          {/* Silky Smooth Animated FAQ Accordion */}
           <div className="ag-faq-mini">
-            <details className="ag-faq-item" open>
-              <summary>Do I own the source code and brand files?</summary>
-              <p>
-                Yes. Every custom website, app and design system comes with the full source code and commercial rights, so you&apos;re never locked in.
-              </p>
-            </details>
-            <details className="ag-faq-item">
-              <summary>Can you customize your ready-made platforms for us?</summary>
-              <p>
-                Yes. You can license a platform directly on Gumroad, or we can rebrand it, add features and connect your local payment and shipping services.
-              </p>
-            </details>
-            <details className="ag-faq-item">
-              <summary>How do payments work for custom projects?</summary>
-              <p>
-                We work in milestones. You review progress on a staging site at each stage and pay for a milestone once you&apos;re happy with it.
-              </p>
-            </details>
+            {FAQS.map((faq, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div
+                  key={faq.q}
+                  className="overflow-hidden rounded-[14px] border border-[var(--line)] bg-[var(--surface)] transition-colors hover:border-[var(--line-strong)]"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? -1 : idx)}
+                    aria-expanded={isOpen}
+                    className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left font-display text-[13.5px] font-bold text-[var(--text)] cursor-pointer"
+                  >
+                    <span>{faq.q}</span>
+                    <Plus
+                      className={`h-4 w-4 shrink-0 text-[var(--accent)] transition-transform duration-200 ${
+                        isOpen ? 'rotate-45' : ''
+                      }`}
+                    />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="answer"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <p className="px-4 pb-4 text-[13px] leading-relaxed text-[var(--muted)]">
+                          {faq.a}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -205,7 +281,9 @@ export function ContactSection({
           </div>
 
           {status && (
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
               role="status"
               style={{
                 padding: '12px 14px',
@@ -224,7 +302,7 @@ export function ContactSection({
               }}
             >
               {status.text}
-            </div>
+            </motion.div>
           )}
 
           <label>
@@ -324,17 +402,19 @@ export function ContactSection({
               placeholder="Tell us about your project, goals, target timeline, or any specific requirements..."
             />
           </label>
-          <button
-            className="om-btn-gold"
-            type="submit"
-            disabled={submitting}
-            style={{ width: '100%', justifyContent: 'center', border: 'none', cursor: 'pointer' }}
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <span>{submitting ? 'Sending brief...' : 'Send your brief'}</span>
-          </button>
+          <Magnetic strength={0.15} className="w-full">
+            <button
+              className="om-btn-gold"
+              type="submit"
+              disabled={submitting}
+              style={{ width: '100%', justifyContent: 'center', border: 'none', cursor: 'pointer' }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+              <span>{submitting ? 'Sending brief...' : 'Send your brief'}</span>
+            </button>
+          </Magnetic>
         </form>
       </div>
     </section>

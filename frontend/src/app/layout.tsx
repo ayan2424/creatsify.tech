@@ -1,33 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { JetBrains_Mono, Plus_Jakarta_Sans, Sora } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/Providers';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { LiveChatWidget } from '@/components/LiveChatWidget';
 import { ScrollProgress } from '@/components/ScrollProgress';
+import { AmbientCursorHalo } from '@/components/ui/AmbientCursorHalo';
 import { getBootstrap } from '@/lib/api';
-
-const sora = Sora({
-  subsets: ['latin'],
-  weight: ['500', '600', '700', '800'],
-  variable: '--font-sora',
-  display: 'swap',
-});
-
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-jakarta',
-  display: 'swap',
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-jetbrains',
-  display: 'swap',
-});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -88,18 +67,23 @@ export default async function RootLayout({
   const boot = await getBootstrap();
 
   return (
-    <html
-      lang="en"
-      data-theme="dark"
-      suppressHydrationWarning
-      className={`${sora.variable} ${jakarta.variable} ${jetbrains.variable}`}
-    >
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+        <link rel="preload" href="/assets/fonts/sora-400.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/assets/fonts/sora-700.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="/php-design.css" />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body className="min-h-screen antialiased">
         <div className="bg" aria-hidden="true" />
         <div className="vg" aria-hidden="true" />
+        <AmbientCursorHalo />
         <Providers>
           <ScrollProgress />
           <Header />

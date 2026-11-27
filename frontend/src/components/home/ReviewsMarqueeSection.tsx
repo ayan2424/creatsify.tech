@@ -179,7 +179,7 @@ export function ReviewsMarqueeSection({
         </div>
 
         <div
-          className={`om-reviews-marquee-container${dragActive ? ' js-drag-active' : ''}`}
+          className={`om-reviews-marquee-container edge-fade-x${dragActive ? ' js-drag-active' : ''}`}
           id="reviewsMarqueeContainer"
         >
           <MarqueeRow

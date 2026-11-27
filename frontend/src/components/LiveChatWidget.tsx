@@ -1,8 +1,15 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { AnimatePresence, motion } from 'motion/react';
-import { MessageSquare, Send, X } from 'lucide-react';
+import { Send, X } from 'lucide-react';
+import { useTheme } from './Providers';
+
+const CreatsifyRobotCanvas = dynamic(
+  () => import('@/components/ui/CreatsifyRobotCanvas').then((m) => m.CreatsifyRobotCanvas),
+  { ssr: false }
+);
 
 interface ChatMsg {
   id: number | string;
@@ -31,12 +38,15 @@ function getOrCreateToken(): string {
 }
 
 export function LiveChatWidget() {
+  const { theme } = useTheme();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
   const [isHandoff, setIsHandoff] = useState(false);
   const [unread, setUnread] = useState(0);
+  const [launcherCheer, setLauncherCheer] = useState(0);
+  const [headerCheer, setHeaderCheer] = useState(0);
   const tokenRef = useRef<string>('');
   const lastIdRef = useRef<number>(0);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -47,6 +57,16 @@ export function LiveChatWidget() {
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
       }
     });
+  }, []);
+
+  // Allow Hero "Ask Creatsify AI" button to open the live chat smoothly
+  useEffect(() => {
+    const onExternalOpen = () => {
+      setOpen(true);
+      setHeaderCheer((n) => n + 1);
+    };
+    window.addEventListener('creatsify:open-chat', onExternalOpen);
+    return () => window.removeEventListener('creatsify:open-chat', onExternalOpen);
   }, []);
 
   useEffect(() => {
@@ -78,6 +98,7 @@ export function LiveChatWidget() {
   useEffect(() => {
     if (open) {
       setUnread(0);
+      setHeaderCheer((n) => n + 1);
       scrollToBottom();
     }
   }, [open, messages.length, scrollToBottom]);
@@ -98,7 +119,12 @@ export function LiveChatWidget() {
             const seen = new Set(prev.map((p) => String(p.id)));
             const incoming = data.messages.filter((m: ChatMsg) => !seen.has(String(m.id)));
             if (incoming.length === 0) return prev;
-            if (!open) setUnread((u) => u + incoming.length);
+            if (!open) {
+              setUnread((u) => u + incoming.length);
+              setLauncherCheer((n) => n + 1);
+            } else {
+              setHeaderCheer((n) => n + 1);
+            }
             return [...prev, ...incoming];
           });
           const maxId = data.messages.reduce(
@@ -109,7 +135,7 @@ export function LiveChatWidget() {
           if (data.is_handoff) setIsHandoff(true);
         }
       } catch {
-        // Ignore transient network poll error
+        // Ignore transient poll error
       }
     }, 5500);
 
@@ -135,6 +161,7 @@ export function LiveChatWidget() {
       const data = await res.json();
       if (data?.handoff) setIsHandoff(true);
       if (data?.reply) {
+        setHeaderCheer((n) => n + 1);
         setMessages((prev) => [
           ...prev,
           { id: `bot-${Date.now()}`, sender_type: 'bot', message: data.reply },
@@ -169,6 +196,8 @@ export function LiveChatWidget() {
     }
   };
 
+  const isDark = theme === 'dark';
+
   return (
     <div className="fixed bottom-5 right-5 z-[65]">
       <AnimatePresence>
@@ -177,24 +206,42 @@ export function LiveChatWidget() {
             initial={{ opacity: 0, scale: 0.94, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 12 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
             style={{ transformOrigin: 'bottom right' }}
-            className="mb-3 flex h-[480px] w-[min(368px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[var(--surface)] shadow-[var(--shadow-elevated)]"
+            className="mb-3 flex h-[495px] w-[min(376px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[var(--surface)] shadow-[var(--shadow-elevated)]"
             role="dialog"
             aria-label="Creatsify Live Chat"
           >
-            <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--bg-subtle)] px-4 py-3.5">
+            {/* Header with Live Interactive Mini 3D Creatsify Robot */}
+            <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--bg-subtle)] px-4 py-3">
               <div className="flex items-center gap-3">
-                <div className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--line)] bg-[var(--surface)]">
-                  <img src="/assets/brand/creatsify-icon.svg" alt="" className="h-6 w-6" />
-                  <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[var(--bg-subtle)] bg-[var(--emerald)]" />
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setHeaderCheer((n) => n + 1)}
+                  title="Tap to say hi!"
+                  className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-[var(--accent)]/45 bg-[radial-gradient(circle_at_50%_35%,rgba(37,227,245,0.22),rgba(11,14,22,0.85))] cursor-pointer"
+                >
+                  <CreatsifyRobotCanvas
+                    variant="chat-header"
+                    isDark={isDark}
+                    cheerSignal={headerCheer}
+                    globalPointer={true}
+                    interactive={false}
+                    className="h-full w-full"
+                    ariaLabel="Creatsify AI Assistant Robot"
+                  />
+                  <span className="pointer-events-none absolute bottom-0.5 right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[var(--bg-subtle)] bg-[var(--emerald)]" />
+                </button>
                 <div>
                   <p className="font-display text-sm font-bold text-[var(--text)]">
-                    Creatsify Agency Desk
+                    Creatsify AI Desk
                   </p>
                   <p className="text-[11.5px] text-[var(--muted)]">
-                    {isHandoff ? 'Connected to Senior Specialist' : 'AI Strategist · Live Desk Ready'}
+                    {isHandoff
+                      ? 'Connected to Senior Specialist'
+                      : sending
+                      ? 'Thinking...'
+                      : 'Online · Instant replies'}
                   </p>
                 </div>
               </div>
@@ -210,7 +257,7 @@ export function LiveChatWidget() {
 
             <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4 text-[13.5px]">
               <div className="rounded-2xl rounded-tl-sm border border-[var(--line)] bg-[var(--bg-subtle)] px-3.5 py-2.5 leading-relaxed text-[var(--text)]">
-                Welcome to <strong>Creatsify</strong>. Ask about custom web &amp; Flutter apps, redesigns, SEO/ads, packages, or our ready-made platforms.
+                Hi! I&apos;m the <strong>Creatsify</strong> studio assistant. Ask about custom websites, Flutter apps, branding, SEO/ads, packages, or our ready-made platforms.
               </div>
 
               {messages.length === 0 && (
@@ -277,19 +324,51 @@ export function LiveChatWidget() {
         )}
       </AnimatePresence>
 
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? 'Close live chat' : 'Open live chat'}
-        className="relative ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#00D2EE] to-[#0284C7] text-[#041021] shadow-[0_14px_34px_-8px_rgba(0,210,238,0.55)] transition-transform duration-150 hover:scale-105 active:scale-95 cursor-pointer"
-      >
-        {open ? <X className="h-5 w-5" /> : <MessageSquare className="h-5 w-5" />}
-        {unread > 0 && !open && (
-          <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[11px] font-bold text-white tabular-nums">
-            {unread}
+      {/* Floating 3D Robot Launcher Orb */}
+      <div className="group relative flex items-center justify-end">
+        {!open && (
+          <span className="pointer-events-none mr-2.5 hidden rounded-full border border-[var(--line-strong)] bg-[var(--surface)] px-3 py-1.5 font-display text-xs font-semibold text-[var(--text)] opacity-0 shadow-lg transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 sm:inline-flex -translate-x-1">
+            Ask Creatsify AI
           </span>
         )}
-      </button>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          onMouseEnter={() => {
+            if (!open) setLauncherCheer((n) => n + 1);
+          }}
+          aria-label={open ? 'Close live chat' : 'Open live chat with Creatsify AI Robot'}
+          className={`relative ml-auto flex items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105 active:scale-95 cursor-pointer ${
+            open
+              ? 'h-13 w-13 bg-gradient-to-br from-[#00D2EE] to-[#0284C7] text-[#041021] shadow-[0_14px_34px_-8px_rgba(0,210,238,0.55)]'
+              : 'h-[66px] w-[66px] border-2 border-[#00D2EE]/75 bg-[radial-gradient(circle_at_50%_30%,rgba(42,163,247,0.32),rgba(10,16,34,0.92))] shadow-[0_16px_38px_-6px_rgba(0,210,238,0.55)]'
+          }`}
+        >
+          {open ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <CreatsifyRobotCanvas
+              variant="chat-launcher"
+              isDark={isDark}
+              cheerSignal={launcherCheer}
+              globalPointer={true}
+              interactive={false}
+              className="h-full w-full"
+              ariaLabel="Creatsify 3D Chat Assistant"
+            />
+          )}
+
+          {!open && (
+            <span className="pointer-events-none absolute bottom-1 right-1 h-3 w-3 rounded-full border-2 border-[#0a1022] bg-[#10b981]" />
+          )}
+
+          {unread > 0 && !open && (
+            <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[11px] font-bold text-white tabular-nums">
+              {unread}
+            </span>
+          )}
+        </button>
+      </div>
     </div>
   );
 }

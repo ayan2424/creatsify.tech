@@ -3,6 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { whatsappLink } from '@/lib/utils';
+import { Magnetic } from '@/components/ui/Magnetic';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 interface FooterProps {
   whatsappNumber: string;
@@ -19,50 +21,54 @@ export function Footer({ whatsappNumber, footerProducts }: FooterProps) {
   return (
     <footer className="om-footer">
       <div className="wrap">
-        {/* Pre-Footer Heroic Callout Box (Exact PHP Design) */}
-        <div className="om-ft-cta-box">
-          <div className="om-ft-cta-left">
-            <div className="om-sec-tag dark">
-              <span className="om-sec-dot" /> Ready when you are
+        {/* Pre-Footer Heroic Callout Box (Exact PHP Design + Smooth Reveal) */}
+        <ScrollReveal y={26}>
+          <div className="om-ft-cta-box">
+            <div className="om-ft-cta-left">
+              <div className="om-sec-tag dark">
+                <span className="om-sec-dot" /> Ready when you are
+              </div>
+              <h2 className="om-ft-cta-title">Let&apos;s build something your customers will love</h2>
+              <p className="om-ft-cta-desc">
+                Tell us about your idea &mdash; a new website, a mobile app, a redesign, a brand or a growth campaign &mdash; and we&apos;ll reply with a clear plan, timeline and quote.
+              </p>
+              <div className="om-ft-proof-pills">
+                <span>&#10003; Websites &amp; mobile apps</span>
+                <span>&#10003; Brand &amp; UI/UX design</span>
+                <span>&#10003; SEO &amp; paid ads</span>
+                <span>&#10003; Full code ownership</span>
+              </div>
             </div>
-            <h2 className="om-ft-cta-title">Let&apos;s build something your customers will love</h2>
-            <p className="om-ft-cta-desc">
-              Tell us about your idea &mdash; a new website, a mobile app, a redesign, a brand or a growth campaign &mdash; and we&apos;ll reply with a clear plan, timeline and quote.
-            </p>
-            <div className="om-ft-proof-pills">
-              <span>&#10003; Websites &amp; mobile apps</span>
-              <span>&#10003; Brand &amp; UI/UX design</span>
-              <span>&#10003; SEO &amp; paid ads</span>
-              <span>&#10003; Full code ownership</span>
-            </div>
-          </div>
-          <div className="om-ft-cta-right">
-            <Link className="om-btn-gold" href="/contact">
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
+            <div className="om-ft-cta-right">
+              <Magnetic>
+                <Link className="om-btn-gold" href="/contact">
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                  >
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <span>Start a project</span>
+                </Link>
+              </Magnetic>
+              <a
+                className="om-ft-wa-btn"
+                href={waHref}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-              <span>Start a project</span>
-            </Link>
-            <a
-              className="om-ft-wa-btn"
-              href={waHref}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z" />
-              </svg>
-              <span>Chat on WhatsApp</span>
-            </a>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01C17.28 3.03 14.79 2 12.04 2z" />
+                </svg>
+                <span>Chat on WhatsApp</span>
+              </a>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Main Multi-Column Agency Footer */}
         <div className="om-ft-main-grid">

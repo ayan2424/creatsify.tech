@@ -1,8 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'motion/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -15,6 +18,8 @@ import {
 import type { ServiceItem } from '@/types/creatsify';
 import { SpotlightCard } from '@/components/ui/SpotlightCard';
 import { Magnetic } from '@/components/ui/Magnetic';
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const STUDIO_PILLARS = [
   {
@@ -82,11 +87,42 @@ export function ServicesSection({
   onSelectOffering?: (offering: string) => void;
 }) {
   const [activeId, setActiveId] = useState<string>('web');
+  const sectionRef = useRef<HTMLElement>(null);
   const active = STUDIO_PILLARS.find((p) => p.id === activeId) || STUDIO_PILLARS[0];
   const ActiveIcon = active.icon;
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        if (!sectionRef.current) return;
+        gsap.fromTo(
+          sectionRef.current.querySelectorAll('.svc-track-row'),
+          { opacity: 0, x: -18 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.55,
+            stagger: 0.08,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 80%',
+              once: true,
+              fastScrollEnd: true,
+            },
+          }
+        );
+      });
+      return () => mm.revert();
+    },
+    { scope: sectionRef }
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="services"
       className="border-y border-[var(--line)] bg-[var(--bg-subtle)] py-16 lg:py-24"
     >
@@ -121,7 +157,7 @@ export function ServicesSection({
                   type="button"
                   onClick={() => setActiveId(pillar.id)}
                   onMouseEnter={() => setActiveId(pillar.id)}
-                  className={`group relative flex w-full items-center justify-between gap-4 py-5 pl-4 text-left transition-colors cursor-pointer ${
+                  className={`svc-track-row group relative flex w-full items-center justify-between gap-4 py-5 pl-4 text-left transition-colors cursor-pointer ${
                     isActive ? 'text-[var(--text)]' : 'text-[var(--muted)] hover:text-[var(--text)]'
                   }`}
                 >

@@ -1,10 +1,89 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+import { SpotlightCard } from '@/components/ui/SpotlightCard';
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const STRENGTHS = [
+  {
+    num: '01',
+    title: 'Build, design and market together',
+    desc: 'Developers, designers and marketers share one plan, so your site, brand and campaigns reinforce each other instead of pulling apart.',
+  },
+  {
+    num: '02',
+    title: 'Hand-built, not template-built',
+    desc: 'No heavy themes or page-builder plugins. We write clean, purposeful code so your site loads quickly and stays easy to maintain.',
+  },
+  {
+    num: '03',
+    title: 'Talk to the people who build it',
+    desc: 'No account-manager middle layer. You speak directly with the developers and designers working on your project.',
+  },
+  {
+    num: '04',
+    title: 'You own everything',
+    desc: 'Full source code and commercial rights are yours at handover, with clear milestone pricing and a live staging link so you can follow progress every week.',
+  },
+];
 
 export function WhyCreatsifySection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        if (!sectionRef.current) return;
+        gsap.fromTo(
+          sectionRef.current.querySelectorAll('.ag-strength-card'),
+          { opacity: 0, y: 26 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.62,
+            stagger: 0.08,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity',
+            scrollTrigger: {
+              trigger: sectionRef.current.querySelector('.ag-strength-grid'),
+              start: 'top 86%',
+              once: true,
+              fastScrollEnd: true,
+            },
+          }
+        );
+
+        gsap.fromTo(
+          sectionRef.current.querySelectorAll('.ag-compare-table tbody tr'),
+          { opacity: 0, x: -14 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.5,
+            stagger: 0.07,
+            ease: 'power2.out',
+            clearProps: 'transform,opacity',
+            scrollTrigger: {
+              trigger: sectionRef.current.querySelector('.ag-compare-wrap'),
+              start: 'top 86%',
+              once: true,
+              fastScrollEnd: true,
+            },
+          }
+        );
+      });
+      return () => mm.revert();
+    },
+    { scope: sectionRef }
+  );
+
   return (
-    <section id="why-us" className="om-agency-sec">
+    <section ref={sectionRef} id="why-us" className="om-agency-sec">
       <div className="wrap">
         <div className="om-sec-center">
           <div className="om-sec-tag">
@@ -17,38 +96,26 @@ export function WhyCreatsifySection() {
         </div>
 
         <div className="ag-strength-grid" style={{ marginTop: '40px' }}>
-          <div className="ag-strength-card">
-            <span className="ag-str-num">01</span>
-            <h3>Build, design and market together</h3>
-            <p>
-              Developers, designers and marketers share one plan, so your site, brand and campaigns reinforce each other instead of pulling apart.
-            </p>
-          </div>
-          <div className="ag-strength-card">
-            <span className="ag-str-num">02</span>
-            <h3>Hand-built, not template-built</h3>
-            <p>
-              No heavy themes or page-builder plugins. We write clean, purposeful code so your site loads quickly and stays easy to maintain.
-            </p>
-          </div>
-          <div className="ag-strength-card">
-            <span className="ag-str-num">03</span>
-            <h3>Talk to the people who build it</h3>
-            <p>
-              No account-manager middle layer. You speak directly with the developers and designers working on your project.
-            </p>
-          </div>
-          <div className="ag-strength-card">
-            <span className="ag-str-num">04</span>
-            <h3>You own everything</h3>
-            <p>
-              Full source code and commercial rights are yours at handover, with clear milestone pricing and a live staging link so you can follow progress every week.
-            </p>
-          </div>
+          {STRENGTHS.map((s) => (
+            <SpotlightCard key={s.num} className="ag-strength-card group">
+              <div className="relative z-10">
+                <span className="ag-str-num transition-colors duration-200 group-hover:text-[var(--accent)]">
+                  {s.num}
+                </span>
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
+              </div>
+            </SpotlightCard>
+          ))}
         </div>
 
         <div className="ag-compare-wrap" style={{ marginTop: '44px' }}>
-          <div className="ag-compare-table-scroll" tabIndex={0} role="region" aria-label="Comparison table">
+          <div
+            className="ag-compare-table-scroll"
+            tabIndex={0}
+            role="region"
+            aria-label="Comparison table"
+          >
             <table className="ag-compare-table">
               <thead>
                 <tr>

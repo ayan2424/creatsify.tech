@@ -1,12 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'motion/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import { ArrowRight, ExternalLink, Eye, Monitor, ShoppingBag } from 'lucide-react';
 import type { ProjectItem } from '@/types/creatsify';
 import { PortfolioLightbox } from '@/components/PortfolioLightbox';
 import { hasValidLiveUrl } from '@/lib/utils';
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface WorkShowcaseSectionProps {
   projects: ProjectItem[];
@@ -32,6 +37,39 @@ export function WorkShowcaseSection({
   );
   const [lightboxProject, setLightboxProject] = useState<ProjectItem | null>(null);
   const [touchedSlug, setTouchedSlug] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        if (!sectionRef.current) return;
+        const cards = sectionRef.current.querySelectorAll('.work-editorial-card');
+        if (cards.length === 0) return;
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 28, clipPath: 'inset(7% 0% 0% 0% round 16px)' },
+          {
+            opacity: 1,
+            y: 0,
+            clipPath: 'inset(0% 0% 0% 0% round 16px)',
+            duration: 0.72,
+            stagger: 0.1,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity,clipPath',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 80%',
+              once: true,
+              fastScrollEnd: true,
+            },
+          }
+        );
+      });
+      return () => mm.revert();
+    },
+    { scope: sectionRef }
+  );
 
   const filtered = projects.filter((pr) => pr.category === activeCat);
 
@@ -47,7 +85,7 @@ export function WorkShowcaseSection({
       : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4';
 
   return (
-    <section id="work" className="py-16 lg:py-24">
+    <section ref={sectionRef} id="work" className="py-16 lg:py-24">
       <div className="mx-auto max-w-[1220px] px-5 sm:px-6">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
@@ -121,7 +159,7 @@ export function WorkShowcaseSection({
                   onClick={() =>
                     setTouchedSlug((prev) => (prev === project.slug ? null : project.slug))
                   }
-                  className="group relative aspect-[16/10] min-h-[280px] overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[var(--surface)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[var(--shadow-elevated)]"
+                  className="work-editorial-card group relative aspect-[16/10] min-h-[280px] overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[var(--surface)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1.5 hover:border-[var(--accent)] hover:shadow-[var(--shadow-elevated)]"
                 >
                   {project.image_resolved ? (
                     <img

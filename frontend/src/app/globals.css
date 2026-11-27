@@ -1,12 +1,11 @@
 @import "tailwindcss";
-@import "./php-design.css";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
-  --font-display: var(--font-sora), "Sora", system-ui, sans-serif;
-  --font-sans: var(--font-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Sora", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 /* Supplemental design tokens used by our two upgraded sections (Selected Work & Four Disciplines) + inner pages */
@@ -166,6 +165,115 @@ body {
   .spotlight-card[data-active="true"] {
     border-color: var(--accent);
     background: var(--surface-elevated);
+  }
+
+  /* Subtle ambient desktop cursor studio halo */
+  .ambient-cursor-halo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 320ms ease;
+    will-change: transform;
+    background: radial-gradient(
+      circle,
+      rgba(0, 210, 238, 0.08) 0%,
+      rgba(2, 132, 199, 0.03) 42%,
+      transparent 70%
+    );
+  }
+
+  :root[data-theme="light"] .ambient-cursor-halo {
+    background: radial-gradient(
+      circle,
+      rgba(2, 132, 199, 0.07) 0%,
+      rgba(0, 210, 238, 0.025) 42%,
+      transparent 70%
+    );
+  }
+
+  /* Soft horizontal fade mask for infinite marquee tracks */
+  .edge-fade-x {
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
+
+  /* Floating studio pedestal glow beneath the interactive 3D Creatsify Robot */
+  .robot-pedestal-glow {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 46px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(37, 227, 245, 0.34) 0%,
+      rgba(42, 163, 247, 0.14) 48%,
+      transparent 74%
+    );
+    filter: blur(12px);
+    animation: robot-glow-pulse 3.2s ease-in-out infinite;
+  }
+
+  :root[data-theme="light"] .robot-pedestal-glow {
+    background: radial-gradient(
+      ellipse at center,
+      rgba(43, 79, 219, 0.22) 0%,
+      rgba(42, 163, 247, 0.12) 48%,
+      transparent 74%
+    );
+  }
+
+  /* Subtle kinetic highlight sweep for featured badges & popular pricing rim */
+  .conic-rim-glow {
+    position: relative;
+  }
+
+  .conic-rim-glow::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1.5px;
+    pointer-events: none;
+    background: conic-gradient(
+      from var(--a, 0deg),
+      transparent 0deg,
+      transparent 230deg,
+      rgba(0, 210, 238, 0.72) 290deg,
+      rgba(42, 163, 247, 0.55) 330deg,
+      transparent 360deg
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: creatsify-rim-spin 6.5s linear infinite;
+    opacity: 0.7;
+  }
+}
+
+@keyframes robot-glow-pulse {
+  0%, 100% {
+    opacity: 0.75;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+  }
+}
+
+@keyframes creatsify-rim-spin {
+  to {
+    --a: 360deg;
   }
 }
 

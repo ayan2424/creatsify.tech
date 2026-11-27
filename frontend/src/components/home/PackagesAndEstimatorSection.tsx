@@ -2,7 +2,11 @@
 
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { AnimatePresence, motion } from 'motion/react';
 import type { PackageItem } from '@/types/creatsify';
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
+import { Magnetic } from '@/components/ui/Magnetic';
+import { SpotlightCard } from '@/components/ui/SpotlightCard';
 
 interface PackagesAndEstimatorProps {
   packagesByTrack: Record<string, PackageItem[]>;
@@ -95,101 +99,122 @@ export function PackagesAndEstimatorSection({
                   key={tab.key}
                   type="button"
                   onClick={() => setActiveTrack(tab.key)}
-                  className={`om-filter-pill${active ? ' active' : ''}`}
+                  className={`om-filter-pill relative${active ? ' active' : ''}`}
                   aria-pressed={active}
                 >
-                  {tab.label}
+                  {active && (
+                    <motion.span
+                      layoutId="pkg-active-tab-pill"
+                      transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                      className="pointer-events-none absolute inset-0 rounded-full bg-[var(--accent)]/15"
+                    />
+                  )}
+                  <span className="relative z-10">{tab.label}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div className="ag-pkg-grid active" data-pkg-panel={activeTrack}>
-          {trackPackages.map((pkg) => {
-            const isPop = Boolean(pkg.is_popular);
-            const selectVal = `${pkg.title} (${pkg.price_label})`;
-            const cycle = pkg.billing_cycle ? `/${pkg.billing_cycle.replace(/^\//, '')}` : '';
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTrack}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="ag-pkg-grid active"
+            data-pkg-panel={activeTrack}
+          >
+            {trackPackages.map((pkg) => {
+              const isPop = Boolean(pkg.is_popular);
+              const selectVal = `${pkg.title} (${pkg.price_label})`;
+              const cycle = pkg.billing_cycle ? `/${pkg.billing_cycle.replace(/^\//, '')}` : '';
 
-            return (
-              <article
-                key={pkg.slug || pkg.id}
-                className={`ag-pkg-card${isPop ? ' popular' : ''}`}
-              >
-                {isPop && (
-                  <div className="ag-pkg-pop-ribbon">
-                    {(pkg.tier_badge || 'MOST POPULAR').toUpperCase()}
-                  </div>
-                )}
+              return (
+                <SpotlightCard
+                  as="article"
+                  active={isPop}
+                  key={pkg.slug || pkg.id}
+                  className={`ag-pkg-card${isPop ? ' popular conic-rim-glow' : ''}`}
+                >
+                  {isPop && (
+                    <div className="ag-pkg-pop-ribbon">
+                      {(pkg.tier_badge || 'MOST POPULAR').toUpperCase()}
+                    </div>
+                  )}
 
-                <div className="ag-pkg-head">
-                  <div className="ag-pkg-top-meta">
-                    <span className="ag-pkg-tier-cat">{activeTrack.toUpperCase()} SPRINT</span>
-                    {pkg.delivery_time && (
-                      <span className="ag-pkg-delivery-pill">
-                        <svg
-                          width="11"
-                          height="11"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          style={{ marginRight: '4px', verticalAlign: '-1px', display: 'inline-block' }}
-                        >
-                          <circle cx="12" cy="12" r="10" />
-                          <polyline points="12 6 12 12 16 14" />
+                  <div className="relative z-10 flex flex-1 flex-col">
+                    <div className="ag-pkg-head">
+                      <div className="ag-pkg-top-meta">
+                        <span className="ag-pkg-tier-cat">{activeTrack.toUpperCase()} SPRINT</span>
+                        {pkg.delivery_time && (
+                          <span className="ag-pkg-delivery-pill">
+                            <svg
+                              width="11"
+                              height="11"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              style={{ marginRight: '4px', verticalAlign: '-1px', display: 'inline-block' }}
+                            >
+                              <circle cx="12" cy="12" r="10" />
+                              <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            {pkg.delivery_time}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="ag-pkg-tier">{pkg.title}</h3>
+                      <div className="ag-pkg-price tabular-nums">
+                        {pkg.price_label}
+                        <span>{cycle}</span>
+                      </div>
+                      {pkg.subtitle && <p className="ag-pkg-sub">{pkg.subtitle}</p>}
+                    </div>
+
+                    <ul className="ag-pkg-list">
+                      {pkg.features_list.map((fItem) => (
+                        <li key={fItem}>&#10003; {fItem}</li>
+                      ))}
+                    </ul>
+
+                    {onSelectOffering ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          onSelectOffering(
+                            selectVal,
+                            `Hello Creatsify! I am interested in: ${selectVal}. Please share the next steps.`
+                          )
+                        }
+                        className={isPop ? 'om-btn-gold' : 'om-btn-glass'}
+                        style={{ width: '100%', justifyContent: 'center', marginTop: 'auto', cursor: 'pointer' }}
+                      >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <polyline points="20 6 9 17 4 12" />
                         </svg>
-                        {pkg.delivery_time}
-                      </span>
+                        <span>{pkg.cta_text || 'Select Package'}</span>
+                      </button>
+                    ) : (
+                      <Link
+                        href={`/contact?offering=${encodeURIComponent(selectVal)}`}
+                        className={isPop ? 'om-btn-gold' : 'om-btn-glass'}
+                        style={{ width: '100%', justifyContent: 'center', marginTop: 'auto' }}
+                      >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        <span>{pkg.cta_text || 'Select Package'}</span>
+                      </Link>
                     )}
                   </div>
-                  <h3 className="ag-pkg-tier">{pkg.title}</h3>
-                  <div className="ag-pkg-price">
-                    {pkg.price_label}
-                    <span>{cycle}</span>
-                  </div>
-                  {pkg.subtitle && <p className="ag-pkg-sub">{pkg.subtitle}</p>}
-                </div>
-
-                <ul className="ag-pkg-list">
-                  {pkg.features_list.map((fItem) => (
-                    <li key={fItem}>&#10003; {fItem}</li>
-                  ))}
-                </ul>
-
-                {onSelectOffering ? (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      onSelectOffering(
-                        selectVal,
-                        `Hello Creatsify! I am interested in: ${selectVal}. Please share the next steps.`
-                      )
-                    }
-                    className={isPop ? 'om-btn-gold' : 'om-btn-glass'}
-                    style={{ width: '100%', justifyContent: 'center', marginTop: 'auto', cursor: 'pointer' }}
-                  >
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span>{pkg.cta_text || 'Select Package'}</span>
-                  </button>
-                ) : (
-                  <Link
-                    href={`/contact?offering=${encodeURIComponent(selectVal)}`}
-                    className={isPop ? 'om-btn-gold' : 'om-btn-glass'}
-                    style={{ width: '100%', justifyContent: 'center', marginTop: 'auto' }}
-                  >
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span>{pkg.cta_text || 'Select Package'}</span>
-                  </Link>
-                )}
-              </article>
-            );
-          })}
-        </div>
+                </SpotlightCard>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
 
         {showCompareButton && (
           <div style={{ textAlign: 'center', marginTop: '28px' }}>
@@ -224,7 +249,7 @@ export function PackagesAndEstimatorSection({
                         onChange={() => toggleOption(opt.id)}
                       />
                       <span className="ag-se-label">
-                        <span>{opt.label}</span> <b>+${opt.price}</b>
+                        <span>{opt.label}</span> <b className="tabular-nums">+${opt.price}</b>
                       </span>
                     </label>
                   );
@@ -233,41 +258,56 @@ export function PackagesAndEstimatorSection({
             </div>
 
             <div className="ag-se-right">
-              <span className="ag-se-badge">
+              <motion.span
+                key={bundleSummary.discountApplied ? 'discount-on' : 'discount-off'}
+                initial={{ scale: 0.94, opacity: 0.7 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                className="ag-se-badge"
+              >
                 {bundleSummary.discountApplied
                   ? '15% bundle saving applied'
                   : 'Select 2+ for 15% off'}
-              </span>
+              </motion.span>
               <div className="ag-se-total-label">Estimated investment</div>
-              <div className="ag-se-total-price" id="seTotalPrice">
-                {bundleSummary.finalTotal > 0
-                  ? `$${bundleSummary.finalTotal.toLocaleString()}`
-                  : 'Select Services'}
+              <div className="ag-se-total-price" id="seTotalPrice" aria-live="polite">
+                {bundleSummary.finalTotal > 0 ? (
+                  <AnimatedCounter
+                    value={bundleSummary.finalTotal}
+                    prefix="$"
+                    mode="reactive"
+                    formatLocale
+                  />
+                ) : (
+                  'Select Services'
+                )}
               </div>
-              <div className="ag-se-timeline" id="seTimeline">
+              <div className="ag-se-timeline tabular-nums" id="seTimeline">
                 {bundleSummary.picked.length > 0
                   ? `Est. Kickoff & Delivery: ~${bundleSummary.totalDays} Days`
                   : 'Check at least one service above'}
               </div>
-              <button
-                type="button"
-                className="om-btn-gold"
-                id="seLockBtn"
-                onClick={handleRequestBundle}
-                disabled={bundleSummary.picked.length === 0}
-                style={{
-                  width: '100%',
-                  justifyContent: 'center',
-                  border: 'none',
-                  cursor: 'pointer',
-                  marginTop: '14px',
-                }}
-              >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-                <span>Request this bundle</span>
-              </button>
+              <Magnetic strength={0.18} className="w-full">
+                <button
+                  type="button"
+                  className="om-btn-gold"
+                  id="seLockBtn"
+                  onClick={handleRequestBundle}
+                  disabled={bundleSummary.picked.length === 0}
+                  style={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    border: 'none',
+                    cursor: 'pointer',
+                    marginTop: '14px',
+                  }}
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <span>Request this bundle</span>
+                </button>
+              </Magnetic>
             </div>
           </div>
         )}

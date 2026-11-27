@@ -1,6 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
+import { SpotlightCard } from '@/components/ui/SpotlightCard';
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const ARSENAL_STACK = [
   {
@@ -98,10 +105,45 @@ const ARSENAL_STACK = [
 ];
 
 export function ArsenalAndFactsSection({ avgRating }: { avgRating?: string }) {
+  const factsWrapRef = useRef<HTMLDivElement>(null);
+  const parsedRating = Number.parseFloat(avgRating || '4.9') || 4.9;
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        if (!factsWrapRef.current) return;
+        gsap.fromTo(
+          factsWrapRef.current.querySelectorAll('.om-fact-item'),
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            stagger: 0.08,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity',
+            scrollTrigger: {
+              trigger: factsWrapRef.current,
+              start: 'top 88%',
+              once: true,
+              fastScrollEnd: true,
+            },
+          }
+        );
+      });
+      return () => mm.revert();
+    },
+    { scope: factsWrapRef }
+  );
+
   return (
     <>
       <div className="om-partners-bar ag-arsenal-section">
-        <div className="ag-arsenal-marquee" aria-label="Core Technology & Marketing Stack">
+        <div
+          className="ag-arsenal-marquee edge-fade-x"
+          aria-label="Core Technology & Marketing Stack"
+        >
           <div className="ag-arsenal-track">
             {[...ARSENAL_STACK, ...ARSENAL_STACK].map((item, idx) => (
               <div
@@ -117,27 +159,35 @@ export function ArsenalAndFactsSection({ avgRating }: { avgRating?: string }) {
         </div>
       </div>
 
-      <div className="wrap om-facts-wrap">
-        <div className="om-facts-bar">
-          <div className="om-fact-item">
-            <b>50+</b>
+      <div ref={factsWrapRef} className="wrap om-facts-wrap">
+        <SpotlightCard className="om-facts-bar">
+          <div className="om-fact-item relative z-10">
+            <b>
+              <AnimatedCounter value={50} suffix="+" mode="scroll" />
+            </b>
             <span>Projects delivered</span>
           </div>
           {avgRating && (
-            <div className="om-fact-item">
-              <b>{avgRating}&#9733;</b>
+            <div className="om-fact-item relative z-10">
+              <b>
+                <AnimatedCounter value={parsedRating} decimals={1} suffix="★" mode="scroll" />
+              </b>
               <span>Average client rating</span>
             </div>
           )}
-          <div className="om-fact-item">
-            <b>15+</b>
+          <div className="om-fact-item relative z-10">
+            <b>
+              <AnimatedCounter value={15} suffix="+" mode="scroll" />
+            </b>
             <span>Technologies we use</span>
           </div>
-          <div className="om-fact-item">
-            <b>100%</b>
+          <div className="om-fact-item relative z-10">
+            <b>
+              <AnimatedCounter value={100} suffix="%" mode="scroll" />
+            </b>
             <span>Code &amp; IP ownership</span>
           </div>
-        </div>
+        </SpotlightCard>
       </div>
     </>
   );
