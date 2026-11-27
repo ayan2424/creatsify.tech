@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Sparkles } from 'lucide-react';
 import { useTheme } from '@/components/Providers';
 
 const CreatsifyNekoCanvas = dynamic(
@@ -15,12 +14,12 @@ export function AboutNekoAvatar() {
   const [boopSignal, setBoopSignal] = useState(0);
 
   return (
-    <div className="mb-6 flex items-center gap-4 rounded-xl border border-[var(--line)] bg-[var(--bg-subtle)] p-3.5">
+    <div className="mb-5 flex items-center gap-3 border-b border-[var(--line)] pb-4">
       <button
         type="button"
         onClick={() => setBoopSignal((n) => n + 1)}
-        title="Tap to boop Creatsify Neko"
-        className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-[var(--accent)]/35 bg-[radial-gradient(circle_at_50%_35%,rgba(0,210,238,0.18),rgba(10,16,34,0.88))] cursor-pointer"
+        title="Tap Creatsify Neko"
+        className="relative -my-3 -ml-2 h-[108px] w-[104px] shrink-0 overflow-visible border-0 bg-transparent p-0 cursor-pointer"
       >
         <CreatsifyNekoCanvas
           variant="card-avatar"
@@ -35,12 +34,11 @@ export function AboutNekoAvatar() {
         />
       </button>
       <div className="min-w-0">
-        <div className="flex items-center gap-1.5 font-display text-sm font-bold text-[var(--text)]">
-          <span>Meet Creatsify Neko</span>
-          <Sparkles className="h-3.5 w-3.5 text-[var(--accent)]" />
-        </div>
+        <strong className="block font-display text-base font-bold text-[var(--text)]">
+          Creatsify Studio Team
+        </strong>
         <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
-          Our studio mascot representing unified Web, Flutter, Brand &amp; Growth engineering. Tap to say hi.
+          Web, Flutter, Brand &amp; Growth specialists collaborating under one roof.
         </p>
       </div>
     </div>

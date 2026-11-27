@@ -70,12 +70,12 @@ export function HomeClient({ data }: { data: HomePayload }) {
         showCompareButton={true}
       />
 
-      {/* Stage 7: Exact PHP Ready-Made Commercial Software Platforms */}
+      {/* Stage 7: Exact PHP Ready-Made Commercial Software Platforms (clean symmetrical 3-card row) */}
       <ReadyMadeSoftwareSection
         products={data.ready_made_products}
         onSelectOffering={handleSelectOffering}
         showBrowseAll={true}
-        limit={6}
+        limit={3}
       />
 
       {/* Stage 8: Exact PHP 4-Step Agency Workflow */}

@@ -33,7 +33,6 @@ const STEPS = [
 
 export function WorkflowSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const railFillRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -58,23 +57,6 @@ export function WorkflowSection() {
             },
           }
         );
-
-        if (railFillRef.current) {
-          gsap.fromTo(
-            railFillRef.current,
-            { scaleX: 0 },
-            {
-              scaleX: 1,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: 'top 76%',
-                end: 'bottom 58%',
-                scrub: 0.65,
-              },
-            }
-          );
-        }
       });
       return () => mm.revert();
     },
@@ -92,26 +74,6 @@ export function WorkflowSection() {
           <p className="om-sec-sub">
             Clear milestones, a live staging link and no guesswork from day one.
           </p>
-        </div>
-
-        {/* Scroll-Scrubbed Glowing Studio Progress Rail (Desktop) */}
-        <div
-          aria-hidden="true"
-          className="relative mx-auto mt-10 mb-6 hidden max-w-[920px] items-center justify-between lg:flex"
-        >
-          <div className="absolute inset-x-4 top-1/2 h-[2px] -translate-y-1/2 rounded-full bg-[var(--line)]" />
-          <div
-            ref={railFillRef}
-            className="absolute inset-x-4 top-1/2 h-[2px] -translate-y-1/2 origin-left rounded-full bg-gradient-to-r from-[#0284C7] via-[#00D2EE] to-[#10B981]"
-          />
-          {STEPS.map((s) => (
-            <span
-              key={s.num}
-              className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border border-[var(--accent)]/60 bg-[var(--surface)] font-mono text-[11px] font-bold text-[var(--accent)] shadow-[0_0_16px_rgba(0,210,238,0.22)] tabular-nums"
-            >
-              {s.num}
-            </span>
-          ))}
         </div>
 
         <div className="ag-workflow-4grid">

@@ -136,7 +136,7 @@ export function PackagesAndEstimatorSection({
                   as="article"
                   active={isPop}
                   key={pkg.slug || pkg.id}
-                  className={`ag-pkg-card${isPop ? ' popular conic-rim-glow' : ''}`}
+                  className={`ag-pkg-card !overflow-visible${isPop ? ' popular' : ''}`}
                 >
                   {isPop && (
                     <div className="ag-pkg-pop-ribbon">

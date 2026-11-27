@@ -1,31 +1,16 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from 'motion/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-import { MessageSquare, Sparkles } from 'lucide-react';
 import { useTheme } from '@/components/Providers';
 import { Magnetic } from '@/components/ui/Magnetic';
 import { whatsappLink } from '@/lib/utils';
-import type { NekoMode } from '@/lib/nekoRobotEngine';
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const CreatsifyNekoCanvas = dynamic(
   () => import('@/components/ui/CreatsifyNekoCanvas').then((m) => m.CreatsifyNekoCanvas),
   { ssr: false }
 );
-
-const HERO_NEKO_MODES: Array<{ id: NekoMode; label: string }> = [
-  { id: 'hover', label: 'Hover' },
-  { id: 'wave', label: 'Wave' },
-  { id: 'dance', label: 'Dance' },
-  { id: 'flip', label: 'Flip' },
-  { id: 'think', label: 'Think' },
-];
 
 interface HeroSectionProps {
   avgRating: string;
@@ -38,11 +23,7 @@ export function HeroSection({
   whatsappNumber = '923002521199',
 }: HeroSectionProps) {
   const { theme } = useTheme();
-  const sectionRef = useRef<HTMLElement>(null);
-  const float1Ref = useRef<HTMLDivElement>(null);
-  const float2Ref = useRef<HTMLAnchorElement>(null);
   const [boopSignal, setBoopSignal] = useState(0);
-  const [nekoMode, setNekoMode] = useState<NekoMode>('hover');
 
   const waHref = whatsappLink(
     whatsappNumber,
@@ -51,51 +32,10 @@ export function HeroSection({
 
   const triggerRobotBoop = () => setBoopSignal((n) => n + 1);
 
-  const openLiveChat = () => {
-    setNekoMode('wave');
-    triggerRobotBoop();
-    window.dispatchEvent(new CustomEvent('creatsify:open-chat'));
-  };
-
-  // Subtle scroll-scrubbed depth parallax on the floating studio badges (desktop only)
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add('(min-width: 960px) and (prefers-reduced-motion: no-preference)', () => {
-        if (float1Ref.current) {
-          gsap.to(float1Ref.current, {
-            y: -26,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: 0.6,
-            },
-          });
-        }
-        if (float2Ref.current) {
-          gsap.to(float2Ref.current, {
-            y: -42,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: 0.6,
-            },
-          });
-        }
-      });
-      return () => mm.revert();
-    },
-    { scope: sectionRef }
-  );
-
   return (
-    <section ref={sectionRef} className="om-hero" id="hero">
+    <section className="om-hero" id="hero">
       <div className="wrap om-hero-wrap">
-        {/* Left Side: Exact PHP High-Authority Agency Value Proposition + Kinetic Reveal */}
+        {/* Left Side: High-Authority Agency Value Proposition */}
         <div className="om-hero-content">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -197,21 +137,19 @@ export function HeroSection({
           </motion.div>
         </div>
 
-        {/* Right Side: Interactive 3D Creatsify Robot Mascot Stage + Floating Trust Badges */}
+        {/* Right Side: Pure, Unobstructed Floating 3D Pixar Neko Hero Mascot */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 18 }}
+          initial={{ opacity: 0, scale: 0.96, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.78, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
-          className="om-hero-visual-stage relative flex min-h-[430px] flex-col items-center justify-center sm:min-h-[500px]"
+          transition={{ duration: 0.78, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+          className="om-hero-visual-stage relative flex min-h-[430px] items-center justify-center sm:min-h-[520px]"
           id="omVisualStage"
         >
           <div className="om-stage-glow" aria-hidden="true" />
-
-          {/* Live 3D Interactive Pixar Neko Hero Mascot Canvas */}
-          <div className="relative h-[400px] w-full max-w-[490px] sm:h-[470px]">
+          <div className="relative h-[430px] w-full max-w-[520px] sm:h-[520px]">
             <CreatsifyNekoCanvas
               variant="hero"
-              mode={nekoMode}
+              mode="hover"
               isDark={theme === 'dark'}
               boopSignal={boopSignal}
               globalPointer={true}
@@ -219,98 +157,7 @@ export function HeroSection({
               className="h-full w-full"
               ariaLabel="Interactive 3D Creatsify Neko Mascot — drag to spin, tap to boop"
             />
-            <div className="robot-pedestal-glow" aria-hidden="true" />
           </div>
-
-          {/* Sleek Interactive Mode Control Dock Under Neko Mascot */}
-          <div className="relative z-20 -mt-3 flex flex-wrap items-center justify-center gap-1.5">
-            <div
-              role="group"
-              aria-label="Mascot animations"
-              className="inline-flex items-center gap-1 rounded-full border border-[var(--line-strong)] bg-[color-mix(in_srgb,var(--surface)_86%,transparent)] p-1 backdrop-blur-md"
-            >
-              {HERO_NEKO_MODES.map((m) => {
-                const active = nekoMode === m.id;
-                return (
-                  <button
-                    key={m.id}
-                    type="button"
-                    onClick={() => setNekoMode(m.id)}
-                    aria-pressed={active}
-                    className={`rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold transition-colors cursor-pointer ${
-                      active
-                        ? 'bg-[var(--accent)] text-[var(--on-accent)]'
-                        : 'text-[var(--muted)] hover:text-[var(--text)]'
-                    }`}
-                  >
-                    {m.label}
-                  </button>
-                );
-              })}
-            </div>
-            <button
-              type="button"
-              onClick={openLiveChat}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/40 bg-[var(--accent-soft)] px-3.5 py-1.5 font-display text-[11.5px] font-bold text-[var(--accent)] backdrop-blur-md transition-transform hover:scale-[1.03] active:scale-95 cursor-pointer"
-            >
-              <MessageSquare className="h-3.5 w-3.5" />
-              <span>Ask Creatsify AI</span>
-              <Sparkles className="h-3 w-3" />
-            </button>
-          </div>
-
-          {/* Floating Badge 1: Top Right — 4 Specialist Teams */}
-          <div ref={float1Ref} className="om-float-card om-float-divisions">
-            <div className="ag-division-icons">
-              <span className="ag-div-icon code" title="Web & SaaS Engineering">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <polyline points="16 18 22 12 16 6" />
-                  <polyline points="8 6 2 12 8 18" />
-                </svg>
-              </span>
-              <span className="ag-div-icon design" title="UI/UX & Branding">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-              </span>
-              <span className="ag-div-icon growth" title="SEO & Paid Social Ads">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                  <polyline points="17 6 23 6 23 12" />
-                </svg>
-              </span>
-            </div>
-            <div className="om-founders-meta">
-              <strong>4 specialist teams</strong>
-              <span>Code &bull; Mobile &bull; Brand &bull; Growth</span>
-            </div>
-          </div>
-
-          {/* Floating Badge 2: Bottom Left — Verified Client Rating */}
-          {avgRating && (
-            <a
-              ref={float2Ref}
-              href="#reviews"
-              className="om-float-card om-float-quality"
-              style={{ textDecoration: 'none' }}
-            >
-              <div className="om-quality-top">
-                <span
-                  className="om-quality-step"
-                  style={{ color: '#f59e0b', fontSize: '13px', letterSpacing: '1px' }}
-                >
-                  &#9733;&#9733;&#9733;&#9733;&#9733;
-                </span>
-                <div className="om-quality-check">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </div>
-              </div>
-              <strong className="om-quality-heading">{avgRating} / 5.0 Rating</strong>
-              <span className="om-quality-sub">Client reviews</span>
-            </a>
-          )}
         </motion.div>
       </div>
     </section>

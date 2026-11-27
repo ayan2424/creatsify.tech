@@ -16,8 +16,8 @@ export function NotFoundNeko() {
   return (
     <div
       onClick={() => setBoopSignal((n) => n + 1)}
-      className="relative mb-2 h-[195px] w-[195px] cursor-pointer"
-      title="Tap Neko for a boost"
+      className="relative mb-2 h-[200px] w-[200px] cursor-pointer"
+      title="Tap Neko"
     >
       <CreatsifyNekoCanvas
         variant="mini-corner"
@@ -29,7 +29,6 @@ export function NotFoundNeko() {
         className="h-full w-full"
         ariaLabel="Curious Creatsify Chibi Neko Robot on 404 page"
       />
-      <div className="robot-pedestal-glow !bottom-2 !h-8 !w-36" aria-hidden="true" />
     </div>
   );
 }

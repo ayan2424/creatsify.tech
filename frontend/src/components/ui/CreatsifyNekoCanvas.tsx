@@ -33,11 +33,11 @@ const CAMERA_PRESETS: Record<
   NekoVariant,
   { fov: number; pos: [number, number, number]; lookAt: [number, number, number] }
 > = {
-  hero: { fov: 32, pos: [0, 0.34, 6.05], lookAt: [0, 0.22, 0] },
-  'chatbot-icon': { fov: 34, pos: [0.08, 0.16, 3.55], lookAt: [0.08, 0.12, 0] },
-  'card-avatar': { fov: 32, pos: [0, 0.54, 4.55], lookAt: [0, 0.5, 0] },
-  'full-stack-orbit': { fov: 35, pos: [0, 0.42, 7.1], lookAt: [0, 0.24, 0] },
-  'mini-corner': { fov: 33, pos: [0, 0.36, 4.95], lookAt: [0, 0.3, 0] },
+  hero: { fov: 32, pos: [0, 0.3, 5.85], lookAt: [0, 0.22, 0] },
+  'chatbot-icon': { fov: 34, pos: [0.14, 0.14, 4.05], lookAt: [0.14, 0.1, 0] },
+  'card-avatar': { fov: 32, pos: [0, 0.46, 5.05], lookAt: [0, 0.44, 0] },
+  'full-stack-orbit': { fov: 35, pos: [0, 0.36, 7.4], lookAt: [0, 0.24, 0] },
+  'mini-corner': { fov: 33, pos: [0, 0.34, 5.25], lookAt: [0, 0.28, 0] },
 };
 
 function clamp(v: number, lo: number, hi: number): number {

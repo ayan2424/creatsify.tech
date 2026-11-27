@@ -106,7 +106,6 @@ export function ServicesSection({
   const [avatarBoop, setAvatarBoop] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const active = STUDIO_PILLARS.find((p) => p.id === activeId) || STUDIO_PILLARS[0];
-  const ActiveIcon = active.icon;
   const activeNeko = DISCIPLINE_NEKO[active.id] || DISCIPLINE_NEKO.web;
 
   useGSAP(
@@ -210,18 +209,18 @@ export function ServicesSection({
             })}
           </div>
 
-          {/* Right: Morphing Spotlight Focus Theater + Live Card Avatar Bust */}
+          {/* Right: Morphing Spotlight Focus Theater + Container-Free Floating 3D Neko Bust */}
           <div className="lg:col-span-6">
             <SpotlightCard active className="rounded-2xl p-7 sm:p-8">
               <div className="relative z-10">
-                {/* Persistent Neko Card Avatar Bust Header (never remounts WebGL on tab switch) */}
-                <div className="mb-5 flex items-center justify-between gap-4 border-b border-[var(--line)] pb-5">
-                  <div className="flex items-center gap-3.5">
+                {/* Persistent Container-Free Neko Card Avatar Bust (never remounts WebGL on tab switch) */}
+                <div className="mb-4 flex items-center justify-between gap-3 border-b border-[var(--line)] pb-4">
+                  <div className="flex items-center gap-3">
                     <button
                       type="button"
                       onClick={() => setAvatarBoop((n) => n + 1)}
-                      title="Tap Neko Avatar"
-                      className="relative h-[78px] w-[78px] shrink-0 overflow-hidden rounded-2xl border border-[var(--accent)]/35 bg-[radial-gradient(circle_at_50%_35%,rgba(0,210,238,0.18),rgba(7,25,94,0.88))] cursor-pointer"
+                      title="Tap Neko"
+                      className="relative -my-3 -ml-2 h-[108px] w-[104px] shrink-0 overflow-visible border-0 bg-transparent p-0 cursor-pointer"
                     >
                       <CreatsifyNekoCanvas
                         variant="card-avatar"
@@ -236,22 +235,14 @@ export function ServicesSection({
                       />
                     </button>
                     <div>
-                      <div className="flex items-center gap-2">
-                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent)]">
-                          <ActiveIcon className="h-4 w-4" />
-                        </span>
-                        <span className="font-mono text-xs font-semibold text-[var(--muted)] tabular-nums">
-                          {active.num} / 04
-                        </span>
-                      </div>
-                      <h3 className="mt-1.5 font-display text-xl font-bold text-[var(--text)] sm:text-2xl">
+                      <h3 className="font-display text-xl font-bold text-[var(--text)] sm:text-2xl">
                         {active.title}
                       </h3>
+                      <span className="mt-2 inline-flex rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[11.5px] font-semibold text-[var(--emerald)] tabular-nums">
+                        {active.metric}
+                      </span>
                     </div>
                   </div>
-                  <span className="hidden shrink-0 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs font-semibold text-[var(--emerald)] tabular-nums sm:inline-flex">
-                    {active.metric}
-                  </span>
                 </div>
 
                 <AnimatePresence mode="wait">
@@ -262,12 +253,6 @@ export function ServicesSection({
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <div className="mb-3 sm:hidden">
-                      <span className="inline-flex rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs font-semibold text-[var(--emerald)] tabular-nums">
-                        {active.metric}
-                      </span>
-                    </div>
-
                     <p className="text-[15px] leading-relaxed text-[var(--muted)]">
                       {active.tagline}
                     </p>
